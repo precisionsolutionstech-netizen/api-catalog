@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="../favicon.png" type="image/png" sizes="32x32">
+    <title>API Error & Status Normalization API | RapidAPI</title>
+    <meta name="description" content="Normalize any API error response into a canonical error taxonomy. Send HTTP status code and raw response body (JSON, text, HTML, or XML); optional headers (e.g. Retry-After, rate-limit headers). Returns canonical error type (AUTH_INVALID, RATE_LIMIT_EXCEEDED, VALIDATION_FAILED, etc.), retry guidance (retryRecommended, retryAfterSeconds, retryStrategy), severity (temporary vs permanent, client vs server), confidence score (0–1), provenance, and human-readable summary. Vendor-agnostic, stateless, no outbound calls. Max request size 1MB.">
+    <meta name="keywords" content="api-error-status-normalization, API, RapidAPI, developer">
+    <link rel="canonical" href="https://your-catalog-domain.com/apis/api-error-status-normalization.html">
+    <meta property="og:title" content="API Error & Status Normalization API">
+    <meta property="og:description" content="Normalize any API error response into a canonical error taxonomy. Send HTTP status code and raw response body (JSON, text, HTML, or XML); optional headers (e.g. Retry-After, rate-limit headers). Returns canonical error type (AUTH_INVALID, RATE_LIMIT_EXCEEDED, VALIDATION_FAILED, etc.), retry guidance (retryRecommended, retryAfterSeconds, retryStrategy), severity (temporary vs permanent, client vs server), confidence score (0–1), provenance, and human-readable summary. Vendor-agnostic, stateless, no outbound calls. Max request size 1MB.">
+    <script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","name":"API Error &amp; Status Normalization API","description":"Normalize any API error response into a canonical error taxonomy. Send HTTP status code and raw response body (JSON, text, HTML, or XML); optional headers (e.g. Retry-After, rate-limit headers). Returns canonical error type (AUTH_INVALID, RATE_LIMIT_EXCEEDED, VALIDATION_FAILED, etc.), retry guidance (retryRecommended, retryAfterSeconds, retryStrategy), severity (temporary vs permanent, client vs server), confidence score (0–1), provenance, and human-readable summary. Vendor-agnostic, stateless, no outbound calls. Max request size 1MB.","url":"https://your-catalog-domain.com/apis/api-error-status-normalization.html"}
+    </script>
+    <style>
+        :root { --bg: #0f172a; --surface: #1e293b; --border: #334155; --text: #e2e8f0; --muted: #94a3b8; --accent: #38bdf8; --success: #34d399; --error: #f87171; }
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: ui-sans-serif, system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+        .wrap { max-width: 900px; margin: 0 auto; padding: 24px 20px; }
+        a { color: var(--accent); }
+        nav { margin-bottom: 32px; font-size: 0.9rem; }
+        h1 { font-size: 1.9rem; margin: 0 0 12px; }
+        .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; }
+        h2 { font-size: 1.35rem; margin: 32px 0 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+        section { margin-bottom: 28px; }
+        .playground { background: var(--surface); border-radius: 12px; padding: 20px; margin: 24px 0; border: 1px solid var(--border); }
+        .playground label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 0.9rem; }
+        .playground input[type="password"], .playground select { width: 100%; max-width: 320px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); margin-bottom: 12px; }
+        .playground textarea { width: 100%; min-height: 120px; padding: 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); font-family: ui-monospace, monospace; font-size: 13px; resize: vertical; }
+        .playground input[type="file"] { margin-bottom: 12px; }
+        .playground button { padding: 10px 20px; background: var(--accent); color: var(--bg); border: none; border-radius: 8px; font-weight: 600; cursor: pointer; margin-top: 8px; }
+        .playground button:disabled { opacity: 0.6; cursor: not-allowed; }
+        .playground .result { margin-top: 16px; padding: 12px; border-radius: 8px; background: var(--bg); border: 1px solid var(--border); white-space: pre-wrap; word-break: break-all; font-family: ui-monospace, monospace; font-size: 12px; max-height: 320px; overflow: auto; }
+        .playground .result.error { border-color: var(--error); color: var(--error); }
+        .playground .result.success { border-color: var(--success); }
+        .file-upload-note { font-size: 0.85rem; color: var(--muted); margin-top: 4px; }
+        .code-wrap { position: relative; margin: 16px 0; }
+        .code-wrap pre { margin: 0; padding: 14px 16px; background: var(--surface); border-radius: 8px; border: 1px solid var(--border); overflow-x: auto; font-size: 13px; }
+        .code-wrap .copy-btn { position: absolute; top: 10px; right: 10px; padding: 6px 12px; background: var(--border); color: var(--text); border: none; border-radius: 6px; font-size: 12px; cursor: pointer; }
+        .code-wrap .copy-btn:hover { background: var(--accent); color: var(--bg); }
+        .lang-tabs { display: flex; gap: 4px; margin-bottom: 8px; flex-wrap: wrap; }
+        .lang-tabs button { padding: 8px 14px; background: var(--surface); border: 1px solid var(--border); color: var(--muted); border-radius: 6px; cursor: pointer; font-size: 0.9rem; }
+        .lang-tabs button.active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+        .code-block { display: none; }
+        .code-block.active { display: block; }
+        .schema-section { margin: 16px 0; }
+        .schema-toggle { color: var(--accent); cursor: pointer; text-decoration: none; font-weight: 600; }
+        .schema-toggle:hover { text-decoration: underline; }
+        .schema-content { display: none; margin-top: 12px; padding: 12px; background: var(--surface); border-radius: 8px; border: 1px solid var(--border); overflow-x: auto; }
+        .schema-content.show { display: block; }
+        .schema-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        .schema-table th, .schema-table td { padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--border); }
+        .schema-table code { font-size: 0.85em; }
+        .long-desc { color: var(--muted); font-size: 0.98rem; }
+        .long-desc p { margin: 0.75em 0; }
+        .long-desc ul { margin: 0.75em 0; padding-left: 1.5em; }
+        .long-desc li { margin: 0.35em 0; }
+        .postman-btn { display: inline-block; margin-top: 12px; padding: 10px 18px; background: var(--surface); border: 1px solid var(--border); color: var(--accent); border-radius: 8px; cursor: pointer; font-weight: 600; text-decoration: none; }
+        .postman-btn:hover { background: var(--border); }
+        footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.9rem; text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <nav aria-label="Breadcrumb"><a href="../index.html">API Catalog</a> → API Error & Status Normalization</nav>
+        <article>
+            <header>
+                <h1>API Error & Status Normalization API</h1>
+                <p class="lead">Normalize any API error response into a canonical error taxonomy. Send HTTP status code and raw response body (JSON, text, HTML, or XML); optional headers (e.g. Retry-After, rate-limit headers). Returns canonical error type (AUTH_INVALID, RATE_LIMIT_EXCEEDED, VALIDATION_FAILED, etc.), retry guidance (retryRecommended, retryAfterSeconds, retryStrategy), severity (temporary vs permanent, client vs server), confidence score (0–1), provenance, and human-readable summary. Vendor-agnostic, stateless, no outbound calls. Max request size 1MB.</p>
+            </header>
+            <section><h2 id="why">Why use this API?</h2><p>Every API returns errors differently. Normalize into a single taxonomy for dashboards, alerts, and user-facing messages.</p></section>
+            <section><h2 id="what">What the API does</h2><p>POST with raw error response (status, body). Returns normalized error code and category.</p></section>
+            <section>
+                <h2 id="schemas">Request &amp; response schema</h2>
+                <p><a href="#request-schema" class="schema-toggle" id="toggle-req" aria-expanded="false">View request schema</a> &middot; <a href="#response-schema" class="schema-toggle" id="toggle-res" aria-expanded="false">View response schema</a> &middot; <a href="#error-codes" class="schema-toggle" id="toggle-errors" aria-expanded="false">View error &amp; warning codes</a></p>
+                <div id="error-codes" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Code</th><th>HTTP</th><th>Description</th></tr></thead><tbody><tr><td><code>PAYLOAD_TOO_LARGE</code></td><td><code>413</code></td><td>Request body exceeds the maximum allowed size (e.g. 25MB). Send a smaller payload or split the request.</td></tr></tbody></table></div>
+                <div id="request-schema" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>httpStatusCode</code></td><td><code>number</code></td><td>HTTP status code from the upstream API response (0–599)</td></tr><tr><td><code>responseBody</code></td><td><code>any</code></td><td>Raw response body from upstream (JSON, text, HTML, or XML)</td></tr><tr><td><code>headers</code></td><td><code>object</code></td><td>Optional HTTP response headers (e.g. Retry-After, X-RateLimit-Remaining)</td></tr><tr><td><code>httpMethod</code></td><td><code>string|null</code></td><td></td></tr><tr><td><code>vendor</code></td><td><code>string|null</code></td><td>Optional vendor name (hint only)</td></tr><tr><td><code>requestUrl</code></td><td><code>string|null</code></td><td></td></tr><tr><td><code>clientRetryCount</code></td><td><code>number|null</code></td><td></td></tr><tr><td><code>timestamp</code></td><td><code>string|number|null</code></td><td></td></tr></tbody></table></div>
+                <div id="response-schema" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>canonicalError</code></td><td><code>string</code></td><td></td></tr><tr><td><code>recommendedHttpStatus</code></td><td><code>number</code></td><td></td></tr><tr><td><code>retry.retryRecommended</code></td><td><code>boolean</code></td><td>retryRecommended</td></tr><tr><td><code>retry.retryAfterSeconds</code></td><td><code>number|null</code></td><td>retryAfterSeconds</td></tr><tr><td><code>retry.retryStrategy</code></td><td><code>string</code></td><td>retryStrategy</td></tr><tr><td><code>severity.temporaryVsPermanent</code></td><td><code>string</code></td><td>temporaryVsPermanent</td></tr><tr><td><code>severity.clientVsServer</code></td><td><code>string</code></td><td>clientVsServer</td></tr><tr><td><code>confidence</code></td><td><code>number</code></td><td></td></tr><tr><td><code>provenance.originalStatusCode</code></td><td><code>number</code></td><td>originalStatusCode</td></tr><tr><td><code>provenance.recommendedHttpStatus</code></td><td><code>number</code></td><td>recommendedHttpStatus</td></tr><tr><td><code>provenance.extractedVendorHints</code></td><td><code>object|null</code></td><td>extractedVendorHints</td></tr><tr><td><code>provenance.interpretationMethod</code></td><td><code>string</code></td><td>interpretationMethod</td></tr><tr><td><code>summary</code></td><td><code>string</code></td><td></td></tr></tbody></table></div>
+            </section>
+            <section>
+                <h2 id="playground">Try it in the playground</h2>
+                <p>Add your <a href="https://rapidapi.com/precisionsolutionstech/api/api-error-status-normalization" target="_blank" rel="noopener">RapidAPI key</a> and run. Key is sent only to RapidAPI.</p>
+                <div class="playground">
+                    <label for="api-key">RapidAPI Key (required)</label>
+                    <input type="password" id="api-key" placeholder="Your RapidAPI key" autocomplete="off">
+                    
+                    <label for="body-json">Request body (JSON)</label>
+                    <textarea id="body-json" placeholder='{}'>{
+  &quot;httpStatusCode&quot;: 429,
+  &quot;responseBody&quot;: {
+    &quot;error&quot;: &quot;rate_limit_exceeded&quot;,
+    &quot;message&quot;: &quot;Too many requests. Retry after 60 seconds.&quot;
+  },
+  &quot;headers&quot;: {
+    &quot;Retry-After&quot;: &quot;60&quot;,
+    &quot;X-RateLimit-Remaining&quot;: &quot;0&quot;
+  }
+}</textarea>
+                    <button type="button" id="run-btn">Run request</button>
+                    <div id="play-result" class="result" style="display:none;" aria-live="polite"></div>
+                </div>
+            </section>
+            <section>
+                <h2 id="code">Copy code</h2>
+                <p>Host: <code>api-error-status-normalization.p.rapidapi.com</code>, endpoint: <code>POST /normalize</code>. Choose language:</p>
+                <div class="lang-tabs" role="tablist">
+                    <button type="button" role="tab" aria-selected="true" data-lang="curl" class="active">cURL</button>
+                    <button type="button" role="tab" aria-selected="false" data-lang="javascript">JavaScript</button>
+                    <button type="button" role="tab" aria-selected="false" data-lang="python">Python</button>
+                    <button type="button" role="tab" aria-selected="false" data-lang="java">Java</button>
+                </div>
+                <div id="snippet-curl" class="code-block active"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-curl">Copy</button><pre><code>curl --request POST \
+  --url 'https://api-error-status-normalization.p.rapidapi.com/normalize' \
+  --header 'Content-Type: application/json' \
+  --header 'x-rapidapi-host: api-error-status-normalization.p.rapidapi.com' \
+  --header 'x-rapidapi-key: YOUR_RAPIDAPI_KEY' \
+  --data '{
+  &quot;httpStatusCode&quot;: 429,
+  &quot;responseBody&quot;: {
+    &quot;error&quot;: &quot;rate_limit_exceeded&quot;,
+    &quot;message&quot;: &quot;Too many requests. Retry after 60 seconds.&quot;
+  },
+  &quot;headers&quot;: {
+    &quot;Retry-After&quot;: &quot;60&quot;,
+    &quot;X-RateLimit-Remaining&quot;: &quot;0&quot;
+  }
+}'</code></pre></div></div>
+                <div id="snippet-javascript" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-javascript">Copy</button><pre><code>const res = await fetch('https://api-error-status-normalization.p.rapidapi.com/normalize', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
+    'x-rapidapi-host': 'api-error-status-normalization.p.rapidapi.com'
+  },
+  body: '{   &quot;httpStatusCode&quot;: 429,   &quot;responseBody&quot;: {     &quot;error&quot;: &quot;rate_limit_exceeded&quot;,     &quot;message&quot;: &quot;Too many requests. Retry after 60 seconds.&quot;   },   &quot;headers&quot;: {     &quot;Retry-After&quot;: &quot;60&quot;,     &quot;X-RateLimit-Remaining&quot;: &quot;0&quot;   } }'
+});
+const data = await res.json();
+console.log(data);</code></pre></div></div>
+                <div id="snippet-python" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-python">Copy</button><pre><code>import http.client
+import json
+
+conn = http.client.HTTPSConnection(&quot;api-error-status-normalization.p.rapidapi.com&quot;)
+payload = '{
+  &quot;httpStatusCode&quot;: 429,
+  &quot;responseBody&quot;: {
+    &quot;error&quot;: &quot;rate_limit_exceeded&quot;,
+    &quot;message&quot;: &quot;Too many requests. Retry after 60 seconds.&quot;
+  },
+  &quot;headers&quot;: {
+    &quot;Retry-After&quot;: &quot;60&quot;,
+    &quot;X-RateLimit-Remaining&quot;: &quot;0&quot;
+  }
+}'
+headers = {
+    'Content-Type': 'application/json',
+    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
+    'x-rapidapi-host': 'api-error-status-normalization.p.rapidapi.com'
+}
+conn.request(&quot;POST&quot;, &quot;/normalize&quot;, payload, headers)
+res = conn.getresponse()
+print(res.read().decode())</code></pre></div></div>
+                <div id="snippet-java" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-java">Copy</button><pre><code>HttpRequest request = HttpRequest.newBuilder()
+    .uri(URI.create(&quot;https://api-error-status-normalization.p.rapidapi.com/normalize&quot;))
+    .header(&quot;Content-Type&quot;, &quot;application/json&quot;)
+    .header(&quot;x-rapidapi-key&quot;, &quot;YOUR_RAPIDAPI_KEY&quot;)
+    .header(&quot;x-rapidapi-host&quot;, &quot;api-error-status-normalization.p.rapidapi.com&quot;)
+    .method(&quot;POST&quot;, HttpRequest.BodyPublishers.ofString(&quot;{
+  \&quot;httpStatusCode\&quot;: 429,
+  \&quot;responseBody\&quot;: {
+    \&quot;error\&quot;: \&quot;rate_limit_exceeded\&quot;,
+    \&quot;message\&quot;: \&quot;Too many requests. Retry after 60 seconds.\&quot;
+  },
+  \&quot;headers\&quot;: {
+    \&quot;Retry-After\&quot;: \&quot;60\&quot;,
+    \&quot;X-RateLimit-Remaining\&quot;: \&quot;0\&quot;
+  }
+}&quot;))
+    .build();
+HttpResponse&lt;String&gt; response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+System.out.println(response.body());</code></pre></div></div>
+                <p><button type="button" class="postman-btn" id="postman-download">Download Postman collection</button></p>
+            </section>
+            <section><h2 id="expect">What to expect</h2><p>Response format depends on the endpoint. Use your RapidAPI key in headers. Stateless; no data stored. See <a href="https://rapidapi.com/precisionsolutionstech/api/api-error-status-normalization" target="_blank" rel="noopener">RapidAPI docs</a> for full response schema.</p></section>
+            <section><h2 id="about">About this API</h2>
+<div class="long-desc">
+<p>API Error &amp; Status Normalization API</p>
+<p>Convert vendor-specific, inconsistent, or malformed API error responses into a single canonical error format. Send HTTP status code and raw response body (JSON, text, HTML, or XML); optional headers (Retry-After, rate-limit headers). Get a canonical error type (AUTH_INVALID, RATE_LIMIT_EXCEEDED, VALIDATION_FAILED, RESOURCE_NOT_FOUND, TIMEOUT, etc.), retry guidance (retryRecommended, retryAfterSeconds, retryStrategy), severity (temporary vs permanent, client vs server), confidence score (0–1), provenance, and a human-readable summary safe for logs and dashboards.</p>
+<p>What This API Does</p>
+<ul>
+<li>**Normalizes** any API error into one of 12+ canonical types: AUTH_INVALID, AUTH_EXPIRED, RATE_LIMIT_EXCEEDED, QUOTA_EXCEEDED, VALIDATION_FAILED, RESOURCE_NOT_FOUND, CONFLICT, TIMEOUT, DEPENDENCY_UNAVAILABLE, TEMPORARY_FAILURE, PERMANENT_FAILURE, UNKNOWN_ERROR</li>
+<li>**Retry guidance** — Returns retryRecommended, retryAfterSeconds (when Retry-After or rate-limit signals present), and retryStrategy (immediate, delayed, none). Advisory only; does not enforce retries</li>
+<li>**Confidence score** — Every response includes 0–1 confidence so you can treat high vs low certainty differently (e.g. auto-retry vs log and alert)</li>
+<li>**Vendor-agnostic** — Interprets error semantics from HTTP status, headers, and payload keywords/structure; vendor name is optional hint only</li>
+<li>**Safe by default** — Handles malformed or hostile input; never throws; returns UNKNOWN_ERROR with conservative guidance when interpretation fails</li>
+<li>**Stateless, no outbound calls** — Does not call third-party APIs or store data. Max request size 1 MB.</li>
+</ul>
+<p>**One taxonomy, one response.** Centralize error handling and retry logic across Stripe, Twilio, SendGrid, internal services, and any API—without per-vendor parsing or guesswork.</p>
+<p>Key Features</p>
+<ul>
+<li>**Canonical error taxonomy** — 12+ stable, versioned error types (auth, rate limit, validation, not found, conflict, timeout, temporary/permanent failure, unknown)</li>
+<li>**Retry guidance** — retryRecommended, retryAfterSeconds, retryStrategy (immediate, delayed, none); advisory only</li>
+<li>**Severity** — temporary vs permanent, client vs server fault</li>
+<li>**Confidence** — 0–1 score; high = strong guidance, low = conservative defaults</li>
+<li>**Provenance** — originalStatusCode, recommendedHttpStatus, interpretationMethod, extractedVendorHints</li>
+<li>**Summary** — Human-readable, safe for logs and dashboards; never echoes raw secrets</li>
+</ul>
+<p>Use Cases</p>
+<ul>
+<li>**API gateways &amp; proxies** — Classify upstream errors and set retry/backoff headers from one schema</li>
+<li>**SDK authors** — Expose a single error type and retry recommendation for multi-vendor SDKs (payments, messaging, etc.)</li>
+<li>**Observability &amp; monitoring** — Normalize errors before sending to Datadog, Splunk, or custom dashboards; one taxonomy for alerts and SLAs</li>
+<li>**Retry logic** — Get safe, advisory retry guidance (retryRecommended, retryAfterSeconds) without the API enforcing retries</li>
+<li>**Backend &amp; platform teams** — Reduce duplicated error handling and inconsistent retry behavior across dozens of integrations</li>
+</ul>
+<p>Also useful if you're looking for:</p>
+<ul>
+<li>API error classifier API</li>
+<li>HTTP error normalizer</li>
+<li>error response standardizer</li>
+<li>retry advisor API</li>
+<li>API error taxonomy</li>
+<li>canonical error format API</li>
+<li>429 401 500 error parser</li>
+<li>vendor error normalizer</li>
+<li>error response converter</li>
+<li>API failure classifier</li>
+</ul>
+</div></section>
+        </article>
+        <footer>
+            <p><a href="https://rapidapi.com/precisionsolutionstech/api/api-error-status-normalization" target="_blank" rel="noopener">Subscribe on RapidAPI</a> · <a href="../index.html">API Catalog</a></p>
+            <p>© 2026 Precision Solutions Tech</p>
+        </footer>
+    </div>
+    <script>
+(function(){
+    var host='api-error-status-normalization.p.rapidapi.com',path='/normalize',body="{\n  \"httpStatusCode\": 429,\n  \"responseBody\": {\n    \"error\": \"rate_limit_exceeded\",\n    \"message\": \"Too many requests. Retry after 60 seconds.\"\n  },\n  \"headers\": {\n    \"Retry-After\": \"60\",\n    \"X-RateLimit-Remaining\": \"0\"\n  }\n}",fileUpload=false,rapidUrl="https://rapidapi.com/precisionsolutionstech/api/api-error-status-normalization";
+    document.querySelectorAll('[data-rapid-docs]').forEach(function(a){ a.href = rapidUrl; });
+    document.getElementById('toggle-req').addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('request-schema'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); });
+    document.getElementById('toggle-res').addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('response-schema'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); });
+    var toggleErrors=document.getElementById('toggle-errors');if(toggleErrors){ toggleErrors.addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('error-codes'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); }); }
+    document.querySelectorAll('.lang-tabs button').forEach(function(btn){
+        btn.addEventListener('click',function(){
+            document.querySelectorAll('.lang-tabs button').forEach(function(b){ b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
+            document.querySelectorAll('.code-block').forEach(function(b){ b.classList.remove('active'); });
+            this.classList.add('active'); this.setAttribute('aria-selected','true');
+            var el=document.getElementById('snippet-'+this.getAttribute('data-lang')); if(el) el.classList.add('active');
+        });
+    });
+    document.querySelectorAll('.copy-btn').forEach(function(btn){
+        btn.addEventListener('click',function(){
+            var id=this.getAttribute('data-copy'),block=document.getElementById(id),pre=block?block.querySelector('pre code'):null,btn=this;
+            if(pre) navigator.clipboard.writeText(pre.textContent).then(function(){ var t=btn.textContent; btn.textContent='Copied!'; setTimeout(function(){ btn.textContent=t; },1500); });
+        });
+    });
+    document.getElementById('postman-download').addEventListener('click',function(){
+        var coll = { info: { name: "API Error & Status Normalization API", schema: 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json' }, item: [{ name: 'Request', request: { method: 'POST', header: [{ key: 'Content-Type', value: 'application/json' }, { key: 'x-rapidapi-key', value: 'YOUR_RAPIDAPI_KEY' }, { key: 'x-rapidapi-host', value: host }], url: 'https://'+host+path } } ] };
+        if(!fileUpload){ coll.item[0].request.body = { mode: 'raw', raw: typeof body==='string'?body:JSON.stringify(body) }; }
+        else { coll.item[0].request.header = [{ key: 'X-RapidAPI-Key', value: 'YOUR_RAPIDAPI_KEY' }, { key: 'X-RapidAPI-Host', value: host }]; coll.item[0].request.url = 'https://'+host+path+'?outputFormat=json'; coll.item[0].request.body = { mode: 'formdata', formdata: [{ key: 'file', type: 'file', src: '' }] }; }
+        var blob = new Blob([JSON.stringify(coll,null,2)], { type: 'application/json' });
+        var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'api-error-status-normalization-postman-collection.json'; a.click(); URL.revokeObjectURL(a.href);
+    });
+    var runBtn=document.getElementById('run-btn'),keyInput=document.getElementById('api-key'),resultDiv=document.getElementById('play-result');
+    runBtn.addEventListener('click',function(){
+        var key=(keyInput.value||'').trim();
+        if(!key){ resultDiv.style.display='block'; resultDiv.className='result error'; resultDiv.textContent='Please enter your RapidAPI key.'; return; }
+        
+    var bodyStr=document.getElementById('body-json').value.trim(),body;
+    try{body=JSON.parse(bodyStr);}catch(e){resultDiv.style.display='block';resultDiv.className='result error';resultDiv.textContent='Invalid JSON: '+e.message;return;}
+    runBtn.disabled=true;resultDiv.style.display='block';resultDiv.className='result';resultDiv.textContent='Loading…';
+    fetch('https://'+host+path,{method:'POST',headers:{'Content-Type':'application/json','x-rapidapi-key':key,'x-rapidapi-host':host},body:JSON.stringify(body)})
+    .then(function(r){return r.text().then(function(t){return{status:r.status,body:t};});})
+    .then(function(o){resultDiv.className='result '+(o.status>=200&&o.status<300?'success':'error');try{resultDiv.textContent=JSON.stringify(JSON.parse(o.body),null,2);}catch(_){resultDiv.textContent=o.status+'\n'+o.body;}})
+    .catch(function(e){resultDiv.className='result error';resultDiv.textContent='Request failed: '+e.message;})
+    .finally(function(){runBtn.disabled=false;});
+    });
+})();
+    </script>
+</body>
+</html>
