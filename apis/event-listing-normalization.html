@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="../favicon.png" type="image/png" sizes="32x32">
+    <title>Event Listing Normalization API | RapidAPI</title>
+    <meta name="description" content="Unify event data from Eventbrite, Ticketmaster, Meetup, Facebook, Songkick, Bandsintown, and 50+ platforms into one canonical event schema. Send payloads or inputs; get normalized events with start/end, location (physical/virtual/hybrid), pricing, provenance, and confidence. Stateless, 25MB max.">
+    <meta name="keywords" content="event-listing-normalization, API, RapidAPI, developer">
+    <link rel="canonical" href="https://precisionsolutionstech-netizen.github.io/api-catalog/apis/event-listing-normalization.html">
+    <meta property="og:title" content="Event Listing Normalization API">
+    <meta property="og:description" content="Unify event data from Eventbrite, Ticketmaster, Meetup, Facebook, Songkick, Bandsintown, and 50+ platforms into one canonical event schema. Send payloads or inputs; get normalized events with start/end, location (physical/virtual/hybrid), pricing, provenance, and confidence. Stateless, 25MB max.">
+    <script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","name":"Event Listing Normalization API","description":"Unify event data from Eventbrite, Ticketmaster, Meetup, Facebook, Songkick, Bandsintown, and 50+ platforms into one canonical event schema. Send payloads or inputs; get normalized events with start/end, location (physical/virtual/hybrid), pricing, provenance, and confidence. Stateless, 25MB max.","url":"https://precisionsolutionstech-netizen.github.io/api-catalog/apis/event-listing-normalization.html"}
+    </script>
+    <style>
+        :root { --bg: #0f172a; --surface: #1e293b; --border: #334155; --text: #e2e8f0; --muted: #94a3b8; --accent: #38bdf8; --success: #34d399; --error: #f87171; }
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: ui-sans-serif, system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+        .wrap { max-width: 900px; margin: 0 auto; padding: 24px 20px; }
+        a { color: var(--accent); }
+        nav { margin-bottom: 32px; font-size: 0.9rem; }
+        h1 { font-size: 1.9rem; margin: 0 0 12px; }
+        .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; }
+        h2 { font-size: 1.35rem; margin: 32px 0 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+        section { margin-bottom: 28px; }
+        .playground { background: var(--surface); border-radius: 12px; padding: 20px; margin: 24px 0; border: 1px solid var(--border); }
+        .playground label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 0.9rem; }
+        .playground input[type="password"], .playground select { width: 100%; max-width: 320px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); margin-bottom: 12px; }
+        .playground textarea { width: 100%; min-height: 120px; padding: 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); font-family: ui-monospace, monospace; font-size: 13px; resize: vertical; }
+        .playground input[type="file"] { margin-bottom: 12px; }
+        .playground button { padding: 10px 20px; background: var(--accent); color: var(--bg); border: none; border-radius: 8px; font-weight: 600; cursor: pointer; margin-top: 8px; }
+        .playground button:disabled { opacity: 0.6; cursor: not-allowed; }
+        .playground .result { margin-top: 16px; padding: 12px; border-radius: 8px; background: var(--bg); border: 1px solid var(--border); white-space: pre-wrap; word-break: break-all; font-family: ui-monospace, monospace; font-size: 12px; max-height: 320px; overflow: auto; }
+        .playground .result.error { border-color: var(--error); color: var(--error); }
+        .playground .result.success { border-color: var(--success); }
+        .file-upload-note { font-size: 0.85rem; color: var(--muted); margin-top: 4px; }
+        .code-wrap { position: relative; margin: 16px 0; }
+        .code-wrap pre { margin: 0; padding: 14px 16px; background: var(--surface); border-radius: 8px; border: 1px solid var(--border); overflow-x: auto; font-size: 13px; }
+        .code-wrap .copy-btn { position: absolute; top: 10px; right: 10px; padding: 6px 12px; background: var(--border); color: var(--text); border: none; border-radius: 6px; font-size: 12px; cursor: pointer; }
+        .code-wrap .copy-btn:hover { background: var(--accent); color: var(--bg); }
+        .lang-tabs { display: flex; gap: 4px; margin-bottom: 8px; flex-wrap: wrap; }
+        .lang-tabs button { padding: 8px 14px; background: var(--surface); border: 1px solid var(--border); color: var(--muted); border-radius: 6px; cursor: pointer; font-size: 0.9rem; }
+        .lang-tabs button.active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+        .code-block { display: none; }
+        .code-block.active { display: block; }
+        .schema-section { margin: 16px 0; }
+        .schema-toggle { color: var(--accent); cursor: pointer; text-decoration: none; font-weight: 600; }
+        .schema-toggle:hover { text-decoration: underline; }
+        .schema-content { display: none; margin-top: 12px; padding: 12px; background: var(--surface); border-radius: 8px; border: 1px solid var(--border); overflow-x: auto; }
+        .schema-content.show { display: block; }
+        .schema-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        .schema-table th, .schema-table td { padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--border); }
+        .schema-table code { font-size: 0.85em; }
+        .long-desc { color: var(--muted); font-size: 0.98rem; }
+        .long-desc p { margin: 0.75em 0; }
+        .long-desc ul { margin: 0.75em 0; padding-left: 1.5em; }
+        .long-desc li { margin: 0.35em 0; }
+        .postman-btn { display: inline-block; margin-top: 12px; padding: 10px 18px; background: var(--surface); border: 1px solid var(--border); color: var(--accent); border-radius: 8px; cursor: pointer; font-weight: 600; text-decoration: none; }
+        .postman-btn:hover { background: var(--border); }
+        footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.9rem; text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <nav aria-label="Breadcrumb"><a href="../index.html">API Catalog</a> → Event Listing Normalization</nav>
+        <article>
+            <header>
+                <h1>Event Listing Normalization API</h1>
+                <p class="lead">Unify event data from Eventbrite, Ticketmaster, Meetup, Facebook, Songkick, Bandsintown, and 50+ platforms into one canonical event schema. Send payloads or inputs; get normalized events with start/end, location (physical/virtual/hybrid), pricing, provenance, and confidence. Stateless, 25MB max.</p>
+            </header>
+            <section><h2 id="why">Why use this API?</h2><p>Event data from different platforms (Meetup, Eventbrite, etc.) has different shapes. This API normalizes payloads into one canonical schema so you can compare, aggregate, and display events consistently.</p></section>
+            <section><h2 id="what">What the API does</h2><p>POST /normalize with a single event object or array. Returns normalized event(s) with a consistent structure.</p></section>
+            <section>
+                <h2 id="schemas">Request &amp; response schema</h2>
+                <p><a href="#request-schema" class="schema-toggle" id="toggle-req" aria-expanded="false">View request schema</a> &middot; <a href="#response-schema" class="schema-toggle" id="toggle-res" aria-expanded="false">View response schema</a> &middot; <a href="#error-codes" class="schema-toggle" id="toggle-errors" aria-expanded="false">View error &amp; warning codes</a></p>
+                <div id="error-codes" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Code</th><th>HTTP</th><th>Description</th></tr></thead><tbody><tr><td><code>INVALID_REQUEST</code></td><td><code>400</code></td><td>Missing or invalid body (no payload and no inputs).</td></tr><tr><td><code>INVALID_JSON</code></td><td><code>400</code></td><td>Request body is not valid JSON.</td></tr><tr><td><code>INVALID_PAYLOAD</code></td><td><code>200 (in body)</code></td><td>Item could not be normalized (e.g. not an object).</td></tr><tr><td><code>INVALID_STRUCTURE</code></td><td><code>200 (in body)</code></td><td>Payload is null, primitive, or too deeply nested.</td></tr><tr><td><code>MAX_DEPTH_EXCEEDED</code></td><td><code>200 (in body)</code></td><td>Object depth exceeds 30.</td></tr><tr><td><code>PAYLOAD_TOO_LARGE</code></td><td><code>413</code></td><td>Request size exceeds 25MB.</td></tr><tr><td><code>INTERNAL_ERROR</code></td><td><code>500</code></td><td>Unhandled server exception.</td></tr></tbody></table></div>
+                <div id="request-schema" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>payload</code></td><td><code>any</code></td><td>Raw payload: single event object or array of events (use with platform for single-vendor)</td></tr><tr><td><code>inputs</code></td><td><code>array</code></td><td>For mixed platforms: array of { platform, data: event[] } or { platform?, payload }</td></tr><tr><td><code>platform</code></td><td><code>string</code></td><td>Platform hint for single-vendor, e.g. eventbrite, meetup, ticketmaster, generic</td></tr></tbody></table></div>
+                <div id="response-schema" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>errors[].code</code></td><td><code>string</code></td><td>Per-item: code</td></tr><tr><td><code>errors[].message</code></td><td><code>string</code></td><td>Per-item: message</td></tr><tr><td><code>errors[].index</code></td><td><code>number|null</code></td><td>Per-item: index</td></tr><tr><td><code>errors[].detail</code></td><td><code>string|null</code></td><td>Per-item: detail</td></tr><tr><td><code>events[].id</code></td><td><code>string</code></td><td>Per-item: id</td></tr><tr><td><code>events[].title</code></td><td><code>string</code></td><td>Per-item: title</td></tr><tr><td><code>events[].startTimeIso</code></td><td><code>string</code></td><td>Per-item: startTimeIso</td></tr><tr><td><code>events[].endTimeIso</code></td><td><code>string</code></td><td>Per-item: endTimeIso</td></tr><tr><td><code>events[].location</code></td><td><code>object</code></td><td>Per-item: location</td></tr><tr><td><code>events[].provenance</code></td><td><code>object</code></td><td>Per-item: provenance</td></tr><tr><td><code>events[].interpretation</code></td><td><code>object</code></td><td>Per-item: interpretation</td></tr></tbody></table></div>
+            </section>
+            <section>
+                <h2 id="playground">Try it in the playground</h2>
+                <p>Add your <a href="https://rapidapi.com/precisionsolutionstech/api/event-listing-normalization" target="_blank" rel="noopener">RapidAPI key</a> and run. Key is sent only to RapidAPI.</p>
+                <div class="playground">
+                    <label for="api-key">RapidAPI Key (required)</label>
+                    <input type="password" id="api-key" placeholder="Your RapidAPI key" autocomplete="off">
+                    
+                    <label for="body-json">Request body (JSON)</label>
+                    <textarea id="body-json" placeholder='{}'>{
+  &quot;platform&quot;: &quot;eventbrite&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: &quot;123&quot;,
+    &quot;name&quot;: &quot;Tech Meetup&quot;,
+    &quot;start&quot;: &quot;2024-06-15T18:00:00Z&quot;,
+    &quot;end&quot;: &quot;2024-06-15T20:00:00Z&quot;,
+    &quot;venue&quot;: { &quot;name&quot;: &quot;Main Hall&quot;, &quot;address&quot;: { &quot;city&quot;: &quot;San Francisco&quot; } }
+  }
+}</textarea>
+                    <button type="button" id="run-btn">Run request</button>
+                    <div id="play-result" class="result" style="display:none;" aria-live="polite"></div>
+                </div>
+            </section>
+            <section>
+                <h2 id="code">Copy code</h2>
+                <p>Host: <code>event-listing-normalization.p.rapidapi.com</code>, endpoint: <code>POST /normalize</code>. Choose language:</p>
+                <div class="lang-tabs" role="tablist">
+                    <button type="button" role="tab" aria-selected="true" data-lang="curl" class="active">cURL</button>
+                    <button type="button" role="tab" aria-selected="false" data-lang="javascript">JavaScript</button>
+                    <button type="button" role="tab" aria-selected="false" data-lang="python">Python</button>
+                    <button type="button" role="tab" aria-selected="false" data-lang="java">Java</button>
+                </div>
+                <div id="snippet-curl" class="code-block active"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-curl">Copy</button><pre><code>curl --request POST \
+  --url 'https://event-listing-normalization.p.rapidapi.com/normalize' \
+  --header 'Content-Type: application/json' \
+  --header 'x-rapidapi-host: event-listing-normalization.p.rapidapi.com' \
+  --header 'x-rapidapi-key: YOUR_RAPIDAPI_KEY' \
+  --data '{
+  &quot;platform&quot;: &quot;eventbrite&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: &quot;123&quot;,
+    &quot;name&quot;: &quot;Tech Meetup&quot;,
+    &quot;start&quot;: &quot;2024-06-15T18:00:00Z&quot;,
+    &quot;end&quot;: &quot;2024-06-15T20:00:00Z&quot;,
+    &quot;venue&quot;: { &quot;name&quot;: &quot;Main Hall&quot;, &quot;address&quot;: { &quot;city&quot;: &quot;San Francisco&quot; } }
+  }
+}'</code></pre></div></div>
+                <div id="snippet-javascript" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-javascript">Copy</button><pre><code>const res = await fetch('https://event-listing-normalization.p.rapidapi.com/normalize', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
+    'x-rapidapi-host': 'event-listing-normalization.p.rapidapi.com'
+  },
+  body: '{   &quot;platform&quot;: &quot;eventbrite&quot;,   &quot;payload&quot;: {     &quot;id&quot;: &quot;123&quot;,     &quot;name&quot;: &quot;Tech Meetup&quot;,     &quot;start&quot;: &quot;2024-06-15T18:00:00Z&quot;,     &quot;end&quot;: &quot;2024-06-15T20:00:00Z&quot;,     &quot;venue&quot;: { &quot;name&quot;: &quot;Main Hall&quot;, &quot;address&quot;: { &quot;city&quot;: &quot;San Francisco&quot; } }   } }'
+});
+const data = await res.json();
+console.log(data);</code></pre></div></div>
+                <div id="snippet-python" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-python">Copy</button><pre><code>import http.client
+import json
+
+conn = http.client.HTTPSConnection(&quot;event-listing-normalization.p.rapidapi.com&quot;)
+payload = '{
+  &quot;platform&quot;: &quot;eventbrite&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: &quot;123&quot;,
+    &quot;name&quot;: &quot;Tech Meetup&quot;,
+    &quot;start&quot;: &quot;2024-06-15T18:00:00Z&quot;,
+    &quot;end&quot;: &quot;2024-06-15T20:00:00Z&quot;,
+    &quot;venue&quot;: { &quot;name&quot;: &quot;Main Hall&quot;, &quot;address&quot;: { &quot;city&quot;: &quot;San Francisco&quot; } }
+  }
+}'
+headers = {
+    'Content-Type': 'application/json',
+    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
+    'x-rapidapi-host': 'event-listing-normalization.p.rapidapi.com'
+}
+conn.request(&quot;POST&quot;, &quot;/normalize&quot;, payload, headers)
+res = conn.getresponse()
+print(res.read().decode())</code></pre></div></div>
+                <div id="snippet-java" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-java">Copy</button><pre><code>HttpRequest request = HttpRequest.newBuilder()
+    .uri(URI.create(&quot;https://event-listing-normalization.p.rapidapi.com/normalize&quot;))
+    .header(&quot;Content-Type&quot;, &quot;application/json&quot;)
+    .header(&quot;x-rapidapi-key&quot;, &quot;YOUR_RAPIDAPI_KEY&quot;)
+    .header(&quot;x-rapidapi-host&quot;, &quot;event-listing-normalization.p.rapidapi.com&quot;)
+    .method(&quot;POST&quot;, HttpRequest.BodyPublishers.ofString(&quot;{
+  \&quot;platform\&quot;: \&quot;eventbrite\&quot;,
+  \&quot;payload\&quot;: {
+    \&quot;id\&quot;: \&quot;123\&quot;,
+    \&quot;name\&quot;: \&quot;Tech Meetup\&quot;,
+    \&quot;start\&quot;: \&quot;2024-06-15T18:00:00Z\&quot;,
+    \&quot;end\&quot;: \&quot;2024-06-15T20:00:00Z\&quot;,
+    \&quot;venue\&quot;: { \&quot;name\&quot;: \&quot;Main Hall\&quot;, \&quot;address\&quot;: { \&quot;city\&quot;: \&quot;San Francisco\&quot; } }
+  }
+}&quot;))
+    .build();
+HttpResponse&lt;String&gt; response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+System.out.println(response.body());</code></pre></div></div>
+                <p><button type="button" class="postman-btn" id="postman-download">Download Postman collection</button></p>
+            </section>
+            <section><h2 id="expect">What to expect</h2><p>Response format depends on the endpoint. Use your RapidAPI key in headers. Stateless; no data stored. See <a href="https://rapidapi.com/precisionsolutionstech/api/event-listing-normalization" target="_blank" rel="noopener">RapidAPI docs</a> for full response schema.</p></section>
+            <section><h2 id="about">About this API</h2>
+<div class="long-desc">
+<p>Event Listing Normalization API</p>
+<p>Normalize event listings from Eventbrite, Ticketmaster, Meetup, Eventful, Facebook, Google, Bandsintown, Songkick, StubHub, SeatGeek, and 50+ platforms into one canonical event schema. One API call for single or mixed sources—no per-platform parsers. Get unified start/end times (ISO), location (physical, virtual, hybrid), pricing, availability, organizer, images, provenance, and confidence. Built for event aggregators, discovery apps, and data pipelines that need a single, unified data model.</p>
+<p>What This API Does</p>
+<ul>
+<li>**Normalizes** raw event payloads from any supported platform (Eventbrite, Ticketmaster, Meetup, Eventful, Facebook, Bandsintown, Songkick, StubHub, SeatGeek, Eventfinda, YouTube, Twitch, and more) into one consistent JSON shape</li>
+<li>**Single schema** — Every event becomes the same structure: id, title, description, start/end (ISO), location (type, venueName, address, city, url for virtual), pricing, availability, organizer, images, categories, tags, url, provenance, interpretation (method + confidence)</li>
+<li>**Mixed platforms in one request** — Send a single payload + platform, or an array of inputs (platform + data per bucket); get one combined **events** array. One bad item does not fail the rest</li>
+<li>**Provenance &amp; confidence** — Each normalized event includes interpretation method (platform_exact, platform_fuzzy, generic_inferred) and confidence score (0–1) so you can filter or flag low-confidence items</li>
+<li>**No platform API keys** — You send your own raw JSON; the API does not fetch or scrape. Stateless, 25MB max payload</li>
+</ul>
+<p>**One pipeline, one schema.** Build event discovery, calendars, or analytics on a single canonical shape instead of maintaining dozens of platform-specific parsers.</p>
+<p>Key Features</p>
+<ul>
+<li>**Stateless** — No data stored or logged; 25MB max request</li>
+<li>**50+ platforms** — Eventbrite, Ticketmaster, Meetup, Eventful, Facebook, Google, Bandsintown, Songkick, StubHub, SeatGeek, Eventfinda, YouTube, Twitch, and many more; unknown use generic fallback</li>
+<li>**Physical, virtual, hybrid** — Location type and virtual join URLs preserved; no invented data</li>
+<li>**Canonical output** — id, title, start/end ISO, location, pricing, availability, organizer, images, provenance, interpretation (method + confidence + warnings)</li>
+<li>**Errors &amp; partial success** — Per-item errors (code, message, index); other items still normalized</li>
+</ul>
+<p>Use Cases</p>
+<ul>
+<li>**Event aggregation &amp; discovery** — Aggregate listings from Eventbrite, Meetup, Ticketmaster, and others into one dataset for search, filters, or calendar UI</li>
+<li>**Webhook processing** — Normalize event payloads from platform webhooks into one schema for sync or display</li>
+<li>**Data pipelines &amp; ETL** — Ingest event JSON from APIs or feeds; normalize in one step before loading into a warehouse or search index</li>
+<li>**Unified event feed** — One schema for all sources so one calendar or search layer works across platforms</li>
+</ul>
+<p>Also useful if you're looking for:</p>
+<ul>
+<li>event normalizer API</li>
+<li>Eventbrite Meetup Ticketmaster unifier</li>
+<li>event listing canonical schema API</li>
+<li>multi-platform event normalizer</li>
+<li>event data normalization API</li>
+<li>event aggregation API</li>
+<li>unified event schema</li>
+<li>event JSON standardization</li>
+</ul>
+</div></section>
+        </article>
+        <footer>
+            <p><a href="https://rapidapi.com/precisionsolutionstech/api/event-listing-normalization" target="_blank" rel="noopener">Subscribe on RapidAPI</a> · <a href="../index.html">API Catalog</a></p>
+            <p>© 2026 Precision Solutions Tech</p>
+        </footer>
+    </div>
+    <script>
+(function(){
+    var host='event-listing-normalization.p.rapidapi.com',path='/normalize',body="{\n  \"platform\": \"eventbrite\",\n  \"payload\": {\n    \"id\": \"123\",\n    \"name\": \"Tech Meetup\",\n    \"start\": \"2024-06-15T18:00:00Z\",\n    \"end\": \"2024-06-15T20:00:00Z\",\n    \"venue\": { \"name\": \"Main Hall\", \"address\": { \"city\": \"San Francisco\" } }\n  }\n}",fileUpload=false,rapidUrl="https://rapidapi.com/precisionsolutionstech/api/event-listing-normalization";
+    document.querySelectorAll('[data-rapid-docs]').forEach(function(a){ a.href = rapidUrl; });
+    document.getElementById('toggle-req').addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('request-schema'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); });
+    document.getElementById('toggle-res').addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('response-schema'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); });
+    var toggleErrors=document.getElementById('toggle-errors');if(toggleErrors){ toggleErrors.addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('error-codes'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); }); }
+    document.querySelectorAll('.lang-tabs button').forEach(function(btn){
+        btn.addEventListener('click',function(){
+            document.querySelectorAll('.lang-tabs button').forEach(function(b){ b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
+            document.querySelectorAll('.code-block').forEach(function(b){ b.classList.remove('active'); });
+            this.classList.add('active'); this.setAttribute('aria-selected','true');
+            var el=document.getElementById('snippet-'+this.getAttribute('data-lang')); if(el) el.classList.add('active');
+        });
+    });
+    document.querySelectorAll('.copy-btn').forEach(function(btn){
+        btn.addEventListener('click',function(){
+            var id=this.getAttribute('data-copy'),block=document.getElementById(id),pre=block?block.querySelector('pre code'):null,btn=this;
+            if(pre) navigator.clipboard.writeText(pre.textContent).then(function(){ var t=btn.textContent; btn.textContent='Copied!'; setTimeout(function(){ btn.textContent=t; },1500); });
+        });
+    });
+    document.getElementById('postman-download').addEventListener('click',function(){
+        var coll = { info: { name: "Event Listing Normalization API", schema: 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json' }, item: [{ name: 'Request', request: { method: 'POST', header: [{ key: 'Content-Type', value: 'application/json' }, { key: 'x-rapidapi-key', value: 'YOUR_RAPIDAPI_KEY' }, { key: 'x-rapidapi-host', value: host }], url: 'https://'+host+path } } ] };
+        if(!fileUpload){ coll.item[0].request.body = { mode: 'raw', raw: typeof body==='string'?body:JSON.stringify(body) }; }
+        else { coll.item[0].request.header = [{ key: 'X-RapidAPI-Key', value: 'YOUR_RAPIDAPI_KEY' }, { key: 'X-RapidAPI-Host', value: host }]; coll.item[0].request.url = 'https://'+host+path+'?outputFormat=json'; coll.item[0].request.body = { mode: 'formdata', formdata: [{ key: 'file', type: 'file', src: '' }] }; }
+        var blob = new Blob([JSON.stringify(coll,null,2)], { type: 'application/json' });
+        var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'event-listing-normalization-postman-collection.json'; a.click(); URL.revokeObjectURL(a.href);
+    });
+    var runBtn=document.getElementById('run-btn'),keyInput=document.getElementById('api-key'),resultDiv=document.getElementById('play-result');
+    runBtn.addEventListener('click',function(){
+        var key=(keyInput.value||'').trim();
+        if(!key){ resultDiv.style.display='block'; resultDiv.className='result error'; resultDiv.textContent='Please enter your RapidAPI key.'; return; }
+        
+    var bodyStr=document.getElementById('body-json').value.trim(),body;
+    try{body=JSON.parse(bodyStr);}catch(e){resultDiv.style.display='block';resultDiv.className='result error';resultDiv.textContent='Invalid JSON: '+e.message;return;}
+    runBtn.disabled=true;resultDiv.style.display='block';resultDiv.className='result';resultDiv.textContent='Loading…';
+    fetch('https://'+host+path,{method:'POST',headers:{'Content-Type':'application/json','x-rapidapi-key':key,'x-rapidapi-host':host},body:JSON.stringify(body)})
+    .then(function(r){return r.text().then(function(t){return{status:r.status,body:t};});})
+    .then(function(o){resultDiv.className='result '+(o.status>=200&&o.status<300?'success':'error');try{resultDiv.textContent=JSON.stringify(JSON.parse(o.body),null,2);}catch(_){resultDiv.textContent=o.status+'\n'+o.body;}})
+    .catch(function(e){resultDiv.className='result error';resultDiv.textContent='Request failed: '+e.message;})
+    .finally(function(){runBtn.disabled=false;});
+    });
+})();
+    </script>
+</body>
+</html>

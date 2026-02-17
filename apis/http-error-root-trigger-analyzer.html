@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="../favicon.png" type="image/png" sizes="32x32">
+    <title>HTTP Error Root Trigger Analyzer API | RapidAPI</title>
+    <meta name="description" content="HTTP error analyzer, root cause classifier, and fault diagnosis API. Analyze 4xx/5xx errors for root trigger, confidence, and next steps. Incident triage, error debugging, API monitoring. Rule-based, deterministic, stateless.">
+    <meta name="keywords" content="http-error-root-trigger-analyzer, API, RapidAPI, developer">
+    <link rel="canonical" href="https://precisionsolutionstech-netizen.github.io/api-catalog/apis/http-error-root-trigger-analyzer.html">
+    <meta property="og:title" content="HTTP Error Root Trigger Analyzer API">
+    <meta property="og:description" content="HTTP error analyzer, root cause classifier, and fault diagnosis API. Analyze 4xx/5xx errors for root trigger, confidence, and next steps. Incident triage, error debugging, API monitoring. Rule-based, deterministic, stateless.">
+    <script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","name":"HTTP Error Root Trigger Analyzer API","description":"HTTP error analyzer, root cause classifier, and fault diagnosis API. Analyze 4xx/5xx errors for root trigger, confidence, and next steps. Incident triage, error debugging, API monitoring. Rule-based, deterministic, stateless.","url":"https://precisionsolutionstech-netizen.github.io/api-catalog/apis/http-error-root-trigger-analyzer.html"}
+    </script>
+    <style>
+        :root { --bg: #0f172a; --surface: #1e293b; --border: #334155; --text: #e2e8f0; --muted: #94a3b8; --accent: #38bdf8; --success: #34d399; --error: #f87171; }
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: ui-sans-serif, system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+        .wrap { max-width: 900px; margin: 0 auto; padding: 24px 20px; }
+        a { color: var(--accent); }
+        nav { margin-bottom: 32px; font-size: 0.9rem; }
+        h1 { font-size: 1.9rem; margin: 0 0 12px; }
+        .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; }
+        h2 { font-size: 1.35rem; margin: 32px 0 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+        section { margin-bottom: 28px; }
+        .playground { background: var(--surface); border-radius: 12px; padding: 20px; margin: 24px 0; border: 1px solid var(--border); }
+        .playground label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 0.9rem; }
+        .playground input[type="password"], .playground select { width: 100%; max-width: 320px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); margin-bottom: 12px; }
+        .playground textarea { width: 100%; min-height: 120px; padding: 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); font-family: ui-monospace, monospace; font-size: 13px; resize: vertical; }
+        .playground input[type="file"] { margin-bottom: 12px; }
+        .playground button { padding: 10px 20px; background: var(--accent); color: var(--bg); border: none; border-radius: 8px; font-weight: 600; cursor: pointer; margin-top: 8px; }
+        .playground button:disabled { opacity: 0.6; cursor: not-allowed; }
+        .playground .result { margin-top: 16px; padding: 12px; border-radius: 8px; background: var(--bg); border: 1px solid var(--border); white-space: pre-wrap; word-break: break-all; font-family: ui-monospace, monospace; font-size: 12px; max-height: 320px; overflow: auto; }
+        .playground .result.error { border-color: var(--error); color: var(--error); }
+        .playground .result.success { border-color: var(--success); }
+        .file-upload-note { font-size: 0.85rem; color: var(--muted); margin-top: 4px; }
+        .code-wrap { position: relative; margin: 16px 0; }
+        .code-wrap pre { margin: 0; padding: 14px 16px; background: var(--surface); border-radius: 8px; border: 1px solid var(--border); overflow-x: auto; font-size: 13px; }
+        .code-wrap .copy-btn { position: absolute; top: 10px; right: 10px; padding: 6px 12px; background: var(--border); color: var(--text); border: none; border-radius: 6px; font-size: 12px; cursor: pointer; }
+        .code-wrap .copy-btn:hover { background: var(--accent); color: var(--bg); }
+        .lang-tabs { display: flex; gap: 4px; margin-bottom: 8px; flex-wrap: wrap; }
+        .lang-tabs button { padding: 8px 14px; background: var(--surface); border: 1px solid var(--border); color: var(--muted); border-radius: 6px; cursor: pointer; font-size: 0.9rem; }
+        .lang-tabs button.active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+        .code-block { display: none; }
+        .code-block.active { display: block; }
+        .schema-section { margin: 16px 0; }
+        .schema-toggle { color: var(--accent); cursor: pointer; text-decoration: none; font-weight: 600; }
+        .schema-toggle:hover { text-decoration: underline; }
+        .schema-content { display: none; margin-top: 12px; padding: 12px; background: var(--surface); border-radius: 8px; border: 1px solid var(--border); overflow-x: auto; }
+        .schema-content.show { display: block; }
+        .schema-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        .schema-table th, .schema-table td { padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--border); }
+        .schema-table code { font-size: 0.85em; }
+        .long-desc { color: var(--muted); font-size: 0.98rem; }
+        .long-desc p { margin: 0.75em 0; }
+        .long-desc ul { margin: 0.75em 0; padding-left: 1.5em; }
+        .long-desc li { margin: 0.35em 0; }
+        .postman-btn { display: inline-block; margin-top: 12px; padding: 10px 18px; background: var(--surface); border: 1px solid var(--border); color: var(--accent); border-radius: 8px; cursor: pointer; font-weight: 600; text-decoration: none; }
+        .postman-btn:hover { background: var(--border); }
+        footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.9rem; text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <nav aria-label="Breadcrumb"><a href="../index.html">API Catalog</a> → HTTP Error Root Trigger Analyzer</nav>
+        <article>
+            <header>
+                <h1>HTTP Error Root Trigger Analyzer API</h1>
+                <p class="lead">HTTP error analyzer, root cause classifier, and fault diagnosis API. Analyze 4xx/5xx errors for root trigger, confidence, and next steps. Incident triage, error debugging, API monitoring. Rule-based, deterministic, stateless.</p>
+            </header>
+            <section><h2 id="why">Why use this API?</h2><p>HTTP 5xx or 4xx can have multiple causes. This API helps categorize and diagnose root triggers.</p></section>
+            <section><h2 id="what">What the API does</h2><p>POST with error context (status, headers, body). Returns analysis and suggested causes.</p></section>
+            <section>
+                <h2 id="schemas">Request &amp; response schema</h2>
+                <p><a href="#request-schema" class="schema-toggle" id="toggle-req" aria-expanded="false">View request schema</a> &middot; <a href="#response-schema" class="schema-toggle" id="toggle-res" aria-expanded="false">View response schema</a></p>
+                
+                <div id="request-schema" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>statusCode</code></td><td><code>number</code></td><td>HTTP status code.</td></tr><tr><td><code>message</code></td><td><code>string</code></td><td>Error message or body.</td></tr></tbody></table></div>
+                <div id="response-schema" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>triggerCategory</code></td><td><code>string</code></td><td></td></tr><tr><td><code>triggerSubcategory</code></td><td><code>string</code></td><td></td></tr><tr><td><code>confidenceScore</code></td><td><code>number</code></td><td></td></tr><tr><td><code>classificationReasoning</code></td><td><code>string</code></td><td></td></tr><tr><td><code>likelyLayer</code></td><td><code>string</code></td><td></td></tr><tr><td><code>recommendedNextSteps</code></td><td><code>array</code></td><td></td></tr><tr><td><code>retryRecommendation</code></td><td><code>string</code></td><td></td></tr><tr><td><code>severityHint</code></td><td><code>string</code></td><td></td></tr></tbody></table></div>
+            </section>
+            <section>
+                <h2 id="playground">Try it in the playground</h2>
+                <p>Add your <a href="https://rapidapi.com/precisionsolutionstech/api/http-error-root-trigger-analyzer" target="_blank" rel="noopener">RapidAPI key</a> and run. Key is sent only to RapidAPI.</p>
+                <div class="playground">
+                    <label for="api-key">RapidAPI Key (required)</label>
+                    <input type="password" id="api-key" placeholder="Your RapidAPI key" autocomplete="off">
+                    
+                    <label for="body-json">Request body (JSON)</label>
+                    <textarea id="body-json" placeholder='{}'>{
+  &quot;statusCode&quot;: 502,
+  &quot;method&quot;: &quot;POST&quot;,
+  &quot;url&quot;: &quot;https://api.example.com/users&quot;,
+  &quot;duration&quot;: 12,
+  &quot;responseHeaders&quot;: {
+    &quot;x-envoy-upstream-service-time&quot;: &quot;10&quot;
+  },
+  &quot;proxyType&quot;: &quot;envoy&quot;,
+  &quot;direction&quot;: &quot;incoming&quot;
+}</textarea>
+                    <button type="button" id="run-btn">Run request</button>
+                    <div id="play-result" class="result" style="display:none;" aria-live="polite"></div>
+                </div>
+            </section>
+            <section>
+                <h2 id="code">Copy code</h2>
+                <p>Host: <code>http-error-root-trigger-analyzer.p.rapidapi.com</code>, endpoint: <code>POST /analyze</code>. Choose language:</p>
+                <div class="lang-tabs" role="tablist">
+                    <button type="button" role="tab" aria-selected="true" data-lang="curl" class="active">cURL</button>
+                    <button type="button" role="tab" aria-selected="false" data-lang="javascript">JavaScript</button>
+                    <button type="button" role="tab" aria-selected="false" data-lang="python">Python</button>
+                    <button type="button" role="tab" aria-selected="false" data-lang="java">Java</button>
+                </div>
+                <div id="snippet-curl" class="code-block active"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-curl">Copy</button><pre><code>curl --request POST \
+  --url 'https://http-error-root-trigger-analyzer.p.rapidapi.com/analyze' \
+  --header 'Content-Type: application/json' \
+  --header 'x-rapidapi-host: http-error-root-trigger-analyzer.p.rapidapi.com' \
+  --header 'x-rapidapi-key: YOUR_RAPIDAPI_KEY' \
+  --data '{
+  &quot;statusCode&quot;: 502,
+  &quot;method&quot;: &quot;POST&quot;,
+  &quot;url&quot;: &quot;https://api.example.com/users&quot;,
+  &quot;duration&quot;: 12,
+  &quot;responseHeaders&quot;: {
+    &quot;x-envoy-upstream-service-time&quot;: &quot;10&quot;
+  },
+  &quot;proxyType&quot;: &quot;envoy&quot;,
+  &quot;direction&quot;: &quot;incoming&quot;
+}'</code></pre></div></div>
+                <div id="snippet-javascript" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-javascript">Copy</button><pre><code>const res = await fetch('https://http-error-root-trigger-analyzer.p.rapidapi.com/analyze', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
+    'x-rapidapi-host': 'http-error-root-trigger-analyzer.p.rapidapi.com'
+  },
+  body: '{   &quot;statusCode&quot;: 502,   &quot;method&quot;: &quot;POST&quot;,   &quot;url&quot;: &quot;https://api.example.com/users&quot;,   &quot;duration&quot;: 12,   &quot;responseHeaders&quot;: {     &quot;x-envoy-upstream-service-time&quot;: &quot;10&quot;   },   &quot;proxyType&quot;: &quot;envoy&quot;,   &quot;direction&quot;: &quot;incoming&quot; }'
+});
+const data = await res.json();
+console.log(data);</code></pre></div></div>
+                <div id="snippet-python" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-python">Copy</button><pre><code>import http.client
+import json
+
+conn = http.client.HTTPSConnection(&quot;http-error-root-trigger-analyzer.p.rapidapi.com&quot;)
+payload = '{
+  &quot;statusCode&quot;: 502,
+  &quot;method&quot;: &quot;POST&quot;,
+  &quot;url&quot;: &quot;https://api.example.com/users&quot;,
+  &quot;duration&quot;: 12,
+  &quot;responseHeaders&quot;: {
+    &quot;x-envoy-upstream-service-time&quot;: &quot;10&quot;
+  },
+  &quot;proxyType&quot;: &quot;envoy&quot;,
+  &quot;direction&quot;: &quot;incoming&quot;
+}'
+headers = {
+    'Content-Type': 'application/json',
+    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
+    'x-rapidapi-host': 'http-error-root-trigger-analyzer.p.rapidapi.com'
+}
+conn.request(&quot;POST&quot;, &quot;/analyze&quot;, payload, headers)
+res = conn.getresponse()
+print(res.read().decode())</code></pre></div></div>
+                <div id="snippet-java" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-java">Copy</button><pre><code>HttpRequest request = HttpRequest.newBuilder()
+    .uri(URI.create(&quot;https://http-error-root-trigger-analyzer.p.rapidapi.com/analyze&quot;))
+    .header(&quot;Content-Type&quot;, &quot;application/json&quot;)
+    .header(&quot;x-rapidapi-key&quot;, &quot;YOUR_RAPIDAPI_KEY&quot;)
+    .header(&quot;x-rapidapi-host&quot;, &quot;http-error-root-trigger-analyzer.p.rapidapi.com&quot;)
+    .method(&quot;POST&quot;, HttpRequest.BodyPublishers.ofString(&quot;{
+  \&quot;statusCode\&quot;: 502,
+  \&quot;method\&quot;: \&quot;POST\&quot;,
+  \&quot;url\&quot;: \&quot;https://api.example.com/users\&quot;,
+  \&quot;duration\&quot;: 12,
+  \&quot;responseHeaders\&quot;: {
+    \&quot;x-envoy-upstream-service-time\&quot;: \&quot;10\&quot;
+  },
+  \&quot;proxyType\&quot;: \&quot;envoy\&quot;,
+  \&quot;direction\&quot;: \&quot;incoming\&quot;
+}&quot;))
+    .build();
+HttpResponse&lt;String&gt; response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+System.out.println(response.body());</code></pre></div></div>
+                <p><button type="button" class="postman-btn" id="postman-download">Download Postman collection</button></p>
+            </section>
+            <section><h2 id="expect">What to expect</h2><p>Response format depends on the endpoint. Use your RapidAPI key in headers. Stateless; no data stored. See <a href="https://rapidapi.com/precisionsolutionstech/api/http-error-root-trigger-analyzer" target="_blank" rel="noopener">RapidAPI docs</a> for full response schema.</p></section>
+            <section><h2 id="about">About this API</h2>
+<div class="long-desc">
+<p>API Fault Analysis Engine</p>
+<p>The API Fault Analysis Engine analyzes HTTP 4xx/5xx error events and returns root trigger classifications to help engineering teams quickly understand why errors are happening.</p>
+<p>What This API Does</p>
+<p>Given an HTTP error event, this API provides:</p>
+<ul>
+<li>**Root trigger classification** — Identifies the category and subcategory of the error trigger</li>
+<li>**Confidence score** — Indicates how confident the classification is (0-1)</li>
+<li>**Explanatory reasoning** — Human-readable explanation grounded in HTTP/proxy semantics</li>
+<li>**Likely layer** — Identifies where the error likely occurred (client, proxy, gateway, upstream, application, infra)</li>
+<li>**Recommended next steps** — Ordered list of investigation steps</li>
+<li>**Additional context** — Retry recommendations, severity hints, related HTTP specs, and more</li>
+</ul>
+<p>The API works without knowledge of your internal system and requires no persistent storage or training data. It uses deterministic rule sets based on HTTP RFCs, proxy/CDN behaviors, and known header conventions.</p>
+<p>Key Features</p>
+<ul>
+<li>**Stateless &amp; Fast** — No data storage, &lt;100ms response time</li>
+<li>**Deterministic** — Identical inputs produce identical outputs</li>
+<li>**Rule-Based** — No AI/ML, grounded in HTTP RFCs and proxy behaviors</li>
+<li>**Batch Support** — Analyze single events or batches of errors</li>
+<li>**Production-Ready** — Safe for alert pipelines and on-call use</li>
+<li>**HTTP RFC Compliant** — Based on official HTTP specifications</li>
+</ul>
+<p>Use Cases</p>
+<ul>
+<li>**On-Call Incident Triage** — Quickly classify errors during incidents</li>
+<li>**Client Integration Debugging** — Understand why third-party API calls fail</li>
+<li>**Rate Limit Monitoring** — Distinguish retry storms from legitimate limits</li>
+<li>**Gateway vs Application Errors** — Identify where failures occur</li>
+<li>**Error Pattern Analysis** — Analyze batches to find systemic issues</li>
+<li>**API Monitoring** — Integrate into monitoring tools for automatic error classification</li>
+<li>**Incident Response** — Route incidents to correct teams based on error classification</li>
+</ul>
+<p>Who This Is For</p>
+<p>### Backend Engineers</p>
+<p>Quickly classify production errors during on-call incidents. Instead of manually checking logs, headers, and timing data, get instant root trigger classification with actionable next steps.</p>
+<p>### Platform / SRE Teams</p>
+<p>Integrate into alert pipelines to automatically route incidents to the right team. A 502 error could be a gateway issue (route to infrastructure) or an upstream dependency (route to service owners).</p>
+<p>### API Product Teams</p>
+<p>Understand client error patterns at scale. Analyze batches of errors to identify common issues like authentication problems, rate limiting, or payload size violations.</p>
+<p>### SaaS Companies</p>
+<p>When integrating with third-party APIs, quickly determine if errors are caused by your client code, their API, or intermediate proxies/CDNs. Essential for debugging integration issues.</p>
+<p>### DevOps / Observability Teams</p>
+<p>Enhance existing monitoring tools with intelligent error classification. Works alongside log aggregation, APM, and distributed tracing to provide context-aware error analysis.</p>
+<p>Also useful if you're looking for:</p>
+<ul>
+<li>HTTP error analyzer API</li>
+<li>root cause classifier</li>
+<li>API fault analysis</li>
+<li>4xx 5xx error diagnosis</li>
+<li>error root trigger API</li>
+<li>incident triage API</li>
+<li>error debugging API</li>
+<li>API failure analyzer</li>
+<li>HTTP error classifier</li>
+<li>error diagnosis API</li>
+</ul>
+</div></section>
+        </article>
+        <footer>
+            <p><a href="https://rapidapi.com/precisionsolutionstech/api/http-error-root-trigger-analyzer" target="_blank" rel="noopener">Subscribe on RapidAPI</a> · <a href="../index.html">API Catalog</a></p>
+            <p>© 2026 Precision Solutions Tech</p>
+        </footer>
+    </div>
+    <script>
+(function(){
+    var host='http-error-root-trigger-analyzer.p.rapidapi.com',path='/analyze',body="{\n  \"statusCode\": 502,\n  \"method\": \"POST\",\n  \"url\": \"https://api.example.com/users\",\n  \"duration\": 12,\n  \"responseHeaders\": {\n    \"x-envoy-upstream-service-time\": \"10\"\n  },\n  \"proxyType\": \"envoy\",\n  \"direction\": \"incoming\"\n}",fileUpload=false,rapidUrl="https://rapidapi.com/precisionsolutionstech/api/http-error-root-trigger-analyzer";
+    document.querySelectorAll('[data-rapid-docs]').forEach(function(a){ a.href = rapidUrl; });
+    document.getElementById('toggle-req').addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('request-schema'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); });
+    document.getElementById('toggle-res').addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('response-schema'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); });
+    var toggleErrors=document.getElementById('toggle-errors');if(toggleErrors){ toggleErrors.addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('error-codes'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); }); }
+    document.querySelectorAll('.lang-tabs button').forEach(function(btn){
+        btn.addEventListener('click',function(){
+            document.querySelectorAll('.lang-tabs button').forEach(function(b){ b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
+            document.querySelectorAll('.code-block').forEach(function(b){ b.classList.remove('active'); });
+            this.classList.add('active'); this.setAttribute('aria-selected','true');
+            var el=document.getElementById('snippet-'+this.getAttribute('data-lang')); if(el) el.classList.add('active');
+        });
+    });
+    document.querySelectorAll('.copy-btn').forEach(function(btn){
+        btn.addEventListener('click',function(){
+            var id=this.getAttribute('data-copy'),block=document.getElementById(id),pre=block?block.querySelector('pre code'):null,btn=this;
+            if(pre) navigator.clipboard.writeText(pre.textContent).then(function(){ var t=btn.textContent; btn.textContent='Copied!'; setTimeout(function(){ btn.textContent=t; },1500); });
+        });
+    });
+    document.getElementById('postman-download').addEventListener('click',function(){
+        var coll = { info: { name: "HTTP Error Root Trigger Analyzer API", schema: 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json' }, item: [{ name: 'Request', request: { method: 'POST', header: [{ key: 'Content-Type', value: 'application/json' }, { key: 'x-rapidapi-key', value: 'YOUR_RAPIDAPI_KEY' }, { key: 'x-rapidapi-host', value: host }], url: 'https://'+host+path } } ] };
+        if(!fileUpload){ coll.item[0].request.body = { mode: 'raw', raw: typeof body==='string'?body:JSON.stringify(body) }; }
+        else { coll.item[0].request.header = [{ key: 'X-RapidAPI-Key', value: 'YOUR_RAPIDAPI_KEY' }, { key: 'X-RapidAPI-Host', value: host }]; coll.item[0].request.url = 'https://'+host+path+'?outputFormat=json'; coll.item[0].request.body = { mode: 'formdata', formdata: [{ key: 'file', type: 'file', src: '' }] }; }
+        var blob = new Blob([JSON.stringify(coll,null,2)], { type: 'application/json' });
+        var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'http-error-root-trigger-analyzer-postman-collection.json'; a.click(); URL.revokeObjectURL(a.href);
+    });
+    var runBtn=document.getElementById('run-btn'),keyInput=document.getElementById('api-key'),resultDiv=document.getElementById('play-result');
+    runBtn.addEventListener('click',function(){
+        var key=(keyInput.value||'').trim();
+        if(!key){ resultDiv.style.display='block'; resultDiv.className='result error'; resultDiv.textContent='Please enter your RapidAPI key.'; return; }
+        
+    var bodyStr=document.getElementById('body-json').value.trim(),body;
+    try{body=JSON.parse(bodyStr);}catch(e){resultDiv.style.display='block';resultDiv.className='result error';resultDiv.textContent='Invalid JSON: '+e.message;return;}
+    runBtn.disabled=true;resultDiv.style.display='block';resultDiv.className='result';resultDiv.textContent='Loading…';
+    fetch('https://'+host+path,{method:'POST',headers:{'Content-Type':'application/json','x-rapidapi-key':key,'x-rapidapi-host':host},body:JSON.stringify(body)})
+    .then(function(r){return r.text().then(function(t){return{status:r.status,body:t};});})
+    .then(function(o){resultDiv.className='result '+(o.status>=200&&o.status<300?'success':'error');try{resultDiv.textContent=JSON.stringify(JSON.parse(o.body),null,2);}catch(_){resultDiv.textContent=o.status+'\n'+o.body;}})
+    .catch(function(e){resultDiv.className='result error';resultDiv.textContent='Request failed: '+e.message;})
+    .finally(function(){runBtn.disabled=false;});
+    });
+})();
+    </script>
+</body>
+</html>

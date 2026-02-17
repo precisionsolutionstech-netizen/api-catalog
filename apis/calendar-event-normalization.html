@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="../favicon.png" type="image/png" sizes="32x32">
+    <title>Calendar Event Normalization API | RapidAPI</title>
+    <meta name="description" content="Normalize one or more calendar payloads into a single canonical event schema. Send an inputs array; each input has calendarId (e.g. google, outlook, apple, ical, calendly, acuity, ews, generic) and the raw calendar JSON as payload. Optional defaultTimezone (IANA) and parsingHints. Response includes results per source, a merged events array (canonical events with start/end in original + UTC, recurrence, attendees, provenance), and per-source errors. One invalid payload does not fail others. Max request size 25MB.">
+    <meta name="keywords" content="calendar-event-normalization, API, RapidAPI, developer">
+    <link rel="canonical" href="https://precisionsolutionstech-netizen.github.io/api-catalog/apis/calendar-event-normalization.html">
+    <meta property="og:title" content="Calendar Event Normalization API">
+    <meta property="og:description" content="Normalize one or more calendar payloads into a single canonical event schema. Send an inputs array; each input has calendarId (e.g. google, outlook, apple, ical, calendly, acuity, ews, generic) and the raw calendar JSON as payload. Optional defaultTimezone (IANA) and parsingHints. Response includes results per source, a merged events array (canonical events with start/end in original + UTC, recurrence, attendees, provenance), and per-source errors. One invalid payload does not fail others. Max request size 25MB.">
+    <script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","name":"Calendar Event Normalization API","description":"Normalize one or more calendar payloads into a single canonical event schema. Send an inputs array; each input has calendarId (e.g. google, outlook, apple, ical, calendly, acuity, ews, generic) and the raw calendar JSON as payload. Optional defaultTimezone (IANA) and parsingHints. Response includes results per source, a merged events array (canonical events with start/end in original + UTC, recurrence, attendees, provenance), and per-source errors. One invalid payload does not fail others. Max request size 25MB.","url":"https://precisionsolutionstech-netizen.github.io/api-catalog/apis/calendar-event-normalization.html"}
+    </script>
+    <style>
+        :root { --bg: #0f172a; --surface: #1e293b; --border: #334155; --text: #e2e8f0; --muted: #94a3b8; --accent: #38bdf8; --success: #34d399; --error: #f87171; }
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: ui-sans-serif, system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+        .wrap { max-width: 900px; margin: 0 auto; padding: 24px 20px; }
+        a { color: var(--accent); }
+        nav { margin-bottom: 32px; font-size: 0.9rem; }
+        h1 { font-size: 1.9rem; margin: 0 0 12px; }
+        .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; }
+        h2 { font-size: 1.35rem; margin: 32px 0 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+        section { margin-bottom: 28px; }
+        .playground { background: var(--surface); border-radius: 12px; padding: 20px; margin: 24px 0; border: 1px solid var(--border); }
+        .playground label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 0.9rem; }
+        .playground input[type="password"], .playground select { width: 100%; max-width: 320px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); margin-bottom: 12px; }
+        .playground textarea { width: 100%; min-height: 120px; padding: 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); font-family: ui-monospace, monospace; font-size: 13px; resize: vertical; }
+        .playground input[type="file"] { margin-bottom: 12px; }
+        .playground button { padding: 10px 20px; background: var(--accent); color: var(--bg); border: none; border-radius: 8px; font-weight: 600; cursor: pointer; margin-top: 8px; }
+        .playground button:disabled { opacity: 0.6; cursor: not-allowed; }
+        .playground .result { margin-top: 16px; padding: 12px; border-radius: 8px; background: var(--bg); border: 1px solid var(--border); white-space: pre-wrap; word-break: break-all; font-family: ui-monospace, monospace; font-size: 12px; max-height: 320px; overflow: auto; }
+        .playground .result.error { border-color: var(--error); color: var(--error); }
+        .playground .result.success { border-color: var(--success); }
+        .file-upload-note { font-size: 0.85rem; color: var(--muted); margin-top: 4px; }
+        .code-wrap { position: relative; margin: 16px 0; }
+        .code-wrap pre { margin: 0; padding: 14px 16px; background: var(--surface); border-radius: 8px; border: 1px solid var(--border); overflow-x: auto; font-size: 13px; }
+        .code-wrap .copy-btn { position: absolute; top: 10px; right: 10px; padding: 6px 12px; background: var(--border); color: var(--text); border: none; border-radius: 6px; font-size: 12px; cursor: pointer; }
+        .code-wrap .copy-btn:hover { background: var(--accent); color: var(--bg); }
+        .lang-tabs { display: flex; gap: 4px; margin-bottom: 8px; flex-wrap: wrap; }
+        .lang-tabs button { padding: 8px 14px; background: var(--surface); border: 1px solid var(--border); color: var(--muted); border-radius: 6px; cursor: pointer; font-size: 0.9rem; }
+        .lang-tabs button.active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+        .code-block { display: none; }
+        .code-block.active { display: block; }
+        .schema-section { margin: 16px 0; }
+        .schema-toggle { color: var(--accent); cursor: pointer; text-decoration: none; font-weight: 600; }
+        .schema-toggle:hover { text-decoration: underline; }
+        .schema-content { display: none; margin-top: 12px; padding: 12px; background: var(--surface); border-radius: 8px; border: 1px solid var(--border); overflow-x: auto; }
+        .schema-content.show { display: block; }
+        .schema-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        .schema-table th, .schema-table td { padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--border); }
+        .schema-table code { font-size: 0.85em; }
+        .long-desc { color: var(--muted); font-size: 0.98rem; }
+        .long-desc p { margin: 0.75em 0; }
+        .long-desc ul { margin: 0.75em 0; padding-left: 1.5em; }
+        .long-desc li { margin: 0.35em 0; }
+        .postman-btn { display: inline-block; margin-top: 12px; padding: 10px 18px; background: var(--surface); border: 1px solid var(--border); color: var(--accent); border-radius: 8px; cursor: pointer; font-weight: 600; text-decoration: none; }
+        .postman-btn:hover { background: var(--border); }
+        footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.9rem; text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <nav aria-label="Breadcrumb"><a href="../index.html">API Catalog</a> → Calendar Event Normalization</nav>
+        <article>
+            <header>
+                <h1>Calendar Event Normalization API</h1>
+                <p class="lead">Normalize one or more calendar payloads into a single canonical event schema. Send an inputs array; each input has calendarId (e.g. google, outlook, apple, ical, calendly, acuity, ews, generic) and the raw calendar JSON as payload. Optional defaultTimezone (IANA) and parsingHints. Response includes results per source, a merged events array (canonical events with start/end in original + UTC, recurrence, attendees, provenance), and per-source errors. One invalid payload does not fail others. Max request size 25MB.</p>
+            </header>
+            <section><h2 id="why">Why use this API?</h2><p>Calendar APIs return different structures. Normalize events from Google Calendar, Outlook, Apple Calendar, etc. into one schema for storage, display, or sync.</p></section>
+            <section><h2 id="what">What the API does</h2><p>POST /normalize with calendar provider payload(s). Returns normalized event(s).</p></section>
+            <section>
+                <h2 id="schemas">Request &amp; response schema</h2>
+                <p><a href="#request-schema" class="schema-toggle" id="toggle-req" aria-expanded="false">View request schema</a> &middot; <a href="#response-schema" class="schema-toggle" id="toggle-res" aria-expanded="false">View response schema</a> &middot; <a href="#error-codes" class="schema-toggle" id="toggle-errors" aria-expanded="false">View error &amp; warning codes</a></p>
+                <div id="error-codes" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Code</th><th>HTTP</th><th>Description</th></tr></thead><tbody><tr><td><code>PARSE_ERROR</code></td><td><code>—</code></td><td>Payload could not be parsed for this calendar</td></tr><tr><td><code>UNSUPPORTED_FORMAT</code></td><td><code>—</code></td><td>Calendar payload format not supported</td></tr><tr><td><code>MISSING_DATA</code></td><td><code>—</code></td><td>No recognizable events in payload</td></tr><tr><td><code>INVALID_PAYLOAD</code></td><td><code>—</code></td><td>Payload must be object or iCal text</td></tr><tr><td><code>SKIPPED</code></td><td><code>—</code></td><td>Input was skipped</td></tr></tbody></table></div>
+                <div id="request-schema" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>inputs[].calendarId</code></td><td><code>string</code></td><td>e.g. google, outlook, apple, ical, caldav, yahoo, zoho, fastmail, calendly, acuity, canvas, ews, generic</td></tr><tr><td><code>inputs[].payload</code></td><td><code>any</code></td><td>Raw calendar JSON: single event, array of events, or provider wrapper (e.g. Google items, Outlook value)</td></tr><tr><td><code>inputs[].defaultTimezone</code></td><td><code>string|null</code></td><td>IANA timezone (e.g. America/New_York) when source lacks one</td></tr><tr><td><code>inputs[].parsingHints</code></td><td><code>object|null</code></td><td>Per-item: parsingHints</td></tr></tbody></table></div>
+                <div id="response-schema" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>results[].calendarId</code></td><td><code>string</code></td><td>Per-item: calendarId</td></tr><tr><td><code>results[].events</code></td><td><code>array</code></td><td>Per-item: events</td></tr><tr><td><code>results[].error</code></td><td><code>any</code></td><td>Per-item: error</td></tr><tr><td><code>errors</code></td><td><code>array</code></td><td>Array of objects; see response example for item shape.</td></tr><tr><td><code>events[].id</code></td><td><code>string</code></td><td>Per-item: id</td></tr><tr><td><code>events[].title</code></td><td><code>string</code></td><td>Per-item: title</td></tr><tr><td><code>events[].description</code></td><td><code>null</code></td><td>Per-item: description</td></tr><tr><td><code>events[].start</code></td><td><code>object</code></td><td>Per-item: start</td></tr><tr><td><code>events[].end</code></td><td><code>object</code></td><td>Per-item: end</td></tr><tr><td><code>events[].allDay</code></td><td><code>boolean</code></td><td>Per-item: allDay</td></tr><tr><td><code>events[].allDayRange</code></td><td><code>null</code></td><td>Per-item: allDayRange</td></tr><tr><td><code>events[].recurrence</code></td><td><code>null</code></td><td>Per-item: recurrence</td></tr><tr><td><code>events[].recurrenceExceptions</code></td><td><code>null</code></td><td>Per-item: recurrenceExceptions</td></tr><tr><td><code>events[].status</code></td><td><code>string</code></td><td>Per-item: status</td></tr><tr><td><code>events[].cancelled</code></td><td><code>boolean</code></td><td>Per-item: cancelled</td></tr><tr><td><code>events[].organizer</code></td><td><code>null</code></td><td>Per-item: organizer</td></tr><tr><td><code>events[].attendees</code></td><td><code>null</code></td><td>Per-item: attendees</td></tr><tr><td><code>events[].provenance</code></td><td><code>object</code></td><td>Per-item: provenance</td></tr><tr><td><code>events[].interpretation</code></td><td><code>object</code></td><td>Per-item: interpretation</td></tr></tbody></table></div>
+            </section>
+            <section>
+                <h2 id="playground">Try it in the playground</h2>
+                <p>Add your <a href="https://rapidapi.com/precisionsolutionstech/api/calendar-event-normalization" target="_blank" rel="noopener">RapidAPI key</a> and run. Key is sent only to RapidAPI.</p>
+                <div class="playground">
+                    <label for="api-key">RapidAPI Key (required)</label>
+                    <input type="password" id="api-key" placeholder="Your RapidAPI key" autocomplete="off">
+                    
+                    <label for="body-json">Request body (JSON)</label>
+                    <textarea id="body-json" placeholder='{}'>{
+  &quot;inputs&quot;: [
+    {
+      &quot;calendarId&quot;: &quot;google&quot;,
+      &quot;payload&quot;: {
+        &quot;items&quot;: [
+          {
+            &quot;id&quot;: &quot;evt1&quot;,
+            &quot;summary&quot;: &quot;Team standup&quot;,
+            &quot;start&quot;: { &quot;dateTime&quot;: &quot;2025-02-03T10:00:00-05:00&quot; },
+            &quot;end&quot;: { &quot;dateTime&quot;: &quot;2025-02-03T10:30:00-05:00&quot; }
+          }
+        ]
+      }
+    }
+  ]
+}</textarea>
+                    <button type="button" id="run-btn">Run request</button>
+                    <div id="play-result" class="result" style="display:none;" aria-live="polite"></div>
+                </div>
+            </section>
+            <section>
+                <h2 id="code">Copy code</h2>
+                <p>Host: <code>calendar-event-normalization.p.rapidapi.com</code>, endpoint: <code>POST /normalize</code>. Choose language:</p>
+                <div class="lang-tabs" role="tablist">
+                    <button type="button" role="tab" aria-selected="true" data-lang="curl" class="active">cURL</button>
+                    <button type="button" role="tab" aria-selected="false" data-lang="javascript">JavaScript</button>
+                    <button type="button" role="tab" aria-selected="false" data-lang="python">Python</button>
+                    <button type="button" role="tab" aria-selected="false" data-lang="java">Java</button>
+                </div>
+                <div id="snippet-curl" class="code-block active"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-curl">Copy</button><pre><code>curl --request POST \
+  --url 'https://calendar-event-normalization.p.rapidapi.com/normalize' \
+  --header 'Content-Type: application/json' \
+  --header 'x-rapidapi-host: calendar-event-normalization.p.rapidapi.com' \
+  --header 'x-rapidapi-key: YOUR_RAPIDAPI_KEY' \
+  --data '{
+  &quot;inputs&quot;: [
+    {
+      &quot;calendarId&quot;: &quot;google&quot;,
+      &quot;payload&quot;: {
+        &quot;items&quot;: [
+          {
+            &quot;id&quot;: &quot;evt1&quot;,
+            &quot;summary&quot;: &quot;Team standup&quot;,
+            &quot;start&quot;: { &quot;dateTime&quot;: &quot;2025-02-03T10:00:00-05:00&quot; },
+            &quot;end&quot;: { &quot;dateTime&quot;: &quot;2025-02-03T10:30:00-05:00&quot; }
+          }
+        ]
+      }
+    }
+  ]
+}'</code></pre></div></div>
+                <div id="snippet-javascript" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-javascript">Copy</button><pre><code>const res = await fetch('https://calendar-event-normalization.p.rapidapi.com/normalize', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
+    'x-rapidapi-host': 'calendar-event-normalization.p.rapidapi.com'
+  },
+  body: '{   &quot;inputs&quot;: [     {       &quot;calendarId&quot;: &quot;google&quot;,       &quot;payload&quot;: {         &quot;items&quot;: [           {             &quot;id&quot;: &quot;evt1&quot;,             &quot;summary&quot;: &quot;Team standup&quot;,             &quot;start&quot;: { &quot;dateTime&quot;: &quot;2025-02-03T10:00:00-05:00&quot; },             &quot;end&quot;: { &quot;dateTime&quot;: &quot;2025-02-03T10:30:00-05:00&quot; }           }         ]       }     }   ] }'
+});
+const data = await res.json();
+console.log(data);</code></pre></div></div>
+                <div id="snippet-python" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-python">Copy</button><pre><code>import http.client
+import json
+
+conn = http.client.HTTPSConnection(&quot;calendar-event-normalization.p.rapidapi.com&quot;)
+payload = '{
+  &quot;inputs&quot;: [
+    {
+      &quot;calendarId&quot;: &quot;google&quot;,
+      &quot;payload&quot;: {
+        &quot;items&quot;: [
+          {
+            &quot;id&quot;: &quot;evt1&quot;,
+            &quot;summary&quot;: &quot;Team standup&quot;,
+            &quot;start&quot;: { &quot;dateTime&quot;: &quot;2025-02-03T10:00:00-05:00&quot; },
+            &quot;end&quot;: { &quot;dateTime&quot;: &quot;2025-02-03T10:30:00-05:00&quot; }
+          }
+        ]
+      }
+    }
+  ]
+}'
+headers = {
+    'Content-Type': 'application/json',
+    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
+    'x-rapidapi-host': 'calendar-event-normalization.p.rapidapi.com'
+}
+conn.request(&quot;POST&quot;, &quot;/normalize&quot;, payload, headers)
+res = conn.getresponse()
+print(res.read().decode())</code></pre></div></div>
+                <div id="snippet-java" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-java">Copy</button><pre><code>HttpRequest request = HttpRequest.newBuilder()
+    .uri(URI.create(&quot;https://calendar-event-normalization.p.rapidapi.com/normalize&quot;))
+    .header(&quot;Content-Type&quot;, &quot;application/json&quot;)
+    .header(&quot;x-rapidapi-key&quot;, &quot;YOUR_RAPIDAPI_KEY&quot;)
+    .header(&quot;x-rapidapi-host&quot;, &quot;calendar-event-normalization.p.rapidapi.com&quot;)
+    .method(&quot;POST&quot;, HttpRequest.BodyPublishers.ofString(&quot;{
+  \&quot;inputs\&quot;: [
+    {
+      \&quot;calendarId\&quot;: \&quot;google\&quot;,
+      \&quot;payload\&quot;: {
+        \&quot;items\&quot;: [
+          {
+            \&quot;id\&quot;: \&quot;evt1\&quot;,
+            \&quot;summary\&quot;: \&quot;Team standup\&quot;,
+            \&quot;start\&quot;: { \&quot;dateTime\&quot;: \&quot;2025-02-03T10:00:00-05:00\&quot; },
+            \&quot;end\&quot;: { \&quot;dateTime\&quot;: \&quot;2025-02-03T10:30:00-05:00\&quot; }
+          }
+        ]
+      }
+    }
+  ]
+}&quot;))
+    .build();
+HttpResponse&lt;String&gt; response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+System.out.println(response.body());</code></pre></div></div>
+                <p><button type="button" class="postman-btn" id="postman-download">Download Postman collection</button></p>
+            </section>
+            <section><h2 id="expect">What to expect</h2><p>Response format depends on the endpoint. Use your RapidAPI key in headers. Stateless; no data stored. See <a href="https://rapidapi.com/precisionsolutionstech/api/calendar-event-normalization" target="_blank" rel="noopener">RapidAPI docs</a> for full response schema.</p></section>
+            <section><h2 id="about">About this API</h2>
+<div class="long-desc">
+<p>Calendar Event Normalization API</p>
+<p>One API. Every calendar. One canonical event. Convert Google, Outlook, Apple, Calendly, Exchange, iCal, and other calendar/scheduling payloads into a single canonical event format. Send JSON (POST /normalize) or raw .ics text (POST /normalize/ical); get one merged events array with timezone-safe start/end (original + UTC), recurrence, attendees, organizer, provenance, and confidence.</p>
+<p>What This API Does</p>
+<ul>
+<li>**Normalizes** calendar and scheduling data from Google, Outlook, Apple, iCal, CalDAV, Yahoo, Zoho, Fastmail, Calendly, Acuity, Canvas, Exchange (EWS), and generic/custom payloads into one canonical event schema.</li>
+<li>**Timezone-explicit** — Each event has start/end with original time, UTC, IANA timezone, offset, and floating-time flag.</li>
+<li>**Recurrence-aware** — RRULE and recurrence exceptions (EXDATE, overridden/cancelled) normalized; no need to parse vendor-specific rules yourself.</li>
+<li>**Partial success** — Per-source results and errors; one bad payload does not fail the rest. Stateless, no outbound calls, 25MB max per request.</li>
+</ul>
+<p>**One schema, one response.** Build unified calendar views, scheduling dashboards, CRM timelines, or analytics pipelines without per-provider parsing or timezone/recurrence edge cases.</p>
+<p>Key Features</p>
+<ul>
+<li>**Single schema** — One canonical event format for all sources; one request returns one merged events array.</li>
+<li>**Multi-source** — Google, Outlook, Apple, iCal, CalDAV, Yahoo, Zoho, Fastmail, Calendly, Acuity, Canvas, Exchange (EWS), generic.</li>
+<li>**Timezone-explicit** — Original time, UTC, IANA timezone, offset, floating flag in every event.</li>
+<li>**Recurrence** — Normalized frequency, interval, byDay, count, until, rrule; recurrence exceptions supported.</li>
+<li>**Stateless &amp; scalable** — No storage, no vendor keys; 25MB per request; partial success per source.</li>
+</ul>
+<p>Use Cases</p>
+<ul>
+<li>**Unified calendar apps** — Show Google, Outlook, Apple events in one view with one schema.</li>
+<li>**Scheduling &amp; booking** — Normalize Calendly, Acuity, custom API events for dashboards or overlap detection.</li>
+<li>**CRM &amp; support** — Ingest Exchange, Fastmail, Zoho, Google into one timeline.</li>
+<li>**Analytics &amp; BI** — Ingest iCal feeds, Canvas, EWS into one schema for capacity or meeting density.</li>
+<li>**Platform &amp; product teams** — Reduce per-provider parsing and timezone/recurrence logic.</li>
+</ul>
+<p>Also useful if you're looking for:</p>
+<ul>
+<li>calendar event combiner API</li>
+<li>calendar sync API</li>
+<li>Google Outlook Apple calendar unifier</li>
+<li>ical events normalizer</li>
+<li>multi-calendar aggregator</li>
+<li>scheduling data normalization</li>
+<li>Calendly Acuity event normalizer</li>
+<li>calendar JSON standardization</li>
+<li>event feed converter</li>
+<li>unified calendar API</li>
+</ul>
+</div></section>
+        </article>
+        <footer>
+            <p><a href="https://rapidapi.com/precisionsolutionstech/api/calendar-event-normalization" target="_blank" rel="noopener">Subscribe on RapidAPI</a> · <a href="../index.html">API Catalog</a></p>
+            <p>© 2026 Precision Solutions Tech</p>
+        </footer>
+    </div>
+    <script>
+(function(){
+    var host='calendar-event-normalization.p.rapidapi.com',path='/normalize',body="{\n  \"inputs\": [\n    {\n      \"calendarId\": \"google\",\n      \"payload\": {\n        \"items\": [\n          {\n            \"id\": \"evt1\",\n            \"summary\": \"Team standup\",\n            \"start\": { \"dateTime\": \"2025-02-03T10:00:00-05:00\" },\n            \"end\": { \"dateTime\": \"2025-02-03T10:30:00-05:00\" }\n          }\n        ]\n      }\n    }\n  ]\n}",fileUpload=false,rapidUrl="https://rapidapi.com/precisionsolutionstech/api/calendar-event-normalization";
+    document.querySelectorAll('[data-rapid-docs]').forEach(function(a){ a.href = rapidUrl; });
+    document.getElementById('toggle-req').addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('request-schema'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); });
+    document.getElementById('toggle-res').addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('response-schema'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); });
+    var toggleErrors=document.getElementById('toggle-errors');if(toggleErrors){ toggleErrors.addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('error-codes'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); }); }
+    document.querySelectorAll('.lang-tabs button').forEach(function(btn){
+        btn.addEventListener('click',function(){
+            document.querySelectorAll('.lang-tabs button').forEach(function(b){ b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
+            document.querySelectorAll('.code-block').forEach(function(b){ b.classList.remove('active'); });
+            this.classList.add('active'); this.setAttribute('aria-selected','true');
+            var el=document.getElementById('snippet-'+this.getAttribute('data-lang')); if(el) el.classList.add('active');
+        });
+    });
+    document.querySelectorAll('.copy-btn').forEach(function(btn){
+        btn.addEventListener('click',function(){
+            var id=this.getAttribute('data-copy'),block=document.getElementById(id),pre=block?block.querySelector('pre code'):null,btn=this;
+            if(pre) navigator.clipboard.writeText(pre.textContent).then(function(){ var t=btn.textContent; btn.textContent='Copied!'; setTimeout(function(){ btn.textContent=t; },1500); });
+        });
+    });
+    document.getElementById('postman-download').addEventListener('click',function(){
+        var coll = { info: { name: "Calendar Event Normalization API", schema: 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json' }, item: [{ name: 'Request', request: { method: 'POST', header: [{ key: 'Content-Type', value: 'application/json' }, { key: 'x-rapidapi-key', value: 'YOUR_RAPIDAPI_KEY' }, { key: 'x-rapidapi-host', value: host }], url: 'https://'+host+path } } ] };
+        if(!fileUpload){ coll.item[0].request.body = { mode: 'raw', raw: typeof body==='string'?body:JSON.stringify(body) }; }
+        else { coll.item[0].request.header = [{ key: 'X-RapidAPI-Key', value: 'YOUR_RAPIDAPI_KEY' }, { key: 'X-RapidAPI-Host', value: host }]; coll.item[0].request.url = 'https://'+host+path+'?outputFormat=json'; coll.item[0].request.body = { mode: 'formdata', formdata: [{ key: 'file', type: 'file', src: '' }] }; }
+        var blob = new Blob([JSON.stringify(coll,null,2)], { type: 'application/json' });
+        var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'calendar-event-normalization-postman-collection.json'; a.click(); URL.revokeObjectURL(a.href);
+    });
+    var runBtn=document.getElementById('run-btn'),keyInput=document.getElementById('api-key'),resultDiv=document.getElementById('play-result');
+    runBtn.addEventListener('click',function(){
+        var key=(keyInput.value||'').trim();
+        if(!key){ resultDiv.style.display='block'; resultDiv.className='result error'; resultDiv.textContent='Please enter your RapidAPI key.'; return; }
+        
+    var bodyStr=document.getElementById('body-json').value.trim(),body;
+    try{body=JSON.parse(bodyStr);}catch(e){resultDiv.style.display='block';resultDiv.className='result error';resultDiv.textContent='Invalid JSON: '+e.message;return;}
+    runBtn.disabled=true;resultDiv.style.display='block';resultDiv.className='result';resultDiv.textContent='Loading…';
+    fetch('https://'+host+path,{method:'POST',headers:{'Content-Type':'application/json','x-rapidapi-key':key,'x-rapidapi-host':host},body:JSON.stringify(body)})
+    .then(function(r){return r.text().then(function(t){return{status:r.status,body:t};});})
+    .then(function(o){resultDiv.className='result '+(o.status>=200&&o.status<300?'success':'error');try{resultDiv.textContent=JSON.stringify(JSON.parse(o.body),null,2);}catch(_){resultDiv.textContent=o.status+'\n'+o.body;}})
+    .catch(function(e){resultDiv.className='result error';resultDiv.textContent='Request failed: '+e.message;})
+    .finally(function(){runBtn.disabled=false;});
+    });
+})();
+    </script>
+</body>
+</html>

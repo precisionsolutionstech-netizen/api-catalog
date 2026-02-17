@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="../favicon.png" type="image/png" sizes="32x32">
+    <title>JSON Schema Validator API | RapidAPI</title>
+    <meta name="description" content="JSON schema validator, checker, and contract enforcer API. Validate JSON against structural schemas. Required fields, types, nullability. Strict, deterministic. CI/CD, API contract validation, data ingestion. Schema via URL or inline.">
+    <meta name="keywords" content="json-schema-validator, API, RapidAPI, developer">
+    <link rel="canonical" href="https://precisionsolutionstech-netizen.github.io/api-catalog/apis/json-schema-validator.html">
+    <meta property="og:title" content="JSON Schema Validator API">
+    <meta property="og:description" content="JSON schema validator, checker, and contract enforcer API. Validate JSON against structural schemas. Required fields, types, nullability. Strict, deterministic. CI/CD, API contract validation, data ingestion. Schema via URL or inline.">
+    <script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","name":"JSON Schema Validator API","description":"JSON schema validator, checker, and contract enforcer API. Validate JSON against structural schemas. Required fields, types, nullability. Strict, deterministic. CI/CD, API contract validation, data ingestion. Schema via URL or inline.","url":"https://precisionsolutionstech-netizen.github.io/api-catalog/apis/json-schema-validator.html"}
+    </script>
+    <style>
+        :root { --bg: #0f172a; --surface: #1e293b; --border: #334155; --text: #e2e8f0; --muted: #94a3b8; --accent: #38bdf8; --success: #34d399; --error: #f87171; }
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: ui-sans-serif, system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+        .wrap { max-width: 900px; margin: 0 auto; padding: 24px 20px; }
+        a { color: var(--accent); }
+        nav { margin-bottom: 32px; font-size: 0.9rem; }
+        h1 { font-size: 1.9rem; margin: 0 0 12px; }
+        .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; }
+        h2 { font-size: 1.35rem; margin: 32px 0 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+        section { margin-bottom: 28px; }
+        .playground { background: var(--surface); border-radius: 12px; padding: 20px; margin: 24px 0; border: 1px solid var(--border); }
+        .playground label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 0.9rem; }
+        .playground input[type="password"], .playground select { width: 100%; max-width: 320px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); margin-bottom: 12px; }
+        .playground textarea { width: 100%; min-height: 120px; padding: 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); font-family: ui-monospace, monospace; font-size: 13px; resize: vertical; }
+        .playground input[type="file"] { margin-bottom: 12px; }
+        .playground button { padding: 10px 20px; background: var(--accent); color: var(--bg); border: none; border-radius: 8px; font-weight: 600; cursor: pointer; margin-top: 8px; }
+        .playground button:disabled { opacity: 0.6; cursor: not-allowed; }
+        .playground .result { margin-top: 16px; padding: 12px; border-radius: 8px; background: var(--bg); border: 1px solid var(--border); white-space: pre-wrap; word-break: break-all; font-family: ui-monospace, monospace; font-size: 12px; max-height: 320px; overflow: auto; }
+        .playground .result.error { border-color: var(--error); color: var(--error); }
+        .playground .result.success { border-color: var(--success); }
+        .file-upload-note { font-size: 0.85rem; color: var(--muted); margin-top: 4px; }
+        .code-wrap { position: relative; margin: 16px 0; }
+        .code-wrap pre { margin: 0; padding: 14px 16px; background: var(--surface); border-radius: 8px; border: 1px solid var(--border); overflow-x: auto; font-size: 13px; }
+        .code-wrap .copy-btn { position: absolute; top: 10px; right: 10px; padding: 6px 12px; background: var(--border); color: var(--text); border: none; border-radius: 6px; font-size: 12px; cursor: pointer; }
+        .code-wrap .copy-btn:hover { background: var(--accent); color: var(--bg); }
+        .lang-tabs { display: flex; gap: 4px; margin-bottom: 8px; flex-wrap: wrap; }
+        .lang-tabs button { padding: 8px 14px; background: var(--surface); border: 1px solid var(--border); color: var(--muted); border-radius: 6px; cursor: pointer; font-size: 0.9rem; }
+        .lang-tabs button.active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+        .code-block { display: none; }
+        .code-block.active { display: block; }
+        .schema-section { margin: 16px 0; }
+        .schema-toggle { color: var(--accent); cursor: pointer; text-decoration: none; font-weight: 600; }
+        .schema-toggle:hover { text-decoration: underline; }
+        .schema-content { display: none; margin-top: 12px; padding: 12px; background: var(--surface); border-radius: 8px; border: 1px solid var(--border); overflow-x: auto; }
+        .schema-content.show { display: block; }
+        .schema-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        .schema-table th, .schema-table td { padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--border); }
+        .schema-table code { font-size: 0.85em; }
+        .long-desc { color: var(--muted); font-size: 0.98rem; }
+        .long-desc p { margin: 0.75em 0; }
+        .long-desc ul { margin: 0.75em 0; padding-left: 1.5em; }
+        .long-desc li { margin: 0.35em 0; }
+        .postman-btn { display: inline-block; margin-top: 12px; padding: 10px 18px; background: var(--surface); border: 1px solid var(--border); color: var(--accent); border-radius: 8px; cursor: pointer; font-weight: 600; text-decoration: none; }
+        .postman-btn:hover { background: var(--border); }
+        footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.9rem; text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <nav aria-label="Breadcrumb"><a href="../index.html">API Catalog</a> → JSON Schema Validator</nav>
+        <article>
+            <header>
+                <h1>JSON Schema Validator API</h1>
+                <p class="lead">JSON schema validator, checker, and contract enforcer API. Validate JSON against structural schemas. Required fields, types, nullability. Strict, deterministic. CI/CD, API contract validation, data ingestion. Schema via URL or inline.</p>
+            </header>
+            <section><h2 id="why">Why use this API?</h2><p>Ensure request or response payloads conform to a schema before processing or storing.</p></section>
+            <section><h2 id="what">What the API does</h2><p>POST with JSON and schema. Returns validation result and errors.</p></section>
+            <section>
+                <h2 id="schemas">Request &amp; response schema</h2>
+                <p><a href="#request-schema" class="schema-toggle" id="toggle-req" aria-expanded="false">View request schema</a> &middot; <a href="#response-schema" class="schema-toggle" id="toggle-res" aria-expanded="false">View response schema</a> &middot; <a href="#error-codes" class="schema-toggle" id="toggle-errors" aria-expanded="false">View error &amp; warning codes</a></p>
+                <div id="error-codes" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Code</th><th>HTTP</th><th>Description</th></tr></thead><tbody><tr><td><code>MISSING_REQUIRED_FIELD</code></td><td><code>—</code></td><td>A required field is missing from the payload</td></tr><tr><td><code>TYPE_MISMATCH</code></td><td><code>—</code></td><td>Field type does not match the schema (e.g., expected `number` but got `string`)</td></tr><tr><td><code>EXTRA_FIELD</code></td><td><code>—</code></td><td>A field exists in the payload but is not defined in the schema</td></tr><tr><td><code>NULL_VALUE_NOT_ALLOWED</code></td><td><code>—</code></td><td>A field has a `null` value but the schema does not allow nulls</td></tr><tr><td><code>ARRAY_ITEM_VALIDATION_FAILED</code></td><td><code>—</code></td><td>An array item failed validation against the `items` schema</td></tr><tr><td><code>ROOT_TYPE_MISMATCH</code></td><td><code>—</code></td><td>Root type does not match schema type (e.g., payload is an array but schema expects an object)</td></tr><tr><td><code>PAYLOAD_TOO_LARGE</code></td><td><code>—</code></td><td>Payload exceeds the maximum size limit (10MB)</td></tr><tr><td><code>INVALID_SCHEMA</code></td><td><code>—</code></td><td>The provided schema structure is invalid</td></tr><tr><td><code>INVALID_SCHEMA_INPUT</code></td><td><code>—</code></td><td>Neither `schema` nor `schemaUrl` was provided, or both were provided</td></tr><tr><td><code>INVALID_SCHEMA_URL</code></td><td><code>—</code></td><td>The `schemaUrl` is not a valid string</td></tr><tr><td><code>SCHEMA_FETCH_FAILED</code></td><td><code>—</code></td><td>Failed to fetch the schema from the provided URL</td></tr><tr><td><code>SCHEMA_FETCH_TIMEOUT</code></td><td><code>—</code></td><td>Schema fetch exceeded the timeout limit (5 seconds)</td></tr><tr><td><code>INVALID_SCHEMA_JSON</code></td><td><code>—</code></td><td>The fetched schema is not valid JSON</td></tr><tr><td><code>SCHEMA_URL_NOT_ALLOWED</code></td><td><code>—</code></td><td>The schema URL is not allowed (e.g., localhost, private IP)</td></tr><tr><td><code>SCHEMA_TOO_LARGE</code></td><td><code>—</code></td><td>The fetched schema exceeds the maximum size limit (1MB)</td></tr><tr><td><code>UNSUPPORTED_SCHEMA_REFERENCE</code></td><td><code>—</code></td><td>Schema contains unsupported references (e.g., `$ref`)</td></tr></tbody></table></div>
+                <div id="request-schema" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>document</code></td><td><code>object</code></td><td>JSON to validate.</td></tr><tr><td><code>schema</code></td><td><code>object</code></td><td>JSON Schema.</td></tr></tbody></table></div>
+                <div id="response-schema" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>valid</code></td><td><code>boolean</code></td><td></td></tr><tr><td><code>errors</code></td><td><code>array</code></td><td></td></tr><tr><td><code>summary.errorCount</code></td><td><code>integer</code></td><td></td></tr></tbody></table></div>
+            </section>
+            <section>
+                <h2 id="playground">Try it in the playground</h2>
+                <p>Add your <a href="https://rapidapi.com/precisionsolutionstech/api/json-schema-validator" target="_blank" rel="noopener">RapidAPI key</a> and run. Key is sent only to RapidAPI.</p>
+                <div class="playground">
+                    <label for="api-key">RapidAPI Key (required)</label>
+                    <input type="password" id="api-key" placeholder="Your RapidAPI key" autocomplete="off">
+                    
+                    <label for="body-json">Request body (JSON)</label>
+                    <textarea id="body-json" placeholder='{}'>{
+  &quot;schema&quot;: {
+    &quot;type&quot;: &quot;object&quot;,
+    &quot;required&quot;: [&quot;email&quot;, &quot;age&quot;],
+    &quot;properties&quot;: {
+      &quot;email&quot;: { &quot;type&quot;: &quot;string&quot; },
+      &quot;age&quot;: { &quot;type&quot;: &quot;number&quot; },
+      &quot;name&quot;: { &quot;type&quot;: &quot;string&quot; }
+    }
+  },
+  &quot;payload&quot;: {
+    &quot;email&quot;: &quot;user@example.com&quot;,
+    &quot;age&quot;: 30,
+    &quot;name&quot;: &quot;John Doe&quot;
+  }
+}</textarea>
+                    <button type="button" id="run-btn">Run request</button>
+                    <div id="play-result" class="result" style="display:none;" aria-live="polite"></div>
+                </div>
+            </section>
+            <section>
+                <h2 id="code">Copy code</h2>
+                <p>Host: <code>json-schema-validator.p.rapidapi.com</code>, endpoint: <code>POST /validate</code>. Choose language:</p>
+                <div class="lang-tabs" role="tablist">
+                    <button type="button" role="tab" aria-selected="true" data-lang="curl" class="active">cURL</button>
+                    <button type="button" role="tab" aria-selected="false" data-lang="javascript">JavaScript</button>
+                    <button type="button" role="tab" aria-selected="false" data-lang="python">Python</button>
+                    <button type="button" role="tab" aria-selected="false" data-lang="java">Java</button>
+                </div>
+                <div id="snippet-curl" class="code-block active"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-curl">Copy</button><pre><code>curl --request POST \
+  --url 'https://json-schema-validator.p.rapidapi.com/validate' \
+  --header 'Content-Type: application/json' \
+  --header 'x-rapidapi-host: json-schema-validator.p.rapidapi.com' \
+  --header 'x-rapidapi-key: YOUR_RAPIDAPI_KEY' \
+  --data '{
+  &quot;schema&quot;: {
+    &quot;type&quot;: &quot;object&quot;,
+    &quot;required&quot;: [&quot;email&quot;, &quot;age&quot;],
+    &quot;properties&quot;: {
+      &quot;email&quot;: { &quot;type&quot;: &quot;string&quot; },
+      &quot;age&quot;: { &quot;type&quot;: &quot;number&quot; },
+      &quot;name&quot;: { &quot;type&quot;: &quot;string&quot; }
+    }
+  },
+  &quot;payload&quot;: {
+    &quot;email&quot;: &quot;user@example.com&quot;,
+    &quot;age&quot;: 30,
+    &quot;name&quot;: &quot;John Doe&quot;
+  }
+}'</code></pre></div></div>
+                <div id="snippet-javascript" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-javascript">Copy</button><pre><code>const res = await fetch('https://json-schema-validator.p.rapidapi.com/validate', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
+    'x-rapidapi-host': 'json-schema-validator.p.rapidapi.com'
+  },
+  body: '{   &quot;schema&quot;: {     &quot;type&quot;: &quot;object&quot;,     &quot;required&quot;: [&quot;email&quot;, &quot;age&quot;],     &quot;properties&quot;: {       &quot;email&quot;: { &quot;type&quot;: &quot;string&quot; },       &quot;age&quot;: { &quot;type&quot;: &quot;number&quot; },       &quot;name&quot;: { &quot;type&quot;: &quot;string&quot; }     }   },   &quot;payload&quot;: {     &quot;email&quot;: &quot;user@example.com&quot;,     &quot;age&quot;: 30,     &quot;name&quot;: &quot;John Doe&quot;   } }'
+});
+const data = await res.json();
+console.log(data);</code></pre></div></div>
+                <div id="snippet-python" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-python">Copy</button><pre><code>import http.client
+import json
+
+conn = http.client.HTTPSConnection(&quot;json-schema-validator.p.rapidapi.com&quot;)
+payload = '{
+  &quot;schema&quot;: {
+    &quot;type&quot;: &quot;object&quot;,
+    &quot;required&quot;: [&quot;email&quot;, &quot;age&quot;],
+    &quot;properties&quot;: {
+      &quot;email&quot;: { &quot;type&quot;: &quot;string&quot; },
+      &quot;age&quot;: { &quot;type&quot;: &quot;number&quot; },
+      &quot;name&quot;: { &quot;type&quot;: &quot;string&quot; }
+    }
+  },
+  &quot;payload&quot;: {
+    &quot;email&quot;: &quot;user@example.com&quot;,
+    &quot;age&quot;: 30,
+    &quot;name&quot;: &quot;John Doe&quot;
+  }
+}'
+headers = {
+    'Content-Type': 'application/json',
+    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
+    'x-rapidapi-host': 'json-schema-validator.p.rapidapi.com'
+}
+conn.request(&quot;POST&quot;, &quot;/validate&quot;, payload, headers)
+res = conn.getresponse()
+print(res.read().decode())</code></pre></div></div>
+                <div id="snippet-java" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-java">Copy</button><pre><code>HttpRequest request = HttpRequest.newBuilder()
+    .uri(URI.create(&quot;https://json-schema-validator.p.rapidapi.com/validate&quot;))
+    .header(&quot;Content-Type&quot;, &quot;application/json&quot;)
+    .header(&quot;x-rapidapi-key&quot;, &quot;YOUR_RAPIDAPI_KEY&quot;)
+    .header(&quot;x-rapidapi-host&quot;, &quot;json-schema-validator.p.rapidapi.com&quot;)
+    .method(&quot;POST&quot;, HttpRequest.BodyPublishers.ofString(&quot;{
+  \&quot;schema\&quot;: {
+    \&quot;type\&quot;: \&quot;object\&quot;,
+    \&quot;required\&quot;: [\&quot;email\&quot;, \&quot;age\&quot;],
+    \&quot;properties\&quot;: {
+      \&quot;email\&quot;: { \&quot;type\&quot;: \&quot;string\&quot; },
+      \&quot;age\&quot;: { \&quot;type\&quot;: \&quot;number\&quot; },
+      \&quot;name\&quot;: { \&quot;type\&quot;: \&quot;string\&quot; }
+    }
+  },
+  \&quot;payload\&quot;: {
+    \&quot;email\&quot;: \&quot;user@example.com\&quot;,
+    \&quot;age\&quot;: 30,
+    \&quot;name\&quot;: \&quot;John Doe\&quot;
+  }
+}&quot;))
+    .build();
+HttpResponse&lt;String&gt; response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+System.out.println(response.body());</code></pre></div></div>
+                <p><button type="button" class="postman-btn" id="postman-download">Download Postman collection</button></p>
+            </section>
+            <section><h2 id="expect">What to expect</h2><p>Response format depends on the endpoint. Use your RapidAPI key in headers. Stateless; no data stored. See <a href="https://rapidapi.com/precisionsolutionstech/api/json-schema-validator" target="_blank" rel="noopener">RapidAPI docs</a> for full response schema.</p></section>
+            <section><h2 id="about">About this API</h2>
+<div class="long-desc">
+<p>JSON Schema Validator API</p>
+<p>The JSON Schema Validator API provides strict, deterministic validation of JSON payloads against structural schemas. It is designed for developers who need reliable contract enforcement in CI/CD pipelines, backend services, and data ingestion workflows—without the complexity or ambiguity of the full JSON Schema specification.</p>
+<p>What This API Does</p>
+<p>Given a schema and a payload, this API:</p>
+<ul>
+<li>Enforces required vs optional fields</li>
+<li>Validates exact data types</li>
+<li>Enforces nullability rules</li>
+<li>Validates nested objects at any depth</li>
+<li>Validates arrays and array item schemas</li>
+<li>Detects extra fields not defined in the schema</li>
+<li>Returns all validation errors in one deterministic response</li>
+</ul>
+<p>**No type coercion. No guesswork. No fail-fast behavior.**</p>
+<p>Schema can be provided inline (`schema`) or via URL (`schemaUrl`). Only HTTP/HTTPS URLs are allowed; private IPs and localhost are blocked.</p>
+<p>Key Features</p>
+<ul>
+<li>**Strict by Design** — Extra fields reported as errors; no coercion</li>
+<li>**Deterministic** — Same input always yields same output</li>
+<li>**Schema via URL** — Fetch schema from HTTPS (max 1MB, 5s timeout)</li>
+<li>**10MB Payload Max, 100 Nesting Levels** — Stateless, no data stored</li>
+</ul>
+<p>Use Cases</p>
+<ul>
+<li>**Contract Enforcement** — Validate API requests/responses against schemas</li>
+<li>**CI/CD** — Fail builds when payloads violate schema</li>
+<li>**Data Ingestion** — Verify incoming JSON before processing</li>
+<li>**Backend Services** — Enforce structural contracts without full JSON Schema</li>
+</ul>
+<p>Also useful if you're looking for:</p>
+<ul>
+<li>JSON validator API</li>
+<li>JSON schema checker</li>
+<li>contract validation API</li>
+<li>JSON structure validator</li>
+<li>API payload validator</li>
+<li>schema validation API</li>
+<li>JSON format checker</li>
+<li>request validation API</li>
+<li>JSON type checker</li>
+<li>structural validation API</li>
+</ul>
+</div></section>
+        </article>
+        <footer>
+            <p><a href="https://rapidapi.com/precisionsolutionstech/api/json-schema-validator" target="_blank" rel="noopener">Subscribe on RapidAPI</a> · <a href="../index.html">API Catalog</a></p>
+            <p>© 2026 Precision Solutions Tech</p>
+        </footer>
+    </div>
+    <script>
+(function(){
+    var host='json-schema-validator.p.rapidapi.com',path='/validate',body="{\n  \"schema\": {\n    \"type\": \"object\",\n    \"required\": [\"email\", \"age\"],\n    \"properties\": {\n      \"email\": { \"type\": \"string\" },\n      \"age\": { \"type\": \"number\" },\n      \"name\": { \"type\": \"string\" }\n    }\n  },\n  \"payload\": {\n    \"email\": \"user@example.com\",\n    \"age\": 30,\n    \"name\": \"John Doe\"\n  }\n}",fileUpload=false,rapidUrl="https://rapidapi.com/precisionsolutionstech/api/json-schema-validator";
+    document.querySelectorAll('[data-rapid-docs]').forEach(function(a){ a.href = rapidUrl; });
+    document.getElementById('toggle-req').addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('request-schema'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); });
+    document.getElementById('toggle-res').addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('response-schema'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); });
+    var toggleErrors=document.getElementById('toggle-errors');if(toggleErrors){ toggleErrors.addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('error-codes'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); }); }
+    document.querySelectorAll('.lang-tabs button').forEach(function(btn){
+        btn.addEventListener('click',function(){
+            document.querySelectorAll('.lang-tabs button').forEach(function(b){ b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
+            document.querySelectorAll('.code-block').forEach(function(b){ b.classList.remove('active'); });
+            this.classList.add('active'); this.setAttribute('aria-selected','true');
+            var el=document.getElementById('snippet-'+this.getAttribute('data-lang')); if(el) el.classList.add('active');
+        });
+    });
+    document.querySelectorAll('.copy-btn').forEach(function(btn){
+        btn.addEventListener('click',function(){
+            var id=this.getAttribute('data-copy'),block=document.getElementById(id),pre=block?block.querySelector('pre code'):null,btn=this;
+            if(pre) navigator.clipboard.writeText(pre.textContent).then(function(){ var t=btn.textContent; btn.textContent='Copied!'; setTimeout(function(){ btn.textContent=t; },1500); });
+        });
+    });
+    document.getElementById('postman-download').addEventListener('click',function(){
+        var coll = { info: { name: "JSON Schema Validator API", schema: 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json' }, item: [{ name: 'Request', request: { method: 'POST', header: [{ key: 'Content-Type', value: 'application/json' }, { key: 'x-rapidapi-key', value: 'YOUR_RAPIDAPI_KEY' }, { key: 'x-rapidapi-host', value: host }], url: 'https://'+host+path } } ] };
+        if(!fileUpload){ coll.item[0].request.body = { mode: 'raw', raw: typeof body==='string'?body:JSON.stringify(body) }; }
+        else { coll.item[0].request.header = [{ key: 'X-RapidAPI-Key', value: 'YOUR_RAPIDAPI_KEY' }, { key: 'X-RapidAPI-Host', value: host }]; coll.item[0].request.url = 'https://'+host+path+'?outputFormat=json'; coll.item[0].request.body = { mode: 'formdata', formdata: [{ key: 'file', type: 'file', src: '' }] }; }
+        var blob = new Blob([JSON.stringify(coll,null,2)], { type: 'application/json' });
+        var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'json-schema-validator-postman-collection.json'; a.click(); URL.revokeObjectURL(a.href);
+    });
+    var runBtn=document.getElementById('run-btn'),keyInput=document.getElementById('api-key'),resultDiv=document.getElementById('play-result');
+    runBtn.addEventListener('click',function(){
+        var key=(keyInput.value||'').trim();
+        if(!key){ resultDiv.style.display='block'; resultDiv.className='result error'; resultDiv.textContent='Please enter your RapidAPI key.'; return; }
+        
+    var bodyStr=document.getElementById('body-json').value.trim(),body;
+    try{body=JSON.parse(bodyStr);}catch(e){resultDiv.style.display='block';resultDiv.className='result error';resultDiv.textContent='Invalid JSON: '+e.message;return;}
+    runBtn.disabled=true;resultDiv.style.display='block';resultDiv.className='result';resultDiv.textContent='Loading…';
+    fetch('https://'+host+path,{method:'POST',headers:{'Content-Type':'application/json','x-rapidapi-key':key,'x-rapidapi-host':host},body:JSON.stringify(body)})
+    .then(function(r){return r.text().then(function(t){return{status:r.status,body:t};});})
+    .then(function(o){resultDiv.className='result '+(o.status>=200&&o.status<300?'success':'error');try{resultDiv.textContent=JSON.stringify(JSON.parse(o.body),null,2);}catch(_){resultDiv.textContent=o.status+'\n'+o.body;}})
+    .catch(function(e){resultDiv.className='result error';resultDiv.textContent='Request failed: '+e.message;})
+    .finally(function(){runBtn.disabled=false;});
+    });
+})();
+    </script>
+</body>
+</html>

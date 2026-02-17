@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="../favicon.png" type="image/png" sizes="32x32">
+    <title>Shipping & Tracking Normalization API | RapidAPI</title>
+    <meta name="description" content="Unify shipping and tracking data from UPS, FedEx, USPS, DHL, and any carrier into one canonical shipment schema. Send tracking numbers and optional carrier payloads; get normalized status, event timeline, provenance, and confidence. Stateless, 25MB max.">
+    <meta name="keywords" content="shipping-tracking-normalization, API, RapidAPI, developer">
+    <link rel="canonical" href="https://precisionsolutionstech-netizen.github.io/api-catalog/apis/shipping-tracking-normalization.html">
+    <meta property="og:title" content="Shipping & Tracking Normalization API">
+    <meta property="og:description" content="Unify shipping and tracking data from UPS, FedEx, USPS, DHL, and any carrier into one canonical shipment schema. Send tracking numbers and optional carrier payloads; get normalized status, event timeline, provenance, and confidence. Stateless, 25MB max.">
+    <script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","name":"Shipping &amp; Tracking Normalization API","description":"Unify shipping and tracking data from UPS, FedEx, USPS, DHL, and any carrier into one canonical shipment schema. Send tracking numbers and optional carrier payloads; get normalized status, event timeline, provenance, and confidence. Stateless, 25MB max.","url":"https://precisionsolutionstech-netizen.github.io/api-catalog/apis/shipping-tracking-normalization.html"}
+    </script>
+    <style>
+        :root { --bg: #0f172a; --surface: #1e293b; --border: #334155; --text: #e2e8f0; --muted: #94a3b8; --accent: #38bdf8; --success: #34d399; --error: #f87171; }
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: ui-sans-serif, system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+        .wrap { max-width: 900px; margin: 0 auto; padding: 24px 20px; }
+        a { color: var(--accent); }
+        nav { margin-bottom: 32px; font-size: 0.9rem; }
+        h1 { font-size: 1.9rem; margin: 0 0 12px; }
+        .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; }
+        h2 { font-size: 1.35rem; margin: 32px 0 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+        section { margin-bottom: 28px; }
+        .playground { background: var(--surface); border-radius: 12px; padding: 20px; margin: 24px 0; border: 1px solid var(--border); }
+        .playground label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 0.9rem; }
+        .playground input[type="password"], .playground select { width: 100%; max-width: 320px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); margin-bottom: 12px; }
+        .playground textarea { width: 100%; min-height: 120px; padding: 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); font-family: ui-monospace, monospace; font-size: 13px; resize: vertical; }
+        .playground input[type="file"] { margin-bottom: 12px; }
+        .playground button { padding: 10px 20px; background: var(--accent); color: var(--bg); border: none; border-radius: 8px; font-weight: 600; cursor: pointer; margin-top: 8px; }
+        .playground button:disabled { opacity: 0.6; cursor: not-allowed; }
+        .playground .result { margin-top: 16px; padding: 12px; border-radius: 8px; background: var(--bg); border: 1px solid var(--border); white-space: pre-wrap; word-break: break-all; font-family: ui-monospace, monospace; font-size: 12px; max-height: 320px; overflow: auto; }
+        .playground .result.error { border-color: var(--error); color: var(--error); }
+        .playground .result.success { border-color: var(--success); }
+        .file-upload-note { font-size: 0.85rem; color: var(--muted); margin-top: 4px; }
+        .code-wrap { position: relative; margin: 16px 0; }
+        .code-wrap pre { margin: 0; padding: 14px 16px; background: var(--surface); border-radius: 8px; border: 1px solid var(--border); overflow-x: auto; font-size: 13px; }
+        .code-wrap .copy-btn { position: absolute; top: 10px; right: 10px; padding: 6px 12px; background: var(--border); color: var(--text); border: none; border-radius: 6px; font-size: 12px; cursor: pointer; }
+        .code-wrap .copy-btn:hover { background: var(--accent); color: var(--bg); }
+        .lang-tabs { display: flex; gap: 4px; margin-bottom: 8px; flex-wrap: wrap; }
+        .lang-tabs button { padding: 8px 14px; background: var(--surface); border: 1px solid var(--border); color: var(--muted); border-radius: 6px; cursor: pointer; font-size: 0.9rem; }
+        .lang-tabs button.active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+        .code-block { display: none; }
+        .code-block.active { display: block; }
+        .schema-section { margin: 16px 0; }
+        .schema-toggle { color: var(--accent); cursor: pointer; text-decoration: none; font-weight: 600; }
+        .schema-toggle:hover { text-decoration: underline; }
+        .schema-content { display: none; margin-top: 12px; padding: 12px; background: var(--surface); border-radius: 8px; border: 1px solid var(--border); overflow-x: auto; }
+        .schema-content.show { display: block; }
+        .schema-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        .schema-table th, .schema-table td { padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--border); }
+        .schema-table code { font-size: 0.85em; }
+        .long-desc { color: var(--muted); font-size: 0.98rem; }
+        .long-desc p { margin: 0.75em 0; }
+        .long-desc ul { margin: 0.75em 0; padding-left: 1.5em; }
+        .long-desc li { margin: 0.35em 0; }
+        .postman-btn { display: inline-block; margin-top: 12px; padding: 10px 18px; background: var(--surface); border: 1px solid var(--border); color: var(--accent); border-radius: 8px; cursor: pointer; font-weight: 600; text-decoration: none; }
+        .postman-btn:hover { background: var(--border); }
+        footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.9rem; text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <nav aria-label="Breadcrumb"><a href="../index.html">API Catalog</a> → Shipping & Tracking Normalization</nav>
+        <article>
+            <header>
+                <h1>Shipping & Tracking Normalization API</h1>
+                <p class="lead">Unify shipping and tracking data from UPS, FedEx, USPS, DHL, and any carrier into one canonical shipment schema. Send tracking numbers and optional carrier payloads; get normalized status, event timeline, provenance, and confidence. Stateless, 25MB max.</p>
+            </header>
+            <section><h2 id="why">Why use this API?</h2><p>Each carrier returns tracking data in different formats. Normalize for unified tracking dashboards and logistics apps.</p></section>
+            <section><h2 id="what">What the API does</h2><p>POST /normalize with carrier tracking payload(s). Returns normalized tracking data.</p></section>
+            <section>
+                <h2 id="schemas">Request &amp; response schema</h2>
+                <p><a href="#request-schema" class="schema-toggle" id="toggle-req" aria-expanded="false">View request schema</a> &middot; <a href="#response-schema" class="schema-toggle" id="toggle-res" aria-expanded="false">View response schema</a> &middot; <a href="#error-codes" class="schema-toggle" id="toggle-errors" aria-expanded="false">View error &amp; warning codes</a></p>
+                <div id="error-codes" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Code</th><th>HTTP</th><th>Description</th></tr></thead><tbody><tr><td><code>INVALID_REQUEST</code></td><td><code>400</code></td><td>Missing or invalid inputs (e.g. null entry, no inputs array).</td></tr><tr><td><code>INVALID_JSON</code></td><td><code>400</code></td><td>Request body is not valid JSON.</td></tr><tr><td><code>INVALID_TRACKING_NUMBER</code></td><td><code>200</code></td><td>Empty or missing trackingNumber.</td></tr><tr><td><code>INVALID_PAYLOAD</code></td><td><code>200</code></td><td>Payload is not an object (e.g. number, array).</td></tr><tr><td><code>NO_TRACKING_DATA</code></td><td><code>200</code></td><td>Payload could not be normalized to any events/status.</td></tr><tr><td><code>PARSE_ERROR</code></td><td><code>200</code></td><td>Unhandled parse failure for one item.</td></tr><tr><td><code>PAYLOAD_TOO_LARGE</code></td><td><code>413</code></td><td>Request size exceeds 25MB.</td></tr><tr><td><code>INTERNAL_ERROR</code></td><td><code>500</code></td><td>Unhandled server exception.</td></tr></tbody></table></div>
+                <div id="request-schema" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>inputs[].trackingNumber</code></td><td><code>string</code></td><td>Tracking number</td></tr><tr><td><code>inputs[].carrier</code></td><td><code>string|null</code></td><td>e.g. ups, fedex, usps, dhl, custom</td></tr><tr><td><code>inputs[].payload</code></td><td><code>any</code></td><td>Optional pre-fetched carrier JSON to normalize</td></tr></tbody></table></div>
+                <div id="response-schema" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>results[].index</code></td><td><code>number</code></td><td>Per-item: index</td></tr><tr><td><code>results[].trackingNumber</code></td><td><code>string</code></td><td>Per-item: trackingNumber</td></tr><tr><td><code>results[].shipment</code></td><td><code>object|null</code></td><td>Per-item: shipment</td></tr><tr><td><code>results[].error</code></td><td><code>object|null</code></td><td>Per-item: error</td></tr><tr><td><code>results[].warnings</code></td><td><code>array|null</code></td><td>Per-item: warnings</td></tr><tr><td><code>shipments</code></td><td><code>array</code></td><td>Array of objects; see response example for item shape.</td></tr><tr><td><code>errors[].code</code></td><td><code>string</code></td><td>Per-item: code</td></tr><tr><td><code>errors[].message</code></td><td><code>string</code></td><td>Per-item: message</td></tr><tr><td><code>errors[].trackingNumber</code></td><td><code>string|null</code></td><td>Per-item: trackingNumber</td></tr><tr><td><code>errors[].index</code></td><td><code>number|null</code></td><td>Per-item: index</td></tr><tr><td><code>errors[].detail</code></td><td><code>string|null</code></td><td>Per-item: detail</td></tr><tr><td><code>metadata</code></td><td><code>object|null</code></td><td></td></tr></tbody></table></div>
+            </section>
+            <section>
+                <h2 id="playground">Try it in the playground</h2>
+                <p>Add your <a href="https://rapidapi.com/precisionsolutionstech/api/shipping-tracking-normalization" target="_blank" rel="noopener">RapidAPI key</a> and run. Key is sent only to RapidAPI.</p>
+                <div class="playground">
+                    <label for="api-key">RapidAPI Key (required)</label>
+                    <input type="password" id="api-key" placeholder="Your RapidAPI key" autocomplete="off">
+                    
+                    <label for="body-json">Request body (JSON)</label>
+                    <textarea id="body-json" placeholder='{}'>{
+  &quot;inputs&quot;: [
+    { &quot;trackingNumber&quot;: &quot;1Z999AA10123456784&quot;, &quot;carrier&quot;: &quot;ups&quot; },
+    { &quot;trackingNumber&quot;: &quot;9405511899223191234567&quot;, &quot;carrier&quot;: &quot;usps&quot; }
+  ]
+}</textarea>
+                    <button type="button" id="run-btn">Run request</button>
+                    <div id="play-result" class="result" style="display:none;" aria-live="polite"></div>
+                </div>
+            </section>
+            <section>
+                <h2 id="code">Copy code</h2>
+                <p>Host: <code>shipping-tracking-normalization.p.rapidapi.com</code>, endpoint: <code>POST /normalize</code>. Choose language:</p>
+                <div class="lang-tabs" role="tablist">
+                    <button type="button" role="tab" aria-selected="true" data-lang="curl" class="active">cURL</button>
+                    <button type="button" role="tab" aria-selected="false" data-lang="javascript">JavaScript</button>
+                    <button type="button" role="tab" aria-selected="false" data-lang="python">Python</button>
+                    <button type="button" role="tab" aria-selected="false" data-lang="java">Java</button>
+                </div>
+                <div id="snippet-curl" class="code-block active"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-curl">Copy</button><pre><code>curl --request POST \
+  --url 'https://shipping-tracking-normalization.p.rapidapi.com/normalize' \
+  --header 'Content-Type: application/json' \
+  --header 'x-rapidapi-host: shipping-tracking-normalization.p.rapidapi.com' \
+  --header 'x-rapidapi-key: YOUR_RAPIDAPI_KEY' \
+  --data '{
+  &quot;inputs&quot;: [
+    { &quot;trackingNumber&quot;: &quot;1Z999AA10123456784&quot;, &quot;carrier&quot;: &quot;ups&quot; },
+    { &quot;trackingNumber&quot;: &quot;9405511899223191234567&quot;, &quot;carrier&quot;: &quot;usps&quot; }
+  ]
+}'</code></pre></div></div>
+                <div id="snippet-javascript" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-javascript">Copy</button><pre><code>const res = await fetch('https://shipping-tracking-normalization.p.rapidapi.com/normalize', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
+    'x-rapidapi-host': 'shipping-tracking-normalization.p.rapidapi.com'
+  },
+  body: '{   &quot;inputs&quot;: [     { &quot;trackingNumber&quot;: &quot;1Z999AA10123456784&quot;, &quot;carrier&quot;: &quot;ups&quot; },     { &quot;trackingNumber&quot;: &quot;9405511899223191234567&quot;, &quot;carrier&quot;: &quot;usps&quot; }   ] }'
+});
+const data = await res.json();
+console.log(data);</code></pre></div></div>
+                <div id="snippet-python" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-python">Copy</button><pre><code>import http.client
+import json
+
+conn = http.client.HTTPSConnection(&quot;shipping-tracking-normalization.p.rapidapi.com&quot;)
+payload = '{
+  &quot;inputs&quot;: [
+    { &quot;trackingNumber&quot;: &quot;1Z999AA10123456784&quot;, &quot;carrier&quot;: &quot;ups&quot; },
+    { &quot;trackingNumber&quot;: &quot;9405511899223191234567&quot;, &quot;carrier&quot;: &quot;usps&quot; }
+  ]
+}'
+headers = {
+    'Content-Type': 'application/json',
+    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
+    'x-rapidapi-host': 'shipping-tracking-normalization.p.rapidapi.com'
+}
+conn.request(&quot;POST&quot;, &quot;/normalize&quot;, payload, headers)
+res = conn.getresponse()
+print(res.read().decode())</code></pre></div></div>
+                <div id="snippet-java" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-java">Copy</button><pre><code>HttpRequest request = HttpRequest.newBuilder()
+    .uri(URI.create(&quot;https://shipping-tracking-normalization.p.rapidapi.com/normalize&quot;))
+    .header(&quot;Content-Type&quot;, &quot;application/json&quot;)
+    .header(&quot;x-rapidapi-key&quot;, &quot;YOUR_RAPIDAPI_KEY&quot;)
+    .header(&quot;x-rapidapi-host&quot;, &quot;shipping-tracking-normalization.p.rapidapi.com&quot;)
+    .method(&quot;POST&quot;, HttpRequest.BodyPublishers.ofString(&quot;{
+  \&quot;inputs\&quot;: [
+    { \&quot;trackingNumber\&quot;: \&quot;1Z999AA10123456784\&quot;, \&quot;carrier\&quot;: \&quot;ups\&quot; },
+    { \&quot;trackingNumber\&quot;: \&quot;9405511899223191234567\&quot;, \&quot;carrier\&quot;: \&quot;usps\&quot; }
+  ]
+}&quot;))
+    .build();
+HttpResponse&lt;String&gt; response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+System.out.println(response.body());</code></pre></div></div>
+                <p><button type="button" class="postman-btn" id="postman-download">Download Postman collection</button></p>
+            </section>
+            <section><h2 id="expect">What to expect</h2><p>Response format depends on the endpoint. Use your RapidAPI key in headers. Stateless; no data stored. See <a href="https://rapidapi.com/precisionsolutionstech/api/shipping-tracking-normalization" target="_blank" rel="noopener">RapidAPI docs</a> for full response schema.</p></section>
+            <section><h2 id="about">About this API</h2>
+<div class="long-desc">
+<p>Shipping &amp; Tracking Normalization API</p>
+<p>Normalize tracking data from UPS, FedEx, USPS, DHL, and other carriers into one canonical shipment schema. One API call for single or mixed tracking numbers—with or without pre-fetched carrier payloads. Get unified status, chronological event timeline, location, delivery metadata, provenance, and confidence. Built for marketplaces, fulfillment systems, support dashboards, and analytics that need a single data model across carriers.</p>
+<p>What This API Does</p>
+<ul>
+<li>**Normalizes** carrier-specific tracking payloads (or tracking numbers only) into one consistent JSON shape: identifiers, carrier, currentStatus, events (timeline), delivery, provenance, confidence</li>
+<li>**Single schema** — Every shipment has the same structure regardless of carrier; status is mapped to a fixed taxonomy (pending, in_transit, delivered, exception, etc.)</li>
+<li>**Mixed carriers in one request** — Send an array of inputs (trackingNumber, optional carrier, optional payload); get results, shipments, and item-scoped errors. One bad item does not fail the rest</li>
+<li>**Carrier detection** — When carrier is not declared, the API infers it from tracking number patterns; mismatch between declared and detected yields a warning and lower confidence</li>
+<li>**Provenance &amp; confidence** — Every shipment includes data source type, parsing strategy, and a 0–1 confidence score so you can filter or flag low-confidence items</li>
+<li>**No carrier API keys** — You send tracking numbers and (optionally) payloads you already have; the API does not fetch from carriers. Stateless, 25MB max</li>
+</ul>
+<p>**One pipeline, one schema.** Build unified tracking views, notifications, or analytics without per-carrier parsing or status mapping.</p>
+<p>Key Features</p>
+<ul>
+<li>**Stateless** — No data stored or logged; 25MB max request</li>
+<li>**UPS, FedEx, USPS, DHL** — First-class normalizers; custom/unknown for other carriers or user-provided payloads</li>
+<li>**Canonical status taxonomy** — pending, label_created, accepted, in_transit, out_for_delivery, delivered, exception, failed_attempt, returned, cancelled, customs_cleared, unknown</li>
+<li>**Event timeline** — Chronological events with canonicalStatus, originalCarrierStatus, timestampIso, location, eventType</li>
+<li>**Delivery metadata** — estimatedDeliveryDate, actualDeliveryTimestamp, signedBy, proofOfDelivery when present (never fabricated)</li>
+<li>**Partial success** — Per-item results and errors; metadata with normalizedCount and errorCount</li>
+</ul>
+<p>Use Cases</p>
+<ul>
+<li>**Marketplace order tracking** — Normalize tracking from multiple sellers and carriers into one view for customer dashboards</li>
+<li>**Customer support** — Show agents a unified timeline and status instead of carrier-specific jargon</li>
+<li>**Analytics &amp; BI** — Ingest normalized events to analyze delivery performance across carriers</li>
+<li>**Notifications** — Trigger alerts when canonical status changes (e.g. out_for_delivery → delivered)</li>
+<li>**Fulfillment &amp; OMS** — One schema for all inbound tracking data</li>
+</ul>
+<p>Also useful if you're looking for:</p>
+<ul>
+<li>shipping tracking normalizer API</li>
+<li>UPS FedEx USPS DHL unifier</li>
+<li>tracking data canonical schema</li>
+<li>shipment status normalization</li>
+<li>multi-carrier tracking API</li>
+<li>tracking event timeline API</li>
+<li>delivery tracking combiner</li>
+<li>parcel tracking normalizer</li>
+</ul>
+</div></section>
+        </article>
+        <footer>
+            <p><a href="https://rapidapi.com/precisionsolutionstech/api/shipping-tracking-normalization" target="_blank" rel="noopener">Subscribe on RapidAPI</a> · <a href="../index.html">API Catalog</a></p>
+            <p>© 2026 Precision Solutions Tech</p>
+        </footer>
+    </div>
+    <script>
+(function(){
+    var host='shipping-tracking-normalization.p.rapidapi.com',path='/normalize',body="{\n  \"inputs\": [\n    { \"trackingNumber\": \"1Z999AA10123456784\", \"carrier\": \"ups\" },\n    { \"trackingNumber\": \"9405511899223191234567\", \"carrier\": \"usps\" }\n  ]\n}",fileUpload=false,rapidUrl="https://rapidapi.com/precisionsolutionstech/api/shipping-tracking-normalization";
+    document.querySelectorAll('[data-rapid-docs]').forEach(function(a){ a.href = rapidUrl; });
+    document.getElementById('toggle-req').addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('request-schema'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); });
+    document.getElementById('toggle-res').addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('response-schema'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); });
+    var toggleErrors=document.getElementById('toggle-errors');if(toggleErrors){ toggleErrors.addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('error-codes'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); }); }
+    document.querySelectorAll('.lang-tabs button').forEach(function(btn){
+        btn.addEventListener('click',function(){
+            document.querySelectorAll('.lang-tabs button').forEach(function(b){ b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
+            document.querySelectorAll('.code-block').forEach(function(b){ b.classList.remove('active'); });
+            this.classList.add('active'); this.setAttribute('aria-selected','true');
+            var el=document.getElementById('snippet-'+this.getAttribute('data-lang')); if(el) el.classList.add('active');
+        });
+    });
+    document.querySelectorAll('.copy-btn').forEach(function(btn){
+        btn.addEventListener('click',function(){
+            var id=this.getAttribute('data-copy'),block=document.getElementById(id),pre=block?block.querySelector('pre code'):null,btn=this;
+            if(pre) navigator.clipboard.writeText(pre.textContent).then(function(){ var t=btn.textContent; btn.textContent='Copied!'; setTimeout(function(){ btn.textContent=t; },1500); });
+        });
+    });
+    document.getElementById('postman-download').addEventListener('click',function(){
+        var coll = { info: { name: "Shipping & Tracking Normalization API", schema: 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json' }, item: [{ name: 'Request', request: { method: 'POST', header: [{ key: 'Content-Type', value: 'application/json' }, { key: 'x-rapidapi-key', value: 'YOUR_RAPIDAPI_KEY' }, { key: 'x-rapidapi-host', value: host }], url: 'https://'+host+path } } ] };
+        if(!fileUpload){ coll.item[0].request.body = { mode: 'raw', raw: typeof body==='string'?body:JSON.stringify(body) }; }
+        else { coll.item[0].request.header = [{ key: 'X-RapidAPI-Key', value: 'YOUR_RAPIDAPI_KEY' }, { key: 'X-RapidAPI-Host', value: host }]; coll.item[0].request.url = 'https://'+host+path+'?outputFormat=json'; coll.item[0].request.body = { mode: 'formdata', formdata: [{ key: 'file', type: 'file', src: '' }] }; }
+        var blob = new Blob([JSON.stringify(coll,null,2)], { type: 'application/json' });
+        var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'shipping-tracking-normalization-postman-collection.json'; a.click(); URL.revokeObjectURL(a.href);
+    });
+    var runBtn=document.getElementById('run-btn'),keyInput=document.getElementById('api-key'),resultDiv=document.getElementById('play-result');
+    runBtn.addEventListener('click',function(){
+        var key=(keyInput.value||'').trim();
+        if(!key){ resultDiv.style.display='block'; resultDiv.className='result error'; resultDiv.textContent='Please enter your RapidAPI key.'; return; }
+        
+    var bodyStr=document.getElementById('body-json').value.trim(),body;
+    try{body=JSON.parse(bodyStr);}catch(e){resultDiv.style.display='block';resultDiv.className='result error';resultDiv.textContent='Invalid JSON: '+e.message;return;}
+    runBtn.disabled=true;resultDiv.style.display='block';resultDiv.className='result';resultDiv.textContent='Loading…';
+    fetch('https://'+host+path,{method:'POST',headers:{'Content-Type':'application/json','x-rapidapi-key':key,'x-rapidapi-host':host},body:JSON.stringify(body)})
+    .then(function(r){return r.text().then(function(t){return{status:r.status,body:t};});})
+    .then(function(o){resultDiv.className='result '+(o.status>=200&&o.status<300?'success':'error');try{resultDiv.textContent=JSON.stringify(JSON.parse(o.body),null,2);}catch(_){resultDiv.textContent=o.status+'\n'+o.body;}})
+    .catch(function(e){resultDiv.className='result error';resultDiv.textContent='Request failed: '+e.message;})
+    .finally(function(){runBtn.disabled=false;});
+    });
+})();
+    </script>
+</body>
+</html>

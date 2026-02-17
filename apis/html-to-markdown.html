@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="../favicon.png" type="image/png" sizes="32x32">
+    <title>HTML to Markdown Converter API | RapidAPI</title>
+    <meta name="description" content="Convert HTML to clean, deterministic Markdown. Strips scripts, styles, layout noise. Preserves structure (headings, lists, tables, links, code). Handles malformed HTML. CMS exports, scrapers, WYSIWYG editors → GitHub-flavored Markdown. Stateless, 25MB max.">
+    <meta name="keywords" content="html-to-markdown, API, RapidAPI, developer">
+    <link rel="canonical" href="https://precisionsolutionstech-netizen.github.io/api-catalog/apis/html-to-markdown.html">
+    <meta property="og:title" content="HTML to Markdown Converter API">
+    <meta property="og:description" content="Convert HTML to clean, deterministic Markdown. Strips scripts, styles, layout noise. Preserves structure (headings, lists, tables, links, code). Handles malformed HTML. CMS exports, scrapers, WYSIWYG editors → GitHub-flavored Markdown. Stateless, 25MB max.">
+    <script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","name":"HTML to Markdown Converter API","description":"Convert HTML to clean, deterministic Markdown. Strips scripts, styles, layout noise. Preserves structure (headings, lists, tables, links, code). Handles malformed HTML. CMS exports, scrapers, WYSIWYG editors → GitHub-flavored Markdown. Stateless, 25MB max.","url":"https://precisionsolutionstech-netizen.github.io/api-catalog/apis/html-to-markdown.html"}
+    </script>
+    <style>
+        :root { --bg: #0f172a; --surface: #1e293b; --border: #334155; --text: #e2e8f0; --muted: #94a3b8; --accent: #38bdf8; --success: #34d399; --error: #f87171; }
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: ui-sans-serif, system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+        .wrap { max-width: 900px; margin: 0 auto; padding: 24px 20px; }
+        a { color: var(--accent); }
+        nav { margin-bottom: 32px; font-size: 0.9rem; }
+        h1 { font-size: 1.9rem; margin: 0 0 12px; }
+        .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; }
+        h2 { font-size: 1.35rem; margin: 32px 0 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+        section { margin-bottom: 28px; }
+        .playground { background: var(--surface); border-radius: 12px; padding: 20px; margin: 24px 0; border: 1px solid var(--border); }
+        .playground label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 0.9rem; }
+        .playground input[type="password"], .playground select { width: 100%; max-width: 320px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); margin-bottom: 12px; }
+        .playground textarea { width: 100%; min-height: 120px; padding: 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); font-family: ui-monospace, monospace; font-size: 13px; resize: vertical; }
+        .playground input[type="file"] { margin-bottom: 12px; }
+        .playground button { padding: 10px 20px; background: var(--accent); color: var(--bg); border: none; border-radius: 8px; font-weight: 600; cursor: pointer; margin-top: 8px; }
+        .playground button:disabled { opacity: 0.6; cursor: not-allowed; }
+        .playground .result { margin-top: 16px; padding: 12px; border-radius: 8px; background: var(--bg); border: 1px solid var(--border); white-space: pre-wrap; word-break: break-all; font-family: ui-monospace, monospace; font-size: 12px; max-height: 320px; overflow: auto; }
+        .playground .result.error { border-color: var(--error); color: var(--error); }
+        .playground .result.success { border-color: var(--success); }
+        .file-upload-note { font-size: 0.85rem; color: var(--muted); margin-top: 4px; }
+        .code-wrap { position: relative; margin: 16px 0; }
+        .code-wrap pre { margin: 0; padding: 14px 16px; background: var(--surface); border-radius: 8px; border: 1px solid var(--border); overflow-x: auto; font-size: 13px; }
+        .code-wrap .copy-btn { position: absolute; top: 10px; right: 10px; padding: 6px 12px; background: var(--border); color: var(--text); border: none; border-radius: 6px; font-size: 12px; cursor: pointer; }
+        .code-wrap .copy-btn:hover { background: var(--accent); color: var(--bg); }
+        .lang-tabs { display: flex; gap: 4px; margin-bottom: 8px; flex-wrap: wrap; }
+        .lang-tabs button { padding: 8px 14px; background: var(--surface); border: 1px solid var(--border); color: var(--muted); border-radius: 6px; cursor: pointer; font-size: 0.9rem; }
+        .lang-tabs button.active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+        .code-block { display: none; }
+        .code-block.active { display: block; }
+        .schema-section { margin: 16px 0; }
+        .schema-toggle { color: var(--accent); cursor: pointer; text-decoration: none; font-weight: 600; }
+        .schema-toggle:hover { text-decoration: underline; }
+        .schema-content { display: none; margin-top: 12px; padding: 12px; background: var(--surface); border-radius: 8px; border: 1px solid var(--border); overflow-x: auto; }
+        .schema-content.show { display: block; }
+        .schema-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        .schema-table th, .schema-table td { padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--border); }
+        .schema-table code { font-size: 0.85em; }
+        .long-desc { color: var(--muted); font-size: 0.98rem; }
+        .long-desc p { margin: 0.75em 0; }
+        .long-desc ul { margin: 0.75em 0; padding-left: 1.5em; }
+        .long-desc li { margin: 0.35em 0; }
+        .postman-btn { display: inline-block; margin-top: 12px; padding: 10px 18px; background: var(--surface); border: 1px solid var(--border); color: var(--accent); border-radius: 8px; cursor: pointer; font-weight: 600; text-decoration: none; }
+        .postman-btn:hover { background: var(--border); }
+        footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.9rem; text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <nav aria-label="Breadcrumb"><a href="../index.html">API Catalog</a> → HTML to Markdown</nav>
+        <article>
+            <header>
+                <h1>HTML to Markdown Converter API</h1>
+                <p class="lead">Convert HTML to clean, deterministic Markdown. Strips scripts, styles, layout noise. Preserves structure (headings, lists, tables, links, code). Handles malformed HTML. CMS exports, scrapers, WYSIWYG editors → GitHub-flavored Markdown. Stateless, 25MB max.</p>
+            </header>
+            <section><h2 id="why">Why use this API?</h2><p>HTML from many sources is bloated and inconsistent. Get deterministic, clean Markdown for docs, search, or LLM pipelines without maintaining per-language libraries.</p></section>
+            <section><h2 id="what">What the API does</h2><p>POST /convert with JSON { &quot;html&quot;: &quot;...&quot;, &quot;mode&quot;: &quot;readable&quot; } or raw text/html body. Returns { &quot;markdown&quot;: &quot;...&quot; }.</p></section>
+            <section>
+                <h2 id="schemas">Request &amp; response schema</h2>
+                <p><a href="#request-schema" class="schema-toggle" id="toggle-req" aria-expanded="false">View request schema</a> &middot; <a href="#response-schema" class="schema-toggle" id="toggle-res" aria-expanded="false">View response schema</a> &middot; <a href="#error-codes" class="schema-toggle" id="toggle-errors" aria-expanded="false">View error &amp; warning codes</a></p>
+                <div id="error-codes" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Code</th><th>HTTP</th><th>Description</th></tr></thead><tbody><tr><td><code>Request must include html (string) in body</code></td><td><code>400</code></td><td></td></tr><tr><td><code>HTML exceeds maximum allowed size</code></td><td><code>413</code></td><td>See RapidAPI docs.</td></tr></tbody></table></div>
+                <div id="request-schema" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>html</code></td><td><code>string</code></td><td>Raw HTML to convert</td></tr><tr><td><code>mode</code></td><td><code>string</code></td><td>Conversion mode: strict=minimal cleanup, readable=balanced, llm-friendly=link references</td></tr><tr><td><code>includeMetadata</code></td><td><code>boolean</code></td><td>Include metadata (character counts, mode, tags removed)</td></tr></tbody></table></div>
+                <div id="response-schema" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>markdown</code></td><td><code>string</code></td><td></td></tr></tbody></table></div>
+            </section>
+            <section>
+                <h2 id="playground">Try it in the playground</h2>
+                <p>Add your <a href="https://rapidapi.com/precisionsolutionstech/api/html-to-markdown" target="_blank" rel="noopener">RapidAPI key</a> and run. Key is sent only to RapidAPI.</p>
+                <div class="playground">
+                    <label for="api-key">RapidAPI Key (required)</label>
+                    <input type="password" id="api-key" placeholder="Your RapidAPI key" autocomplete="off">
+                    
+                    <label for="body-json">Request body (JSON)</label>
+                    <textarea id="body-json" placeholder='{}'>{
+  &quot;html&quot;: &quot;&lt;h1&gt;Hello&lt;/h1&gt;&lt;p&gt;World &lt;strong&gt;bold&lt;/strong&gt;&lt;/p&gt;&quot;,
+  &quot;mode&quot;: &quot;readable&quot;,
+  &quot;includeMetadata&quot;: false
+}</textarea>
+                    <button type="button" id="run-btn">Run request</button>
+                    <div id="play-result" class="result" style="display:none;" aria-live="polite"></div>
+                </div>
+            </section>
+            <section>
+                <h2 id="code">Copy code</h2>
+                <p>Host: <code>html-to-markdown.p.rapidapi.com</code>, endpoint: <code>POST /health</code>. Choose language:</p>
+                <div class="lang-tabs" role="tablist">
+                    <button type="button" role="tab" aria-selected="true" data-lang="curl" class="active">cURL</button>
+                    <button type="button" role="tab" aria-selected="false" data-lang="javascript">JavaScript</button>
+                    <button type="button" role="tab" aria-selected="false" data-lang="python">Python</button>
+                    <button type="button" role="tab" aria-selected="false" data-lang="java">Java</button>
+                </div>
+                <div id="snippet-curl" class="code-block active"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-curl">Copy</button><pre><code>curl --request POST \
+  --url 'https://html-to-markdown.p.rapidapi.com/health' \
+  --header 'Content-Type: application/json' \
+  --header 'x-rapidapi-host: html-to-markdown.p.rapidapi.com' \
+  --header 'x-rapidapi-key: YOUR_RAPIDAPI_KEY' \
+  --data '{
+  &quot;html&quot;: &quot;&lt;h1&gt;Hello&lt;/h1&gt;&lt;p&gt;World &lt;strong&gt;bold&lt;/strong&gt;&lt;/p&gt;&quot;,
+  &quot;mode&quot;: &quot;readable&quot;,
+  &quot;includeMetadata&quot;: false
+}'</code></pre></div></div>
+                <div id="snippet-javascript" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-javascript">Copy</button><pre><code>const res = await fetch('https://html-to-markdown.p.rapidapi.com/health', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
+    'x-rapidapi-host': 'html-to-markdown.p.rapidapi.com'
+  },
+  body: '{   &quot;html&quot;: &quot;&lt;h1&gt;Hello&lt;/h1&gt;&lt;p&gt;World &lt;strong&gt;bold&lt;/strong&gt;&lt;/p&gt;&quot;,   &quot;mode&quot;: &quot;readable&quot;,   &quot;includeMetadata&quot;: false }'
+});
+const data = await res.json();
+console.log(data);</code></pre></div></div>
+                <div id="snippet-python" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-python">Copy</button><pre><code>import http.client
+import json
+
+conn = http.client.HTTPSConnection(&quot;html-to-markdown.p.rapidapi.com&quot;)
+payload = '{
+  &quot;html&quot;: &quot;&lt;h1&gt;Hello&lt;/h1&gt;&lt;p&gt;World &lt;strong&gt;bold&lt;/strong&gt;&lt;/p&gt;&quot;,
+  &quot;mode&quot;: &quot;readable&quot;,
+  &quot;includeMetadata&quot;: false
+}'
+headers = {
+    'Content-Type': 'application/json',
+    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
+    'x-rapidapi-host': 'html-to-markdown.p.rapidapi.com'
+}
+conn.request(&quot;POST&quot;, &quot;/health&quot;, payload, headers)
+res = conn.getresponse()
+print(res.read().decode())</code></pre></div></div>
+                <div id="snippet-java" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-java">Copy</button><pre><code>HttpRequest request = HttpRequest.newBuilder()
+    .uri(URI.create(&quot;https://html-to-markdown.p.rapidapi.com/health&quot;))
+    .header(&quot;Content-Type&quot;, &quot;application/json&quot;)
+    .header(&quot;x-rapidapi-key&quot;, &quot;YOUR_RAPIDAPI_KEY&quot;)
+    .header(&quot;x-rapidapi-host&quot;, &quot;html-to-markdown.p.rapidapi.com&quot;)
+    .method(&quot;POST&quot;, HttpRequest.BodyPublishers.ofString(&quot;{
+  \&quot;html\&quot;: \&quot;&lt;h1&gt;Hello&lt;/h1&gt;&lt;p&gt;World &lt;strong&gt;bold&lt;/strong&gt;&lt;/p&gt;\&quot;,
+  \&quot;mode\&quot;: \&quot;readable\&quot;,
+  \&quot;includeMetadata\&quot;: false
+}&quot;))
+    .build();
+HttpResponse&lt;String&gt; response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+System.out.println(response.body());</code></pre></div></div>
+                <p><button type="button" class="postman-btn" id="postman-download">Download Postman collection</button></p>
+            </section>
+            <section><h2 id="expect">What to expect</h2><p>Response format depends on the endpoint. Use your RapidAPI key in headers. Stateless; no data stored. See <a href="https://rapidapi.com/precisionsolutionstech/api/html-to-markdown" target="_blank" rel="noopener">RapidAPI docs</a> for full response schema.</p></section>
+            <section><h2 id="about">About this API</h2>
+<div class="long-desc">
+<p>HTML to Markdown Converter API</p>
+<p>Convert HTML from CMS exports, scrapers, WYSIWYG editors, and web pages into clean, deterministic GitHub-flavored Markdown. One canonical conversion service—no per-project libraries or configuration. Same input always yields the same output.</p>
+<p>What This API Does</p>
+<ul>
+<li>**Converts** HTML (full document, fragment, or inline) into Markdown</li>
+<li>**Strips** scripts, styles, event handlers, tracking attributes, and layout-only markup</li>
+<li>**Preserves** headings, paragraphs, lists, tables, links, images, code blocks, blockquotes</li>
+<li>**Handles** malformed or partial HTML with best-effort parsing</li>
+<li>**Supports** three modes: strict (minimal), readable (default), llm-friendly (link references)</li>
+<li>**Returns** Markdown plus optional metadata (character counts, tags removed)</li>
+</ul>
+<p>No URL fetching. No script execution. No data persistence. Stateless. 25MB max per request.</p>
+<p>Key Features</p>
+<ul>
+<li>**Deterministic** — Same HTML + options → same Markdown every time</li>
+<li>**GitHub-Flavored Markdown** — Tables, fenced code blocks, standard syntax</li>
+<li>**Clean Output** — Strips scripts, inline styles, data-* attributes, javascript: links</li>
+<li>**Malformed HTML** — Handles unclosed tags, invalid nesting, partial fragments</li>
+<li>**Conversion Modes** — strict, readable, llm-friendly for different use cases</li>
+<li>**Stateless** — No storage, no logging, no cross-request memory</li>
+</ul>
+<p>Use Cases</p>
+<ul>
+<li>**CMS Migration** — Convert WordPress, Notion, or custom CMS HTML exports to Markdown</li>
+<li>**Scraper Pipelines** — Normalize scraped HTML before analytics, search, or storage</li>
+<li>**WYSIWYG Output** — Convert TinyMCE, Quill, or editor HTML to version-controlled Markdown</li>
+<li>**LLM Pipelines** — Feed clean Markdown to embeddings, RAG, or prompt context</li>
+<li>**Documentation** — Migrate HTML-based docs to Markdown for GitHub, Notion, or static sites</li>
+<li>**Email Processing** — Extract readable content from HTML emails</li>
+</ul>
+<p>Who This Is For</p>
+<p>### Backend Engineers</p>
+<p>Ingest HTML from APIs or scrapers and convert to Markdown in one API call. Replace ad-hoc parsing with a canonical service.</p>
+<p>### Data Engineers</p>
+<p>Prepare HTML content for analytics, search indexing, or ML pipelines. Clean, structured text without layout noise.</p>
+<p>### Documentation Teams</p>
+<p>Migrate HTML-based documentation to Markdown. Consistent output across sources and tools.</p>
+<p>### CMS Migration Teams</p>
+<p>Convert exports from WordPress, Drupal, or custom CMS into Markdown for new platforms.</p>
+<p>### LLM Pipeline Builders</p>
+<p>Convert HTML to clean text for embeddings, RAG, or prompt context. Predictable structure and chunk boundaries.</p>
+<p>### Product Teams</p>
+<p>Normalize WYSIWYG editor output (TinyMCE, Quill, CKEditor) into Markdown for storage or display.</p>
+<p>Also useful if you're looking for:</p>
+<ul>
+<li>HTML to Markdown API</li>
+<li>HTML Markdown converter</li>
+<li>CMS HTML to MD</li>
+<li>WYSIWYG to Markdown</li>
+<li>scraped HTML converter</li>
+<li>GitHub flavored Markdown API</li>
+<li>clean HTML text extractor</li>
+<li>document conversion API</li>
+<li>content migration Markdown</li>
+<li>LLM text preprocessing API</li>
+</ul>
+</div></section>
+        </article>
+        <footer>
+            <p><a href="https://rapidapi.com/precisionsolutionstech/api/html-to-markdown" target="_blank" rel="noopener">Subscribe on RapidAPI</a> · <a href="../index.html">API Catalog</a></p>
+            <p>© 2026 Precision Solutions Tech</p>
+        </footer>
+    </div>
+    <script>
+(function(){
+    var host='html-to-markdown.p.rapidapi.com',path='/health',body="{\n  \"html\": \"<h1>Hello</h1><p>World <strong>bold</strong></p>\",\n  \"mode\": \"readable\",\n  \"includeMetadata\": false\n}",fileUpload=false,rapidUrl="https://rapidapi.com/precisionsolutionstech/api/html-to-markdown";
+    document.querySelectorAll('[data-rapid-docs]').forEach(function(a){ a.href = rapidUrl; });
+    document.getElementById('toggle-req').addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('request-schema'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); });
+    document.getElementById('toggle-res').addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('response-schema'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); });
+    var toggleErrors=document.getElementById('toggle-errors');if(toggleErrors){ toggleErrors.addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('error-codes'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); }); }
+    document.querySelectorAll('.lang-tabs button').forEach(function(btn){
+        btn.addEventListener('click',function(){
+            document.querySelectorAll('.lang-tabs button').forEach(function(b){ b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
+            document.querySelectorAll('.code-block').forEach(function(b){ b.classList.remove('active'); });
+            this.classList.add('active'); this.setAttribute('aria-selected','true');
+            var el=document.getElementById('snippet-'+this.getAttribute('data-lang')); if(el) el.classList.add('active');
+        });
+    });
+    document.querySelectorAll('.copy-btn').forEach(function(btn){
+        btn.addEventListener('click',function(){
+            var id=this.getAttribute('data-copy'),block=document.getElementById(id),pre=block?block.querySelector('pre code'):null,btn=this;
+            if(pre) navigator.clipboard.writeText(pre.textContent).then(function(){ var t=btn.textContent; btn.textContent='Copied!'; setTimeout(function(){ btn.textContent=t; },1500); });
+        });
+    });
+    document.getElementById('postman-download').addEventListener('click',function(){
+        var coll = { info: { name: "HTML to Markdown Converter API", schema: 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json' }, item: [{ name: 'Request', request: { method: 'POST', header: [{ key: 'Content-Type', value: 'application/json' }, { key: 'x-rapidapi-key', value: 'YOUR_RAPIDAPI_KEY' }, { key: 'x-rapidapi-host', value: host }], url: 'https://'+host+path } } ] };
+        if(!fileUpload){ coll.item[0].request.body = { mode: 'raw', raw: typeof body==='string'?body:JSON.stringify(body) }; }
+        else { coll.item[0].request.header = [{ key: 'X-RapidAPI-Key', value: 'YOUR_RAPIDAPI_KEY' }, { key: 'X-RapidAPI-Host', value: host }]; coll.item[0].request.url = 'https://'+host+path+'?outputFormat=json'; coll.item[0].request.body = { mode: 'formdata', formdata: [{ key: 'file', type: 'file', src: '' }] }; }
+        var blob = new Blob([JSON.stringify(coll,null,2)], { type: 'application/json' });
+        var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'html-to-markdown-postman-collection.json'; a.click(); URL.revokeObjectURL(a.href);
+    });
+    var runBtn=document.getElementById('run-btn'),keyInput=document.getElementById('api-key'),resultDiv=document.getElementById('play-result');
+    runBtn.addEventListener('click',function(){
+        var key=(keyInput.value||'').trim();
+        if(!key){ resultDiv.style.display='block'; resultDiv.className='result error'; resultDiv.textContent='Please enter your RapidAPI key.'; return; }
+        
+    var bodyStr=document.getElementById('body-json').value.trim(),body;
+    try{body=JSON.parse(bodyStr);}catch(e){resultDiv.style.display='block';resultDiv.className='result error';resultDiv.textContent='Invalid JSON: '+e.message;return;}
+    runBtn.disabled=true;resultDiv.style.display='block';resultDiv.className='result';resultDiv.textContent='Loading…';
+    fetch('https://'+host+path,{method:'POST',headers:{'Content-Type':'application/json','x-rapidapi-key':key,'x-rapidapi-host':host},body:JSON.stringify(body)})
+    .then(function(r){return r.text().then(function(t){return{status:r.status,body:t};});})
+    .then(function(o){resultDiv.className='result '+(o.status>=200&&o.status<300?'success':'error');try{resultDiv.textContent=JSON.stringify(JSON.parse(o.body),null,2);}catch(_){resultDiv.textContent=o.status+'\n'+o.body;}})
+    .catch(function(e){resultDiv.className='result error';resultDiv.textContent='Request failed: '+e.message;})
+    .finally(function(){runBtn.disabled=false;});
+    });
+})();
+    </script>
+</body>
+</html>

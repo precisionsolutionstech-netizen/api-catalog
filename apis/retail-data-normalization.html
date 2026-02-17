@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="../favicon.png" type="image/png" sizes="32x32">
+    <title>Retail Data Normalization API | RapidAPI</title>
+    <meta name="description" content="Normalize one or more retailer payloads into a single canonical product schema. Send an array of inputs; each input has retailerId (e.g. amazon, walmart, ebay, target, bestbuy, costco, shopify, custom) and the raw retailer JSON as payload. Response includes results per source, a merged products array, and per-source errors. One invalid payload does not fail others. Max request size 25MB.">
+    <meta name="keywords" content="retail-data-normalization, API, RapidAPI, developer">
+    <link rel="canonical" href="https://precisionsolutionstech-netizen.github.io/api-catalog/apis/retail-data-normalization.html">
+    <meta property="og:title" content="Retail Data Normalization API">
+    <meta property="og:description" content="Normalize one or more retailer payloads into a single canonical product schema. Send an array of inputs; each input has retailerId (e.g. amazon, walmart, ebay, target, bestbuy, costco, shopify, custom) and the raw retailer JSON as payload. Response includes results per source, a merged products array, and per-source errors. One invalid payload does not fail others. Max request size 25MB.">
+    <script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","name":"Retail Data Normalization API","description":"Normalize one or more retailer payloads into a single canonical product schema. Send an array of inputs; each input has retailerId (e.g. amazon, walmart, ebay, target, bestbuy, costco, shopify, custom) and the raw retailer JSON as payload. Response includes results per source, a merged products array, and per-source errors. One invalid payload does not fail others. Max request size 25MB.","url":"https://precisionsolutionstech-netizen.github.io/api-catalog/apis/retail-data-normalization.html"}
+    </script>
+    <style>
+        :root { --bg: #0f172a; --surface: #1e293b; --border: #334155; --text: #e2e8f0; --muted: #94a3b8; --accent: #38bdf8; --success: #34d399; --error: #f87171; }
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: ui-sans-serif, system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+        .wrap { max-width: 900px; margin: 0 auto; padding: 24px 20px; }
+        a { color: var(--accent); }
+        nav { margin-bottom: 32px; font-size: 0.9rem; }
+        h1 { font-size: 1.9rem; margin: 0 0 12px; }
+        .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; }
+        h2 { font-size: 1.35rem; margin: 32px 0 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+        section { margin-bottom: 28px; }
+        .playground { background: var(--surface); border-radius: 12px; padding: 20px; margin: 24px 0; border: 1px solid var(--border); }
+        .playground label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 0.9rem; }
+        .playground input[type="password"], .playground select { width: 100%; max-width: 320px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); margin-bottom: 12px; }
+        .playground textarea { width: 100%; min-height: 120px; padding: 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); font-family: ui-monospace, monospace; font-size: 13px; resize: vertical; }
+        .playground input[type="file"] { margin-bottom: 12px; }
+        .playground button { padding: 10px 20px; background: var(--accent); color: var(--bg); border: none; border-radius: 8px; font-weight: 600; cursor: pointer; margin-top: 8px; }
+        .playground button:disabled { opacity: 0.6; cursor: not-allowed; }
+        .playground .result { margin-top: 16px; padding: 12px; border-radius: 8px; background: var(--bg); border: 1px solid var(--border); white-space: pre-wrap; word-break: break-all; font-family: ui-monospace, monospace; font-size: 12px; max-height: 320px; overflow: auto; }
+        .playground .result.error { border-color: var(--error); color: var(--error); }
+        .playground .result.success { border-color: var(--success); }
+        .file-upload-note { font-size: 0.85rem; color: var(--muted); margin-top: 4px; }
+        .code-wrap { position: relative; margin: 16px 0; }
+        .code-wrap pre { margin: 0; padding: 14px 16px; background: var(--surface); border-radius: 8px; border: 1px solid var(--border); overflow-x: auto; font-size: 13px; }
+        .code-wrap .copy-btn { position: absolute; top: 10px; right: 10px; padding: 6px 12px; background: var(--border); color: var(--text); border: none; border-radius: 6px; font-size: 12px; cursor: pointer; }
+        .code-wrap .copy-btn:hover { background: var(--accent); color: var(--bg); }
+        .lang-tabs { display: flex; gap: 4px; margin-bottom: 8px; flex-wrap: wrap; }
+        .lang-tabs button { padding: 8px 14px; background: var(--surface); border: 1px solid var(--border); color: var(--muted); border-radius: 6px; cursor: pointer; font-size: 0.9rem; }
+        .lang-tabs button.active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+        .code-block { display: none; }
+        .code-block.active { display: block; }
+        .schema-section { margin: 16px 0; }
+        .schema-toggle { color: var(--accent); cursor: pointer; text-decoration: none; font-weight: 600; }
+        .schema-toggle:hover { text-decoration: underline; }
+        .schema-content { display: none; margin-top: 12px; padding: 12px; background: var(--surface); border-radius: 8px; border: 1px solid var(--border); overflow-x: auto; }
+        .schema-content.show { display: block; }
+        .schema-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        .schema-table th, .schema-table td { padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--border); }
+        .schema-table code { font-size: 0.85em; }
+        .long-desc { color: var(--muted); font-size: 0.98rem; }
+        .long-desc p { margin: 0.75em 0; }
+        .long-desc ul { margin: 0.75em 0; padding-left: 1.5em; }
+        .long-desc li { margin: 0.35em 0; }
+        .postman-btn { display: inline-block; margin-top: 12px; padding: 10px 18px; background: var(--surface); border: 1px solid var(--border); color: var(--accent); border-radius: 8px; cursor: pointer; font-weight: 600; text-decoration: none; }
+        .postman-btn:hover { background: var(--border); }
+        footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.9rem; text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <nav aria-label="Breadcrumb"><a href="../index.html">API Catalog</a> → Retail Data Normalization</nav>
+        <article>
+            <header>
+                <h1>Retail Data Normalization API</h1>
+                <p class="lead">Normalize one or more retailer payloads into a single canonical product schema. Send an array of inputs; each input has retailerId (e.g. amazon, walmart, ebay, target, bestbuy, costco, shopify, custom) and the raw retailer JSON as payload. Response includes results per source, a merged products array, and per-source errors. One invalid payload does not fail others. Max request size 25MB.</p>
+            </header>
+            <section><h2 id="why">Why use this API?</h2><p>Product data from multiple retailers or marketplaces has different schemas. Normalize for price comparison, analytics, and catalog management.</p></section>
+            <section><h2 id="what">What the API does</h2><p>POST /normalize with product/retail payload(s). Returns normalized product(s).</p></section>
+            <section>
+                <h2 id="schemas">Request &amp; response schema</h2>
+                <p><a href="#request-schema" class="schema-toggle" id="toggle-req" aria-expanded="false">View request schema</a> &middot; <a href="#response-schema" class="schema-toggle" id="toggle-res" aria-expanded="false">View response schema</a> &middot; <a href="#error-codes" class="schema-toggle" id="toggle-errors" aria-expanded="false">View error &amp; warning codes</a></p>
+                <div id="error-codes" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Code</th><th>HTTP</th><th>Description</th></tr></thead><tbody><tr><td><code>PARSE_ERROR</code></td><td><code>—</code></td><td>Payload could not be parsed for this retailer</td></tr><tr><td><code>UNSUPPORTED_FORMAT</code></td><td><code>—</code></td><td>Retailer payload format not supported</td></tr><tr><td><code>MISSING_DATA</code></td><td><code>—</code></td><td>No product items found in payload</td></tr><tr><td><code>INVALID_PAYLOAD</code></td><td><code>—</code></td><td>Payload is not a valid object or structure</td></tr><tr><td><code>SKIPPED</code></td><td><code>—</code></td><td>Input was skipped (e.g., empty payload)</td></tr></tbody></table></div>
+                <div id="request-schema" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>inputs[].retailerId</code></td><td><code>string</code></td><td>Per-item: retailerId</td></tr><tr><td><code>inputs[].payload</code></td><td><code>any</code></td><td>Per-item: payload</td></tr><tr><td><code>inputs[].schemaVersion</code></td><td><code>string</code></td><td>Per-item: schemaVersion</td></tr><tr><td><code>inputs[].parsingHints</code></td><td><code>object</code></td><td>Per-item: parsingHints</td></tr></tbody></table></div>
+                <div id="response-schema" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>results[].retailerId</code></td><td><code>string</code></td><td>Per-item: retailerId</td></tr><tr><td><code>results[].products</code></td><td><code>array</code></td><td>Per-item: products</td></tr><tr><td><code>results[].error</code></td><td><code>any</code></td><td>Per-item: error</td></tr><tr><td><code>errors</code></td><td><code>array</code></td><td>Array of objects; see response example for item shape.</td></tr><tr><td><code>products[].id</code></td><td><code>string</code></td><td>Per-item: id</td></tr><tr><td><code>products[].identifiers</code></td><td><code>object</code></td><td>Per-item: identifiers</td></tr><tr><td><code>products[].title</code></td><td><code>string</code></td><td>Per-item: title</td></tr><tr><td><code>products[].name</code></td><td><code>string</code></td><td>Per-item: name</td></tr><tr><td><code>products[].brand</code></td><td><code>string</code></td><td>Per-item: brand</td></tr><tr><td><code>products[].category</code></td><td><code>null</code></td><td>Per-item: category</td></tr><tr><td><code>products[].images</code></td><td><code>array</code></td><td>Per-item: images</td></tr><tr><td><code>products[].price</code></td><td><code>object</code></td><td>Per-item: price</td></tr><tr><td><code>products[].availability</code></td><td><code>string</code></td><td>Per-item: availability</td></tr><tr><td><code>products[].fulfillmentType</code></td><td><code>null</code></td><td>Per-item: fulfillmentType</td></tr><tr><td><code>products[].seller</code></td><td><code>null</code></td><td>Per-item: seller</td></tr><tr><td><code>products[].reviews</code></td><td><code>object</code></td><td>Per-item: reviews</td></tr><tr><td><code>products[].rawSource</code></td><td><code>object</code></td><td>Per-item: rawSource</td></tr></tbody></table></div>
+            </section>
+            <section>
+                <h2 id="playground">Try it in the playground</h2>
+                <p>Add your <a href="https://rapidapi.com/precisionsolutionstech/api/retail-data-normalization" target="_blank" rel="noopener">RapidAPI key</a> and run. Key is sent only to RapidAPI.</p>
+                <div class="playground">
+                    <label for="api-key">RapidAPI Key (required)</label>
+                    <input type="password" id="api-key" placeholder="Your RapidAPI key" autocomplete="off">
+                    
+                    <label for="body-json">Request body (JSON)</label>
+                    <textarea id="body-json" placeholder='{}'>{
+  &quot;inputs&quot;: [
+    {
+      &quot;retailerId&quot;: &quot;amazon&quot;,
+      &quot;payload&quot;: {
+        &quot;Items&quot;: [
+          {
+            &quot;ASIN&quot;: &quot;B08N5WRWNW&quot;,
+            &quot;ItemInfo&quot;: {
+              &quot;Title&quot;: { &quot;DisplayValue&quot;: &quot;Example Product&quot; },
+              &quot;Brand&quot;: { &quot;DisplayValue&quot;: &quot;Example Brand&quot; }
+            },
+            &quot;Offers&quot;: {
+              &quot;Listings&quot;: [
+                {
+                  &quot;Price&quot;: { &quot;Amount&quot;: 29.99, &quot;CurrencyCode&quot;: &quot;USD&quot;, &quot;DisplayAmount&quot;: &quot;$29.99&quot; },
+                  &quot;Availability&quot;: { &quot;Type&quot;: &quot;Now&quot; }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}</textarea>
+                    <button type="button" id="run-btn">Run request</button>
+                    <div id="play-result" class="result" style="display:none;" aria-live="polite"></div>
+                </div>
+            </section>
+            <section>
+                <h2 id="code">Copy code</h2>
+                <p>Host: <code>retail-data-normalization.p.rapidapi.com</code>, endpoint: <code>POST /normalize</code>. Choose language:</p>
+                <div class="lang-tabs" role="tablist">
+                    <button type="button" role="tab" aria-selected="true" data-lang="curl" class="active">cURL</button>
+                    <button type="button" role="tab" aria-selected="false" data-lang="javascript">JavaScript</button>
+                    <button type="button" role="tab" aria-selected="false" data-lang="python">Python</button>
+                    <button type="button" role="tab" aria-selected="false" data-lang="java">Java</button>
+                </div>
+                <div id="snippet-curl" class="code-block active"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-curl">Copy</button><pre><code>curl --request POST \
+  --url 'https://retail-data-normalization.p.rapidapi.com/normalize' \
+  --header 'Content-Type: application/json' \
+  --header 'x-rapidapi-host: retail-data-normalization.p.rapidapi.com' \
+  --header 'x-rapidapi-key: YOUR_RAPIDAPI_KEY' \
+  --data '{
+  &quot;inputs&quot;: [
+    {
+      &quot;retailerId&quot;: &quot;amazon&quot;,
+      &quot;payload&quot;: {
+        &quot;Items&quot;: [
+          {
+            &quot;ASIN&quot;: &quot;B08N5WRWNW&quot;,
+            &quot;ItemInfo&quot;: {
+              &quot;Title&quot;: { &quot;DisplayValue&quot;: &quot;Example Product&quot; },
+              &quot;Brand&quot;: { &quot;DisplayValue&quot;: &quot;Example Brand&quot; }
+            },
+            &quot;Offers&quot;: {
+              &quot;Listings&quot;: [
+                {
+                  &quot;Price&quot;: { &quot;Amount&quot;: 29.99, &quot;CurrencyCode&quot;: &quot;USD&quot;, &quot;DisplayAmount&quot;: &quot;$29.99&quot; },
+                  &quot;Availability&quot;: { &quot;Type&quot;: &quot;Now&quot; }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}'</code></pre></div></div>
+                <div id="snippet-javascript" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-javascript">Copy</button><pre><code>const res = await fetch('https://retail-data-normalization.p.rapidapi.com/normalize', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
+    'x-rapidapi-host': 'retail-data-normalization.p.rapidapi.com'
+  },
+  body: '{   &quot;inputs&quot;: [     {       &quot;retailerId&quot;: &quot;amazon&quot;,       &quot;payload&quot;: {         &quot;Items&quot;: [           {             &quot;ASIN&quot;: &quot;B08N5WRWNW&quot;,             &quot;ItemInfo&quot;: {               &quot;Title&quot;: { &quot;DisplayValue&quot;: &quot;Example Product&quot; },               &quot;Brand&quot;: { &quot;DisplayValue&quot;: &quot;Example Brand&quot; }             },             &quot;Offers&quot;: {               &quot;Listings&quot;: [                 {                   &quot;Price&quot;: { &quot;Amount&quot;: 29.99, &quot;CurrencyCode&quot;: &quot;USD&quot;, &quot;DisplayAmount&quot;: &quot;$29.99&quot; },                   &quot;Availability&quot;: { &quot;Type&quot;: &quot;Now&quot; }                 }               ]             }           }         ]       }     }   ] }'
+});
+const data = await res.json();
+console.log(data);</code></pre></div></div>
+                <div id="snippet-python" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-python">Copy</button><pre><code>import http.client
+import json
+
+conn = http.client.HTTPSConnection(&quot;retail-data-normalization.p.rapidapi.com&quot;)
+payload = '{
+  &quot;inputs&quot;: [
+    {
+      &quot;retailerId&quot;: &quot;amazon&quot;,
+      &quot;payload&quot;: {
+        &quot;Items&quot;: [
+          {
+            &quot;ASIN&quot;: &quot;B08N5WRWNW&quot;,
+            &quot;ItemInfo&quot;: {
+              &quot;Title&quot;: { &quot;DisplayValue&quot;: &quot;Example Product&quot; },
+              &quot;Brand&quot;: { &quot;DisplayValue&quot;: &quot;Example Brand&quot; }
+            },
+            &quot;Offers&quot;: {
+              &quot;Listings&quot;: [
+                {
+                  &quot;Price&quot;: { &quot;Amount&quot;: 29.99, &quot;CurrencyCode&quot;: &quot;USD&quot;, &quot;DisplayAmount&quot;: &quot;$29.99&quot; },
+                  &quot;Availability&quot;: { &quot;Type&quot;: &quot;Now&quot; }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}'
+headers = {
+    'Content-Type': 'application/json',
+    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
+    'x-rapidapi-host': 'retail-data-normalization.p.rapidapi.com'
+}
+conn.request(&quot;POST&quot;, &quot;/normalize&quot;, payload, headers)
+res = conn.getresponse()
+print(res.read().decode())</code></pre></div></div>
+                <div id="snippet-java" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-java">Copy</button><pre><code>HttpRequest request = HttpRequest.newBuilder()
+    .uri(URI.create(&quot;https://retail-data-normalization.p.rapidapi.com/normalize&quot;))
+    .header(&quot;Content-Type&quot;, &quot;application/json&quot;)
+    .header(&quot;x-rapidapi-key&quot;, &quot;YOUR_RAPIDAPI_KEY&quot;)
+    .header(&quot;x-rapidapi-host&quot;, &quot;retail-data-normalization.p.rapidapi.com&quot;)
+    .method(&quot;POST&quot;, HttpRequest.BodyPublishers.ofString(&quot;{
+  \&quot;inputs\&quot;: [
+    {
+      \&quot;retailerId\&quot;: \&quot;amazon\&quot;,
+      \&quot;payload\&quot;: {
+        \&quot;Items\&quot;: [
+          {
+            \&quot;ASIN\&quot;: \&quot;B08N5WRWNW\&quot;,
+            \&quot;ItemInfo\&quot;: {
+              \&quot;Title\&quot;: { \&quot;DisplayValue\&quot;: \&quot;Example Product\&quot; },
+              \&quot;Brand\&quot;: { \&quot;DisplayValue\&quot;: \&quot;Example Brand\&quot; }
+            },
+            \&quot;Offers\&quot;: {
+              \&quot;Listings\&quot;: [
+                {
+                  \&quot;Price\&quot;: { \&quot;Amount\&quot;: 29.99, \&quot;CurrencyCode\&quot;: \&quot;USD\&quot;, \&quot;DisplayAmount\&quot;: \&quot;$29.99\&quot; },
+                  \&quot;Availability\&quot;: { \&quot;Type\&quot;: \&quot;Now\&quot; }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}&quot;))
+    .build();
+HttpResponse&lt;String&gt; response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+System.out.println(response.body());</code></pre></div></div>
+                <p><button type="button" class="postman-btn" id="postman-download">Download Postman collection</button></p>
+            </section>
+            <section><h2 id="expect">What to expect</h2><p>Response format depends on the endpoint. Use your RapidAPI key in headers. Stateless; no data stored. See <a href="https://rapidapi.com/precisionsolutionstech/api/retail-data-normalization" target="_blank" rel="noopener">RapidAPI docs</a> for full response schema.</p></section>
+            <section><h2 id="about">About this API</h2>
+<div class="long-desc">
+<p>Retail Data Normalization &amp; Comparison API</p>
+<p>The Retail Data Normalization &amp; Comparison API enables teams to standardize, compare, and analyze retail product data across multiple retailers (Amazon, Walmart, eBay, Target, Best Buy, Costco, Shopify, Google Shopping, Etsy, and more) without fetching the data itself.</p>
+<p>Send one request with an `inputs` array—each element has `retailerId` and raw `payload`. Users provide raw retailer responses (often large, inconsistent JSON payloads), and the API returns:</p>
+<ul>
+<li>A single merged array of normalized, vendor-agnostic product objects</li>
+<li>Per-source results and errors (one bad payload does not fail the rest)</li>
+<li>Comparative insights (price, availability, reviews)</li>
+<li>Deterministic rankings (cheapest, best value)</li>
+</ul>
+<p>The API is fully stateless, scalable to large payloads (up to 25MB per request), and does not require vendor accounts.</p>
+<p>What This API Does</p>
+<p>**Normalize** — Transform retailer-specific JSON into a canonical product format: identifiers (ASIN, UPC, SKU), title, brand, category, images, price, availability, fulfillment, seller, reviews, raw source metadata.</p>
+<p>**Compare** — On normalized products: cheapest retailer and price, price range, best-reviewed retailer, rankings. Optional query intent: cheapest, best_reviewed, in_stock_only, exclude_third_party.</p>
+<p>**Extensible** — Supported retailers include Amazon, Walmart, eBay, Target, Best Buy, Costco, Shopify, Google Shopping, Etsy, Newegg, Flipkart, and custom. Unknown retailers use a best-effort generic normalizer.</p>
+<p>Key Features</p>
+<ul>
+<li>**Single Schema** — One canonical format for all retailers; one request returns one merged product array</li>
+<li>**Multi-Retailer** — Amazon, Walmart, eBay, Target, Best Buy, Costco, Shopify, Google Shopping, Etsy, custom</li>
+<li>**Comparison Ready** — Price and review comparison, rankings</li>
+<li>**Stateless &amp; Scalable** — No storage, 25MB payload limit, partial success per source</li>
+<li>**No Vendor Keys** — Operates on user-provided data only</li>
+</ul>
+<p>Use Cases</p>
+<ul>
+<li>E-commerce platforms normalizing catalog data from multiple sources</li>
+<li>Price comparison tools and shopping extensions</li>
+<li>Analytics and BI pipelines needing one schema for all retail inputs</li>
+<li>Deal aggregation and marketplace integrators</li>
+<li>Internal pricing intelligence and competitive analysis</li>
+</ul>
+<p>Who This Is For</p>
+<ul>
+<li>E-commerce platforms</li>
+<li>Price comparison tools</li>
+<li>Shopping extensions</li>
+<li>Analytics &amp; BI pipelines</li>
+<li>Deal aggregation services</li>
+<li>Marketplace integrators</li>
+<li>Internal pricing intelligence teams</li>
+</ul>
+<p>Also useful if you’re looking for:</p>
+<ul>
+<li>retail data combiner API</li>
+<li>product data aggregator</li>
+<li>ecommerce product normalizer</li>
+<li>price comparison API</li>
+<li>multi-retailer catalog unifier</li>
+<li>Amazon Walmart eBay product comparison</li>
+<li>retail JSON normalization</li>
+<li>product feed converter</li>
+<li>SKU normalization API</li>
+</ul>
+</div></section>
+        </article>
+        <footer>
+            <p><a href="https://rapidapi.com/precisionsolutionstech/api/retail-data-normalization" target="_blank" rel="noopener">Subscribe on RapidAPI</a> · <a href="../index.html">API Catalog</a></p>
+            <p>© 2026 Precision Solutions Tech</p>
+        </footer>
+    </div>
+    <script>
+(function(){
+    var host='retail-data-normalization.p.rapidapi.com',path='/normalize',body="{\n  \"inputs\": [\n    {\n      \"retailerId\": \"amazon\",\n      \"payload\": {\n        \"Items\": [\n          {\n            \"ASIN\": \"B08N5WRWNW\",\n            \"ItemInfo\": {\n              \"Title\": { \"DisplayValue\": \"Example Product\" },\n              \"Brand\": { \"DisplayValue\": \"Example Brand\" }\n            },\n            \"Offers\": {\n              \"Listings\": [\n                {\n                  \"Price\": { \"Amount\": 29.99, \"CurrencyCode\": \"USD\", \"DisplayAmount\": \"$29.99\" },\n                  \"Availability\": { \"Type\": \"Now\" }\n                }\n              ]\n            }\n          }\n        ]\n      }\n    }\n  ]\n}",fileUpload=false,rapidUrl="https://rapidapi.com/precisionsolutionstech/api/retail-data-normalization";
+    document.querySelectorAll('[data-rapid-docs]').forEach(function(a){ a.href = rapidUrl; });
+    document.getElementById('toggle-req').addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('request-schema'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); });
+    document.getElementById('toggle-res').addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('response-schema'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); });
+    var toggleErrors=document.getElementById('toggle-errors');if(toggleErrors){ toggleErrors.addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('error-codes'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); }); }
+    document.querySelectorAll('.lang-tabs button').forEach(function(btn){
+        btn.addEventListener('click',function(){
+            document.querySelectorAll('.lang-tabs button').forEach(function(b){ b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
+            document.querySelectorAll('.code-block').forEach(function(b){ b.classList.remove('active'); });
+            this.classList.add('active'); this.setAttribute('aria-selected','true');
+            var el=document.getElementById('snippet-'+this.getAttribute('data-lang')); if(el) el.classList.add('active');
+        });
+    });
+    document.querySelectorAll('.copy-btn').forEach(function(btn){
+        btn.addEventListener('click',function(){
+            var id=this.getAttribute('data-copy'),block=document.getElementById(id),pre=block?block.querySelector('pre code'):null,btn=this;
+            if(pre) navigator.clipboard.writeText(pre.textContent).then(function(){ var t=btn.textContent; btn.textContent='Copied!'; setTimeout(function(){ btn.textContent=t; },1500); });
+        });
+    });
+    document.getElementById('postman-download').addEventListener('click',function(){
+        var coll = { info: { name: "Retail Data Normalization API", schema: 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json' }, item: [{ name: 'Request', request: { method: 'POST', header: [{ key: 'Content-Type', value: 'application/json' }, { key: 'x-rapidapi-key', value: 'YOUR_RAPIDAPI_KEY' }, { key: 'x-rapidapi-host', value: host }], url: 'https://'+host+path } } ] };
+        if(!fileUpload){ coll.item[0].request.body = { mode: 'raw', raw: typeof body==='string'?body:JSON.stringify(body) }; }
+        else { coll.item[0].request.header = [{ key: 'X-RapidAPI-Key', value: 'YOUR_RAPIDAPI_KEY' }, { key: 'X-RapidAPI-Host', value: host }]; coll.item[0].request.url = 'https://'+host+path+'?outputFormat=json'; coll.item[0].request.body = { mode: 'formdata', formdata: [{ key: 'file', type: 'file', src: '' }] }; }
+        var blob = new Blob([JSON.stringify(coll,null,2)], { type: 'application/json' });
+        var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'retail-data-normalization-postman-collection.json'; a.click(); URL.revokeObjectURL(a.href);
+    });
+    var runBtn=document.getElementById('run-btn'),keyInput=document.getElementById('api-key'),resultDiv=document.getElementById('play-result');
+    runBtn.addEventListener('click',function(){
+        var key=(keyInput.value||'').trim();
+        if(!key){ resultDiv.style.display='block'; resultDiv.className='result error'; resultDiv.textContent='Please enter your RapidAPI key.'; return; }
+        
+    var bodyStr=document.getElementById('body-json').value.trim(),body;
+    try{body=JSON.parse(bodyStr);}catch(e){resultDiv.style.display='block';resultDiv.className='result error';resultDiv.textContent='Invalid JSON: '+e.message;return;}
+    runBtn.disabled=true;resultDiv.style.display='block';resultDiv.className='result';resultDiv.textContent='Loading…';
+    fetch('https://'+host+path,{method:'POST',headers:{'Content-Type':'application/json','x-rapidapi-key':key,'x-rapidapi-host':host},body:JSON.stringify(body)})
+    .then(function(r){return r.text().then(function(t){return{status:r.status,body:t};});})
+    .then(function(o){resultDiv.className='result '+(o.status>=200&&o.status<300?'success':'error');try{resultDiv.textContent=JSON.stringify(JSON.parse(o.body),null,2);}catch(_){resultDiv.textContent=o.status+'\n'+o.body;}})
+    .catch(function(e){resultDiv.className='result error';resultDiv.textContent='Request failed: '+e.message;})
+    .finally(function(){runBtn.disabled=false;});
+    });
+})();
+    </script>
+</body>
+</html>
