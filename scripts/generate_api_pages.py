@@ -607,8 +607,8 @@ CONFIG = [
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(BASE, "apis")
 LINKS_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "rapid_api_links.json")
-# Base URL for sitemap and canonicals (no trailing slash). Set to your production domain.
-SITEMAP_BASE_URL = os.environ.get("API_CATALOG_BASE_URL", "https://your-catalog-domain.com")
+# Base URL for sitemap and canonicals (no trailing slash). Set via API_CATALOG_BASE_URL env if different.
+SITEMAP_BASE_URL = os.environ.get("API_CATALOG_BASE_URL", "https://precisionsolutionstech-netizen.github.io/api-catalog")
 
 def escape(s):
     return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;")
@@ -664,6 +664,7 @@ def template(c):
     desc = escape(c["description"])
     why = escape(c["why"])
     what = escape(c["what"])
+    base_url = SITEMAP_BASE_URL.rstrip("/")
     rapid_url = (RAPID_LINKS or {}).get(slug) or c.get("rapid_url") or ("https://rapidapi.com/precisionsolutionstech/api/" + slug)
     # Use host derived from RapidAPI page URL so the real REST call matches RapidAPI
     host = host_from_rapid_url(rapid_url) or c["host"]
@@ -801,11 +802,11 @@ System.out.println(response.body());"""
     <title>{title} | RapidAPI</title>
     <meta name="description" content="{desc}">
     <meta name="keywords" content="{slug}, API, RapidAPI, developer">
-    <link rel="canonical" href="https://your-catalog-domain.com/apis/{slug}.html">
+    <link rel="canonical" href="{base_url}/apis/{slug}.html">
     <meta property="og:title" content="{title}">
     <meta property="og:description" content="{desc}">
     <script type="application/ld+json">
-{{"@context":"https://schema.org","@type":"WebPage","name":"{escape(title)}","description":"{desc}","url":"https://your-catalog-domain.com/apis/{slug}.html"}}
+{{"@context":"https://schema.org","@type":"WebPage","name":"{escape(title)}","description":"{desc}","url":"{base_url}/apis/{slug}.html"}}
     </script>
     <style>
         :root {{ --bg: #0f172a; --surface: #1e293b; --border: #334155; --text: #e2e8f0; --muted: #94a3b8; --accent: #38bdf8; --success: #34d399; --error: #f87171; }}

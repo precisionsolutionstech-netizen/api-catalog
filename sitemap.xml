@@ -1,115 +1,115 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://your-catalog-domain.com/</loc>
+    <loc>https://precisionsolutionstech-netizen.github.io/api-catalog/</loc>
     <lastmod>2026-02-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://your-catalog-domain.com/apis/event-listing-normalization.html</loc>
+    <loc>https://precisionsolutionstech-netizen.github.io/api-catalog/apis/event-listing-normalization.html</loc>
     <lastmod>2026-02-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://your-catalog-domain.com/apis/calendar-event-normalization.html</loc>
+    <loc>https://precisionsolutionstech-netizen.github.io/api-catalog/apis/calendar-event-normalization.html</loc>
     <lastmod>2026-02-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://your-catalog-domain.com/apis/job-posting-normalization.html</loc>
+    <loc>https://precisionsolutionstech-netizen.github.io/api-catalog/apis/job-posting-normalization.html</loc>
     <lastmod>2026-02-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://your-catalog-domain.com/apis/shipping-tracking-normalization.html</loc>
+    <loc>https://precisionsolutionstech-netizen.github.io/api-catalog/apis/shipping-tracking-normalization.html</loc>
     <lastmod>2026-02-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://your-catalog-domain.com/apis/retail-data-normalization.html</loc>
+    <loc>https://precisionsolutionstech-netizen.github.io/api-catalog/apis/retail-data-normalization.html</loc>
     <lastmod>2026-02-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://your-catalog-domain.com/apis/social-media-data-normalization.html</loc>
+    <loc>https://precisionsolutionstech-netizen.github.io/api-catalog/apis/social-media-data-normalization.html</loc>
     <lastmod>2026-02-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://your-catalog-domain.com/apis/json-diff-checker.html</loc>
+    <loc>https://precisionsolutionstech-netizen.github.io/api-catalog/apis/json-diff-checker.html</loc>
     <lastmod>2026-02-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://your-catalog-domain.com/apis/html-to-markdown.html</loc>
+    <loc>https://precisionsolutionstech-netizen.github.io/api-catalog/apis/html-to-markdown.html</loc>
     <lastmod>2026-02-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://your-catalog-domain.com/apis/url-signature-presigner.html</loc>
+    <loc>https://precisionsolutionstech-netizen.github.io/api-catalog/apis/url-signature-presigner.html</loc>
     <lastmod>2026-02-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://your-catalog-domain.com/apis/pdf-table-extraction.html</loc>
+    <loc>https://precisionsolutionstech-netizen.github.io/api-catalog/apis/pdf-table-extraction.html</loc>
     <lastmod>2026-02-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://your-catalog-domain.com/apis/pii-detection-redaction.html</loc>
+    <loc>https://precisionsolutionstech-netizen.github.io/api-catalog/apis/pii-detection-redaction.html</loc>
     <lastmod>2026-02-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://your-catalog-domain.com/apis/qr-code-generator.html</loc>
+    <loc>https://precisionsolutionstech-netizen.github.io/api-catalog/apis/qr-code-generator.html</loc>
     <lastmod>2026-02-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://your-catalog-domain.com/apis/adaptive-rate-limit-calculator.html</loc>
+    <loc>https://precisionsolutionstech-netizen.github.io/api-catalog/apis/adaptive-rate-limit-calculator.html</loc>
     <lastmod>2026-02-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://your-catalog-domain.com/apis/http-error-root-trigger-analyzer.html</loc>
+    <loc>https://precisionsolutionstech-netizen.github.io/api-catalog/apis/http-error-root-trigger-analyzer.html</loc>
     <lastmod>2026-02-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://your-catalog-domain.com/apis/api-error-status-normalization.html</loc>
+    <loc>https://precisionsolutionstech-netizen.github.io/api-catalog/apis/api-error-status-normalization.html</loc>
     <lastmod>2026-02-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://your-catalog-domain.com/apis/json-schema-validator.html</loc>
+    <loc>https://precisionsolutionstech-netizen.github.io/api-catalog/apis/json-schema-validator.html</loc>
     <lastmod>2026-02-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://your-catalog-domain.com/apis/json-payload-consistency-checker.html</loc>
+    <loc>https://precisionsolutionstech-netizen.github.io/api-catalog/apis/json-payload-consistency-checker.html</loc>
     <lastmod>2026-02-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://your-catalog-domain.com/apis/pdf-compression.html</loc>
+    <loc>https://precisionsolutionstech-netizen.github.io/api-catalog/apis/pdf-compression.html</loc>
     <lastmod>2026-02-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
