@@ -103,13 +103,13 @@
                 <p class="lead">PDF compressor, optimizer, and shrinker API. Reduce PDF file size while preserving quality. Speed, lossless, or max compression modes. Multipart upload. Email attachments, web downloads, storage. Stateless, 80MB max.</p>
             </header>
             <section><h2 id="why">Why use this API?</h2><p>Shrink PDFs for storage or transfer without losing quality.</p></section>
-            <section><h2 id="what">What the API does</h2><p>POST with PDF file. Returns optimized PDF or download URL.</p></section>
+            <section><h2 id="what">What the API does</h2><p>POST a PDF file to <code>/optimize</code>. Returns the optimized PDF file by default (binary). Send <code>Accept: application/json</code> to get size metadata only (originalSize, optimizedSize, reductionBytes, reductionPercent).</p></section>
             <section>
                 <h2 id="schemas">Request &amp; response schema</h2>
                 <p><a href="#request-schema" class="schema-toggle" id="toggle-req" aria-expanded="false">View request schema</a> &middot; <a href="#response-schema" class="schema-toggle" id="toggle-res" aria-expanded="false">View response schema</a></p>
                 
-                <div id="request-schema" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>file</code></td><td><code>file</code></td><td>PDF file to compress.</td></tr></tbody></table></div>
-                <div id="response-schema" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>status</code></td><td><code>string</code></td><td></td></tr></tbody></table></div>
+                <div id="request-schema" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>file</code></td><td><code>file</code></td><td>PDF file to optimize (multipart form field).</td></tr><tr><td><code>mode</code></td><td><code>query</code></td><td>Optional: <code>speed</code>, <code>lossless</code> (default), or <code>maxCompression</code>.</td></tr></tbody></table></div>
+                <div id="response-schema" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Response</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td>Default</td><td><code>application/pdf</code></td><td>Optimized PDF binary. Headers: <code>X-Original-Size</code>, <code>X-Optimized-Size</code>, <code>X-Reduction-Bytes</code>, <code>X-Reduction-Percent</code>.</td></tr><tr><td>If <code>Accept: application/json</code></td><td><code>JSON</code></td><td><code>originalSize</code>, <code>optimizedSize</code>, <code>reductionBytes</code>, <code>reductionPercent</code>.</td></tr></tbody></table></div>
             </section>
             <section>
                 <h2 id="playground">Try it in the playground</h2>
@@ -118,13 +118,8 @@
                     <label for="api-key">RapidAPI Key (required)</label>
                     <input type="password" id="api-key" placeholder="Your RapidAPI key" autocomplete="off">
                     
-                    <label for="mode">Output format</label>
-                    <select id="mode">
-                        <option value="json">json</option>
-                        <option value="xlsx">xlsx</option>
-                        <option value="csv">csv</option>
-                    </select>
-                    <label for="file-input">PDF file (required)</label>
+                    <label><input type="checkbox" id="metadata-only" value="1"> Get metadata only (JSON) — send <code>Accept: application/json</code></label>
+                    <label for="file-input" style="margin-top:12px;display:block;">PDF file (required)</label>
                     <input type="file" id="file-input" accept=".pdf,application/pdf">
                     <p class="file-upload-note">File is sent to RapidAPI; not stored here.</p>
                     <button type="button" id="run-btn">Run request</button>
@@ -133,7 +128,7 @@
             </section>
             <section>
                 <h2 id="code">Copy code</h2>
-                <p>Host: <code>pdf-compression-api1.p.rapidapi.com</code>, endpoint: <code>POST /compress</code>. Choose language:</p>
+                <p>Host: <code>pdf-compression-api1.p.rapidapi.com</code>, endpoint: <code>POST /optimize</code>. Returns PDF by default; send <code>Accept: application/json</code> for metadata only. Choose language:</p>
                 <div class="lang-tabs" role="tablist">
                     <button type="button" role="tab" aria-selected="true" data-lang="curl" class="active">cURL</button>
                     <button type="button" role="tab" aria-selected="false" data-lang="javascript">JavaScript</button>
@@ -141,30 +136,32 @@
                     <button type="button" role="tab" aria-selected="false" data-lang="java">Java</button>
                 </div>
                 <div id="snippet-curl" class="code-block active"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-curl">Copy</button><pre><code>curl --request POST \
-  --url 'https://pdf-compression-api1.p.rapidapi.com/compress?outputFormat=json' \
+  --url 'https://pdf-compression-api1.p.rapidapi.com/optimize' \
   --header 'X-RapidAPI-Host: pdf-compression-api1.p.rapidapi.com' \
   --header 'X-RapidAPI-Key: YOUR_RAPIDAPI_KEY' \
-  --form 'file=@document.pdf'</code></pre></div></div>
+  --form 'file=@document.pdf' \
+  --output optimized.pdf</code></pre></div></div>
                 <div id="snippet-javascript" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-javascript">Copy</button><pre><code>const formData = new FormData();
 formData.append('file', document.querySelector('input[type=file]').files[0]);
-const res = await fetch('https://pdf-compression-api1.p.rapidapi.com/compress?outputFormat=json', {
+const res = await fetch('https://pdf-compression-api1.p.rapidapi.com/optimize', {
   method: 'POST',
   headers: { 'X-RapidAPI-Key': 'YOUR_RAPIDAPI_KEY', 'X-RapidAPI-Host': 'pdf-compression-api1.p.rapidapi.com' },
   body: formData
 });
-const data = await res.json();
-console.log(data);</code></pre></div></div>
+const blob = await res.blob();
+// Default: blob is the PDF. For metadata only, send Accept: application/json and use res.json()</code></pre></div></div>
                 <div id="snippet-python" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-python">Copy</button><pre><code>import requests
 
-url = &quot;https://pdf-compression-api1.p.rapidapi.com/compress&quot;
+url = &quot;https://pdf-compression-api1.p.rapidapi.com/optimize&quot;
 headers = {'X-RapidAPI-Key': 'YOUR_RAPIDAPI_KEY', 'X-RapidAPI-Host': 'pdf-compression-api1.p.rapidapi.com'}
 with open('document.pdf', 'rb') as f:
-    r = requests.post(url, files={'file': f}, headers=headers, params={'outputFormat': 'json'})
-print(r.json())</code></pre></div></div>
-                <div id="snippet-java" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-java">Copy</button><pre><code>// Use multipart: add file part with name 'file'. See RapidAPI docs for full example.</code></pre></div></div>
+    r = requests.post(url, files={'file': f}, headers=headers)
+with open('optimized.pdf', 'wb') as out:
+    out.write(r.content)</code></pre></div></div>
+                <div id="snippet-java" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-java">Copy</button><pre><code>// POST to /optimize with multipart file part named 'file'. Response is PDF binary; write to file. See RapidAPI docs for full example.</code></pre></div></div>
                 <p><button type="button" class="postman-btn" id="postman-download">Download Postman collection</button></p>
             </section>
-            <section><h2 id="expect">What to expect</h2><p>Response format depends on the endpoint. Use your RapidAPI key in headers. Stateless; no data stored. See <a href="https://rapidapi.com/precisionsolutionstech/api/pdf-compression-api1" target="_blank" rel="noopener">RapidAPI docs</a> for full response schema.</p></section>
+            <section><h2 id="expect">What to expect</h2><p>By default the API returns the optimized PDF (binary). Send <code>Accept: application/json</code> to receive JSON with <code>originalSize</code>, <code>optimizedSize</code>, <code>reductionBytes</code>, <code>reductionPercent</code> only. Use your RapidAPI key in headers. Stateless; no data stored. See <a href="https://rapidapi.com/precisionsolutionstech/api/pdf-compression-api1" target="_blank" rel="noopener">RapidAPI docs</a> for full details.</p></section>
             <section><h2 id="about">About this API</h2>
 
                 <h3 id="who-should-use">Who Should Use This API</h3>
@@ -226,7 +223,7 @@ print(r.json())</code></pre></div></div>
     </div>
     <script>
 (function(){
-    var host='pdf-compression-api1.p.rapidapi.com',path='/compress',body="{}",fileUpload=true,rapidUrl="https://rapidapi.com/precisionsolutionstech/api/pdf-compression-api1";
+    var host='pdf-compression-api1.p.rapidapi.com',path='/optimize',body="{}",fileUpload=true,rapidUrl="https://rapidapi.com/precisionsolutionstech/api/pdf-compression-api1";
     document.querySelectorAll('[data-rapid-docs]').forEach(function(a){ a.href = rapidUrl; });
     document.getElementById('toggle-req').addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('request-schema'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); });
     document.getElementById('toggle-res').addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('response-schema'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); });
@@ -252,7 +249,7 @@ print(r.json())</code></pre></div></div>
     document.getElementById('postman-download').addEventListener('click',function(){
         var coll = { info: { name: "PDF Compression API", schema: 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json' }, item: [{ name: 'Request', request: { method: 'POST', header: [{ key: 'Content-Type', value: 'application/json' }, { key: 'x-rapidapi-key', value: 'YOUR_RAPIDAPI_KEY' }, { key: 'x-rapidapi-host', value: host }], url: 'https://'+host+path } } ] };
         if(!fileUpload){ coll.item[0].request.body = { mode: 'raw', raw: typeof body==='string'?body:JSON.stringify(body) }; }
-        else { coll.item[0].request.header = [{ key: 'X-RapidAPI-Key', value: 'YOUR_RAPIDAPI_KEY' }, { key: 'X-RapidAPI-Host', value: host }]; coll.item[0].request.url = 'https://'+host+path+'?outputFormat=json'; coll.item[0].request.body = { mode: 'formdata', formdata: [{ key: 'file', type: 'file', src: '' }] }; }
+        else { coll.item[0].request.header = [{ key: 'X-RapidAPI-Key', value: 'YOUR_RAPIDAPI_KEY' }, { key: 'X-RapidAPI-Host', value: host }]; coll.item[0].request.url = 'https://'+host+path; coll.item[0].request.body = { mode: 'formdata', formdata: [{ key: 'file', type: 'file', src: '' }] }; }
         var blob = new Blob([JSON.stringify(coll,null,2)], { type: 'application/json' });
         var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'pdf-compression-postman-collection.json'; a.click(); URL.revokeObjectURL(a.href);
     });
@@ -265,10 +262,25 @@ print(r.json())</code></pre></div></div>
     if(!fileInput.files||!fileInput.files[0]){resultDiv.style.display='block';resultDiv.className='result error';resultDiv.textContent='Please select a PDF file.';return;}
     runBtn.disabled=true;resultDiv.style.display='block';resultDiv.className='result';resultDiv.textContent='Uploading…';
     var formData=new FormData();formData.append('file',fileInput.files[0]);
-    var mode=document.getElementById('mode').value||'json';
-    fetch('https://'+host+path+'?outputFormat='+encodeURIComponent(mode),{method:'POST',headers:{'X-RapidAPI-Key':key,'X-RapidAPI-Host':host},body:formData})
-    .then(function(r){return r.text();})
-    .then(function(t){resultDiv.className='result success';try{resultDiv.textContent=JSON.stringify(JSON.parse(t),null,2);}catch(_){resultDiv.textContent=t;}})
+    var metadataOnly=document.getElementById('metadata-only')&&document.getElementById('metadata-only').checked;
+    var headers={'X-RapidAPI-Key':key,'X-RapidAPI-Host':host};
+    if(metadataOnly) headers['Accept']='application/json';
+    fetch('https://'+host+path,{method:'POST',headers:headers,body:formData})
+    .then(function(r){
+      var ct=r.headers.get('Content-Type')||'';
+      if(metadataOnly||ct.indexOf('application/json')>=0){ return r.json().then(function(j){ return { json: true, data: j }; }); }
+      return r.blob().then(function(b){ return { json: false, blob: b, size: b.size }; });
+    })
+    .then(function(o){
+      resultDiv.className='result success';
+      if(o.json){ resultDiv.textContent=JSON.stringify(o.data,null,2); }
+      else{
+        resultDiv.textContent='';
+        resultDiv.appendChild(document.createTextNode('PDF received ('+o.size+' bytes). '));
+        var a=document.createElement('a'); a.href=URL.createObjectURL(o.blob); a.download='optimized.pdf'; a.textContent='Download optimized.pdf';
+        resultDiv.appendChild(a);
+      }
+    })
     .catch(function(e){resultDiv.className='result error';resultDiv.textContent='Request failed: '+e.message;})
     .finally(function(){runBtn.disabled=false;});
     });
