@@ -11,8 +11,21 @@
     <link rel="canonical" href="https://precisionsolutionstech-netizen.github.io/api-catalog/apis/json-diff-checker.html">
     <meta property="og:title" content="JSON Diff Checker API">
     <meta property="og:description" content="JSON diff checker, comparator, and change detector API. Compare two JSON payloads for breaking and non-breaking changes. API versioning, backward compatibility, CI/CD. Rule-based, deterministic. API contract testing, regression detection.">
+    <meta property="og:url" content="https://precisionsolutionstech-netizen.github.io/api-catalog/apis/json-diff-checker.html">
+    <meta property="og:image" content="https://precisionsolutionstech-netizen.github.io/api-catalog/og-default.png">
+    <meta property="og:type" content="article">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="JSON Diff Checker API">
+    <meta name="twitter:description" content="Compare two JSON payloads for breaking and non-breaking changes. Deterministic. 10MB max per payload.">
+    <meta name="twitter:image" content="https://precisionsolutionstech-netizen.github.io/api-catalog/og-default.png">
     <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name":"JSON Diff Checker API","description":"JSON diff checker, comparator, and change detector API. Compare two JSON payloads for breaking and non-breaking changes. API versioning, backward compatibility, CI/CD. Rule-based, deterministic. API contract testing, regression detection.","url":"https://precisionsolutionstech-netizen.github.io/api-catalog/apis/json-diff-checker.html"}
+{"@context":"https://schema.org","@type":"TechArticle","headline":"JSON Diff Checker API","description":"JSON diff checker, comparator, and change detector API. Compare two JSON payloads for breaking and non-breaking changes. API versioning, backward compatibility, CI/CD. Rule-based, deterministic. API contract testing, regression detection.","url":"https://precisionsolutionstech-netizen.github.io/api-catalog/apis/json-diff-checker.html","author":{"@type":"Organization","name":"Precision Solutions Tech"}}
+    </script>
+    <script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"API Catalog","item":"https://precisionsolutionstech-netizen.github.io/api-catalog/"},{"@type":"ListItem","position":2,"name":"JSON Diff Checker","item":"https://precisionsolutionstech-netizen.github.io/api-catalog/apis/json-diff-checker.html"}]}
+    </script>
+    <script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the max payload size?","acceptedAnswer":{"@type":"Answer","text":"10MB per payload."}},{"@type":"Question","name":"Does it store data?","acceptedAnswer":{"@type":"Answer","text":"No. It is fully stateless."}},{"@type":"Question","name":"Can I use this in CI/CD?","acceptedAnswer":{"@type":"Answer","text":"Yes. Deterministic output; ideal for contract and regression checks."}}]}
     </script>
     <style>
         :root { --bg: #0f172a; --surface: #1e293b; --border: #334155; --text: #e2e8f0; --muted: #94a3b8; --accent: #38bdf8; --success: #34d399; --error: #f87171; }
@@ -59,15 +72,34 @@
         .long-desc li { margin: 0.35em 0; }
         .postman-btn { display: inline-block; margin-top: 12px; padding: 10px 18px; background: var(--surface); border: 1px solid var(--border); color: var(--accent); border-radius: 8px; cursor: pointer; font-weight: 600; text-decoration: none; }
         .postman-btn:hover { background: var(--border); }
+        .cta-primary { display: inline-block; margin: 0 0 24px; padding: 12px 24px; background: var(--accent); color: var(--bg); border: none; border-radius: 8px; font-weight: 600; font-size: 1rem; text-decoration: none; cursor: pointer; }
+        .cta-primary:hover { filter: brightness(1.1); }
+        .global-nav { margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+        .global-nav a { margin-right: 16px; }
+        .faq-list { list-style: none; padding: 0; margin: 0; }
+        .faq-list li { border-bottom: 1px solid var(--border); }
+        .faq-q { width: 100%; padding: 14px 12px; cursor: pointer; font-weight: 600; display: flex; justify-content: space-between; align-items: center; text-align: left; background: transparent; color: var(--text); border: none; font-family: inherit; font-size: inherit; }
+        .faq-q:hover { background: var(--surface); }
+        .faq-q::after { content: '+'; flex-shrink: 0; margin-left: 8px; width: 1.5rem; height: 1.5rem; display: inline-flex; align-items: center; justify-content: center; border-radius: 4px; background: var(--surface); color: var(--accent); font-size: 1.1rem; line-height: 1; }
+        .faq-q[aria-expanded="true"]::after { content: '\2212'; }
+        .faq-a { padding: 12px 12px 16px; color: var(--muted); display: none; background: var(--surface); margin: 0 12px 8px; border-radius: 6px; font-weight: normal; }
+        .faq-a.show { display: block; }
+        .related-apis { list-style: none; padding: 0; margin: 0; }
+        .related-apis li { margin: 10px 0; padding-left: 0; }
+        .related-apis a { font-weight: 500; }
+        .browse-all { margin: 28px 0; padding: 16px; background: var(--surface); border-radius: 8px; border: 1px solid var(--border); text-align: center; }
+        .browse-all a { font-weight: 600; font-size: 1.05rem; }
         footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.9rem; text-align: center; }
     </style>
 </head>
 <body>
     <div class="wrap">
+        <nav class="global-nav" aria-label="Main"><a href="../index.html">Home</a><a href="../faq.html">FAQ</a><a href="../index.html#normalization">Normalization APIs</a><a href="../index.html#validation">Validation APIs</a><a href="../index.html#comparison">Comparison APIs</a><a href="../blog/what-is-data-normalization.html">Blog</a></nav>
         <nav aria-label="Breadcrumb"><a href="../index.html">API Catalog</a> → JSON Diff Checker</nav>
         <article>
             <header>
                 <h1>JSON Diff Checker API</h1>
+                <p><a href="https://rapidapi.com/precisionsolutionstech/api/json-diff-checker-api" target="_blank" rel="noopener" class="cta-primary">Try on RapidAPI</a></p>
                 <p class="lead">JSON diff checker, comparator, and change detector API. Compare two JSON payloads for breaking and non-breaking changes. API versioning, backward compatibility, CI/CD. Rule-based, deterministic. API contract testing, regression detection.</p>
             </header>
             <section><h2 id="why">Why use this API?</h2><p>API responses change over time. This API detects breaking changes (removed fields, type changes) and non-breaking changes so you can safely evolve APIs or fail CI when contracts break.</p></section>
@@ -187,7 +219,24 @@ System.out.println(response.body());</code></pre></div></div>
                 <p><button type="button" class="postman-btn" id="postman-download">Download Postman collection</button></p>
             </section>
             <section><h2 id="expect">What to expect</h2><p>Response format depends on the endpoint. Use your RapidAPI key in headers. Stateless; no data stored. See <a href="https://rapidapi.com/precisionsolutionstech/api/json-diff-checker-api" target="_blank" rel="noopener">RapidAPI docs</a> for full response schema.</p></section>
+            <section><h2 id="related">Related APIs</h2>
+                <ul class="related-apis">
+                    <li><a href="json-schema-validator.html">JSON Schema Validator</a> – Validate payloads before comparing</li>
+                    <li><a href="json-payload-consistency-checker.html">JSON Payload Consistency Checker</a> – Analyze consistency across samples</li>
+                    <li><a href="api-error-status-normalization.html">API Error &amp; Status Normalization</a> – Normalize error responses</li>
+                    <li><a href="retail-data-normalization.html">Retail Data Normalization</a> – Compare normalized outputs</li>
+                </ul>
+            </section>
             <section><h2 id="about">About this API</h2>
+                <h3 id="who-should-use">Who Should Use This API</h3>
+                <p>Developers who need to detect and classify JSON changes:</p>
+                <ul>
+                    <li>API and platform teams evolving contracts</li>
+                    <li>CI/CD pipelines running backward-compatibility checks</li>
+                    <li>Teams doing regression and contract testing</li>
+                </ul>
+                <h3 id="also-known-as">Also Known As</h3>
+                <p>JSON diff API, JSON comparator, JSON change detector, API version diff checker, breaking change detector, API contract diff.</p>
 <div class="long-desc">
 <p>JSON Diff Checker API</p>
 <p>The JSON Diff Checker API detects breaking and non-breaking changes between two JSON payloads. It is designed for developers who need to safely evolve APIs, validate backward compatibility, and catch schema-breaking changes before they reach production.</p>
@@ -211,20 +260,24 @@ System.out.println(response.body());</code></pre></div></div>
 <li>**Backward Compatibility** — Compare contract changes before release</li>
 <li>**Regression Testing** — Automate structural diff checks</li>
 </ul>
-<p>Also useful if you're looking for:</p>
-<ul>
-<li>JSON diff API</li>
-<li>JSON comparator</li>
-<li>JSON change detector</li>
-<li>API version diff checker</li>
-<li>JSON before after compare</li>
-<li>breaking change detector</li>
-<li>backward compatibility checker</li>
-<li>JSON schema diff</li>
-<li>API contract diff</li>
-<li>JSON comparison API</li>
-</ul>
 </div></section>
+            <section><h2 id="faq">Frequently Asked Questions</h2>
+                <ul class="faq-list">
+                    <li>
+                        <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a1" id="faq-q1">What is the max payload size?</button>
+                        <div id="faq-a1" class="faq-a" role="region" aria-labelledby="faq-q1">10MB per payload.</div>
+                    </li>
+                    <li>
+                        <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a2" id="faq-q2">Does it store data?</button>
+                        <div id="faq-a2" class="faq-a" role="region" aria-labelledby="faq-q2">No. It is fully stateless.</div>
+                    </li>
+                    <li>
+                        <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a3" id="faq-q3">Can I use this in CI/CD?</button>
+                        <div id="faq-a3" class="faq-a" role="region" aria-labelledby="faq-q3">Yes. Deterministic output; ideal for contract and regression checks.</div>
+                    </li>
+                </ul>
+            </section>
+            <div class="browse-all"><a href="../index.html">Browse all APIs in the catalog →</a></div>
         </article>
         <footer>
             <p><a href="https://rapidapi.com/precisionsolutionstech/api/json-diff-checker-api" target="_blank" rel="noopener">Subscribe on RapidAPI</a> · <a href="../index.html">API Catalog</a></p>
@@ -238,6 +291,9 @@ System.out.println(response.body());</code></pre></div></div>
     document.getElementById('toggle-req').addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('request-schema'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); });
     document.getElementById('toggle-res').addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('response-schema'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); });
     var toggleErrors=document.getElementById('toggle-errors');if(toggleErrors){ toggleErrors.addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('error-codes'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); }); }
+    document.querySelectorAll('.faq-q').forEach(function(btn){
+        btn.addEventListener('click',function(){ var expanded=this.getAttribute('aria-expanded')==='true'; this.setAttribute('aria-expanded',!expanded); var panel=document.getElementById(this.getAttribute('aria-controls')); if(panel) panel.classList.toggle('show',!expanded); });
+    });
     document.querySelectorAll('.lang-tabs button').forEach(function(btn){
         btn.addEventListener('click',function(){
             document.querySelectorAll('.lang-tabs button').forEach(function(b){ b.classList.remove('active'); b.setAttribute('aria-selected','false'); });

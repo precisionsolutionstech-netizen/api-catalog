@@ -9,10 +9,23 @@
     <meta name="description" content="PII detector, redactor, and log sanitizer API. Find and mask sensitive data (emails, SSN, credentials, secrets) in JSON and text. Detect, redact, or both. Log sanitization, API redaction, CI/CD. Rule-based, stateless.">
     <meta name="keywords" content="pii-detection-redaction, API, RapidAPI, developer">
     <link rel="canonical" href="https://precisionsolutionstech-netizen.github.io/api-catalog/apis/pii-detection-redaction.html">
+    <meta property="og:url" content="https://precisionsolutionstech-netizen.github.io/api-catalog/apis/pii-detection-redaction.html">
+    <meta property="og:image" content="https://precisionsolutionstech-netizen.github.io/api-catalog/og-default.png">
+    <meta property="og:type" content="article">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="PII Detection & Redaction API">
+    <meta name="twitter:description" content="Detect and redact PII. Stateless.">
+    <meta name="twitter:image" content="https://precisionsolutionstech-netizen.github.io/api-catalog/og-default.png">
     <meta property="og:title" content="PII Detection & Redaction API">
     <meta property="og:description" content="PII detector, redactor, and log sanitizer API. Find and mask sensitive data (emails, SSN, credentials, secrets) in JSON and text. Detect, redact, or both. Log sanitization, API redaction, CI/CD. Rule-based, stateless.">
     <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name":"PII Detection &amp; Redaction API","description":"PII detector, redactor, and log sanitizer API. Find and mask sensitive data (emails, SSN, credentials, secrets) in JSON and text. Detect, redact, or both. Log sanitization, API redaction, CI/CD. Rule-based, stateless.","url":"https://precisionsolutionstech-netizen.github.io/api-catalog/apis/pii-detection-redaction.html"}
+{"@context":"https://schema.org","@type":"TechArticle","headline":"PII Detection &amp; Redaction API","name":"PII Detection &amp; Redaction API","description":"PII detector, redactor, and log sanitizer API. Find and mask sensitive data (emails, SSN, credentials, secrets) in JSON and text. Detect, redact, or both. Log sanitization, API redaction, CI/CD. Rule-based, stateless.","author":{"@type":"Organization","name":"Precision Solutions Tech"},"url":"https://precisionsolutionstech-netizen.github.io/api-catalog/apis/pii-detection-redaction.html"}
+    </script>
+    <script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"API Catalog","item":"https://precisionsolutionstech-netizen.github.io/api-catalog/"},{"@type":"ListItem","position":2,"name":"PII Detection & Redaction","item":"https://precisionsolutionstech-netizen.github.io/api-catalog/apis/pii-detection-redaction.html"}]}
+    </script>
+    <script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does it store the text?","acceptedAnswer":{"@type":"Answer","text":"No. Fully stateless."}},{"@type":"Question","name":"What PII types?","acceptedAnswer":{"@type":"Answer","text":"Common types; see RapidAPI docs."}}]}
     </script>
     <style>
         :root { --bg: #0f172a; --surface: #1e293b; --border: #334155; --text: #e2e8f0; --muted: #94a3b8; --accent: #38bdf8; --success: #34d399; --error: #f87171; }
@@ -59,11 +72,30 @@
         .long-desc li { margin: 0.35em 0; }
         .postman-btn { display: inline-block; margin-top: 12px; padding: 10px 18px; background: var(--surface); border: 1px solid var(--border); color: var(--accent); border-radius: 8px; cursor: pointer; font-weight: 600; text-decoration: none; }
         .postman-btn:hover { background: var(--border); }
+        
+        .cta-primary { display: inline-block; margin: 0 0 24px; padding: 12px 24px; background: var(--accent); color: var(--bg); border: none; border-radius: 8px; font-weight: 600; font-size: 1rem; text-decoration: none; cursor: pointer; }
+        .cta-primary:hover { filter: brightness(1.1); }
+        .global-nav { margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+        .global-nav a { margin-right: 16px; }
+        .faq-list { list-style: none; padding: 0; margin: 0; }
+        .faq-list li { border-bottom: 1px solid var(--border); }
+        .faq-q { width: 100%; padding: 14px 12px; cursor: pointer; font-weight: 600; display: flex; justify-content: space-between; align-items: center; text-align: left; background: transparent; color: var(--text); border: none; font-family: inherit; font-size: inherit; }
+        .faq-q:hover { background: var(--surface); }
+        .faq-q::after { content: '+'; flex-shrink: 0; margin-left: 8px; width: 1.5rem; height: 1.5rem; display: inline-flex; align-items: center; justify-content: center; border-radius: 4px; background: var(--surface); color: var(--accent); font-size: 1.1rem; line-height: 1; }
+        .faq-q[aria-expanded="true"]::after { content: '2'; }
+        .faq-a { padding: 12px 12px 16px; color: var(--muted); display: none; background: var(--surface); margin: 0 12px 8px; border-radius: 6px; font-weight: normal; }
+        .faq-a.show { display: block; }
+        .related-apis { list-style: none; padding: 0; margin: 0; }
+        .related-apis li { margin: 10px 0; padding-left: 0; }
+        .related-apis a { font-weight: 500; }
+        .browse-all { margin: 28px 0; padding: 16px; background: var(--surface); border-radius: 8px; border: 1px solid var(--border); text-align: center; }
+        .browse-all a { font-weight: 600; font-size: 1.05rem; }
         footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.9rem; text-align: center; }
     </style>
 </head>
 <body>
     <div class="wrap">
+        <nav class="global-nav" aria-label="Main"><a href="../index.html">Home</a><a href="../faq.html">FAQ</a><a href="../index.html#normalization">Normalization APIs</a><a href="../index.html#validation">Validation APIs</a><a href="../index.html#comparison">Comparison APIs</a><a href="../blog/what-is-data-normalization.html">Blog</a></nav>
         <nav aria-label="Breadcrumb"><a href="../index.html">API Catalog</a> → PII Detection & Redaction</nav>
         <article>
             <header>
@@ -168,6 +200,11 @@ System.out.println(response.body());</code></pre></div></div>
             </section>
             <section><h2 id="expect">What to expect</h2><p>Response format depends on the endpoint. Use your RapidAPI key in headers. Stateless; no data stored. See <a href="https://rapidapi.com/precisionsolutionstech/api/sensitive-data-detection-redaction-api" target="_blank" rel="noopener">RapidAPI docs</a> for full response schema.</p></section>
             <section><h2 id="about">About this API</h2>
+
+                <h3 id="who-should-use">Who Should Use This API</h3>
+                <p>Compliance and security teams redacting PII in logs, content, or exports.</p>
+                <h3 id="also-known-as">Also Known As</h3>
+                <p>PII redaction API, sensitive data detection, PII scrubber API.</p>
 <div class="long-desc">
 <p>PII Detection &amp; Redaction API</p>
 <p>A single-call, stateless API that detects sensitive or regulated data in JSON and text—emails, phone numbers, credentials, payment information, internal secrets—and optionally redacts it before it leaves your system. Built for log sanitization, CI/CD pipelines, and data processing workflows.</p>
@@ -195,20 +232,20 @@ System.out.println(response.body());</code></pre></div></div>
 <li>**CI/CD** — Scan configs and artifacts for secrets</li>
 <li>**Compliance** — Detect and remove PII in non-production data</li>
 </ul>
-<p>Also useful if you're looking for:</p>
-<ul>
-<li>PII detector API</li>
-<li>data redaction API</li>
-<li>log sanitizer API</li>
-<li>sensitive data masker</li>
-<li>SSN email redactor</li>
-<li>secret scanner API</li>
-<li>JSON redaction API</li>
-<li>text anonymizer</li>
-<li>compliance data scrubber</li>
-<li>log PII removal API</li>
-</ul>
+
 </div></section>
+            <section><h2 id="faq">Frequently Asked Questions</h2>
+                <ul class="faq-list">
+                    <li>
+                        <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a1" id="faq-q1">Does it store the text?</button>
+                        <div id="faq-a1" class="faq-a" role="region" aria-labelledby="faq-q1">No. Fully stateless.</div>
+                    </li><li>
+                        <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a2" id="faq-q2">What PII types?</button>
+                        <div id="faq-a2" class="faq-a" role="region" aria-labelledby="faq-q2">Common types; see RapidAPI docs.</div>
+                    </li>
+                </ul>
+            </section>
+            <div class="browse-all"><a href="../index.html">Browse all APIs in the catalog →</a></div>
         </article>
         <footer>
             <p><a href="https://rapidapi.com/precisionsolutionstech/api/sensitive-data-detection-redaction-api" target="_blank" rel="noopener">Subscribe on RapidAPI</a> · <a href="../index.html">API Catalog</a></p>
@@ -235,6 +272,10 @@ System.out.println(response.body());</code></pre></div></div>
             var id=this.getAttribute('data-copy'),block=document.getElementById(id),pre=block?block.querySelector('pre code'):null,btn=this;
             if(pre) navigator.clipboard.writeText(pre.textContent).then(function(){ var t=btn.textContent; btn.textContent='Copied!'; setTimeout(function(){ btn.textContent=t; },1500); });
         });
+    });
+    
+    document.querySelectorAll('.faq-q').forEach(function(btn){
+        btn.addEventListener('click',function(){ var expanded=this.getAttribute('aria-expanded')==='true'; this.setAttribute('aria-expanded',!expanded); var panel=document.getElementById(this.getAttribute('aria-controls')); if(panel) panel.classList.toggle('show',!expanded); });
     });
     document.getElementById('postman-download').addEventListener('click',function(){
         var coll = { info: { name: "PII Detection & Redaction API", schema: 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json' }, item: [{ name: 'Request', request: { method: 'POST', header: [{ key: 'Content-Type', value: 'application/json' }, { key: 'x-rapidapi-key', value: 'YOUR_RAPIDAPI_KEY' }, { key: 'x-rapidapi-host', value: host }], url: 'https://'+host+path } } ] };

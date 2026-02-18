@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Is Data Normalization in APIs? | Precision Solutions Tech</title>
+    <meta name="description" content="Learn what data normalization means for APIs: why schemas differ across sources, why canonical models matter, and how normalization APIs help you build reliable integrations.">
+    <link rel="canonical" href="https://precisionsolutionstech-netizen.github.io/api-catalog/blog/what-is-data-normalization.html">
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+    <meta property="og:title" content="What Is Data Normalization in APIs?">
+    <meta property="og:description" content="Why schemas differ across sources, why canonical models matter, and how normalization APIs help you build reliable integrations.">
+    <meta property="og:url" content="https://precisionsolutionstech-netizen.github.io/api-catalog/blog/what-is-data-normalization.html">
+    <meta property="og:type" content="article">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="What Is Data Normalization in APIs?">
+    <style>
+        :root { --bg: #0f172a; --surface: #1e293b; --border: #334155; --text: #e2e8f0; --muted: #94a3b8; --accent: #38bdf8; }
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: ui-sans-serif, system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+        .wrap { max-width: 720px; margin: 0 auto; padding: 32px 20px; }
+        a { color: var(--accent); }
+        .global-nav { margin-bottom: 24px; padding-bottom: 12px; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+        .global-nav a { margin-right: 16px; }
+        h1 { font-size: 2rem; margin: 0 0 16px; }
+        .meta { color: var(--muted); font-size: 0.9rem; margin-bottom: 32px; }
+        h2 { font-size: 1.4rem; margin: 40px 0 16px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+        p { margin: 0 0 1em; }
+        ul { margin: 0.75em 0; padding-left: 1.5em; }
+        li { margin: 0.4em 0; }
+        .api-links { background: var(--surface); padding: 20px; border-radius: 10px; border: 1px solid var(--border); margin: 28px 0; }
+        .api-links h3 { margin: 0 0 12px; font-size: 1.1rem; }
+        .api-links ul { list-style: none; padding: 0; margin: 0; }
+        .api-links li { margin: 8px 0; padding: 0; }
+        footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <nav class="global-nav" aria-label="Main"><a href="../index.html">Home</a><a href="../index.html#normalization">Normalization APIs</a><a href="../index.html#validation">Validation APIs</a><a href="../index.html#comparison">Comparison APIs</a><a href="what-is-data-normalization.html">Blog</a></nav>
+        <article>
+            <header>
+                <h1>What Is Data Normalization in APIs?</h1>
+                <p class="meta">Developer APIs for Data Transformation, Validation &amp; Integration</p>
+            </header>
+            <p>When you call multiple APIs or ingest data from several platforms, you quickly run into a single, stubborn problem: <strong>every source uses a different schema</strong>. Field names, nesting, types, and conventions vary. That variation makes it hard to build one code path, one database model, or one UI that works across all of them. Data normalization is the practice of mapping those different shapes into one <strong>canonical model</strong> so the rest of your system can depend on a consistent structure.</p>
+
+            <h2>What is data normalization in APIs?</h2>
+            <p>In the context of APIs and integrations, <strong>data normalization</strong> means taking payloads that use different field names, types, and structures and transforming them into a single, agreed-upon schema. For example, one e‑commerce API might return <code>product_name</code> and <code>price_usd</code>, while another returns <code>title</code> and <code>amount</code> inside a <code>pricing</code> object. A normalizer would map both into a canonical shape—e.g. <code>title</code> and <code>price.amount</code> with a currency—so your application can treat every source the same way.</p>
+            <p>This is different from database normalization (reducing redundancy and organizing tables). Here we mean <strong>semantic and structural normalization</strong>: one logical representation for the same kind of real-world entity, regardless of which API produced it.</p>
+
+            <h2>Why do schemas differ?</h2>
+            <p>APIs are built by different teams, at different times, for different use cases. So:</p>
+            <ul>
+                <li><strong>Naming</strong> — camelCase vs snake_case, singular vs plural, abbreviations vs full words.</li>
+                <li><strong>Structure</strong> — Flat vs nested, arrays vs single objects, optional wrappers.</li>
+                <li><strong>Types</strong> — Dates as ISO strings vs Unix timestamps, prices as numbers vs strings, booleans vs "yes"/"no".</li>
+                <li><strong>Semantics</strong> — "in_stock" might mean "available to ship" in one API and "in warehouse" in another.</li>
+            </ul>
+            <p>Without normalization, your code fills up with <code>if (source === 'A') ... else if (source === 'B') ...</code> and becomes brittle as you add more sources.</p>
+
+            <h2>Why canonical models matter</h2>
+            <p>A <strong>canonical model</strong> is the one schema your application uses internally. All external data is mapped into it before you store, display, or reason about it. Benefits:</p>
+            <ul>
+                <li><strong>One code path</strong> — Queries, validations, and UI components depend on one shape.</li>
+                <li><strong>Easier testing</strong> — You test against the canonical format, not N vendor formats.</li>
+                <li><strong>Simpler analytics</strong> — Aggregations and reporting don’t need per-source branches.</li>
+                <li><strong>Faster onboarding of new sources</strong> — You add a new mapper into the canonical form instead of touching every consumer.</li>
+            </ul>
+            <p>Normalization APIs do this mapping at the boundary: you send raw payloads (or point to sources), and you get back canonical JSON. Your system stays source-agnostic.</p>
+
+            <h2>Where normalization fits in your stack</h2>
+            <p>Typical flow:</p>
+            <ol>
+                <li>Fetch or receive data from external APIs (or user uploads).</li>
+                <li>Optionally <a href="../apis/json-schema-validator.html">validate</a> structure before normalizing.</li>
+                <li>Send payloads to a <strong>normalization API</strong> that returns canonical output.</li>
+                <li>Store, display, or further process the normalized result.</li>
+            </ol>
+            <p>Normalization is especially useful when you <strong>combine</strong> data from multiple providers—e.g. events from several ticketing systems, jobs from several job boards, or products from several retailers—into one list, one comparison, or one search index.</p>
+
+            <h2>Normalization APIs in this catalog</h2>
+            <p>We provide normalization APIs for several domains so you can get a canonical schema without maintaining parsers yourself:</p>
+            <div class="api-links">
+                <h3>Data normalization APIs</h3>
+                <ul>
+                    <li><a href="../apis/retail-data-normalization.html">Retail Data Normalization</a> — Products and offers from multiple retailers into one schema.</li>
+                    <li><a href="../apis/job-posting-normalization.html">Job Posting Normalization</a> — Job listings from multiple HR and job-board APIs.</li>
+                    <li><a href="../apis/event-listing-normalization.html">Event Listing Normalization</a> — Events from multiple ticketing and event platforms.</li>
+                    <li><a href="../apis/calendar-event-normalization.html">Calendar Event Normalization</a> — Calendar events across providers.</li>
+                    <li><a href="../apis/shipping-tracking-normalization.html">Shipping &amp; Tracking Normalization</a> — Shipment status across carriers.</li>
+                    <li><a href="../apis/social-media-data-normalization.html">Social Media Data Normalization</a> — Social content and posts into a unified structure.</li>
+                </ul>
+            </div>
+            <p>All of these are stateless: you send the payloads you have, you get back normalized data. No vendor API keys required for the normalizer itself; you bring your own data.</p>
+
+            <p><a href="../index.html">Browse the full API catalog</a> for validation, comparison, and document APIs that work alongside these normalization services.</p>
+        </article>
+        <footer>
+            <p><a href="../index.html">API Catalog</a> · <a href="building-data-combiners.html">Building Data Combiners</a> · <a href="api-payload-validation-best-practices.html">API Payload Validation Best Practices</a></p>
+            <p>© 2026 Precision Solutions Tech</p>
+        </footer>
+    </div>
+</body>
+</html>

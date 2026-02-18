@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API FAQ – Data Normalization, JSON Validation &amp; Developer APIs</title>
+    <meta name="description" content="Answers about developer APIs, data normalization, JSON validation, canonical schema, and API infrastructure. Find out how normalization and validation APIs work and when to use them.">
+    <link rel="canonical" href="https://precisionsolutionstech-netizen.github.io/api-catalog/faq.html">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <meta property="og:title" content="API FAQ – Data Normalization, JSON Validation &amp; Developer APIs">
+    <meta property="og:description" content="Frequently asked questions about developer APIs, data normalization, JSON validation, and API infrastructure. Authority resource for integration and payload standardization.">
+    <meta property="og:url" content="https://precisionsolutionstech-netizen.github.io/api-catalog/faq.html">
+    <meta property="og:type" content="website">
+    <style>
+        :root { --bg: #0f172a; --surface: #1e293b; --border: #334155; --text: #e2e8f0; --muted: #94a3b8; --accent: #38bdf8; }
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: ui-sans-serif, system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+        .wrap { max-width: 800px; margin: 0 auto; padding: 32px 20px; }
+        a { color: var(--accent); }
+        .global-nav { margin-bottom: 24px; padding-bottom: 12px; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+        .global-nav a { margin-right: 16px; }
+        h1 { font-size: 1.85rem; margin: 0 0 20px; line-height: 1.3; }
+        .intro { font-size: 1.05rem; color: var(--muted); margin-bottom: 32px; }
+        .intro p { margin: 0 0 1em; }
+        .jump-links { background: var(--surface); padding: 16px 20px; border-radius: 10px; border: 1px solid var(--border); margin-bottom: 40px; font-size: 0.95rem; }
+        .jump-links h2 { margin: 0 0 10px; font-size: 1rem; }
+        .jump-links ul { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 8px 16px; }
+        .jump-links li { margin: 0; }
+        .faq-section { margin-bottom: 40px; }
+        .faq-section > h2 { font-size: 1.5rem; margin: 0 0 20px; padding-bottom: 8px; border-bottom: 1px solid var(--border); scroll-margin-top: 1rem; }
+        .faq-list { list-style: none; padding: 0; margin: 0; }
+        .faq-list li { border-bottom: 1px solid var(--border); }
+        .faq-q { width: 100%; padding: 14px 12px; cursor: pointer; font-weight: 600; display: flex; justify-content: space-between; align-items: center; text-align: left; background: transparent; color: var(--text); border: none; font-family: inherit; font-size: 1rem; }
+        .faq-q:hover { background: var(--surface); }
+        .faq-q::after { content: '+'; flex-shrink: 0; margin-left: 8px; width: 1.5rem; height: 1.5rem; display: inline-flex; align-items: center; justify-content: center; border-radius: 4px; background: var(--surface); color: var(--accent); font-size: 1.1rem; line-height: 1; }
+        .faq-q[aria-expanded="true"]::after { content: '\2212'; }
+        .faq-a { padding: 12px 12px 20px; color: var(--muted); display: none; background: var(--surface); margin: 0 12px 8px; border-radius: 6px; font-weight: normal; font-size: 0.98rem; }
+        .faq-a.show { display: block; }
+        .faq-a p { margin: 0 0 0.75em; }
+        .faq-a p:last-child { margin-bottom: 0; }
+        .explore-cats { background: var(--surface); padding: 24px; border-radius: 10px; border: 1px solid var(--border); margin: 40px 0 24px; text-align: center; }
+        .explore-cats h2 { margin: 0 0 16px; font-size: 1.25rem; }
+        .explore-cats ul { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px 20px; }
+        .explore-cats a { font-weight: 600; }
+        .cta-block { text-align: center; margin: 32px 0; padding: 24px; }
+        .cta-block a { display: inline-block; padding: 12px 24px; background: var(--accent); color: var(--bg); border-radius: 8px; font-weight: 600; text-decoration: none; }
+        .cta-block a:hover { filter: brightness(1.1); }
+        footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.9rem; }
+    </style>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {"@type": "Question", "name": "What is the Developer API Catalog?", "acceptedAnswer": {"@type": "Answer", "text": "The Developer API Catalog is a curated set of REST APIs from Precision Solutions Tech for data normalization, JSON validation, payload standardization, and API infrastructure. It includes APIs for normalizing product, event, job, and shipping data; validating JSON against schemas; comparing payloads; and standardizing errors. All are stateless and hosted on RapidAPI."}},
+        {"@type": "Question", "name": "Are these APIs free to use?", "acceptedAnswer": {"@type": "Answer", "text": "Pricing is set by RapidAPI and the provider. Many APIs have a free tier. Check each API's page on the catalog and on RapidAPI for current plans and limits."}},
+        {"@type": "Question", "name": "What is data normalization in APIs?", "acceptedAnswer": {"@type": "Answer", "text": "Data normalization in APIs is the process of mapping different source schemas (e.g. from multiple retailers or job boards) into a single canonical schema. Your application then works with one structure instead of many. The catalog offers normalization APIs for retail, events, jobs, shipping, social, and calendar data."}},
+        {"@type": "Question", "name": "What is a canonical schema?", "acceptedAnswer": {"@type": "Answer", "text": "A canonical schema is the single target structure you choose for a domain (e.g. products or events). Normalization APIs map vendor-specific payloads into this structure so you can merge, query, and display data uniformly. The catalog's normalization APIs implement canonical schemas for their domains."}},
+        {"@type": "Question", "name": "What is a data combiner API?", "acceptedAnswer": {"@type": "Answer", "text": "A data combiner API accepts data from multiple sources (e.g. several APIs or feeds), normalizes each to a common schema, and returns a unified result. The catalog's normalization APIs act as combiners: you send multiple payloads and get one canonical output. See the Retail Data Normalization API and blog post on building data combiners."}},
+        {"@type": "Question", "name": "What is JSON schema validation?", "acceptedAnswer": {"@type": "Answer", "text": "JSON schema validation checks that a JSON payload conforms to a declared schema: required fields, types, and structure. The JSON Schema Validator API in this catalog performs production-grade validation and returns clear valid/invalid results with error details. Use it for API contract enforcement and data ingestion."}},
+        {"@type": "Question", "name": "How do you compare two JSON payloads?", "acceptedAnswer": {"@type": "Answer", "text": "Send a before and after payload to a diff API. The JSON Diff Checker API compares two JSON objects and classifies changes as breaking or non-breaking. Use it for API versioning, backward-compatibility checks, and regression testing."}},
+        {"@type": "Question", "name": "What is API error normalization?", "acceptedAnswer": {"@type": "Answer", "text": "API error normalization maps diverse error responses (different HTTP status codes and body shapes) into a single taxonomy. The API Error & Status Normalization API returns a canonical error type, retry guidance, and severity so your application can handle errors consistently."}},
+        {"@type": "Question", "name": "Do these APIs log request data?", "acceptedAnswer": {"@type": "Answer", "text": "The catalog APIs are stateless and do not persist your payloads. Logging policy is determined by the provider and RapidAPI; review their terms. For sensitive data, consider the PII Detection & Redaction API before sending to other services."}},
+        {"@type": "Question", "name": "Should I build normalization logic myself?", "acceptedAnswer": {"@type": "Answer", "text": "Building parsers for many vendor schemas is costly. Using a normalization API offloads that work and gives you a single canonical output. It makes sense when you have multiple sources and want one code path. The catalog's normalization APIs are built for this; build in-house only for very specific schemas not covered."}}
+      ]
+    }
+    </script>
+</head>
+<body>
+    <div class="wrap">
+        <nav class="global-nav" aria-label="Main"><a href="index.html">Home</a><a href="faq.html">FAQ</a><a href="index.html#normalization">Normalization APIs</a><a href="index.html#validation">Validation APIs</a><a href="index.html#comparison">Comparison APIs</a><a href="blog/what-is-data-normalization.html">Blog</a></nav>
+
+        <header>
+            <h1>Frequently Asked Questions About Developer APIs &amp; Data Normalization</h1>
+            <div class="intro">
+                <p>This FAQ covers the <strong>Developer API Catalog</strong> from Precision Solutions Tech: a curated set of <strong>REST APIs</strong> for <strong>data normalization</strong>, <strong>JSON validation</strong>, <strong>payload standardization</strong>, and API infrastructure. The catalog is built for developers and teams who need production-grade tooling for <strong>canonical schema</strong> design, <strong>data combiners</strong>, and multi-source integration without maintaining custom parsers or validation logic in-house.</p>
+                <p>Included are APIs for normalizing product, event, job, and shipping data; validating JSON against schemas; comparing and diffing payloads; standardizing API errors; and processing documents. All APIs are stateless, hosted on RapidAPI, and suitable for serverless or backend use. Use this page to understand what <strong>API normalization</strong> is, when to use a <strong>data combiner API</strong>, how <strong>JSON schema validation</strong> fits your pipeline, and how to scale and secure these services.</p>
+            </div>
+        </header>
+
+        <nav class="jump-links" aria-label="FAQ sections">
+            <h2>Jump to section</h2>
+            <ul>
+                <li><a href="#section-about">About the API Catalog</a></li>
+                <li><a href="#section-normalization">Data Normalization &amp; Combiners</a></li>
+                <li><a href="#section-validation">Validation &amp; JSON Processing</a></li>
+                <li><a href="#section-performance">Performance &amp; Scaling</a></li>
+                <li><a href="#section-security">Security &amp; Compliance</a></li>
+                <li><a href="#section-practical">Practical Developer Questions</a></li>
+            </ul>
+        </nav>
+
+        <section class="faq-section" id="section-about">
+            <h2>About the API Catalog</h2>
+            <ul class="faq-list">
+                <li>
+                    <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a1" id="faq-q1">What is the Developer API Catalog?</button>
+                    <div id="faq-a1" class="faq-a" role="region" aria-labelledby="faq-q1">
+                        <p>The Developer API Catalog is a collection of REST APIs focused on <strong>data transformation</strong>, <strong>validation</strong>, and <strong>comparison</strong>. It includes normalization APIs (e.g. <a href="apis/retail-data-normalization.html">Retail Data Normalization</a>, <a href="apis/event-listing-normalization.html">Event Listing Normalization</a>) that turn vendor-specific payloads into a single canonical schema; validation APIs such as the <a href="apis/json-schema-validator.html">JSON Schema Validator</a> and <a href="apis/json-diff-checker.html">JSON Diff Checker</a>; and infrastructure APIs for error normalization and rate limits. The goal is to give developers ready-made building blocks for API integration, payload standardization, and data combiners without building and maintaining custom logic. You can browse all APIs on the <a href="index.html">catalog homepage</a> and read deeper guides in the <a href="blog/what-is-data-normalization.html">blog</a>.</p>
+                    </div>
+                </li>
+                <li>
+                    <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a2" id="faq-q2">Are these APIs free to use?</button>
+                    <div id="faq-a2" class="faq-a" role="region" aria-labelledby="faq-q2">
+                        <p>Pricing is set on <strong>RapidAPI</strong>, where these APIs are hosted. Many offer free tiers or trial quotas so you can test integration and payload behavior before scaling. Check each API’s RapidAPI page (linked from the catalog) for current plans and limits. The catalog itself is free to use for discovery and documentation; you only incur usage costs when you call the APIs through RapidAPI.</p>
+                    </div>
+                </li>
+                <li>
+                    <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a3" id="faq-q3">Do I need an account to view documentation?</button>
+                    <div id="faq-a3" class="faq-a" role="region" aria-labelledby="faq-q3">
+                        <p>No. All catalog pages—including this FAQ, individual API docs, schemas, and code samples—are publicly viewable. You need a RapidAPI account and API key only when you want to <strong>call</strong> an API (e.g. from your backend or serverless function). Documentation and playgrounds are available without signing in.</p>
+                    </div>
+                </li>
+                <li>
+                    <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a4" id="faq-q4">Are these REST APIs?</button>
+                    <div id="faq-a4" class="faq-a" role="region" aria-labelledby="faq-q4">
+                        <p>Yes. The catalog consists of <strong>REST APIs</strong> over HTTPS. You send JSON in the request body (typically POST), and receive JSON responses. Authentication uses standard headers (e.g. RapidAPI key). There are no GraphQL or gRPC endpoints; the design is intentionally simple for broad compatibility with any language or framework that can make HTTP requests.</p>
+                    </div>
+                </li>
+                <li>
+                    <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a5" id="faq-q5">Where are the APIs hosted?</button>
+                    <div id="faq-a5" class="faq-a" role="region" aria-labelledby="faq-q5">
+                        <p>The APIs are hosted on <strong>RapidAPI</strong>. Requests go to RapidAPI’s infrastructure, which then routes to the API provider. The catalog site (this FAQ and the API docs) is separate from RapidAPI; it provides documentation, internal links, and guides. For production use, you subscribe and call the APIs via the RapidAPI host and key shown on each API page (e.g. <a href="apis/json-schema-validator.html">JSON Schema Validator API</a>).</p>
+                    </div>
+                </li>
+                <li>
+                    <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a6" id="faq-q6">Do these APIs store user data?</button>
+                    <div id="faq-a6" class="faq-a" role="region" aria-labelledby="faq-q6">
+                        <p>No. The APIs in this catalog are <strong>stateless</strong>. They process the payload you send and return a result; they do not persist request or response data. That makes them suitable for sensitive or regulated workflows where you cannot send data to a third party that stores it. Always review each API’s documentation and RapidAPI terms for the latest policy.</p>
+                    </div>
+                </li>
+                <li>
+                    <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a7" id="faq-q7">Are the APIs stateless?</button>
+                    <div id="faq-a7" class="faq-a" role="region" aria-labelledby="faq-q7">
+                        <p>Yes. Normalization, validation, diff, and error-normalization APIs in this catalog are stateless. Each request is independent; there is no server-side session or stored context. You can run them in serverless environments, scale horizontally, and avoid concerns about data retention. For details per API, see the “What to expect” or FAQ on the API page (e.g. <a href="apis/retail-data-normalization.html">Retail Data Normalization</a>).</p>
+                    </div>
+                </li>
+                <li>
+                    <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a8" id="faq-q8">How often are new APIs added?</button>
+                    <div id="faq-a8" class="faq-a" role="region" aria-labelledby="faq-q8">
+                        <p>The catalog grows periodically with new APIs for normalization, validation, or infrastructure. The <a href="index.html">homepage</a> is the best place to see the full list. New entries are documented with the same structure: schema, playground, code samples, and FAQ. You can rely on the catalog as a stable entry point for developer APIs in data transformation and validation.</p>
+                    </div>
+                </li>
+                <li>
+                    <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a9" id="faq-q9">Are these APIs open source?</button>
+                    <div id="faq-a9" class="faq-a" role="region" aria-labelledby="faq-q9">
+                        <p>The APIs are commercial products hosted on RapidAPI; their source code is not necessarily open source. The <strong>catalog site</strong> (documentation, FAQ, blog) is the public face of the offering. For licensing and source availability of a specific API, check its RapidAPI page or contact the provider.</p>
+                    </div>
+                </li>
+                <li>
+                    <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a10" id="faq-q10">Can businesses use these APIs in production?</button>
+                    <div id="faq-a10" class="faq-a" role="region" aria-labelledby="faq-q10">
+                        <p>Yes. These APIs are built for production use: stateless, scalable, and designed for integration into backends, ETL pipelines, and serverless functions. Many teams use them for <strong>data normalization</strong> and <strong>JSON validation</strong> in production. You should still evaluate rate limits, SLAs, and compliance requirements for your use case; see each API’s docs and RapidAPI terms.</p>
+                    </div>
+                </li>
+            </ul>
+        </section>
+
+        <section class="faq-section" id="section-normalization">
+            <h2>Data Normalization &amp; Combiners</h2>
+            <ul class="faq-list">
+                <li>
+                    <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a11" id="faq-q11">What is data normalization in APIs?</button>
+                    <div id="faq-a11" class="faq-a" role="region" aria-labelledby="faq-q11">
+                        <p><strong>Data normalization</strong> in APIs means converting payloads from different sources (different field names, types, and structures) into one agreed-upon schema—a <strong>canonical schema</strong>. For example, one API might return <code>product_name</code> and another <code>title</code>; a normalizer maps both to a single field so your application can treat every source the same. This is essential when you <strong>combine data from multiple APIs</strong> (e.g. products from several retailers, events from several ticketing systems). The catalog includes normalization APIs for retail, events, jobs, shipping, and more—see <a href="blog/what-is-data-normalization.html">What Is Data Normalization in APIs?</a> and the <a href="index.html#normalization">Normalization APIs</a> section on the homepage.</p>
+                    </div>
+                </li>
+                <li>
+                    <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a12" id="faq-q12">Why do APIs return different schemas?</button>
+                    <div id="faq-a12" class="faq-a" role="region" aria-labelledby="faq-q12">
+                        <p>APIs are built by different teams, at different times, for different use cases. So you get different naming (camelCase vs snake_case), structure (flat vs nested), types (dates as strings vs timestamps), and semantics. Without <strong>schema standardization</strong>, your code fills with source-specific branches. Normalization APIs absorb that variation at the boundary and give you one canonical shape—so you can use a single code path and a single storage model. The <a href="apis/retail-data-normalization.html">Retail Data Normalization API</a> and other normalization APIs in the catalog are built for this.</p>
+                    </div>
+                </li>
+                <li>
+                    <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a13" id="faq-q13">What is a canonical schema?</button>
+                    <div id="faq-a13" class="faq-a" role="region" aria-labelledby="faq-q13">
+                        <p>A <strong>canonical schema</strong> is the single, standard structure your application uses for a given kind of data. All external payloads are mapped into it before you store, display, or process them. Benefits include one code path, easier testing, and simpler analytics. Normalization APIs in this catalog (e.g. <a href="apis/job-posting-normalization.html">Job Posting Normalization</a>, <a href="apis/event-listing-normalization.html">Event Listing Normalization</a>) produce canonical output so you can build on a stable schema instead of handling every vendor format yourself.</p>
+                    </div>
+                </li>
+                <li>
+                    <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a14" id="faq-q14">What is a data combiner API?</button>
+                    <div id="faq-a14" class="faq-a" role="region" aria-labelledby="faq-q14">
+                        <p>A <strong>data combiner</strong> (or combiner API) merges data from multiple sources into one unified view. You send payloads from several APIs or feeds; the combiner normalizes them to a common schema and often ranks or sorts the result (e.g. by price or date). The catalog’s normalization APIs act as the normalization layer for combiners: you call them with raw payloads and get back canonical JSON, which you then merge or display. For the full picture, read <a href="blog/building-data-combiners.html">Building Data Combiners</a> and explore <a href="apis/retail-data-normalization.html">Retail Data Normalization</a> and other <a href="index.html#normalization">normalization APIs</a>.</p>
+                    </div>
+                </li>
+                <li>
+                    <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a15" id="faq-q15">How do you combine data from multiple APIs?</button>
+                    <div id="faq-a15" class="faq-a" role="region" aria-labelledby="faq-q15">
+                        <p>You typically (1) fetch or receive payloads from each API, (2) normalize each payload with a <strong>normalization API</strong> so everything shares one schema, (3) merge the normalized results in your application (e.g. sort by price or date), and (4) store or display the combined list. The catalog provides the normalization step: e.g. <a href="apis/retail-data-normalization.html">Retail Data Normalization</a> for products, <a href="apis/event-listing-normalization.html">Event Listing Normalization</a> for events, <a href="apis/job-posting-normalization.html">Job Posting Normalization</a> for jobs. Validation before or after (e.g. <a href="apis/json-schema-validator.html">JSON Schema Validator</a>) helps keep data quality high.</p>
+                    </div>
+                </li>
+                <li>
+                    <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a16" id="faq-q16">Why is multi-source API integration difficult?</button>
+                    <div id="faq-a16" class="faq-a" role="region" aria-labelledby="faq-q16">
+                        <p>Each source has different schemas, pagination, rate limits, and semantics. Writing custom parsers for every API is expensive and brittle. <strong>Normalization APIs</strong> centralize that logic: you send raw payloads and get canonical JSON. That reduces branching in your code and makes it easier to add new sources. The catalog’s normalization APIs (retail, events, jobs, shipping, social, calendar) are built for multi-source integration; see <a href="blog/building-data-combiners.html">Building Data Combiners</a> for patterns.</p>
+                    </div>
+                </li>
+                <li>
+                    <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a17" id="faq-q17">What is schema standardization?</button>
+                    <div id="faq-a17" class="faq-a" role="region" aria-labelledby="faq-q17">
+                        <p><strong>Schema standardization</strong> is the practice of defining and applying a single structure (field names, types, nesting) for a given domain so that all data conforms to it. Normalization APIs do this by mapping diverse vendor schemas into one canonical form. That simplifies storage, queries, and UI. The catalog’s normalization APIs (e.g. <a href="apis/shipping-tracking-normalization.html">Shipping &amp; Tracking Normalization</a>, <a href="apis/social-media-data-normalization.html">Social Media Data Normalization</a>) deliver standardized output for their domains.</p>
+                    </div>
+                </li>
+                <li>
+                    <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a18" id="faq-q18">What is deterministic normalization?</button>
+                    <div id="faq-a18" class="faq-a" role="region" aria-labelledby="faq-q18">
+                        <p><strong>Deterministic normalization</strong> means the same input always produces the same output. There is no randomness or environment-dependent behavior, which is important for testing, debugging, and reproducible pipelines. The normalization APIs in this catalog are designed to be deterministic so you can rely on consistent results and use them in CI/CD or regression tests.</p>
+                    </div>
+                </li>
+                <li>
+                    <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a19" id="faq-q19">When should you normalize API payloads?</button>
+                    <div id="faq-a19" class="faq-a" role="region" aria-labelledby="faq-q19">
+                        <p>Normalize when you (1) combine data from multiple APIs into one list or comparison, (2) want one code path and one storage schema instead of per-source logic, or (3) need consistent semantics (e.g. dates, prices) across sources. Normalize at the boundary—before storing or processing—so the rest of your system stays source-agnostic. Use the catalog’s <a href="index.html#normalization">normalization APIs</a> for retail, events, jobs, shipping, and more; optionally validate first with the <a href="apis/json-schema-validator.html">JSON Schema Validator</a>.</p>
+                    </div>
+                </li>
+                <li>
+                    <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a20" id="faq-q20">What is the difference between normalization and transformation?</button>
+                    <div id="faq-a20" class="faq-a" role="region" aria-labelledby="faq-q20">
+                        <p><strong>Normalization</strong> maps different representations of the same kind of data into one canonical schema (e.g. multiple product formats → one product schema). <strong>Transformation</strong> is broader: any change to data (filtering, aggregating, converting format). Normalization is a specific type of transformation focused on schema unification. The catalog’s normalization APIs do that mapping; tools like <a href="apis/html-to-markdown.html">HTML to Markdown</a> perform format transformation. For payload standardization, use the <a href="apis/retail-data-normalization.html">Retail Data Normalization</a> or other normalization APIs.</p>
+                    </div>
+                </li>
+            </ul>
+        </section>
+
+        <section class="faq-section" id="section-validation">
+            <h2>Validation &amp; JSON Processing</h2>
+            <ul class="faq-list">
+                <li>
+                    <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a21" id="faq-q21">What is JSON schema validation?</button>
+                    <div id="faq-a21" class="faq-a" role="region" aria-labelledby="faq-q21">
+                        <p><strong>JSON schema validation</strong> checks that a JSON payload conforms to a declared schema: required fields, types, nullability, and structure. It catches bad data before it reaches your business logic or database. The <a href="apis/json-schema-validator.html">JSON Schema Validator API</a> in this catalog does production-grade validation: you send a document and a schema (inline or by URL) and get a clear valid/invalid result plus error details. Use it for API contract enforcement, CI/CD checks, and data ingestion. See <a href="blog/api-payload-validation-best-practices.html">API Payload Validation Best Practices</a> for patterns.</p>
+                    </div>
+                </li>
+                <li>
+                    <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a22" id="faq-q22">Why validate API payloads before processing?</button>
+                    <div id="faq-a22" class="faq-a" role="region" aria-labelledby="faq-q22">
+                        <p>Validating early gives you immediate feedback and prevents invalid or unexpected data from propagating. Without validation, errors show up later (e.g. null reference or type error) and are harder to trace. The <a href="apis/json-schema-validator.html">JSON Schema Validator</a> lets you enforce structure at the boundary—before calling normalization or storage—so the rest of your pipeline can assume valid input. Combine it with <a href="apis/json-diff-checker.html">JSON Diff Checker</a> for contract and regression testing.</p>
+                    </div>
+                </li>
+                <li>
+                    <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a23" id="faq-q23">What happens when JSON validation fails?</button>
+                    <div id="faq-a23" class="faq-a" role="region" aria-labelledby="faq-q23">
+                        <p>When validation fails, you get a structured response listing each error: path, code (e.g. missing required field, type mismatch), and message. The <a href="apis/json-schema-validator.html">JSON Schema Validator API</a> returns all violations in one response so you can fix the payload or reject the request. You can then normalize errors for your client using the <a href="apis/api-error-status-normalization.html">API Error &amp; Status Normalization</a> API for consistent error handling across your stack.</p>
+                    </div>
+                </li>
+                <li>
+                    <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a24" id="faq-q24">How do you compare two JSON payloads?</button>
+                    <div id="faq-a24" class="faq-a" role="region" aria-labelledby="faq-q24">
+                        <p>You send a “before” and “after” payload to a diff API that returns structural and semantic differences. The <a href="apis/json-diff-checker.html">JSON Diff Checker API</a> in this catalog compares two JSON objects and classifies changes as breaking (e.g. removed field, type change) or non-breaking (e.g. new field). Use it for API versioning, backward-compatibility checks, and regression testing. For comparing normalized outputs across runs, pair it with the <a href="apis/retail-data-normalization.html">Retail Data Normalization</a> or other normalization APIs.</p>
+                    </div>
+                </li>
+                <li>
+                    <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a25" id="faq-q25">What is API error normalization?</button>
+                    <div id="faq-a25" class="faq-a" role="region" aria-labelledby="faq-q25">
+                        <p><strong>API error normalization</strong> maps diverse error responses (different HTTP status codes, body shapes, and messages) into a single taxonomy. Your application can then handle errors with one set of codes and retry logic. The <a href="apis/api-error-status-normalization.html">API Error &amp; Status Normalization</a> API takes status code and response body and returns a canonical error type, retry guidance, and severity. Use it in gateways or adapters so the rest of your stack sees a consistent error format. See <a href="blog/api-payload-validation-best-practices.html">Validation Best Practices</a>.</p>
+                    </div>
+                </li>
+                <li>
+                    <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a26" id="faq-q26">What is HTTP error standardization?</button>
+                    <div id="faq-a26" class="faq-a" role="region" aria-labelledby="faq-q26">
+                        <p>HTTP error standardization is the practice of turning varied HTTP error responses into a uniform structure (e.g. type, message, retryRecommended). The <a href="apis/api-error-status-normalization.html">API Error &amp; Status Normalization</a> API does this: you send it the status and body from any API, and it returns a normalized error object. That simplifies logging, alerting, and client handling. For root-cause analysis of failures, pair it with the <a href="apis/http-error-root-trigger-analyzer.html">HTTP Error Root Trigger Analyzer</a>.</p>
+                    </div>
+                </li>
+                <li>
+                    <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a27" id="faq-q27">How do you detect inconsistencies in API responses?</button>
+                    <div id="faq-a27" class="faq-a" role="region" aria-labelledby="faq-q27">
+                        <p>You can run multiple response samples through a consistency checker that reports structural drift or missing fields. The <a href="apis/json-payload-consistency-checker.html">JSON Payload Consistency Checker</a> API analyzes JSON structure consistency across datasets—useful for monitoring API contract drift or data quality. For before/after comparison of two payloads, use the <a href="apis/json-diff-checker.html">JSON Diff Checker</a>. Both support deterministic, programmatic checks in CI or production.</p>
+                    </div>
+                </li>
+                <li>
+                    <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a28" id="faq-q28">What is payload consistency checking?</button>
+                    <div id="faq-a28" class="faq-a" role="region" aria-labelledby="faq-q28">
+                        <p>Payload consistency checking verifies that multiple JSON samples (e.g. from the same API over time) share the same or compatible structure. The <a href="apis/json-payload-consistency-checker.html">JSON Payload Consistency Checker</a> helps you detect when an API’s response shape has drifted so you can update clients or alert. Combine it with <a href="apis/json-schema-validator.html">JSON Schema Validator</a> for strict contract enforcement and with <a href="apis/json-diff-checker.html">JSON Diff Checker</a> for pairwise comparison.</p>
+                    </div>
+                </li>
+            </ul>
+        </section>
+
+        <section class="faq-section" id="section-performance">
+            <h2>Performance &amp; Scaling</h2>
+            <ul class="faq-list">
+                <li>
+                    <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a29" id="faq-q29">How do normalization APIs scale?</button>
+                    <div id="faq-a29" class="faq-a" role="region" aria-labelledby="faq-q29">
+                        <p>Normalization APIs in this catalog are stateless and request-scoped: each call is independent, so they scale horizontally with load. Throughput and latency depend on RapidAPI and the provider. Payload size limits (e.g. 25MB for <a href="apis/retail-data-normalization.html">Retail Data Normalization</a>, 80MB for <a href="apis/pdf-compression.html">PDF Compression</a>) are documented per API. For high volume, use batching where supported and consider rate limits on your RapidAPI plan.</p>
+                    </div>
+                </li>
+                <li>
+                    <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a30" id="faq-q30">What is the maximum payload size?</button>
+                    <div id="faq-a30" class="faq-a" role="region" aria-labelledby="faq-q30">
+                        <p>Limits vary by API. Examples: many normalization APIs support up to 25MB per request; the <a href="apis/json-schema-validator.html">JSON Schema Validator</a> allows 10MB; the <a href="apis/pdf-compression.html">PDF Compression</a> API supports 80MB. Check each API’s documentation on the catalog (schema or FAQ) for the exact limit. Exceeding the limit returns an error; split large inputs into batches if needed.</p>
+                    </div>
+                </li>
+                <li>
+                    <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a31" id="faq-q31">Do normalization APIs affect performance?</button>
+                    <div id="faq-a31" class="faq-a" role="region" aria-labelledby="faq-q31">
+                        <p>They add one network hop and processing time per request. For most use cases (single or batched normalization), latency is acceptable. To minimize impact, normalize at the boundary (e.g. in an ingestion pipeline) rather than in a per-request path, and cache normalized results when the source data is static. The APIs are optimized for throughput; see each API page for details.</p>
+                    </div>
+                </li>
+                <li>
+                    <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a32" id="faq-q32">Should normalization happen before or after database storage?</button>
+                    <div id="faq-a32" class="faq-a" role="region" aria-labelledby="faq-q32">
+                        <p>Typically <strong>before</strong>. Normalize as data enters your system (e.g. in an API gateway or ETL step), then store the canonical form. That way your database and application work with one schema, and you avoid storing raw vendor formats that require per-source logic to query. Use the catalog’s normalization APIs at ingestion time; optionally validate first with the <a href="apis/json-schema-validator.html">JSON Schema Validator</a>.</p>
+                    </div>
+                </li>
+                <li>
+                    <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a33" id="faq-q33">Can normalization APIs handle batch inputs?</button>
+                    <div id="faq-a33" class="faq-a" role="region" aria-labelledby="faq-q33">
+                        <p>Yes. Many normalization APIs accept an array of inputs (e.g. multiple retailer payloads in one request) and return a merged or per-item result. For example, the <a href="apis/retail-data-normalization.html">Retail Data Normalization API</a> accepts an <code>inputs</code> array and returns normalized products and per-source errors. Batching reduces round-trips; stay within the API’s payload size limit. See each API’s schema and docs for batch semantics.</p>
+                    </div>
+                </li>
+            </ul>
+        </section>
+
+        <section class="faq-section" id="section-security">
+            <h2>Security &amp; Compliance</h2>
+            <ul class="faq-list">
+                <li>
+                    <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a34" id="faq-q34">Do these APIs log request data?</button>
+                    <div id="faq-a34" class="faq-a" role="region" aria-labelledby="faq-q34">
+                        <p>The catalog APIs are stateless and do not persist your payloads. Logging policy is determined by the provider and RapidAPI; review their terms and privacy policy for the latest. For sensitive data, consider using <a href="apis/pii-detection-redaction.html">PII Detection &amp; Redaction</a> before sending payloads to other APIs, and always follow your own compliance requirements.</p>
+                    </div>
+                </li>
+                <li>
+                    <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a35" id="faq-q35">Are requests encrypted?</button>
+                    <div id="faq-a35" class="faq-a" role="region" aria-labelledby="faq-q35">
+                        <p>Yes. All APIs are served over <strong>HTTPS</strong>, so traffic between your client and RapidAPI is encrypted in transit. Use HTTPS in your integration; the catalog and RapidAPI documentation assume TLS. For secrets (e.g. API keys), use environment variables or a secrets manager and never commit them to source control.</p>
+                    </div>
+                </li>
+                <li>
+                    <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a36" id="faq-q36">How is PII handled?</button>
+                    <div id="faq-a36" class="faq-a" role="region" aria-labelledby="faq-q36">
+                        <p>The catalog’s normalization and validation APIs process payloads you send and do not store them. If your payloads contain PII, you are responsible for ensuring that sending them to a third-party API complies with your policies. The <a href="apis/pii-detection-redaction.html">PII Detection &amp; Redaction</a> API can help you redact sensitive data before forwarding to other services. Review each API’s documentation and RapidAPI terms for data handling.</p>
+                    </div>
+                </li>
+                <li>
+                    <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a37" id="faq-q37">Can these APIs be used in regulated environments?</button>
+                    <div id="faq-a37" class="faq-a" role="region" aria-labelledby="faq-q37">
+                        <p>Stateless, no-storage design supports many compliance scenarios, but you must verify that using a third-party API (via RapidAPI) meets your industry and jurisdiction requirements. Use HTTPS, protect API keys, and consider redacting or not sending regulated data when possible. The <a href="apis/pii-detection-redaction.html">PII Detection &amp; Redaction</a> API can support data minimization. Consult your compliance team and the providers’ terms.</p>
+                    </div>
+                </li>
+                <li>
+                    <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a38" id="faq-q38">What authentication methods are supported?</button>
+                    <div id="faq-a38" class="faq-a" role="region" aria-labelledby="faq-q38">
+                        <p>Authentication is via <strong>RapidAPI key</strong> in request headers (<code>x-rapidapi-key</code>, <code>x-rapidapi-host</code>). You obtain the key from your RapidAPI account after subscribing to an API. There are no separate OAuth or API-key flows from the catalog; all calls go through RapidAPI. See each API’s catalog page (e.g. <a href="apis/json-schema-validator.html">JSON Schema Validator</a>) for the exact headers and host.</p>
+                    </div>
+                </li>
+            </ul>
+        </section>
+
+        <section class="faq-section" id="section-practical">
+            <h2>Practical Developer Questions</h2>
+            <ul class="faq-list">
+                <li>
+                    <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a39" id="faq-q39">Should I build normalization logic myself?</button>
+                    <div id="faq-a39" class="faq-a" role="region" aria-labelledby="faq-q39">
+                        <p>Building and maintaining parsers for many vendor schemas is costly and brittle. Using a <strong>normalization API</strong> offloads that work and gives you a single canonical output. It makes sense when you have multiple sources (e.g. several retailers or job boards) and want one code path. The catalog’s <a href="index.html#normalization">normalization APIs</a> (retail, events, jobs, shipping, social, calendar) are built for this. Build in-house only if you have very specific or proprietary schemas not covered by these APIs.</p>
+                    </div>
+                </li>
+                <li>
+                    <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a40" id="faq-q40">When does it make sense to use a third-party API?</button>
+                    <div id="faq-a40" class="faq-a" role="region" aria-labelledby="faq-q40">
+                        <p>Use a third-party API when it saves development and maintenance time and meets your quality and compliance needs. Normalization, validation, and error-normalization APIs in this catalog are good fits when you need production-grade behavior without building parsers or validators yourself. Try the playgrounds on each API page (e.g. <a href="apis/retail-data-normalization.html">Retail Data Normalization</a>, <a href="apis/json-schema-validator.html">JSON Schema Validator</a>) to validate fit before integrating.</p>
+                    </div>
+                </li>
+                <li>
+                    <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a41" id="faq-q41">What is the difference between an SDK and an API?</button>
+                    <div id="faq-a41" class="faq-a" role="region" aria-labelledby="faq-q41">
+                        <p>An <strong>API</strong> is the HTTP interface you call (request/response). An <strong>SDK</strong> is a library that wraps that API in code (e.g. a JavaScript or Python client). This catalog documents REST APIs; you can call them with any HTTP client or use RapidAPI’s code snippets. There are no custom SDKs from the catalog; the APIs are language-agnostic. For examples, see the “Copy code” section on any API page (e.g. <a href="apis/json-diff-checker.html">JSON Diff Checker</a>).</p>
+                    </div>
+                </li>
+                <li>
+                    <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a42" id="faq-q42">Can I use these APIs in serverless environments?</button>
+                    <div id="faq-a42" class="faq-a" role="region" aria-labelledby="faq-q42">
+                        <p>Yes. The APIs are stateless and HTTP-based, so they work well in serverless (e.g. AWS Lambda, Google Cloud Functions). Make HTTP requests from your function, pass the RapidAPI key in headers, and process the response. Pay attention to payload size limits and timeouts for your function and the API. See <a href="apis/retail-data-normalization.html">Retail Data Normalization</a> and other API docs for request/response shapes.</p>
+                    </div>
+                </li>
+                <li>
+                    <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a43" id="faq-q43">Do these APIs support large-scale enterprise workloads?</button>
+                    <div id="faq-a43" class="faq-a" role="region" aria-labelledby="faq-q43">
+                        <p>They are built for production and scale horizontally due to stateless design. Enterprise use depends on rate limits, SLAs, and compliance. Check RapidAPI plans and each API’s documentation for limits. For high volume, use batching where supported and consider the <a href="apis/adaptive-rate-limit-calculator.html">Adaptive Rate Limit Response Calculator</a> for retry and backoff strategy. The <a href="index.html">catalog</a> lists all APIs; evaluate each for your workload.</p>
+                    </div>
+                </li>
+            </ul>
+        </section>
+
+        <div class="explore-cats">
+            <h2>Explore APIs by Category</h2>
+            <ul>
+                <li><a href="index.html#normalization">Normalization APIs</a></li>
+                <li><a href="index.html#validation">Validation APIs</a></li>
+                <li><a href="index.html#comparison">Comparison APIs</a></li>
+                <li><a href="index.html#comparison">Transformation APIs</a></li>
+            </ul>
+        </div>
+
+        <div class="cta-block">
+            <p><strong>Still have questions?</strong></p>
+            <p><a href="index.html">Browse the full API catalog</a> or try an API in the playground on its page.</p>
+        </div>
+    </div>
+    <script>
+    document.querySelectorAll('.faq-q').forEach(function(btn){
+        btn.addEventListener('click',function(){ var expanded=this.getAttribute('aria-expanded')==='true'; this.setAttribute('aria-expanded',!expanded); var panel=document.getElementById(this.getAttribute('aria-controls')); if(panel) panel.classList.toggle('show',!expanded); });
+    });
+    </script>
+</body>
+</html>

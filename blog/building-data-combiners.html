@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building Data Combiners: Merging Multiple APIs Into One | Precision Solutions Tech</title>
+    <meta name="description" content="What is a data combiner? Why merging APIs is hard, how schema conflicts arise, and how deterministic ranking and normalization APIs help you build reliable combiners.">
+    <link rel="canonical" href="https://precisionsolutionstech-netizen.github.io/api-catalog/blog/building-data-combiners.html">
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+    <meta property="og:title" content="Building Data Combiners: Merging Multiple APIs Into One">
+    <meta property="og:description" content="Why merging APIs is hard, schema conflicts, and how normalization APIs help you build reliable data combiners.">
+    <meta property="og:url" content="https://precisionsolutionstech-netizen.github.io/api-catalog/blog/building-data-combiners.html">
+    <meta property="og:type" content="article">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Building Data Combiners">
+    <style>
+        :root { --bg: #0f172a; --surface: #1e293b; --border: #334155; --text: #e2e8f0; --muted: #94a3b8; --accent: #38bdf8; }
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: ui-sans-serif, system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+        .wrap { max-width: 720px; margin: 0 auto; padding: 32px 20px; }
+        a { color: var(--accent); }
+        .global-nav { margin-bottom: 24px; padding-bottom: 12px; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+        .global-nav a { margin-right: 16px; }
+        h1 { font-size: 2rem; margin: 0 0 16px; }
+        .meta { color: var(--muted); font-size: 0.9rem; margin-bottom: 32px; }
+        h2 { font-size: 1.4rem; margin: 40px 0 16px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+        p { margin: 0 0 1em; }
+        ul { margin: 0.75em 0; padding-left: 1.5em; }
+        li { margin: 0.4em 0; }
+        .api-links { background: var(--surface); padding: 20px; border-radius: 10px; border: 1px solid var(--border); margin: 28px 0; }
+        .api-links h3 { margin: 0 0 12px; font-size: 1.1rem; }
+        .api-links ul { list-style: none; padding: 0; margin: 0; }
+        .api-links li { margin: 8px 0; padding: 0; }
+        footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <nav class="global-nav" aria-label="Main"><a href="../index.html">Home</a><a href="../index.html#normalization">Normalization APIs</a><a href="../index.html#validation">Validation APIs</a><a href="../index.html#comparison">Comparison APIs</a><a href="what-is-data-normalization.html">Blog</a></nav>
+        <article>
+            <header>
+                <h1>Building Data Combiners: Merging Multiple APIs Into One</h1>
+                <p class="meta">Developer APIs for Data Transformation, Validation &amp; Integration</p>
+            </header>
+            <p>Applications that aggregate listings—products, jobs, events, social posts—from multiple providers are essentially <strong>data combiners</strong>. They call several APIs, merge the results, and present a single view. Doing that in a reliable, maintainable way is harder than it looks. This post covers what combiners are, why merging APIs is difficult, how schema conflicts show up, and how <strong>deterministic ranking</strong> and normalization APIs help you ship a consistent experience.</p>
+
+            <h2>What is a data combiner?</h2>
+            <p>A <strong>data combiner</strong> is a system that takes input from multiple data sources (APIs, feeds, uploads), maps them to a common schema, and produces one unified output—often with ordering, filtering, or ranking applied. Examples:</p>
+            <ul>
+                <li>Price comparison: same product from Amazon, Walmart, eBay → one list with “cheapest first.”</li>
+                <li>Job aggregator: jobs from LinkedIn, Indeed, company career pages → one searchable feed.</li>
+                <li>Event discovery: events from Eventbrite, Meetup, Ticketmaster → one calendar or list.</li>
+                <li>Social dashboard: posts from Twitter, LinkedIn, Facebook → one timeline with a shared format.</li>
+            </ul>
+            <p>The combiner doesn’t replace the underlying APIs; it sits on top of them and gives you a single interface and a single schema.</p>
+
+            <h2>Why merging APIs is hard</h2>
+            <p>Each provider has its own:</p>
+            <ul>
+                <li><strong>Schema</strong> — Different field names, nesting, and types.</li>
+                <li><strong>Pagination and rate limits</strong> — Different page sizes and throttling.</li>
+                <li><strong>Identifiers</strong> — No shared ID across sources; you have to match or merge by title, URL, or other heuristics.</li>
+                <li><strong>Semantics</strong> — “Available,” “in stock,” “ships in 24h” may mean different things.</li>
+            </ul>
+            <p>If you merge raw responses, your application code has to handle every variant. That leads to branching, bugs when a provider changes format, and slow onboarding of new sources. A better approach is to <strong>normalize first</strong>, then merge and rank on the canonical model.</p>
+
+            <h2>Schema conflicts</h2>
+            <p>When you merge two payloads that represent the same kind of entity (e.g. one product from two retailers), you run into <strong>schema conflicts</strong>:</p>
+            <ul>
+                <li>Same concept, different keys — e.g. <code>price</code> vs <code>unit_price</code> vs <code>amount</code>.</li>
+                <li>Same key, different structure — e.g. price as a number vs <code>{ value, currency }</code>.</li>
+                <li>Missing or optional fields — one API always has <code>brand</code>, another doesn’t.</li>
+            </ul>
+            <p>Resolving these in ad‑hoc code is error‑prone. Normalization APIs are built to map each source’s schema into one canonical form, so your combiner only ever sees one shape. Conflicts are resolved in the normalizer (e.g. how to represent “no brand” or “price unknown”) instead of scattered across your app.</p>
+
+            <h2>Deterministic ranking</h2>
+            <p>After normalization, you often want to <strong>rank</strong> or sort merged results: by price, by date, by rating, or by “best match.” To avoid flaky UX and hard-to-reproduce bugs, ranking should be <strong>deterministic</strong>: same inputs and rules always produce the same order. That means:</p>
+            <ul>
+                <li>Clear comparison rules (e.g. numeric price first, then tie-break on ID).</li>
+                <li>Stable handling of nulls and missing values.</li>
+                <li>No reliance on request order or unstable sort keys.</li>
+            </ul>
+            <p>Some of our normalization APIs (e.g. <a href="../apis/retail-data-normalization.html">Retail Data Normalization</a>) return comparison metadata (cheapest retailer, price range, rankings) so your combiner can sort and display results consistently.</p>
+
+            <h2>APIs that power data combiners</h2>
+            <p>These APIs in the catalog are built for combiner-style use cases: you send one or more source payloads and get back normalized (and sometimes compared) data.</p>
+            <div class="api-links">
+                <h3>Normalization APIs for combiners</h3>
+                <ul>
+                    <li><a href="../apis/retail-data-normalization.html">Retail Data Normalization</a> — Multi-retailer product payloads into one merged product list with comparison (e.g. cheapest, best reviewed).</li>
+                    <li><a href="../apis/job-posting-normalization.html">Job Posting Normalization</a> — Job listings from multiple HR and job-board sources into a single schema.</li>
+                    <li><a href="../apis/event-listing-normalization.html">Event Listing Normalization</a> — Events from multiple ticketing and event platforms into one canonical event format.</li>
+                    <li><a href="../apis/calendar-event-normalization.html">Calendar Event Normalization</a> — Calendar events across providers for unified scheduling and display.</li>
+                    <li><a href="../apis/social-media-data-normalization.html">Social Media Data Normalization</a> — Social content from multiple platforms into a consistent structure for feeds and dashboards.</li>
+                </ul>
+            </div>
+            <p>All are stateless and accept user-provided JSON; they don’t fetch from retailers or platforms themselves. You can run them in your pipeline after fetching from each API, then merge and rank the normalized output in your application.</p>
+
+            <p>For more on the idea of a single canonical model, see <a href="what-is-data-normalization.html">What Is Data Normalization in APIs?</a>. For validating payloads before or after normalization, see <a href="api-payload-validation-best-practices.html">API Payload Validation Best Practices</a>.</p>
+        </article>
+        <footer>
+            <p><a href="../index.html">API Catalog</a> · <a href="what-is-data-normalization.html">What Is Data Normalization?</a> · <a href="api-payload-validation-best-practices.html">Validation Best Practices</a></p>
+            <p>© 2026 Precision Solutions Tech</p>
+        </footer>
+    </div>
+</body>
+</html>
