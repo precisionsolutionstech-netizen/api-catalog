@@ -40,7 +40,8 @@
         section { margin-bottom: 28px; }
         .playground { background: var(--surface); border-radius: 12px; padding: 20px; margin: 24px 0; border: 1px solid var(--border); }
         .playground label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 0.9rem; }
-        .playground input[type="password"], .playground select { width: 100%; max-width: 320px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); margin-bottom: 12px; }
+        .playground input[type="password"], .playground select, .playground input[type="text"] { width: 100%; max-width: 320px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); margin-bottom: 12px; }
+        .playground .playground-hint { font-size: 0.85rem; color: var(--muted); margin: 2px 0 12px 0; }
         .playground textarea { width: 100%; min-height: 120px; padding: 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); font-family: ui-monospace, monospace; font-size: 13px; resize: vertical; }
         .playground input[type="file"] { margin-bottom: 12px; }
         .playground button { padding: 10px 20px; background: var(--accent); color: var(--bg); border: none; border-radius: 8px; font-weight: 600; cursor: pointer; margin-top: 8px; }
@@ -103,13 +104,13 @@
                 <p class="lead">PDF table extractor, parser, and converter API. Pull structured table data from PDFs into JSON, Excel, or CSV. Multipart or base64 upload. Page selection, lattice/stream detection. Text-based PDFs only, no OCR.</p>
             </header>
             <section><h2 id="why">Why use this API?</h2><p>Tables in PDFs are hard to extract programmatically. This API detects and extracts tables for spreadsheets, data pipelines, or automation.</p></section>
-            <section><h2 id="what">What the API does</h2><p>POST /extract with multipart file (field: file). Optional query: outputFormat=json|xlsx|csv, pages=all|1,3-5.</p></section>
+            <section><h2 id="what">What the API does</h2><p>POST <code>/extract</code> with a PDF file (multipart <code>file</code> or JSON base64). Returns JSON (default), Excel (.xlsx), or CSV (ZIP) of extracted tables. Optional query params: <code>outputFormat</code>, <code>pages</code>, <code>strategy</code>, <code>mergeTablesAcrossPages</code>, <code>confidenceScores</code>.</p></section>
             <section>
                 <h2 id="schemas">Request &amp; response schema</h2>
                 <p><a href="#request-schema" class="schema-toggle" id="toggle-req" aria-expanded="false">View request schema</a> &middot; <a href="#response-schema" class="schema-toggle" id="toggle-res" aria-expanded="false">View response schema</a> &middot; <a href="#error-codes" class="schema-toggle" id="toggle-errors" aria-expanded="false">View error &amp; warning codes</a></p>
                 <div id="error-codes" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Code</th><th>HTTP</th><th>Description</th></tr></thead><tbody><tr><td><code>MISSING_FILE</code></td><td><code>4xx/5xx</code></td><td>See RapidAPI docs for details.</td></tr><tr><td><code>INVALID_FILE_TYPE</code></td><td><code>4xx/5xx</code></td><td>See RapidAPI docs for details.</td></tr><tr><td><code>INVALID_PDF</code></td><td><code>4xx/5xx</code></td><td>See RapidAPI docs for details.</td></tr><tr><td><code>EMPTY_PDF</code></td><td><code>4xx/5xx</code></td><td>See RapidAPI docs for details.</td></tr><tr><td><code>PAYLOAD_TOO_LARGE</code></td><td><code>4xx/5xx</code></td><td>Request body exceeds the maximum allowed size (e.g. 25MB). Send a smaller payload or split the request.</td></tr><tr><td><code>NO_TABLES_FOUND</code></td><td><code>4xx/5xx</code></td><td>See RapidAPI docs for details.</td></tr><tr><td><code>PASSWORD_PROTECTED</code></td><td><code>4xx/5xx</code></td><td>See RapidAPI docs for details.</td></tr><tr><td><code>UNREADABLE_PDF</code></td><td><code>4xx/5xx</code></td><td>See RapidAPI docs for details.</td></tr><tr><td><code>INVALID_PAGE_RANGE</code></td><td><code>4xx/5xx</code></td><td>See RapidAPI docs for details.</td></tr><tr><td><code>UNSUPPORTED_OUTPUT_FORMAT</code></td><td><code>4xx/5xx</code></td><td>See RapidAPI docs for details.</td></tr><tr><td><code>INVALID_STRATEGY</code></td><td><code>4xx/5xx</code></td><td>See RapidAPI docs for details.</td></tr><tr><td><code>PROCESSING_TIMEOUT</code></td><td><code>4xx/5xx</code></td><td>See RapidAPI docs for details.</td></tr><tr><td><code>INTERNAL_PROCESSING_ERROR</code></td><td><code>4xx/5xx</code></td><td>See RapidAPI docs for details.</td></tr></tbody></table></div>
-                <div id="request-schema" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>file</code></td><td><code>file</code></td><td>PDF file (multipart).</td></tr><tr><td><code>outputFormat</code></td><td><code>string</code></td><td>Query: json, xlsx, or csv.</td></tr><tr><td><code>pages</code></td><td><code>string</code></td><td>Query: all or 1,3-5.</td></tr></tbody></table></div>
-                <div id="response-schema" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>status</code></td><td><code>string</code></td><td></td></tr></tbody></table></div>
+                <div id="request-schema" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>file</code></td><td><code>file</code></td><td>PDF file (multipart) or base64 in JSON body.</td></tr><tr><td><code>outputFormat</code></td><td><code>query</code></td><td><code>json</code> (default), <code>xlsx</code>, or <code>csv</code>.</td></tr><tr><td><code>pages</code></td><td><code>query</code></td><td><code>all</code> (default) or e.g. <code>1,3-5</code>.</td></tr><tr><td><code>strategy</code></td><td><code>query</code></td><td><code>auto</code> (default), <code>lattice</code> (grid lines), or <code>stream</code>.</td></tr><tr><td><code>mergeTablesAcrossPages</code></td><td><code>query</code></td><td><code>true</code> or <code>false</code>. Merge multi-page tables.</td></tr><tr><td><code>confidenceScores</code></td><td><code>query</code></td><td><code>true</code> (default) or <code>false</code>. Include confidence per table.</td></tr></tbody></table></div>
+                <div id="response-schema" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>When</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>outputFormat=json</code></td><td><code>JSON</code></td><td><code>tables</code> (array of { tableIndex, pageRange, rows, rowCount, columnCount, confidence?, strategyUsed }), <code>summary</code> (tableCount, etc.), <code>warnings</code>.</td></tr><tr><td><code>outputFormat=xlsx</code></td><td><code>binary</code></td><td>Excel file (<code>tables.xlsx</code>).</td></tr><tr><td><code>outputFormat=csv</code></td><td><code>binary</code></td><td>ZIP of CSV files (<code>tables.zip</code>).</td></tr></tbody></table></div>
             </section>
             <section>
                 <h2 id="playground">Try it in the playground</h2>
@@ -117,14 +118,25 @@
                 <div class="playground">
                     <label for="api-key">RapidAPI Key (required)</label>
                     <input type="password" id="api-key" placeholder="Your RapidAPI key" autocomplete="off">
-                    
-                    <label for="mode">Output format</label>
-                    <select id="mode">
-                        <option value="json">json</option>
+                    <p class="file-upload-note" style="margin-bottom:8px;">Optional parameters (sent as query string):</p>
+                    <label for="param-output-format">Output format</label>
+                    <select id="param-output-format">
+                        <option value="json" selected>json</option>
                         <option value="xlsx">xlsx</option>
                         <option value="csv">csv</option>
                     </select>
-                    <label for="file-input">PDF file (required)</label>
+                    <label for="param-pages">Pages</label>
+                    <input type="text" id="param-pages" placeholder="all" value="all" style="max-width:200px;">
+                    <p class="playground-hint">e.g. <code>all</code> or <code>1,3-5</code></p>
+                    <label for="param-strategy">Strategy</label>
+                    <select id="param-strategy">
+                        <option value="auto" selected>auto</option>
+                        <option value="lattice">lattice</option>
+                        <option value="stream">stream</option>
+                    </select>
+                    <label><input type="checkbox" id="param-merge-tables"> Merge tables across pages</label>
+                    <label><input type="checkbox" id="param-confidence" checked> Include confidence scores</label>
+                    <label for="file-input" style="margin-top:12px;display:block;">PDF file (required)</label>
                     <input type="file" id="file-input" accept=".pdf,application/pdf">
                     <p class="file-upload-note">File is sent to RapidAPI; not stored here.</p>
                     <button type="button" id="run-btn">Run request</button>
@@ -133,7 +145,7 @@
             </section>
             <section>
                 <h2 id="code">Copy code</h2>
-                <p>Host: <code>pdf-table-extraction-api.p.rapidapi.com</code>, endpoint: <code>POST /extract</code>. Choose language:</p>
+                <p>Host: <code>pdf-table-extraction-api.p.rapidapi.com</code>, endpoint: <code>POST /extract</code>. Query params: outputFormat, pages, strategy, mergeTablesAcrossPages, confidenceScores. Choose language:</p>
                 <div class="lang-tabs" role="tablist">
                     <button type="button" role="tab" aria-selected="true" data-lang="curl" class="active">cURL</button>
                     <button type="button" role="tab" aria-selected="false" data-lang="javascript">JavaScript</button>
@@ -141,13 +153,14 @@
                     <button type="button" role="tab" aria-selected="false" data-lang="java">Java</button>
                 </div>
                 <div id="snippet-curl" class="code-block active"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-curl">Copy</button><pre><code>curl --request POST \
-  --url 'https://pdf-table-extraction-api.p.rapidapi.com/extract?outputFormat=json' \
+  --url 'https://pdf-table-extraction-api.p.rapidapi.com/extract?outputFormat=json&amp;strategy=stream&amp;pages=all' \
   --header 'X-RapidAPI-Host: pdf-table-extraction-api.p.rapidapi.com' \
   --header 'X-RapidAPI-Key: YOUR_RAPIDAPI_KEY' \
   --form 'file=@document.pdf'</code></pre></div></div>
                 <div id="snippet-javascript" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-javascript">Copy</button><pre><code>const formData = new FormData();
 formData.append('file', document.querySelector('input[type=file]').files[0]);
-const res = await fetch('https://pdf-table-extraction-api.p.rapidapi.com/extract?outputFormat=json', {
+const params = new URLSearchParams({ outputFormat: 'json', strategy: 'stream', pages: 'all' });
+const res = await fetch('https://pdf-table-extraction-api.p.rapidapi.com/extract?' + params, {
   method: 'POST',
   headers: { 'X-RapidAPI-Key': 'YOUR_RAPIDAPI_KEY', 'X-RapidAPI-Host': 'pdf-table-extraction-api.p.rapidapi.com' },
   body: formData
@@ -158,13 +171,14 @@ console.log(data);</code></pre></div></div>
 
 url = &quot;https://pdf-table-extraction-api.p.rapidapi.com/extract&quot;
 headers = {'X-RapidAPI-Key': 'YOUR_RAPIDAPI_KEY', 'X-RapidAPI-Host': 'pdf-table-extraction-api.p.rapidapi.com'}
+params = {'outputFormat': 'json', 'strategy': 'stream', 'pages': 'all'}
 with open('document.pdf', 'rb') as f:
-    r = requests.post(url, files={'file': f}, headers=headers, params={'outputFormat': 'json'})
+    r = requests.post(url, files={'file': f}, headers=headers, params=params)
 print(r.json())</code></pre></div></div>
-                <div id="snippet-java" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-java">Copy</button><pre><code>// Use multipart: add file part with name 'file'. See RapidAPI docs for full example.</code></pre></div></div>
+                <div id="snippet-java" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-java">Copy</button><pre><code>// POST to /extract with multipart file 'file'. Query: outputFormat, pages, strategy, mergeTablesAcrossPages, confidenceScores. See RapidAPI docs for full example.</code></pre></div></div>
                 <p><button type="button" class="postman-btn" id="postman-download">Download Postman collection</button></p>
             </section>
-            <section><h2 id="expect">What to expect</h2><p>Response format depends on the endpoint. Use your RapidAPI key in headers. Stateless; no data stored. See <a href="https://rapidapi.com/precisionsolutionstech/api/pdf-table-extraction-api" target="_blank" rel="noopener">RapidAPI docs</a> for full response schema.</p></section>
+            <section><h2 id="expect">What to expect</h2><p>With <code>outputFormat=json</code> you get a JSON object with <code>tables</code> and <code>summary</code>. With <code>xlsx</code> or <code>csv</code> you get a binary file (Excel or ZIP of CSVs). Use your RapidAPI key in headers. Stateless; no data stored. See <a href="https://rapidapi.com/precisionsolutionstech/api/pdf-table-extraction-api" target="_blank" rel="noopener">RapidAPI docs</a> for full response schema.</p></section>
             <section><h2 id="about">About this API</h2>
 
                 <h3 id="who-should-use">Who Should Use This API</h3>
@@ -244,7 +258,7 @@ print(r.json())</code></pre></div></div>
     document.getElementById('postman-download').addEventListener('click',function(){
         var coll = { info: { name: "PDF Table Extraction API", schema: 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json' }, item: [{ name: 'Request', request: { method: 'POST', header: [{ key: 'Content-Type', value: 'application/json' }, { key: 'x-rapidapi-key', value: 'YOUR_RAPIDAPI_KEY' }, { key: 'x-rapidapi-host', value: host }], url: 'https://'+host+path } } ] };
         if(!fileUpload){ coll.item[0].request.body = { mode: 'raw', raw: typeof body==='string'?body:JSON.stringify(body) }; }
-        else { coll.item[0].request.header = [{ key: 'X-RapidAPI-Key', value: 'YOUR_RAPIDAPI_KEY' }, { key: 'X-RapidAPI-Host', value: host }]; coll.item[0].request.url = 'https://'+host+path+'?outputFormat=json'; coll.item[0].request.body = { mode: 'formdata', formdata: [{ key: 'file', type: 'file', src: '' }] }; }
+        else { coll.item[0].request.header = [{ key: 'X-RapidAPI-Key', value: 'YOUR_RAPIDAPI_KEY' }, { key: 'X-RapidAPI-Host', value: host }]; coll.item[0].request.url = 'https://'+host+path+'?outputFormat=json&strategy=stream&pages=all'; coll.item[0].request.body = { mode: 'formdata', formdata: [{ key: 'file', type: 'file', src: '' }] }; }
         var blob = new Blob([JSON.stringify(coll,null,2)], { type: 'application/json' });
         var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'pdf-table-extraction-postman-collection.json'; a.click(); URL.revokeObjectURL(a.href);
     });
@@ -255,12 +269,36 @@ print(r.json())</code></pre></div></div>
         
     var fileInput=document.getElementById('file-input');
     if(!fileInput.files||!fileInput.files[0]){resultDiv.style.display='block';resultDiv.className='result error';resultDiv.textContent='Please select a PDF file.';return;}
+    var params=[];
+    var of=document.getElementById('param-output-format'); if(of&&of.value) params.push('outputFormat='+encodeURIComponent(of.value));
+    var pg=document.getElementById('param-pages'); if(pg&&pg.value&&pg.value.trim()!=='') params.push('pages='+encodeURIComponent(pg.value.trim()));
+    var st=document.getElementById('param-strategy'); if(st&&st.value) params.push('strategy='+encodeURIComponent(st.value));
+    var mt=document.getElementById('param-merge-tables'); if(mt&&mt.checked) params.push('mergeTablesAcrossPages=true');
+    var cf=document.getElementById('param-confidence'); if(cf&&!cf.checked) params.push('confidenceScores=false');
+    var url='https://'+host+path; if(params.length) url+='?'+params.join('&');
+    var outputFormat=(of&&of.value)||'json';
     runBtn.disabled=true;resultDiv.style.display='block';resultDiv.className='result';resultDiv.textContent='Uploading…';
     var formData=new FormData();formData.append('file',fileInput.files[0]);
-    var mode=document.getElementById('mode').value||'json';
-    fetch('https://'+host+path+'?outputFormat='+encodeURIComponent(mode),{method:'POST',headers:{'X-RapidAPI-Key':key,'X-RapidAPI-Host':host},body:formData})
-    .then(function(r){return r.text();})
-    .then(function(t){resultDiv.className='result success';try{resultDiv.textContent=JSON.stringify(JSON.parse(t),null,2);}catch(_){resultDiv.textContent=t;}})
+    fetch(url,{method:'POST',headers:{'X-RapidAPI-Key':key,'X-RapidAPI-Host':host},body:formData})
+    .then(function(r){
+      var ct=(r.headers.get('Content-Type')||'').toLowerCase();
+      var isJson=ct.indexOf('application/json')>=0;
+      if(!r.ok&&isJson) return r.json().then(function(j){ return { error: true, data: j }; });
+      if(!r.ok) return r.text().then(function(t){ return { error: true, text: t }; });
+      if(outputFormat==='json') return r.text().then(function(t){ try{ return { json: true, data: JSON.parse(t) }; } catch(_){ return { json: false, text: t }; } });
+      return r.blob().then(function(b){ return { binary: true, blob: b, size: b.size, ext: outputFormat==='xlsx'?'xlsx':'zip' }; });
+    })
+    .then(function(o){
+      if(o.error){ resultDiv.className='result error'; resultDiv.textContent=o.data?JSON.stringify(o.data,null,2):o.text; return; }
+      resultDiv.className='result success';
+      if(o.json){ resultDiv.textContent=JSON.stringify(o.data,null,2); }
+      else if(o.text!==undefined){ resultDiv.textContent=o.text; }
+      else if(o.binary){
+        resultDiv.textContent='';
+        resultDiv.appendChild(document.createTextNode('File received ('+o.size+' bytes). '));
+        var a=document.createElement('a'); a.href=URL.createObjectURL(o.blob); a.download='tables.'+o.ext; a.textContent='Download tables.'+o.ext; resultDiv.appendChild(a);
+      }
+    })
     .catch(function(e){resultDiv.className='result error';resultDiv.textContent='Request failed: '+e.message;})
     .finally(function(){runBtn.disabled=false;});
     });

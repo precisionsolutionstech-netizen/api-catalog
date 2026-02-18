@@ -117,7 +117,23 @@
                 <div class="playground">
                     <label for="api-key">RapidAPI Key (required)</label>
                     <input type="password" id="api-key" placeholder="Your RapidAPI key" autocomplete="off">
-                    
+                    <p class="file-upload-note" style="margin-bottom:8px;">Optional parameters (sent as query string):</p>
+                    <label for="param-mode">Mode</label>
+                    <select id="param-mode">
+                        <option value="lossless" selected>lossless (default)</option>
+                        <option value="speed">speed</option>
+                        <option value="maxCompression">maxCompression</option>
+                    </select>
+                    <label id="label-allow-image" style="display:none;"><input type="checkbox" id="param-allow-image"> Allow image compression (lossless only)</label>
+                    <label id="label-compression-level" for="param-compression-level" style="display:none;">Compression level (maxCompression only)</label>
+                    <select id="param-compression-level" style="display:none;">
+                        <option value="screen">screen</option>
+                        <option value="ebook">ebook</option>
+                        <option value="printer">printer</option>
+                        <option value="prepress">prepress</option>
+                    </select>
+                    <label for="param-image-quality">Image quality (0–100, optional)</label>
+                    <input type="number" id="param-image-quality" min="0" max="100" placeholder="90" style="width:80px;">
                     <label><input type="checkbox" id="metadata-only" value="1"> Get metadata only (JSON) — send <code>Accept: application/json</code></label>
                     <label for="file-input" style="margin-top:12px;display:block;">PDF file (required)</label>
                     <input type="file" id="file-input" accept=".pdf,application/pdf">
@@ -246,6 +262,9 @@ with open('optimized.pdf', 'wb') as out:
     document.querySelectorAll('.faq-q').forEach(function(btn){
         btn.addEventListener('click',function(){ var expanded=this.getAttribute('aria-expanded')==='true'; this.setAttribute('aria-expanded',!expanded); var panel=document.getElementById(this.getAttribute('aria-controls')); if(panel) panel.classList.toggle('show',!expanded); });
     });
+    var modeEl=document.getElementById('param-mode'), allowImgEl=document.getElementById('param-allow-image'), allowImgLabel=document.getElementById('label-allow-image'), compLevelEl=document.getElementById('param-compression-level'), compLevelLabel=document.getElementById('label-compression-level');
+    function updateParamVisibility(){ var m=modeEl.value; allowImgLabel.style.display=m==='lossless'?'block':'none'; compLevelLabel.style.display=compLevelEl.style.display=m==='maxCompression'?'block':'none'; }
+    if(modeEl){ modeEl.addEventListener('change',updateParamVisibility); updateParamVisibility(); }
     document.getElementById('postman-download').addEventListener('click',function(){
         var coll = { info: { name: "PDF Compression API", schema: 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json' }, item: [{ name: 'Request', request: { method: 'POST', header: [{ key: 'Content-Type', value: 'application/json' }, { key: 'x-rapidapi-key', value: 'YOUR_RAPIDAPI_KEY' }, { key: 'x-rapidapi-host', value: host }], url: 'https://'+host+path } } ] };
         if(!fileUpload){ coll.item[0].request.body = { mode: 'raw', raw: typeof body==='string'?body:JSON.stringify(body) }; }
@@ -263,9 +282,15 @@ with open('optimized.pdf', 'wb') as out:
     runBtn.disabled=true;resultDiv.style.display='block';resultDiv.className='result';resultDiv.textContent='Uploading…';
     var formData=new FormData();formData.append('file',fileInput.files[0]);
     var metadataOnly=document.getElementById('metadata-only')&&document.getElementById('metadata-only').checked;
+    var params=[];
+    var m=document.getElementById('param-mode'); if(m&&m.value) params.push('mode='+encodeURIComponent(m.value));
+    if(m&&m.value==='lossless'){ var ai=document.getElementById('param-allow-image'); if(ai&&ai.checked) params.push('allowImageCompression=true'); }
+    if(m&&m.value==='maxCompression'){ var cl=document.getElementById('param-compression-level'); if(cl&&cl.value) params.push('compressionLevel='+encodeURIComponent(cl.value)); }
+    var iq=document.getElementById('param-image-quality'); if(iq&&iq.value!==''){ var v=parseInt(iq.value,10); if(!isNaN(v)&&v>=0&&v<=100) params.push('imageQuality='+v); }
+    var url='https://'+host+path; if(params.length) url+='?'+params.join('&');
     var headers={'X-RapidAPI-Key':key,'X-RapidAPI-Host':host};
     if(metadataOnly) headers['Accept']='application/json';
-    fetch('https://'+host+path,{method:'POST',headers:headers,body:formData})
+    fetch(url,{method:'POST',headers:headers,body:formData})
     .then(function(r){
       var ct=r.headers.get('Content-Type')||'';
       if(metadataOnly||ct.indexOf('application/json')>=0){ return r.json().then(function(j){ return { json: true, data: j }; }); }
