@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="../favicon.png" type="image/png" sizes="32x32">
+    <title>Financial Invoice & Receipt Normalization API | RapidAPI</title>
+    <meta name="description" content="Normalize invoice and receipt data from QuickBooks, Stripe, Xero, Shopify, PayPal, Adyen, Paddle, and 40+ vendors into one canonical invoice schema. Send payload with optional source hint. Returns normalized invoice with invoiceId, dates, totals, lineItems, customer, vendor, confidence. Auto-detect vendor or specify source. Max request size 15MB.">
+    <meta name="keywords" content="financial-invoice-normalization, invoice-normalization, receipt-normalization, API, RapidAPI, developer">
+    <link rel="canonical" href="https://precisionsolutionstech-netizen.github.io/api-catalog/apis/financial-invoice-normalization.html">
+    <meta property="og:title" content="Financial Invoice & Receipt Normalization API">
+    <meta property="og:description" content="Normalize invoice and receipt data from QuickBooks, Stripe, Xero, Shopify, PayPal, Adyen, Paddle, and 40+ vendors into one canonical invoice schema. Send payload with optional source hint. Returns normalized invoice with invoiceId, dates, totals, lineItems, customer, vendor, confidence. Auto-detect vendor or specify source. Max request size 15MB.">
+    <meta property="og:url" content="https://precisionsolutionstech-netizen.github.io/api-catalog/apis/financial-invoice-normalization.html">
+    <meta property="og:image" content="https://precisionsolutionstech-netizen.github.io/api-catalog/og-default.png">
+    <meta property="og:type" content="article">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Financial Invoice & Receipt Normalization API">
+    <meta name="twitter:description" content="Normalize invoice and receipt data from QuickBooks, Stripe, Xero, Shopify, PayPal, and 40+ vendors into one canonical schema. Auto-detect or specify source. Max 15MB.">
+    <meta name="twitter:image" content="https://precisionsolutionstech-netizen.github.io/api-catalog/og-default.png">
+    <script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","headline":"Financial Invoice & Receipt Normalization API","description":"Normalize invoice and receipt data from QuickBooks, Stripe, Xero, Shopify, PayPal, Adyen, Paddle, and 40+ vendors into one canonical invoice schema. Send payload with optional source hint. Returns normalized invoice with invoiceId, dates, totals, lineItems, customer, vendor, confidence. Auto-detect vendor or specify source. Max request size 15MB.","url":"https://precisionsolutionstech-netizen.github.io/api-catalog/apis/financial-invoice-normalization.html","author":{"@type":"Organization","name":"Precision Solutions Tech"}}
+    </script>
+    <script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"API Catalog","item":"https://precisionsolutionstech-netizen.github.io/api-catalog/"},{"@type":"ListItem","position":2,"name":"Financial Invoice & Receipt Normalization","item":"https://precisionsolutionstech-netizen.github.io/api-catalog/apis/financial-invoice-normalization.html"}]}
+    </script>
+    <script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Do I need API keys for QuickBooks, Stripe, etc.?","acceptedAnswer":{"@type":"Answer","text":"No. This API only processes data you send. You obtain invoice data through your own integrations and pass it to /normalize."}},{"@type":"Question","name":"Does it store data?","acceptedAnswer":{"@type":"Answer","text":"No. It is fully stateless."}},{"@type":"Question","name":"Is my data logged?","acceptedAnswer":{"@type":"Answer","text":"No. We do not log any data. Payloads are processed in memory and not persisted or logged."}},{"@type":"Question","name":"What is the max request size?","acceptedAnswer":{"@type":"Answer","text":"15MB."}},{"@type":"Question","name":"Can I auto-detect the vendor?","acceptedAnswer":{"@type":"Answer","text":"Yes. Omit the source parameter and the API will detect the vendor from the payload shape."}}]}
+    </script>
+    <style>
+        :root { --bg: #0f172a; --surface: #1e293b; --border: #334155; --text: #e2e8f0; --muted: #94a3b8; --accent: #38bdf8; --success: #34d399; --error: #f87171; }
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: ui-sans-serif, system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+        .wrap { max-width: 900px; margin: 0 auto; padding: 24px 20px; }
+        a { color: var(--accent); }
+        nav { margin-bottom: 32px; font-size: 0.9rem; }
+        h1 { font-size: 1.9rem; margin: 0 0 12px; }
+        .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; }
+        h2 { font-size: 1.35rem; margin: 32px 0 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+        section { margin-bottom: 28px; }
+        .playground { background: var(--surface); border-radius: 12px; padding: 20px; margin: 24px 0; border: 1px solid var(--border); }
+        .playground label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 0.9rem; }
+        .playground input[type="password"], .playground select { width: 100%; max-width: 320px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); margin-bottom: 12px; }
+        .playground textarea { width: 100%; min-height: 120px; padding: 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); font-family: ui-monospace, monospace; font-size: 13px; resize: vertical; }
+        .playground input[type="file"] { margin-bottom: 12px; }
+        .playground button { padding: 10px 20px; background: var(--accent); color: var(--bg); border: none; border-radius: 8px; font-weight: 600; cursor: pointer; margin-top: 8px; }
+        .playground button:disabled { opacity: 0.6; cursor: not-allowed; }
+        .playground .result { margin-top: 16px; padding: 12px; border-radius: 8px; background: var(--bg); border: 1px solid var(--border); white-space: pre-wrap; word-break: break-all; font-family: ui-monospace, monospace; font-size: 12px; max-height: 320px; overflow: auto; }
+        .playground .result.error { border-color: var(--error); color: var(--error); }
+        .playground .result.success { border-color: var(--success); }
+        .file-upload-note { font-size: 0.85rem; color: var(--muted); margin-top: 4px; }
+        .code-wrap { position: relative; margin: 16px 0; }
+        .code-wrap pre { margin: 0; padding: 14px 16px; background: var(--surface); border-radius: 8px; border: 1px solid var(--border); overflow-x: auto; font-size: 13px; }
+        .code-wrap .copy-btn { position: absolute; top: 10px; right: 10px; padding: 6px 12px; background: var(--border); color: var(--text); border: none; border-radius: 6px; font-size: 12px; cursor: pointer; }
+        .code-wrap .copy-btn:hover { background: var(--accent); color: var(--bg); }
+        .lang-tabs { display: flex; gap: 4px; margin-bottom: 8px; flex-wrap: wrap; }
+        .lang-tabs button { padding: 8px 14px; background: var(--surface); border: 1px solid var(--border); color: var(--muted); border-radius: 6px; cursor: pointer; font-size: 0.9rem; }
+        .lang-tabs button.active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+        .code-block { display: none; }
+        .code-block.active { display: block; }
+        .schema-section { margin: 16px 0; }
+        .schema-toggle { color: var(--accent); cursor: pointer; text-decoration: none; font-weight: 600; }
+        .schema-toggle:hover { text-decoration: underline; }
+        .schema-content { display: none; margin-top: 12px; padding: 12px; background: var(--surface); border-radius: 8px; border: 1px solid var(--border); overflow-x: auto; }
+        .schema-content.show { display: block; }
+        .schema-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        .schema-table th, .schema-table td { padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--border); }
+        .schema-table code { font-size: 0.85em; }
+        .long-desc { color: var(--muted); font-size: 0.98rem; }
+        .long-desc p { margin: 0.75em 0; }
+        .long-desc ul { margin: 0.75em 0; padding-left: 1.5em; }
+        .long-desc li { margin: 0.35em 0; }
+        .postman-btn { display: inline-block; margin-top: 12px; padding: 10px 18px; background: var(--surface); border: 1px solid var(--border); color: var(--accent); border-radius: 8px; cursor: pointer; font-weight: 600; text-decoration: none; }
+        .postman-btn:hover { background: var(--border); }
+        .cta-primary { display: inline-block; margin: 0 0 24px; padding: 12px 24px; background: var(--accent); color: var(--bg); border: none; border-radius: 8px; font-weight: 600; font-size: 1rem; text-decoration: none; cursor: pointer; }
+        .cta-primary:hover { filter: brightness(1.1); }
+        .global-nav { margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+        .global-nav a { margin-right: 16px; }
+        .faq-list { list-style: none; padding: 0; margin: 0; }
+        .faq-list li { border-bottom: 1px solid var(--border); }
+        .faq-q { width: 100%; padding: 14px 12px; cursor: pointer; font-weight: 600; display: flex; justify-content: space-between; align-items: center; text-align: left; background: transparent; color: var(--text); border: none; font-family: inherit; font-size: inherit; }
+        .faq-q:hover { background: var(--surface); }
+        .faq-q::after { content: '+'; flex-shrink: 0; margin-left: 8px; width: 1.5rem; height: 1.5rem; display: inline-flex; align-items: center; justify-content: center; border-radius: 4px; background: var(--surface); color: var(--accent); font-size: 1.1rem; line-height: 1; }
+        .faq-q[aria-expanded="true"]::after { content: '\2212'; }
+        .faq-a { padding: 12px 12px 16px; color: var(--muted); display: none; background: var(--surface); margin: 0 12px 8px; border-radius: 6px; font-weight: normal; }
+        .faq-a.show { display: block; }
+        .related-apis { list-style: none; padding: 0; margin: 0; }
+        .related-apis li { margin: 10px 0; padding-left: 0; }
+        .related-apis a { font-weight: 500; }
+        .browse-all { margin: 28px 0; padding: 16px; background: var(--surface); border-radius: 8px; border: 1px solid var(--border); text-align: center; }
+        .browse-all a { font-weight: 600; font-size: 1.05rem; }
+        footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.9rem; text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <nav class="global-nav" aria-label="Main"><a href="../index.html">Home</a><a href="../faq.html">FAQ</a><a href="../index.html#normalization">Normalization APIs</a><a href="../index.html#validation">Validation APIs</a><a href="../index.html#comparison">Comparison APIs</a><a href="../blog/what-is-data-normalization.html">Blog</a></nav>
+        <nav aria-label="Breadcrumb"><a href="../index.html">API Catalog</a> → Financial Invoice & Receipt Normalization</nav>
+        <article>
+            <header>
+                <h1>Financial Invoice & Receipt Normalization API</h1>
+                <p><a href="https://rapidapi.com/precisionsolutionstech/api/financial-invoice-receipt-normalization" target="_blank" rel="noopener" class="cta-primary">Try on RapidAPI</a></p>
+                <p class="lead">Normalize invoice and receipt data from QuickBooks, Stripe, Xero, Shopify, PayPal, Adyen, Paddle, and 40+ vendors into one canonical invoice schema. Send payload with optional source hint. Returns normalized invoice with invoiceId, dates, totals, lineItems, customer, vendor, confidence. Auto-detect vendor or specify source. Max request size 15MB.</p>
+            </header>
+            <section><h2 id="why">Why use this API?</h2><p>Invoice data from multiple vendors uses different schemas, field names, and amount formats. Normalize invoices from QuickBooks, Stripe, Xero, Shopify, PayPal, and more into one schema for accounting sync, expense processing, or reconciliation.</p></section>
+            <section><h2 id="what">What the API does</h2><p>POST /normalize with invoice/receipt payload (and optional source). Returns normalized invoice in canonical schema.</p></section>
+            <section>
+                <h2 id="schemas">Request &amp; response schema</h2>
+                <p><a href="#request-schema" class="schema-toggle" id="toggle-req" aria-expanded="false">View request schema</a> &middot; <a href="#response-schema" class="schema-toggle" id="toggle-res" aria-expanded="false">View response schema</a> &middot; <a href="#error-codes" class="schema-toggle" id="toggle-errors" aria-expanded="false">View error &amp; warning codes</a></p>
+                <div id="error-codes" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Code</th><th>HTTP</th><th>Description</th></tr></thead><tbody><tr><td><code>INVALID_REQUEST</code></td><td><code>400</code></td><td>Missing payload or invalid request body</td></tr><tr><td><code>INVALID_JSON</code></td><td><code>400</code></td><td>Request body is not valid JSON</td></tr><tr><td><code>PAYLOAD_TOO_LARGE</code></td><td><code>413</code></td><td>Payload exceeds 15MB</td></tr><tr><td><code>INTERNAL_ERROR</code></td><td><code>500</code></td><td>Server error during normalization</td></tr></tbody></table></div>
+                <div id="request-schema" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>payload</code></td><td><code>object</code></td><td>Raw invoice or receipt JSON from any supported vendor</td></tr><tr><td><code>source</code></td><td><code>string</code></td><td>Optional vendor hint: quickbooks, stripe, xero, shopify, paypal, adyen, paddle, zoho_books, freshbooks, expensify, brex, amazon_seller, ebay, etsy, walmart_marketplace, generic, etc. Omit for auto-detect</td></tr></tbody></table></div>
+                <div id="response-schema" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>invoiceId</code></td><td><code>string | null</code></td><td>Invoice/receipt identifier</td></tr><tr><td><code>source</code></td><td><code>string</code></td><td>Vendor used for normalization</td></tr><tr><td><code>sourceMeta</code></td><td><code>object</code></td><td>Metadata (rawFields, genericMode when generic)</td></tr><tr><td><code>issueDate</code></td><td><code>string | null</code></td><td>Issue date (ISO 8601)</td></tr><tr><td><code>dueDate</code></td><td><code>string | null</code></td><td>Due date (ISO 8601)</td></tr><tr><td><code>currency</code></td><td><code>string | null</code></td><td>ISO 4217 (e.g. USD, EUR)</td></tr><tr><td><code>status</code></td><td><code>string | null</code></td><td>Status (e.g. paid, open, sent)</td></tr><tr><td><code>customer</code></td><td><code>object</code></td><td>{ id, name, email }</td></tr><tr><td><code>vendor</code></td><td><code>object</code></td><td>{ name, taxId }</td></tr><tr><td><code>subtotal</code></td><td><code>number | null</code></td><td>Subtotal in major units</td></tr><tr><td><code>taxTotal</code></td><td><code>number | null</code></td><td>Total tax in major units</td></tr><tr><td><code>discountTotal</code></td><td><code>number | null</code></td><td>Total discount in major units</td></tr><tr><td><code>total</code></td><td><code>number | null</code></td><td>Grand total in major units</td></tr><tr><td><code>lineItems</code></td><td><code>array</code></td><td>[{ lineId, description, quantity, unitPrice, taxAmount, lineTotal }]</td></tr><tr><td><code>confidence</code></td><td><code>number</code></td><td>0–1; higher for recognized vendors and complete payloads</td></tr><tr><td><code>normalizationWarnings</code></td><td><code>array</code></td><td>Strings describing inferences or issues</td></tr><tr><td><code>detectedSource</code></td><td><code>string | null</code></td><td>Present when source was auto-detected</td></tr></tbody></table></div>
+            </section>
+            <section>
+                <h2 id="playground">Try it in the playground</h2>
+                <p>Add your <a href="https://rapidapi.com/precisionsolutionstech/api/financial-invoice-receipt-normalization" target="_blank" rel="noopener">RapidAPI key</a> and run. Key is sent only to RapidAPI.</p>
+                <div class="playground">
+                    <label for="api-key">RapidAPI Key (required)</label>
+                    <input type="password" id="api-key" placeholder="Your RapidAPI key" autocomplete="off">
+                    
+                    <label for="body-json">Request body (JSON)</label>
+                    <textarea id="body-json" placeholder='{}'>{
+  &quot;source&quot;: &quot;stripe&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: &quot;in_abc123&quot;,
+    &quot;currency&quot;: &quot;usd&quot;,
+    &quot;amount_due&quot;: 10000,
+    &quot;lines&quot;: {
+      &quot;data&quot;: [
+        { &quot;id&quot;: &quot;il_1&quot;, &quot;amount&quot;: 10000, &quot;quantity&quot;: 1, &quot;description&quot;: &quot;Subscription&quot; }
+      ]
+    }
+  }
+}</textarea>
+                    <button type="button" id="run-btn">Run request</button>
+                    <div id="play-result" class="result" style="display:none;" aria-live="polite"></div>
+                </div>
+            </section>
+            <section>
+                <h2 id="code">Copy code</h2>
+                <p>Host: <code>financial-invoice-normalization.p.rapidapi.com</code>, endpoint: <code>POST /normalize</code>. Choose language:</p>
+                <div class="lang-tabs" role="tablist">
+                    <button type="button" role="tab" aria-selected="true" data-lang="curl" class="active">cURL</button>
+                    <button type="button" role="tab" aria-selected="false" data-lang="javascript">JavaScript</button>
+                    <button type="button" role="tab" aria-selected="false" data-lang="python">Python</button>
+                    <button type="button" role="tab" aria-selected="false" data-lang="java">Java</button>
+                </div>
+                <div id="snippet-curl" class="code-block active"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-curl">Copy</button><pre><code>curl --request POST \
+  --url 'https://financial-invoice-normalization.p.rapidapi.com/normalize' \
+  --header 'Content-Type: application/json' \
+  --header 'x-rapidapi-host: financial-invoice-normalization.p.rapidapi.com' \
+  --header 'x-rapidapi-key: YOUR_RAPIDAPI_KEY' \
+  --data '{
+  &quot;source&quot;: &quot;stripe&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: &quot;in_abc123&quot;,
+    &quot;currency&quot;: &quot;usd&quot;,
+    &quot;amount_due&quot;: 10000,
+    &quot;lines&quot;: {
+      &quot;data&quot;: [
+        { &quot;id&quot;: &quot;il_1&quot;, &quot;amount&quot;: 10000, &quot;quantity&quot;: 1, &quot;description&quot;: &quot;Subscription&quot; }
+      ]
+    }
+  }
+}'</code></pre></div></div>
+                <div id="snippet-javascript" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-javascript">Copy</button><pre><code>const res = await fetch('https://financial-invoice-normalization.p.rapidapi.com/normalize', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
+    'x-rapidapi-host': 'financial-invoice-normalization.p.rapidapi.com'
+  },
+  body: JSON.stringify({
+    source: 'stripe',
+    payload: {
+      id: 'in_abc123',
+      currency: 'usd',
+      amount_due: 10000,
+      lines: {
+        data: [
+          { id: 'il_1', amount: 10000, quantity: 1, description: 'Subscription' }
+        ]
+      }
+    }
+  })
+});
+const invoice = await res.json();
+console.log(invoice.invoiceId, invoice.total, invoice.confidence);</code></pre></div></div>
+                <div id="snippet-python" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-python">Copy</button><pre><code>import http.client
+import json
+
+conn = http.client.HTTPSConnection(&quot;financial-invoice-normalization.p.rapidapi.com&quot;)
+payload = json.dumps({
+  &quot;source&quot;: &quot;stripe&quot;,
+  &quot;payload&quot;: {
+    &quot;id&quot;: &quot;in_abc123&quot;,
+    &quot;currency&quot;: &quot;usd&quot;,
+    &quot;amount_due&quot;: 10000,
+    &quot;lines&quot;: {
+      &quot;data&quot;: [
+        { &quot;id&quot;: &quot;il_1&quot;, &quot;amount&quot;: 10000, &quot;quantity&quot;: 1, &quot;description&quot;: &quot;Subscription&quot; }
+      ]
+    }
+  }
+})
+headers = {
+    'Content-Type': 'application/json',
+    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
+    'x-rapidapi-host': 'financial-invoice-normalization.p.rapidapi.com'
+}
+conn.request(&quot;POST&quot;, &quot;/normalize&quot;, payload, headers)
+res = conn.getresponse()
+print(res.read().decode())</code></pre></div></div>
+                <div id="snippet-java" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-java">Copy</button><pre><code>HttpRequest request = HttpRequest.newBuilder()
+    .uri(URI.create(&quot;https://financial-invoice-normalization.p.rapidapi.com/normalize&quot;))
+    .header(&quot;Content-Type&quot;, &quot;application/json&quot;)
+    .header(&quot;x-rapidapi-key&quot;, &quot;YOUR_RAPIDAPI_KEY&quot;)
+    .header(&quot;x-rapidapi-host&quot;, &quot;financial-invoice-normalization.p.rapidapi.com&quot;)
+    .method(&quot;POST&quot;, HttpRequest.BodyPublishers.ofString(&quot;{
+  \&quot;source\&quot;: \&quot;stripe\&quot;,
+  \&quot;payload\&quot;: {
+    \&quot;id\&quot;: \&quot;in_abc123\&quot;,
+    \&quot;currency\&quot;: \&quot;usd\&quot;,
+    \&quot;amount_due\&quot;: 10000,
+    \&quot;lines\&quot;: {
+      \&quot;data\&quot;: [
+        { \&quot;id\&quot;: \&quot;il_1\&quot;, \&quot;amount\&quot;: 10000, \&quot;quantity\&quot;: 1, \&quot;description\&quot;: \&quot;Subscription\&quot; }
+      ]
+    }
+  }
+}&quot;))
+    .build();
+HttpResponse&lt;String&gt; response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+System.out.println(response.body());</code></pre></div></div>
+                <p><button type="button" class="postman-btn" id="postman-download">Download Postman collection</button></p>
+            </section>
+            <section><h2 id="expect">What to expect</h2><p>Response format depends on the endpoint. Use your RapidAPI key in headers. Stateless; no data stored. See <a href="https://rapidapi.com/precisionsolutionstech/api/financial-invoice-receipt-normalization" target="_blank" rel="noopener">RapidAPI docs</a> for full response schema.</p></section>
+            <section><h2 id="related">Related APIs</h2>
+                <ul class="related-apis">
+                    <li><a href="retail-data-normalization.html">Retail Data Normalization</a> – Normalize product and retail listing data from Amazon, Walmart, eBay, and more</li>
+                    <li><a href="calendar-event-normalization.html">Calendar Event Normalization</a> – Normalize calendar events from Google, Outlook, Apple, and more</li>
+                    <li><a href="job-posting-normalization.html">Job Posting Normalization</a> – Normalize job postings from LinkedIn, Indeed, Greenhouse, and 25+ platforms</li>
+                    <li><a href="shipping-tracking-normalization.html">Shipping & Tracking Normalization</a> – Unify tracking data from UPS, FedEx, USPS, DHL</li>
+                    <li><a href="api-error-status-normalization.html">API Error & Status Normalization</a> – Normalize HTTP error responses and status codes</li>
+                    <li><a href="json-schema-validator.html">JSON Schema Validator</a> – Validate JSON payloads against schema definitions</li>
+                </ul>
+            </section>
+            <section><h2 id="about">About this API</h2>
+                <h3 id="who-should-use">Who Should Use This API</h3>
+                <p>This API is built for teams that need a single, canonical view of invoice and receipt data across vendors:</p>
+                <ul>
+                    <li>Accounting and ERP integrators</li>
+                    <li>Expense and spend platforms</li>
+                    <li>E-commerce and marketplaces</li>
+                    <li>Payment and subscription processors</li>
+                    <li>Data engineers building data pipelines</li>
+                </ul>
+                <h3 id="also-known-as">Also Known As</h3>
+                <p>Common search terms for this API:</p>
+                <ul>
+                    <li>Invoice normalization API</li>
+                    <li>Receipt normalization API</li>
+                    <li>Invoice data combiner</li>
+                    <li>Multi-vendor invoice parser</li>
+                    <li>QuickBooks Stripe Xero invoice normalizer</li>
+                    <li>Invoice schema converter</li>
+                    <li>Financial data normalization API</li>
+                </ul>
+<div class="long-desc">
+<p>Financial Invoice & Receipt Normalization API</p>
+<p>The Financial Invoice & Receipt Normalization API enables teams to standardize invoice and receipt data from QuickBooks, Stripe, Xero, Shopify, PayPal, Adyen, Paddle, and 40+ vendors without fetching the data itself.</p>
+<p>Send one request with a `payload` (raw invoice JSON) and optional `source` hint. Users provide raw vendor responses (often inconsistent JSON payloads), and the API returns:</p>
+<ul>
+<li>A normalized invoice in canonical schema (invoiceId, dates, totals, lineItems, customer, vendor)</li>
+<li>Confidence score (0–1) indicating reliability</li>
+<li>Normalization warnings for inferences or missing data</li>
+<li>Detected source when source is omitted</li>
+</ul>
+<p>The API is fully stateless, scalable to large payloads (up to 15MB per request), and does not require vendor accounts.</p>
+<p>What This API Does</p>
+<p>**Normalize** — Transform vendor-specific JSON into a canonical invoice format: invoiceId, issueDate, dueDate, currency, subtotal, taxTotal, discountTotal, total, lineItems, customer, vendor, sourceMeta, confidence, normalizationWarnings. Amounts in major units (no cents). Dates in ISO 8601.</p>
+<p>**Auto-detect** — Omit source to infer vendor from payload shape; response includes detectedSource.</p>
+<p>**Generic fallback** — Unknown or generic payloads use heuristic normalization (webhook, stripe_like, csv_like, erp_export, pdf_extract, invoice_shaped). sourceMeta.genericMode indicates interpretation.</p>
+<p>Key Features</p>
+<ul>
+<li>**Single Schema** — One canonical format for all vendors</li>
+<li>**40+ Vendors** — QuickBooks, Xero, Stripe, Shopify, PayPal, Adyen, Paddle, Zoho Books, FreshBooks, Expensify, Brex, Clover, Toast, Amazon Seller, eBay, Etsy, Walmart Marketplace, and more</li>
+<li>**Auto-detect** — Infer vendor from payload shape</li>
+<li>**Stateless & Scalable** — No storage, 15MB payload limit</li>
+<li>**No Vendor Keys** — Operates on user-provided data only</li>
+</ul>
+<p>Use Cases</p>
+<ul>
+<li>Accounting sync from multiple systems into one ERP</li>
+<li>Expense pipeline processing receipts from multiple corporate card providers</li>
+<li>Webhook processing for payment processors</li>
+<li>E-commerce reconciliation across multiple marketplaces</li>
+<li>Data engineering pipelines loading invoice JSON into warehouses</li>
+</ul>
+<p>Who This Is For</p>
+<ul>
+<li>Accounting and ERP integrators</li>
+<li>Expense and spend platforms</li>
+<li>E-commerce and marketplaces</li>
+<li>Payment and subscription processors</li>
+<li>Data engineers</li>
+</ul>
+<p>Also useful if you're looking for:</p>
+<ul>
+<li>invoice normalization API</li>
+<li>receipt normalization API</li>
+<li>invoice data combiner</li>
+<li>multi-vendor invoice parser</li>
+<li>QuickBooks Stripe Xero invoice normalizer</li>
+<li>invoice schema converter</li>
+<li>financial data normalization API</li>
+</ul>
+</div></section>
+            <section><h2 id="faq">Frequently Asked Questions</h2>
+                <ul class="faq-list">
+                    <li>
+                        <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a1" id="faq-q1">Do I need API keys for QuickBooks, Stripe, etc.?</button>
+                        <div id="faq-a1" class="faq-a" role="region" aria-labelledby="faq-q1">No. This API only processes data you send. You obtain invoice data through your own integrations and pass it to /normalize.</div>
+                    </li>
+                    <li>
+                        <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a2" id="faq-q2">Does it store data?</button>
+                        <div id="faq-a2" class="faq-a" role="region" aria-labelledby="faq-q2">No. It is fully stateless.</div>
+                    </li>
+                    <li>
+                        <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a5" id="faq-q5">Is my data logged?</button>
+                        <div id="faq-a5" class="faq-a" role="region" aria-labelledby="faq-q5">No. We do not log any data. Payloads are processed in memory and not persisted or logged.</div>
+                    </li>
+                    <li>
+                        <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a3" id="faq-q3">What is the max request size?</button>
+                        <div id="faq-a3" class="faq-a" role="region" aria-labelledby="faq-q3">15MB.</div>
+                    </li>
+                    <li>
+                        <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a4" id="faq-q4">Can I auto-detect the vendor?</button>
+                        <div id="faq-a4" class="faq-a" role="region" aria-labelledby="faq-q4">Yes. Omit the source parameter and the API will detect the vendor from the payload shape.</div>
+                    </li>
+                </ul>
+            </section>
+            <div class="browse-all"><a href="../index.html">Browse all APIs in the catalog →</a></div>
+        </article>
+        <footer>
+            <p><a href="https://rapidapi.com/precisionsolutionstech/api/financial-invoice-receipt-normalization" target="_blank" rel="noopener">Subscribe on RapidAPI</a> · <a href="../index.html">API Catalog</a></p>
+            <p>© 2026 Precision Solutions Tech</p>
+        </footer>
+    </div>
+    <script>
+(function(){
+    var host='financial-invoice-normalization.p.rapidapi.com',path='/normalize',body='{"source":"stripe","payload":{"id":"in_abc123","currency":"usd","amount_due":10000,"lines":{"data":[{"id":"il_1","amount":10000,"quantity":1,"description":"Subscription"}]}}}',fileUpload=false,rapidUrl="https://rapidapi.com/precisionsolutionstech/api/financial-invoice-receipt-normalization";
+    document.querySelectorAll('[data-rapid-docs]').forEach(function(a){ a.href = rapidUrl; });
+    document.getElementById('toggle-req').addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('request-schema'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); });
+    document.getElementById('toggle-res').addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('response-schema'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); });
+    var toggleErrors=document.getElementById('toggle-errors');if(toggleErrors){ toggleErrors.addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('error-codes'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); }); }
+    document.querySelectorAll('.faq-q').forEach(function(btn){
+        btn.addEventListener('click',function(){ var expanded=this.getAttribute('aria-expanded')==='true'; this.setAttribute('aria-expanded',!expanded); var panel=document.getElementById(this.getAttribute('aria-controls')); if(panel) panel.classList.toggle('show',!expanded); });
+    });
+    document.querySelectorAll('.lang-tabs button').forEach(function(btn){
+        btn.addEventListener('click',function(){
+            document.querySelectorAll('.lang-tabs button').forEach(function(b){ b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
+            document.querySelectorAll('.code-block').forEach(function(b){ b.classList.remove('active'); });
+            this.classList.add('active'); this.setAttribute('aria-selected','true');
+            var el=document.getElementById('snippet-'+this.getAttribute('data-lang')); if(el) el.classList.add('active');
+        });
+    });
+    document.querySelectorAll('.copy-btn').forEach(function(btn){
+        btn.addEventListener('click',function(){
+            var id=this.getAttribute('data-copy'),block=document.getElementById(id),pre=block?block.querySelector('pre code'):null,btn=this;
+            if(pre) navigator.clipboard.writeText(pre.textContent).then(function(){ var t=btn.textContent; btn.textContent='Copied!'; setTimeout(function(){ btn.textContent=t; },1500); });
+        });
+    });
+    document.getElementById('postman-download').addEventListener('click',function(){
+        var coll = { info: { name: "Financial Invoice Normalization API", schema: 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json' }, item: [{ name: 'Request', request: { method: 'POST', header: [{ key: 'Content-Type', value: 'application/json' }, { key: 'x-rapidapi-key', value: 'YOUR_RAPIDAPI_KEY' }, { key: 'x-rapidapi-host', value: host }], url: 'https://'+host+path } } ] };
+        if(!fileUpload){ coll.item[0].request.body = { mode: 'raw', raw: typeof body==='string'?body:JSON.stringify(body) }; }
+        else { coll.item[0].request.header = [{ key: 'X-RapidAPI-Key', value: 'YOUR_RAPIDAPI_KEY' }, { key: 'X-RapidAPI-Host', value: host }]; coll.item[0].request.url = 'https://'+host+path+'?outputFormat=json'; coll.item[0].request.body = { mode: 'formdata', formdata: [{ key: 'file', type: 'file', src: '' }] }; }
+        var blob = new Blob([JSON.stringify(coll,null,2)], { type: 'application/json' });
+        var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'financial-invoice-normalization-postman-collection.json'; a.click(); URL.revokeObjectURL(a.href);
+    });
+    var runBtn=document.getElementById('run-btn'),keyInput=document.getElementById('api-key'),resultDiv=document.getElementById('play-result');
+    runBtn.addEventListener('click',function(){
+        var key=(keyInput.value||'').trim();
+        if(!key){ resultDiv.style.display='block'; resultDiv.className='result error'; resultDiv.textContent='Please enter your RapidAPI key.'; return; }
+        
+    var bodyStr=document.getElementById('body-json').value.trim(),body;
+    try{body=JSON.parse(bodyStr);}catch(e){resultDiv.style.display='block';resultDiv.className='result error';resultDiv.textContent='Invalid JSON: '+e.message;return;}
+    runBtn.disabled=true;resultDiv.style.display='block';resultDiv.className='result';resultDiv.textContent='Loading…';
+    fetch('https://'+host+path,{method:'POST',headers:{'Content-Type':'application/json','x-rapidapi-key':key,'x-rapidapi-host':host},body:JSON.stringify(body)})
+    .then(function(r){return r.text().then(function(t){return{status:r.status,body:t};});})
+    .then(function(o){resultDiv.className='result '+(o.status>=200&&o.status<300?'success':'error');try{resultDiv.textContent=JSON.stringify(JSON.parse(o.body),null,2);}catch(_){resultDiv.textContent=o.status+'\n'+o.body;}})
+    .catch(function(e){resultDiv.className='result error';resultDiv.textContent='Request failed: '+e.message;})
+    .finally(function(){runBtn.disabled=false;});
+    });
+})();
+    </script>
+</body>
+</html>
