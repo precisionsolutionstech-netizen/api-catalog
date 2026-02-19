@@ -49,6 +49,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://precisionsolutionstech-netizen.github.io/api-catalog/apis/financial-invoice-normalization.html</loc>
+    <lastmod>2026-02-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://precisionsolutionstech-netizen.github.io/api-catalog/apis/json-diff-checker.html</loc>
     <lastmod>2026-02-16</lastmod>
     <changefreq>monthly</changefreq>

@@ -1,0 +1,26 @@
+# GitHub Pages Configuration
+# This ensures proper file serving and MIME types
+
+# Disable Jekyll processing since this is a static HTML site
+plugins: []
+
+# Ensure XML files are served with correct Content-Type
+# GitHub Pages should serve .xml files as application/xml by default,
+# but this config helps ensure proper handling
+
+# Set safe mode to false to allow all files to be served
+safe: false
+
+# Include all files (no exclusions)
+include:
+  - sitemap.xml
+  - robots.txt
+  - "*.html"
+  - "*.xml"
+  - "*.txt"
+
+# Exclude common build/dependency directories
+exclude:
+  - node_modules
+  - .git
+  - .DS_Store
