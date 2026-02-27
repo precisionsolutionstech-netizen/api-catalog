@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="../favicon.png" type="image/png" sizes="32x32">
+    <title>Universal Data Format Converter API | RapidAPI</title>
+    <meta name="description" content="Convert data between JSON, XML, and CSV bidirectionally. JSON↔XML, JSON↔CSV. Stateless, 15MB max. Use Content-Type/Accept headers or JSON body with from, to, data.">
+    <meta name="keywords" content="json xml csv converter, format conversion API, RapidAPI, data transformation">
+    <link rel="canonical" href="https://precisionsolutionstech-netizen.github.io/api-catalog/apis/universal-data-format-converter.html">
+    <meta property="og:url" content="https://precisionsolutionstech-netizen.github.io/api-catalog/apis/universal-data-format-converter.html">
+    <meta property="og:image" content="https://precisionsolutionstech-netizen.github.io/api-catalog/og-default.png">
+    <meta property="og:type" content="article">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Universal Data Format Converter API">
+    <meta name="twitter:description" content="Convert data between JSON, XML, and CSV. Stateless.">
+    <meta name="twitter:image" content="https://precisionsolutionstech-netizen.github.io/api-catalog/og-default.png">
+    <meta property="og:title" content="Universal Data Format Converter API">
+    <meta property="og:description" content="Convert data between JSON, XML, and CSV bidirectionally. JSON↔XML, JSON↔CSV. Stateless, 15MB max.">
+    <script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","headline":"Universal Data Format Converter API","name":"Universal Data Format Converter API","description":"Convert data between JSON, XML, and CSV bidirectionally. JSON↔XML, JSON↔CSV. Stateless, 15MB max.","author":{"@type":"Organization","name":"Precision Solutions Tech"},"url":"https://precisionsolutionstech-netizen.github.io/api-catalog/apis/universal-data-format-converter.html"}
+    </script>
+    <script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"API Catalog","item":"https://precisionsolutionstech-netizen.github.io/api-catalog/"},{"@type":"ListItem","position":2,"name":"Universal Data Format Converter","item":"https://precisionsolutionstech-netizen.github.io/api-catalog/apis/universal-data-format-converter.html"}]}
+    </script>
+    <script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does it store the content?","acceptedAnswer":{"@type":"Answer","text":"No. Fully stateless."}},{"@type":"Question","name":"Can I convert CSV to XML?","acceptedAnswer":{"@type":"Answer","text":"Not directly in v1. Convert CSV→JSON, then JSON→XML in two calls."}}]}
+    </script>
+    <style>
+        :root { --bg: #0f172a; --surface: #1e293b; --border: #334155; --text: #e2e8f0; --muted: #94a3b8; --accent: #38bdf8; --success: #34d399; --error: #f87171; }
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: ui-sans-serif, system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+        .wrap { max-width: 900px; margin: 0 auto; padding: 24px 20px; }
+        a { color: var(--accent); }
+        nav { margin-bottom: 32px; font-size: 0.9rem; }
+        h1 { font-size: 1.9rem; margin: 0 0 12px; }
+        .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; }
+        h2 { font-size: 1.35rem; margin: 32px 0 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+        section { margin-bottom: 28px; }
+        .playground { background: var(--surface); border-radius: 12px; padding: 20px; margin: 24px 0; border: 1px solid var(--border); }
+        .playground label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 0.9rem; }
+        .playground input[type="password"], .playground select { width: 100%; max-width: 320px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); margin-bottom: 12px; }
+        .playground textarea { width: 100%; min-height: 120px; padding: 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); font-family: ui-monospace, monospace; font-size: 13px; resize: vertical; }
+        .playground button { padding: 10px 20px; background: var(--accent); color: var(--bg); border: none; border-radius: 8px; font-weight: 600; cursor: pointer; margin-top: 8px; }
+        .playground button:disabled { opacity: 0.6; cursor: not-allowed; }
+        .playground .result { margin-top: 16px; padding: 12px; border-radius: 8px; background: var(--bg); border: 1px solid var(--border); white-space: pre-wrap; word-break: break-all; font-family: ui-monospace, monospace; font-size: 12px; max-height: 320px; overflow: auto; }
+        .playground .result.error { border-color: var(--error); color: var(--error); }
+        .playground .result.success { border-color: var(--success); }
+        .code-wrap { position: relative; margin: 16px 0; }
+        .code-wrap pre { margin: 0; padding: 14px 16px; background: var(--surface); border-radius: 8px; border: 1px solid var(--border); overflow-x: auto; font-size: 13px; }
+        .code-wrap .copy-btn { position: absolute; top: 10px; right: 10px; padding: 6px 12px; background: var(--border); color: var(--text); border: none; border-radius: 6px; font-size: 12px; cursor: pointer; }
+        .code-wrap .copy-btn:hover { background: var(--accent); color: var(--bg); }
+        .conv-tabs { display: flex; gap: 4px; margin-bottom: 12px; flex-wrap: wrap; }
+        .conv-tabs button { padding: 8px 14px; background: var(--surface); border: 1px solid var(--border); color: var(--muted); border-radius: 6px; cursor: pointer; font-size: 0.9rem; }
+        .conv-tabs button.active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+        .lang-tabs { display: flex; gap: 4px; margin-bottom: 8px; flex-wrap: wrap; }
+        .lang-tabs button { padding: 8px 14px; background: var(--surface); border: 1px solid var(--border); color: var(--muted); border-radius: 6px; cursor: pointer; font-size: 0.9rem; }
+        .lang-tabs button.active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+        .code-block { display: none; }
+        .code-block.active { display: block; }
+        .conv-section { display: none; }
+        .conv-section.active { display: block; }
+        .schema-section { margin: 16px 0; }
+        .schema-toggle { color: var(--accent); cursor: pointer; text-decoration: none; font-weight: 600; }
+        .schema-toggle:hover { text-decoration: underline; }
+        .schema-content { display: none; margin-top: 12px; padding: 12px; background: var(--surface); border-radius: 8px; border: 1px solid var(--border); overflow-x: auto; }
+        .schema-content.show { display: block; }
+        .schema-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        .schema-table th, .schema-table td { padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--border); }
+        .schema-table code { font-size: 0.85em; }
+        .long-desc { color: var(--muted); font-size: 0.98rem; }
+        .long-desc p { margin: 0.75em 0; }
+        .long-desc ul { margin: 0.75em 0; padding-left: 1.5em; }
+        .long-desc li { margin: 0.35em 0; }
+        .postman-btn { display: inline-block; margin-top: 12px; padding: 10px 18px; background: var(--surface); border: 1px solid var(--border); color: var(--accent); border-radius: 8px; cursor: pointer; font-weight: 600; text-decoration: none; }
+        .postman-btn:hover { background: var(--border); }
+        .cta-primary { display: inline-block; margin: 0 0 24px; padding: 12px 24px; background: var(--accent); color: var(--bg); border: none; border-radius: 8px; font-weight: 600; font-size: 1rem; text-decoration: none; cursor: pointer; }
+        .cta-primary:hover { filter: brightness(1.1); }
+        .faq-list { list-style: none; padding: 0; margin: 0; }
+        .faq-list li { border-bottom: 1px solid var(--border); }
+        .faq-q { width: 100%; padding: 14px 12px; cursor: pointer; font-weight: 600; display: flex; justify-content: space-between; align-items: center; text-align: left; background: transparent; color: var(--text); border: none; font-family: inherit; font-size: inherit; }
+        .faq-q:hover { background: var(--surface); }
+        .faq-q::after { content: '+'; flex-shrink: 0; margin-left: 8px; width: 1.5rem; height: 1.5rem; display: inline-flex; align-items: center; justify-content: center; border-radius: 4px; background: var(--surface); color: var(--accent); font-size: 1.1rem; line-height: 1; }
+        .faq-q[aria-expanded="true"]::after { content: '−'; }
+        .faq-a { padding: 12px 12px 16px; color: var(--muted); display: none; background: var(--surface); margin: 0 12px 8px; border-radius: 6px; font-weight: normal; }
+        .faq-a.show { display: block; }
+        .related-apis { list-style: none; padding: 0; margin: 0; }
+        .related-apis li { margin: 10px 0; padding-left: 0; }
+        .related-apis a { font-weight: 500; }
+        .browse-all { margin: 28px 0; padding: 16px; background: var(--surface); border-radius: 8px; border: 1px solid var(--border); text-align: center; }
+        .browse-all a { font-weight: 600; font-size: 1.05rem; }
+        footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.9rem; text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <nav aria-label="Breadcrumb"><a href="../index.html">API Catalog</a> → Universal Data Format Converter</nav>
+        <article>
+            <header>
+                <h1>Universal Data Format Converter API</h1>
+                <p class="lead">Convert data between JSON, XML, and CSV bidirectionally. JSON↔XML, JSON↔CSV. Stateless, 15MB max. Use Content-Type/Accept headers or a JSON body with from, to, data.</p>
+                <a href="https://rapidapi.com/precisionsolutionstech/api/universal-data-format-converter" target="_blank" rel="noopener" class="cta-primary">Subscribe on RapidAPI →</a>
+            </header>
+            <section><h2 id="why">Why use this API?</h2><p>Legacy systems use XML. APIs return JSON. Spreadsheets use CSV. Instead of building custom converters for every integration path, use one endpoint for all supported conversions.</p></section>
+            <section><h2 id="what">Supported conversions</h2>
+                <p><strong>JSON ↔ XML</strong> — Convert objects to/from XML with configurable root element and attribute handling.</p>
+                <p><strong>JSON ↔ CSV</strong> — Array of objects ↔ CSV with header row. Nested objects flattened with dot notation.</p>
+                <p>Direct CSV ↔ XML is not supported; use JSON as the intermediate (two calls).</p>
+            </section>
+            <section>
+                <h2 id="schemas">Request &amp; response schema</h2>
+                <p><a href="#request-schema" class="schema-toggle" id="toggle-req" aria-expanded="false">View request schema</a> · <a href="#response-schema" class="schema-toggle" id="toggle-res" aria-expanded="false">View response schema</a> · <a href="#error-codes" class="schema-toggle" id="toggle-errors" aria-expanded="false">View error codes</a></p>
+                <div id="error-codes" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Code</th><th>HTTP</th><th>Description</th></tr></thead><tbody><tr><td><code>INVALID_JSON</code></td><td>400</td><td>Invalid JSON syntax</td></tr><tr><td><code>INVALID_XML</code></td><td>400</td><td>Malformed XML</td></tr><tr><td><code>INVALID_CSV</code></td><td>400</td><td>Invalid CSV</td></tr><tr><td><code>PAYLOAD_TOO_LARGE</code></td><td>413</td><td>Exceeds 15MB</td></tr><tr><td><code>UNEVEN_COLUMNS</code></td><td>422</td><td>CSV rows have different column counts</td></tr></tbody></table></div>
+                <div id="request-schema" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>from</code></td><td><code>string</code></td><td>Input format: json, xml, csv</td></tr><tr><td><code>to</code></td><td><code>string</code></td><td>Output format: json, xml, csv</td></tr><tr><td><code>data</code></td><td><code>object|string</code></td><td>Input payload (object for JSON, string for XML/CSV)</td></tr><tr><td><code>options</code></td><td><code>object</code></td><td>Conversion options (rootElement, nullHandling, etc.)</td></tr></tbody></table></div>
+                <div id="response-schema" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td>Response</td><td>—</td><td>JSON body, XML string, or CSV string depending on <code>to</code></td></tr></tbody></table></div>
+            </section>
+            <section>
+                <h2 id="playground">Try it in the playground</h2>
+                <p>Add your <a href="https://rapidapi.com/precisionsolutionstech/api/universal-data-format-converter" target="_blank" rel="noopener">RapidAPI key</a> and run. Choose conversion type:</p>
+                <div class="playground">
+                    <label for="api-key">RapidAPI Key (required)</label>
+                    <input type="password" id="api-key" placeholder="Your RapidAPI key" autocomplete="off">
+                    <label for="conv-type">Conversion type</label>
+                    <select id="conv-type">
+                        <option value="json-xml">JSON → XML</option>
+                        <option value="xml-json">XML → JSON</option>
+                        <option value="json-csv">JSON → CSV</option>
+                        <option value="csv-json">CSV → JSON</option>
+                    </select>
+                    <label for="body-json">Request body (JSON)</label>
+                    <textarea id="body-json"></textarea>
+                    <button type="button" id="run-btn">Run request</button>
+                    <div id="play-result" class="result" style="display:none;" aria-live="polite"></div>
+                </div>
+            </section>
+            <section>
+                <h2 id="code">Copy code</h2>
+                <p>Host: <code>universal-data-format-converter.p.rapidapi.com</code>, endpoint: <code>POST /convert</code>. Choose conversion type and language:</p>
+                <div class="conv-tabs" role="tablist">
+                    <button type="button" role="tab" data-conv="json-xml" class="active">JSON → XML</button>
+                    <button type="button" role="tab" data-conv="xml-json">XML → JSON</button>
+                    <button type="button" role="tab" data-conv="json-csv">JSON → CSV</button>
+                    <button type="button" role="tab" data-conv="csv-json">CSV → JSON</button>
+                </div>
+                <div class="lang-tabs" role="tablist">
+                    <button type="button" role="tab" aria-selected="true" data-lang="curl" class="active">cURL</button>
+                    <button type="button" role="tab" aria-selected="false" data-lang="javascript">JavaScript</button>
+                    <button type="button" role="tab" aria-selected="false" data-lang="typescript">TypeScript</button>
+                    <button type="button" role="tab" aria-selected="false" data-lang="python">Python</button>
+                    <button type="button" role="tab" aria-selected="false" data-lang="java">Java</button>
+                </div>
+
+                <!-- JSON → XML -->
+                <div id="conv-json-xml" class="conv-section active">
+                    <div id="snippet-json-xml-curl" class="code-block active"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-json-xml-curl">Copy</button><pre><code>curl --request POST \
+  --url 'https://universal-data-format-converter.p.rapidapi.com/convert' \
+  --header 'Content-Type: application/json' \
+  --header 'x-rapidapi-host: universal-data-format-converter.p.rapidapi.com' \
+  --header 'x-rapidapi-key: YOUR_RAPIDAPI_KEY' \
+  --data '{
+  "from": "json",
+  "to": "xml",
+  "data": {"name": "John", "age": 30}
+}'</code></pre></div></div>
+                    <div id="snippet-json-xml-javascript" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-json-xml-javascript">Copy</button><pre><code>const res = await fetch('https://universal-data-format-converter.p.rapidapi.com/convert', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
+    'x-rapidapi-host': 'universal-data-format-converter.p.rapidapi.com'
+  },
+  body: JSON.stringify({
+    from: 'json',
+    to: 'xml',
+    data: { name: 'John', age: 30 }
+  })
+});
+const xml = await res.text();
+console.log(xml);</code></pre></div></div>
+                    <div id="snippet-json-xml-typescript" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-json-xml-typescript">Copy</button><pre><code>const res = await fetch('https://universal-data-format-converter.p.rapidapi.com/convert', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
+    'x-rapidapi-host': 'universal-data-format-converter.p.rapidapi.com'
+  },
+  body: JSON.stringify({
+    from: 'json',
+    to: 'xml',
+    data: { name: 'John', age: 30 }
+  })
+});
+const xml: string = await res.text();
+console.log(xml);</code></pre></div></div>
+                    <div id="snippet-json-xml-python" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-json-xml-python">Copy</button><pre><code>import http.client
+import json
+
+conn = http.client.HTTPSConnection("universal-data-format-converter.p.rapidapi.com")
+payload = json.dumps({
+    "from": "json",
+    "to": "xml",
+    "data": {"name": "John", "age": 30}
+})
+headers = {
+    'Content-Type': 'application/json',
+    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
+    'x-rapidapi-host': 'universal-data-format-converter.p.rapidapi.com'
+}
+conn.request("POST", "/convert", payload, headers)
+res = conn.getresponse()
+print(res.read().decode())</code></pre></div></div>
+                    <div id="snippet-json-xml-java" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-json-xml-java">Copy</button><pre><code>HttpRequest request = HttpRequest.newBuilder()
+    .uri(URI.create("https://universal-data-format-converter.p.rapidapi.com/convert"))
+    .header("Content-Type", "application/json")
+    .header("x-rapidapi-key", "YOUR_RAPIDAPI_KEY")
+    .header("x-rapidapi-host", "universal-data-format-converter.p.rapidapi.com")
+    .method("POST", HttpRequest.BodyPublishers.ofString(
+        "{\"from\":\"json\",\"to\":\"xml\",\"data\":{\"name\":\"John\",\"age\":30}}"
+    ))
+    .build();
+HttpResponse&lt;String&gt; response = HttpClient.newHttpClient()
+    .send(request, HttpResponse.BodyHandlers.ofString());
+System.out.println(response.body());</code></pre></div></div>
+                </div>
+
+                <!-- XML → JSON -->
+                <div id="conv-xml-json" class="conv-section">
+                    <div id="snippet-xml-json-curl" class="code-block active"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-xml-json-curl">Copy</button><pre><code>curl --request POST \
+  --url 'https://universal-data-format-converter.p.rapidapi.com/convert' \
+  --header 'Content-Type: application/json' \
+  --header 'x-rapidapi-host: universal-data-format-converter.p.rapidapi.com' \
+  --header 'x-rapidapi-key: YOUR_RAPIDAPI_KEY' \
+  --data '{
+  "from": "xml",
+  "to": "json",
+  "data": "&lt;user id=\\"1\\"&gt;&lt;name&gt;John&lt;/name&gt;&lt;age&gt;30&lt;/age&gt;&lt;/user&gt;"
+}'</code></pre></div></div>
+                    <div id="snippet-xml-json-javascript" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-xml-json-javascript">Copy</button><pre><code>const res = await fetch('https://universal-data-format-converter.p.rapidapi.com/convert', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
+    'x-rapidapi-host': 'universal-data-format-converter.p.rapidapi.com'
+  },
+  body: JSON.stringify({
+    from: 'xml',
+    to: 'json',
+    data: '&lt;user id="1"&gt;&lt;name&gt;John&lt;/name&gt;&lt;age&gt;30&lt;/age&gt;&lt;/user&gt;'
+  })
+});
+const json = await res.json();
+console.log(json);</code></pre></div></div>
+                    <div id="snippet-xml-json-typescript" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-xml-json-typescript">Copy</button><pre><code>const res = await fetch('https://universal-data-format-converter.p.rapidapi.com/convert', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
+    'x-rapidapi-host': 'universal-data-format-converter.p.rapidapi.com'
+  },
+  body: JSON.stringify({
+    from: 'xml',
+    to: 'json',
+    data: '&lt;user id="1"&gt;&lt;name&gt;John&lt;/name&gt;&lt;age&gt;30&lt;/age&gt;&lt;/user&gt;'
+  })
+});
+const json = await res.json() as Record&lt;string, unknown&gt;;
+console.log(json);</code></pre></div></div>
+                    <div id="snippet-xml-json-python" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-xml-json-python">Copy</button><pre><code>import http.client
+import json
+
+conn = http.client.HTTPSConnection("universal-data-format-converter.p.rapidapi.com")
+payload = json.dumps({
+    "from": "xml",
+    "to": "json",
+    "data": "&lt;user id=\"1\"&gt;&lt;name&gt;John&lt;/name&gt;&lt;age&gt;30&lt;/age&gt;&lt;/user&gt;"
+})
+headers = {
+    'Content-Type': 'application/json',
+    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
+    'x-rapidapi-host': 'universal-data-format-converter.p.rapidapi.com'
+}
+conn.request("POST", "/convert", payload, headers)
+res = conn.getresponse()
+print(res.read().decode())</code></pre></div></div>
+                    <div id="snippet-xml-json-java" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-xml-json-java">Copy</button><pre><code>String xmlData = "&lt;user id=\\"1\\"&gt;&lt;name&gt;John&lt;/name&gt;&lt;age&gt;30&lt;/age&gt;&lt;/user&gt;";
+String body = String.format("{\"from\":\"xml\",\"to\":\"json\",\"data\":\"%s\"}",
+    jsonEscape(xmlData));
+
+HttpRequest request = HttpRequest.newBuilder()
+    .uri(URI.create("https://universal-data-format-converter.p.rapidapi.com/convert"))
+    .header("Content-Type", "application/json")
+    .header("x-rapidapi-key", "YOUR_RAPIDAPI_KEY")
+    .header("x-rapidapi-host", "universal-data-format-converter.p.rapidapi.com")
+    .method("POST", HttpRequest.BodyPublishers.ofString(body))
+    .build();
+HttpResponse&lt;String&gt; response = HttpClient.newHttpClient()
+    .send(request, HttpResponse.BodyHandlers.ofString());
+System.out.println(response.body());
+
+// Helper: private static String jsonEscape(String s) { return s.replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", "\\n"); }</code></pre></div></div>
+                </div>
+
+                <!-- JSON → CSV -->
+                <div id="conv-json-csv" class="conv-section">
+                    <div id="snippet-json-csv-curl" class="code-block active"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-json-csv-curl">Copy</button><pre><code>curl --request POST \
+  --url 'https://universal-data-format-converter.p.rapidapi.com/convert' \
+  --header 'Content-Type: application/json' \
+  --header 'x-rapidapi-host: universal-data-format-converter.p.rapidapi.com' \
+  --header 'x-rapidapi-key: YOUR_RAPIDAPI_KEY' \
+  --data '{
+  "from": "json",
+  "to": "csv",
+  "data": [{"name": "John", "age": 30}, {"name": "Jane", "age": 25}]
+}'</code></pre></div></div>
+                    <div id="snippet-json-csv-javascript" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-json-csv-javascript">Copy</button><pre><code>const res = await fetch('https://universal-data-format-converter.p.rapidapi.com/convert', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
+    'x-rapidapi-host': 'universal-data-format-converter.p.rapidapi.com'
+  },
+  body: JSON.stringify({
+    from: 'json',
+    to: 'csv',
+    data: [{ name: 'John', age: 30 }, { name: 'Jane', age: 25 }]
+  })
+});
+const csv = await res.text();
+console.log(csv);</code></pre></div></div>
+                    <div id="snippet-json-csv-typescript" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-json-csv-typescript">Copy</button><pre><code>const res = await fetch('https://universal-data-format-converter.p.rapidapi.com/convert', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
+    'x-rapidapi-host': 'universal-data-format-converter.p.rapidapi.com'
+  },
+  body: JSON.stringify({
+    from: 'json',
+    to: 'csv',
+    data: [{ name: 'John', age: 30 }, { name: 'Jane', age: 25 }]
+  })
+});
+const csv: string = await res.text();
+console.log(csv);</code></pre></div></div>
+                    <div id="snippet-json-csv-python" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-json-csv-python">Copy</button><pre><code>import http.client
+import json
+
+conn = http.client.HTTPSConnection("universal-data-format-converter.p.rapidapi.com")
+payload = json.dumps({
+    "from": "json",
+    "to": "csv",
+    "data": [{"name": "John", "age": 30}, {"name": "Jane", "age": 25}]
+})
+headers = {
+    'Content-Type': 'application/json',
+    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
+    'x-rapidapi-host': 'universal-data-format-converter.p.rapidapi.com'
+}
+conn.request("POST", "/convert", payload, headers)
+res = conn.getresponse()
+print(res.read().decode())</code></pre></div></div>
+                    <div id="snippet-json-csv-java" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-json-csv-java">Copy</button><pre><code>HttpRequest request = HttpRequest.newBuilder()
+    .uri(URI.create("https://universal-data-format-converter.p.rapidapi.com/convert"))
+    .header("Content-Type", "application/json")
+    .header("x-rapidapi-key", "YOUR_RAPIDAPI_KEY")
+    .header("x-rapidapi-host", "universal-data-format-converter.p.rapidapi.com")
+    .method("POST", HttpRequest.BodyPublishers.ofString(
+        "{\"from\":\"json\",\"to\":\"csv\",\"data\":[{\"name\":\"John\",\"age\":30},{\"name\":\"Jane\",\"age\":25}]}"
+    ))
+    .build();
+HttpResponse&lt;String&gt; response = HttpClient.newHttpClient()
+    .send(request, HttpResponse.BodyHandlers.ofString());
+System.out.println(response.body());</code></pre></div></div>
+                </div>
+
+                <!-- CSV → JSON -->
+                <div id="conv-csv-json" class="conv-section">
+                    <div id="snippet-csv-json-curl" class="code-block active"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-csv-json-curl">Copy</button><pre><code>curl --request POST \
+  --url 'https://universal-data-format-converter.p.rapidapi.com/convert' \
+  --header 'Content-Type: application/json' \
+  --header 'x-rapidapi-host: universal-data-format-converter.p.rapidapi.com' \
+  --header 'x-rapidapi-key: YOUR_RAPIDAPI_KEY' \
+  --data '{
+  "from": "csv",
+  "to": "json",
+  "data": "name,age\nJohn,30\nJane,25"
+}'</code></pre></div></div>
+                    <div id="snippet-csv-json-javascript" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-csv-json-javascript">Copy</button><pre><code>const res = await fetch('https://universal-data-format-converter.p.rapidapi.com/convert', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
+    'x-rapidapi-host': 'universal-data-format-converter.p.rapidapi.com'
+  },
+  body: JSON.stringify({
+    from: 'csv',
+    to: 'json',
+    data: 'name,age\nJohn,30\nJane,25'
+  })
+});
+const json = await res.json();
+console.log(json);</code></pre></div></div>
+                    <div id="snippet-csv-json-typescript" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-csv-json-typescript">Copy</button><pre><code>const res = await fetch('https://universal-data-format-converter.p.rapidapi.com/convert', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
+    'x-rapidapi-host': 'universal-data-format-converter.p.rapidapi.com'
+  },
+  body: JSON.stringify({
+    from: 'csv',
+    to: 'json',
+    data: 'name,age\nJohn,30\nJane,25'
+  })
+});
+const json = await res.json() as Record&lt;string, unknown&gt;[];
+console.log(json);</code></pre></div></div>
+                    <div id="snippet-csv-json-python" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-csv-json-python">Copy</button><pre><code>import http.client
+import json
+
+conn = http.client.HTTPSConnection("universal-data-format-converter.p.rapidapi.com")
+payload = json.dumps({
+    "from": "csv",
+    "to": "json",
+    "data": "name,age\nJohn,30\nJane,25"
+})
+headers = {
+    'Content-Type': 'application/json',
+    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
+    'x-rapidapi-host': 'universal-data-format-converter.p.rapidapi.com'
+}
+conn.request("POST", "/convert", payload, headers)
+res = conn.getresponse()
+print(res.read().decode())</code></pre></div></div>
+                    <div id="snippet-csv-json-java" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-csv-json-java">Copy</button><pre><code>String csvData = "name,age\\nJohn,30\\nJane,25";
+String body = String.format("{\"from\":\"csv\",\"to\":\"json\",\"data\":\"%s\"}",
+    jsonEscape(csvData));
+
+HttpRequest request = HttpRequest.newBuilder()
+    .uri(URI.create("https://universal-data-format-converter.p.rapidapi.com/convert"))
+    .header("Content-Type", "application/json")
+    .header("x-rapidapi-key", "YOUR_RAPIDAPI_KEY")
+    .header("x-rapidapi-host", "universal-data-format-converter.p.rapidapi.com")
+    .method("POST", HttpRequest.BodyPublishers.ofString(body))
+    .build();
+HttpResponse&lt;String&gt; response = HttpClient.newHttpClient()
+    .send(request, HttpResponse.BodyHandlers.ofString());
+System.out.println(response.body());
+
+// Helper: private static String jsonEscape(String s) { return s.replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", "\\n"); }</code></pre></div></div>
+                </div>
+
+                <p><button type="button" class="postman-btn" id="postman-download">Download Postman collection</button></p>
+            </section>
+            <section><h2 id="expect">What to expect</h2><p>Response is JSON, XML, or CSV depending on the <code>to</code> format. Stateless; no data stored. See <a href="https://rapidapi.com/precisionsolutionstech/api/universal-data-format-converter" target="_blank" rel="noopener">RapidAPI docs</a> for full schema.</p></section>
+            <section><h2 id="about">About this API</h2>
+                <h3 id="who-should-use">Who Should Use This API</h3>
+                <p>Backend engineers integrating with XML/CSV APIs, ETL pipelines, automation tools, and microservices that need format transformation.</p>
+                <h3 id="also-known-as">Also Known As</h3>
+                <p>JSON XML CSV converter, data format converter API, format transformation API.</p>
+                <div class="long-desc">
+                    <p>One endpoint for JSON↔XML and JSON↔CSV. Use Content-Type and Accept headers for raw payloads, or a JSON body with from, to, data for explicit control and options.</p>
+                </div>
+            </section>
+            <section><h2 id="faq">Frequently Asked Questions</h2>
+                <ul class="faq-list">
+                    <li>
+                        <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a1" id="faq-q1">Does it store the content?</button>
+                        <div id="faq-a1" class="faq-a" role="region" aria-labelledby="faq-q1">No. Fully stateless.</div>
+                    </li>
+                    <li>
+                        <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a2" id="faq-q2">Can I convert CSV to XML?</button>
+                        <div id="faq-a2" class="faq-a" role="region" aria-labelledby="faq-q2">Not directly in v1. Convert CSV→JSON, then JSON→XML in two calls.</div>
+                    </li>
+                </ul>
+            </section>
+            <section><h2 id="related">Related APIs</h2>
+                <ul class="related-apis">
+                    <li><a href="json-schema-validator.html">JSON Schema Validator</a></li>
+                    <li><a href="json-payload-consistency-checker.html">JSON Payload Consistency Checker</a></li>
+                    <li><a href="html-to-markdown.html">HTML to Markdown Converter</a></li>
+                </ul>
+            </section>
+            <div class="browse-all"><a href="../index.html">Browse all APIs in the catalog →</a></div>
+        </article>
+        <footer>
+            <p><a href="https://rapidapi.com/precisionsolutionstech/api/universal-data-format-converter" target="_blank" rel="noopener">Subscribe on RapidAPI</a> · <a href="../index.html">API Catalog</a> · <a href="../faq.html">FAQ</a></p>
+            <p>© 2026 Precision Solutions Tech</p>
+        </footer>
+    </div>
+    <script>
+(function(){
+    var host = 'universal-data-format-converter.p.rapidapi.com';
+    var path = '/convert';
+    var rapidUrl = 'https://rapidapi.com/precisionsolutionstech/api/universal-data-format-converter';
+    var bodyByConv = {
+        'json-xml': { from: 'json', to: 'xml', data: { name: 'John', age: 30 } },
+        'xml-json': { from: 'xml', to: 'json', data: '<user id="1"><name>John</name><age>30</age></user>' },
+        'json-csv': { from: 'json', to: 'csv', data: [{ name: 'John', age: 30 }, { name: 'Jane', age: 25 }] },
+        'csv-json': { from: 'csv', to: 'json', data: 'name,age\nJohn,30\nJane,25' }
+    };
+    document.querySelectorAll('[data-rapid-docs]').forEach(function(a){ a.href = rapidUrl; });
+    document.getElementById('toggle-req').addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('request-schema'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); });
+    document.getElementById('toggle-res').addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('response-schema'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); });
+    var toggleErrors=document.getElementById('toggle-errors');if(toggleErrors){ toggleErrors.addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('error-codes'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); }); }
+    document.querySelectorAll('.conv-tabs button').forEach(function(btn){
+        btn.addEventListener('click',function(){
+            document.querySelectorAll('.conv-tabs button').forEach(function(b){ b.classList.remove('active'); });
+            document.querySelectorAll('.conv-section').forEach(function(s){ s.classList.remove('active'); });
+            document.querySelectorAll('.code-block').forEach(function(b){ b.classList.remove('active'); });
+            this.classList.add('active');
+            var conv = this.getAttribute('data-conv');
+            document.getElementById('conv-'+conv).classList.add('active');
+            document.getElementById('body-json').value = JSON.stringify(bodyByConv[conv], null, 2);
+            var lang = document.querySelector('.lang-tabs button.active');
+            if(lang){ var el = document.getElementById('snippet-'+conv+'-'+lang.getAttribute('data-lang')); if(el) el.classList.add('active'); }
+        });
+    });
+    document.querySelectorAll('.lang-tabs button').forEach(function(btn){
+        btn.addEventListener('click',function(){
+            document.querySelectorAll('.lang-tabs button').forEach(function(b){ b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
+            document.querySelectorAll('.code-block').forEach(function(b){ b.classList.remove('active'); });
+            this.classList.add('active'); this.setAttribute('aria-selected','true');
+            var conv = document.querySelector('.conv-tabs button.active').getAttribute('data-conv');
+            var el = document.getElementById('snippet-'+conv+'-'+this.getAttribute('data-lang'));
+            if(el) el.classList.add('active');
+        });
+    });
+    document.querySelectorAll('.copy-btn').forEach(function(btn){
+        btn.addEventListener('click',function(){
+            var id=this.getAttribute('data-copy'),block=document.getElementById(id),pre=block?block.querySelector('pre code'):null,btnEl=this;
+            if(pre) navigator.clipboard.writeText(pre.textContent).then(function(){ var t=btnEl.textContent; btnEl.textContent='Copied!'; setTimeout(function(){ btnEl.textContent=t; },1500); });
+        });
+    });
+    document.querySelectorAll('.faq-q').forEach(function(btn){
+        btn.addEventListener('click',function(){ var expanded=this.getAttribute('aria-expanded')==='true'; this.setAttribute('aria-expanded',!expanded); var panel=document.getElementById(this.getAttribute('aria-controls')); if(panel) panel.classList.toggle('show',!expanded); });
+    });
+    document.getElementById('conv-type').addEventListener('change',function(){
+        var conv = this.value;
+        document.getElementById('body-json').value = JSON.stringify(bodyByConv[conv], null, 2);
+    });
+    document.getElementById('body-json').value = JSON.stringify(bodyByConv['json-xml'], null, 2);
+    document.getElementById('postman-download').addEventListener('click',function(){
+        var baseUrl = 'https://'+host+path;
+        var items = [
+            { name: 'JSON → XML', request: { method: 'POST', header: [{ key: 'Content-Type', value: 'application/json' }, { key: 'x-rapidapi-key', value: 'YOUR_RAPIDAPI_KEY' }, { key: 'x-rapidapi-host', value: host }], url: baseUrl, body: { mode: 'raw', raw: JSON.stringify({ from: 'json', to: 'xml', data: { name: 'John', age: 30 } }) } } },
+            { name: 'XML → JSON', request: { method: 'POST', header: [{ key: 'Content-Type', value: 'application/json' }, { key: 'x-rapidapi-key', value: 'YOUR_RAPIDAPI_KEY' }, { key: 'x-rapidapi-host', value: host }], url: baseUrl, body: { mode: 'raw', raw: JSON.stringify({ from: 'xml', to: 'json', data: '<user id="1"><name>John</name><age>30</age></user>' }) } } },
+            { name: 'JSON → CSV', request: { method: 'POST', header: [{ key: 'Content-Type', value: 'application/json' }, { key: 'x-rapidapi-key', value: 'YOUR_RAPIDAPI_KEY' }, { key: 'x-rapidapi-host', value: host }], url: baseUrl, body: { mode: 'raw', raw: JSON.stringify({ from: 'json', to: 'csv', data: [{ name: 'John', age: 30 }, { name: 'Jane', age: 25 }] }) } } },
+            { name: 'CSV → JSON', request: { method: 'POST', header: [{ key: 'Content-Type', value: 'application/json' }, { key: 'x-rapidapi-key', value: 'YOUR_RAPIDAPI_KEY' }, { key: 'x-rapidapi-host', value: host }], url: baseUrl, body: { mode: 'raw', raw: JSON.stringify({ from: 'csv', to: 'json', data: 'name,age\nJohn,30\nJane,25' }) } } }
+        ];
+        var coll = { info: { name: 'Universal Data Format Converter API', schema: 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json' }, item: items };
+        var blob = new Blob([JSON.stringify(coll,null,2)], { type: 'application/json' });
+        var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'universal-data-format-converter-postman-collection.json'; a.click(); URL.revokeObjectURL(a.href);
+    });
+    var runBtn=document.getElementById('run-btn'),keyInput=document.getElementById('api-key'),resultDiv=document.getElementById('play-result');
+    runBtn.addEventListener('click',function(){
+        var key=(keyInput.value||'').trim();
+        if(!key){ resultDiv.style.display='block'; resultDiv.className='result error'; resultDiv.textContent='Please enter your RapidAPI key.'; return; }
+        var bodyStr=document.getElementById('body-json').value.trim(),body;
+        try{body=JSON.parse(bodyStr);}catch(e){resultDiv.style.display='block';resultDiv.className='result error';resultDiv.textContent='Invalid JSON: '+e.message;return;}
+        runBtn.disabled=true;resultDiv.style.display='block';resultDiv.className='result';resultDiv.textContent='Loading…';
+        fetch('https://'+host+path,{method:'POST',headers:{'Content-Type':'application/json','x-rapidapi-key':key,'x-rapidapi-host':host},body:JSON.stringify(body)})
+        .then(function(r){return r.text().then(function(t){return{status:r.status,body:t,ok:r.ok};});})
+        .then(function(o){
+            resultDiv.className='result '+(o.ok?'success':'error');
+            try{
+                var parsed=JSON.parse(o.body);
+                resultDiv.textContent=typeof parsed==='object'?JSON.stringify(parsed,null,2):parsed;
+            }catch(_){resultDiv.textContent=o.status+'\n'+o.body;}
+        })
+        .catch(function(e){resultDiv.className='result error';resultDiv.textContent='Request failed: '+e.message;})
+        .finally(function(){runBtn.disabled=false;});
+    });
+})();
+    </script>
+</body>
+</html>
