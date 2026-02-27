@@ -59,6 +59,11 @@
         .lang-tabs button.active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
         .code-block { display: none; }
         .code-block.active { display: block; }
+        .code-format-raw { display: none !important; }
+        .code-format-raw.active { display: block !important; }
+        body.code-format-raw-mode .code-format-json { display: none !important; }
+        body.code-format-raw-mode .code-format-raw { display: none !important; }
+        body.code-format-raw-mode .code-format-raw.active { display: block !important; }
         .conv-section { display: none; }
         .conv-section.active { display: block; }
         .schema-section { margin: 16px 0; }
@@ -90,6 +95,9 @@
         .related-apis a { font-weight: 500; }
         .browse-all { margin: 28px 0; padding: 16px; background: var(--surface); border-radius: 8px; border: 1px solid var(--border); text-align: center; }
         .browse-all a { font-weight: 600; font-size: 1.05rem; }
+        .suggestions-box { margin: 32px 0; padding: 24px; background: var(--surface); border-radius: 12px; border: 1px solid var(--accent); text-align: center; }
+        .suggestions-box p { margin: 0 0 16px; font-size: 1.05rem; color: var(--text); }
+        .suggestions-box a { font-weight: 600; }
         footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.9rem; text-align: center; }
     </style>
 </head>
@@ -128,20 +136,46 @@
                         <option value="json-csv">JSON → CSV</option>
                         <option value="csv-json">CSV → JSON</option>
                     </select>
-                    <label for="body-json">Request body (JSON)</label>
-                    <textarea id="body-json"></textarea>
+                    <label>Request format</label>
+                    <div style="display:flex;gap:16px;margin-bottom:12px">
+                        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-weight:normal"><input type="radio" name="body-format" value="json" checked> JSON body</label>
+                        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-weight:normal"><input type="radio" name="body-format" value="raw"> Raw body</label>
+                    </div>
+                    <div id="body-json-wrap">
+                        <label for="body-json" id="body-json-label">Request body (JSON)</label>
+                        <textarea id="body-json"></textarea>
+                    </div>
+                    <div id="body-raw-wrap" style="display:none">
+                        <label for="body-raw" id="body-raw-label">Paste raw XML</label>
+                        <textarea id="body-raw"></textarea>
+                    </div>
                     <button type="button" id="run-btn">Run request</button>
                     <div id="play-result" class="result" style="display:none;" aria-live="polite"></div>
                 </div>
             </section>
+            <section><h2 id="large-xml-csv">Large XML or CSV from URLs?</h2>
+                <p>Skip the JSON body format (and escaping quotes). Send the raw payload with <code>Content-Type</code> and <code>Accept</code> headers — pipe from <code>curl</code> or post a file:</p>
+                <div id="snippet-pipe-xml" class="code-wrap" style="margin-top:8px"><button type="button" class="copy-btn" data-copy="snippet-pipe-xml">Copy</button><pre><code>curl -s 'https://data.api.abs.gov.au/rest/data/ABS,RES_DWELL/3.3GBRI.Q' | \
+curl -X POST \
+  --url 'https://universal-data-format-converter.p.rapidapi.com/convert' \
+  --header 'Content-Type: application/xml' \
+  --header 'Accept: application/json' \
+  --header 'x-rapidapi-key: YOUR_RAPIDAPI_KEY' \
+  --header 'x-rapidapi-host: universal-data-format-converter.p.rapidapi.com' \
+  --data-binary @-</code></pre></div>
+            </section>
             <section>
                 <h2 id="code">Copy code</h2>
-                <p>Host: <code>universal-data-format-converter.p.rapidapi.com</code>, endpoint: <code>POST /convert</code>. Choose conversion type and language:</p>
+                <p>Host: <code>universal-data-format-converter.p.rapidapi.com</code>, endpoint: <code>POST /convert</code>. Choose conversion type, format, and language:</p>
                 <div class="conv-tabs" role="tablist">
                     <button type="button" role="tab" data-conv="json-xml" class="active">JSON → XML</button>
                     <button type="button" role="tab" data-conv="xml-json">XML → JSON</button>
                     <button type="button" role="tab" data-conv="json-csv">JSON → CSV</button>
                     <button type="button" role="tab" data-conv="csv-json">CSV → JSON</button>
+                </div>
+                <div style="display:flex;gap:16px;margin-bottom:12px;flex-wrap:wrap">
+                    <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-weight:normal"><input type="radio" name="code-format" value="json" checked> JSON body</label>
+                    <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-weight:normal"><input type="radio" name="code-format" value="raw"> Raw body</label>
                 </div>
                 <div class="lang-tabs" role="tablist">
                     <button type="button" role="tab" aria-selected="true" data-lang="curl" class="active">cURL</button>
@@ -153,7 +187,7 @@
 
                 <!-- JSON → XML -->
                 <div id="conv-json-xml" class="conv-section active">
-                    <div id="snippet-json-xml-curl" class="code-block active"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-json-xml-curl">Copy</button><pre><code>curl --request POST \
+                    <div id="snippet-json-xml-curl" class="code-block active code-format-json"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-json-xml-curl">Copy</button><pre><code>curl --request POST \
   --url 'https://universal-data-format-converter.p.rapidapi.com/convert' \
   --header 'Content-Type: application/json' \
   --header 'x-rapidapi-host: universal-data-format-converter.p.rapidapi.com' \
@@ -163,7 +197,7 @@
   "to": "xml",
   "data": {"name": "John", "age": 30}
 }'</code></pre></div></div>
-                    <div id="snippet-json-xml-javascript" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-json-xml-javascript">Copy</button><pre><code>const res = await fetch('https://universal-data-format-converter.p.rapidapi.com/convert', {
+                    <div id="snippet-json-xml-javascript" class="code-block code-format-json"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-json-xml-javascript">Copy</button><pre><code>const res = await fetch('https://universal-data-format-converter.p.rapidapi.com/convert', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
@@ -178,7 +212,7 @@
 });
 const xml = await res.text();
 console.log(xml);</code></pre></div></div>
-                    <div id="snippet-json-xml-typescript" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-json-xml-typescript">Copy</button><pre><code>const res = await fetch('https://universal-data-format-converter.p.rapidapi.com/convert', {
+                    <div id="snippet-json-xml-typescript" class="code-block code-format-json"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-json-xml-typescript">Copy</button><pre><code>const res = await fetch('https://universal-data-format-converter.p.rapidapi.com/convert', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
@@ -193,7 +227,7 @@ console.log(xml);</code></pre></div></div>
 });
 const xml: string = await res.text();
 console.log(xml);</code></pre></div></div>
-                    <div id="snippet-json-xml-python" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-json-xml-python">Copy</button><pre><code>import http.client
+                    <div id="snippet-json-xml-python" class="code-block code-format-json"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-json-xml-python">Copy</button><pre><code>import http.client
 import json
 
 conn = http.client.HTTPSConnection("universal-data-format-converter.p.rapidapi.com")
@@ -210,7 +244,7 @@ headers = {
 conn.request("POST", "/convert", payload, headers)
 res = conn.getresponse()
 print(res.read().decode())</code></pre></div></div>
-                    <div id="snippet-json-xml-java" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-json-xml-java">Copy</button><pre><code>HttpRequest request = HttpRequest.newBuilder()
+                    <div id="snippet-json-xml-java" class="code-block code-format-json"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-json-xml-java">Copy</button><pre><code>HttpRequest request = HttpRequest.newBuilder()
     .uri(URI.create("https://universal-data-format-converter.p.rapidapi.com/convert"))
     .header("Content-Type", "application/json")
     .header("x-rapidapi-key", "YOUR_RAPIDAPI_KEY")
@@ -222,11 +256,66 @@ print(res.read().decode())</code></pre></div></div>
 HttpResponse&lt;String&gt; response = HttpClient.newHttpClient()
     .send(request, HttpResponse.BodyHandlers.ofString());
 System.out.println(response.body());</code></pre></div></div>
+                    <div id="snippet-json-xml-curl-raw" class="code-block code-format-raw"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-json-xml-curl-raw">Copy</button><pre><code>curl --request POST \
+  --url 'https://universal-data-format-converter.p.rapidapi.com/convert' \
+  --header 'Content-Type: application/json' \
+  --header 'Accept: application/xml' \
+  --header 'x-rapidapi-host: universal-data-format-converter.p.rapidapi.com' \
+  --header 'x-rapidapi-key: YOUR_RAPIDAPI_KEY' \
+  --data '{"name":"John","age":30}'</code></pre></div></div>
+                    <div id="snippet-json-xml-javascript-raw" class="code-block code-format-raw"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-json-xml-javascript-raw">Copy</button><pre><code>const res = await fetch('https://universal-data-format-converter.p.rapidapi.com/convert', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'application/xml',
+    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
+    'x-rapidapi-host': 'universal-data-format-converter.p.rapidapi.com'
+  },
+  body: '{"name":"John","age":30}'
+});
+const xml = await res.text();
+console.log(xml);</code></pre></div></div>
+                    <div id="snippet-json-xml-typescript-raw" class="code-block code-format-raw"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-json-xml-typescript-raw">Copy</button><pre><code>const res = await fetch('https://universal-data-format-converter.p.rapidapi.com/convert', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'application/xml',
+    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
+    'x-rapidapi-host': 'universal-data-format-converter.p.rapidapi.com'
+  },
+  body: '{"name":"John","age":30}'
+});
+const xml: string = await res.text();
+console.log(xml);</code></pre></div></div>
+                    <div id="snippet-json-xml-python-raw" class="code-block code-format-raw"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-json-xml-python-raw">Copy</button><pre><code>import http.client
+
+conn = http.client.HTTPSConnection("universal-data-format-converter.p.rapidapi.com")
+payload = '{"name":"John","age":30}'
+headers = {
+    'Content-Type': 'application/json',
+    'Accept': 'application/xml',
+    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
+    'x-rapidapi-host': 'universal-data-format-converter.p.rapidapi.com'
+}
+conn.request("POST", "/convert", payload, headers)
+res = conn.getresponse()
+print(res.read().decode())</code></pre></div></div>
+                    <div id="snippet-json-xml-java-raw" class="code-block code-format-raw"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-json-xml-java-raw">Copy</button><pre><code>HttpRequest request = HttpRequest.newBuilder()
+    .uri(URI.create("https://universal-data-format-converter.p.rapidapi.com/convert"))
+    .header("Content-Type", "application/json")
+    .header("Accept", "application/xml")
+    .header("x-rapidapi-key", "YOUR_RAPIDAPI_KEY")
+    .header("x-rapidapi-host", "universal-data-format-converter.p.rapidapi.com")
+    .method("POST", HttpRequest.BodyPublishers.ofString("{\"name\":\"John\",\"age\":30}"))
+    .build();
+HttpResponse&lt;String&gt; response = HttpClient.newHttpClient()
+    .send(request, HttpResponse.BodyHandlers.ofString());
+System.out.println(response.body());</code></pre></div></div>
                 </div>
 
                 <!-- XML → JSON -->
                 <div id="conv-xml-json" class="conv-section">
-                    <div id="snippet-xml-json-curl" class="code-block active"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-xml-json-curl">Copy</button><pre><code>curl --request POST \
+                    <div id="snippet-xml-json-curl" class="code-block active code-format-json"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-xml-json-curl">Copy</button><pre><code>curl --request POST \
   --url 'https://universal-data-format-converter.p.rapidapi.com/convert' \
   --header 'Content-Type: application/json' \
   --header 'x-rapidapi-host: universal-data-format-converter.p.rapidapi.com' \
@@ -236,7 +325,7 @@ System.out.println(response.body());</code></pre></div></div>
   "to": "json",
   "data": "&lt;user id=\\"1\\"&gt;&lt;name&gt;John&lt;/name&gt;&lt;age&gt;30&lt;/age&gt;&lt;/user&gt;"
 }'</code></pre></div></div>
-                    <div id="snippet-xml-json-javascript" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-xml-json-javascript">Copy</button><pre><code>const res = await fetch('https://universal-data-format-converter.p.rapidapi.com/convert', {
+                    <div id="snippet-xml-json-javascript" class="code-block code-format-json"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-xml-json-javascript">Copy</button><pre><code>const res = await fetch('https://universal-data-format-converter.p.rapidapi.com/convert', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
@@ -251,7 +340,7 @@ System.out.println(response.body());</code></pre></div></div>
 });
 const json = await res.json();
 console.log(json);</code></pre></div></div>
-                    <div id="snippet-xml-json-typescript" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-xml-json-typescript">Copy</button><pre><code>const res = await fetch('https://universal-data-format-converter.p.rapidapi.com/convert', {
+                    <div id="snippet-xml-json-typescript" class="code-block code-format-json"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-xml-json-typescript">Copy</button><pre><code>const res = await fetch('https://universal-data-format-converter.p.rapidapi.com/convert', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
@@ -266,7 +355,7 @@ console.log(json);</code></pre></div></div>
 });
 const json = await res.json() as Record&lt;string, unknown&gt;;
 console.log(json);</code></pre></div></div>
-                    <div id="snippet-xml-json-python" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-xml-json-python">Copy</button><pre><code>import http.client
+                    <div id="snippet-xml-json-python" class="code-block code-format-json"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-xml-json-python">Copy</button><pre><code>import http.client
 import json
 
 conn = http.client.HTTPSConnection("universal-data-format-converter.p.rapidapi.com")
@@ -283,7 +372,7 @@ headers = {
 conn.request("POST", "/convert", payload, headers)
 res = conn.getresponse()
 print(res.read().decode())</code></pre></div></div>
-                    <div id="snippet-xml-json-java" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-xml-json-java">Copy</button><pre><code>String xmlData = "&lt;user id=\\"1\\"&gt;&lt;name&gt;John&lt;/name&gt;&lt;age&gt;30&lt;/age&gt;&lt;/user&gt;";
+                    <div id="snippet-xml-json-java" class="code-block code-format-json"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-xml-json-java">Copy</button><pre><code>String xmlData = "&lt;user id=\\"1\\"&gt;&lt;name&gt;John&lt;/name&gt;&lt;age&gt;30&lt;/age&gt;&lt;/user&gt;";
 String body = String.format("{\"from\":\"xml\",\"to\":\"json\",\"data\":\"%s\"}",
     jsonEscape(xmlData));
 
@@ -299,11 +388,69 @@ HttpResponse&lt;String&gt; response = HttpClient.newHttpClient()
 System.out.println(response.body());
 
 // Helper: private static String jsonEscape(String s) { return s.replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", "\\n"); }</code></pre></div></div>
+                    <div id="snippet-xml-json-curl-raw" class="code-block code-format-raw"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-xml-json-curl-raw">Copy</button><pre><code>curl --request POST \
+  --url 'https://universal-data-format-converter.p.rapidapi.com/convert' \
+  --header 'Content-Type: application/xml' \
+  --header 'Accept: application/json' \
+  --header 'x-rapidapi-host: universal-data-format-converter.p.rapidapi.com' \
+  --header 'x-rapidapi-key: YOUR_RAPIDAPI_KEY' \
+  --data '&lt;user id="1"&gt;&lt;name&gt;John&lt;/name&gt;&lt;age&gt;30&lt;/age&gt;&lt;/user&gt;'</code></pre></div></div>
+                    <div id="snippet-xml-json-javascript-raw" class="code-block code-format-raw"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-xml-json-javascript-raw">Copy</button><pre><code>const xml = '&lt;user id="1"&gt;&lt;name&gt;John&lt;/name&gt;&lt;age&gt;30&lt;/age&gt;&lt;/user&gt;';
+const res = await fetch('https://universal-data-format-converter.p.rapidapi.com/convert', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/xml',
+    'Accept': 'application/json',
+    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
+    'x-rapidapi-host': 'universal-data-format-converter.p.rapidapi.com'
+  },
+  body: xml
+});
+const json = await res.json();
+console.log(json);</code></pre></div></div>
+                    <div id="snippet-xml-json-typescript-raw" class="code-block code-format-raw"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-xml-json-typescript-raw">Copy</button><pre><code>const xml = '&lt;user id="1"&gt;&lt;name&gt;John&lt;/name&gt;&lt;age&gt;30&lt;/age&gt;&lt;/user&gt;';
+const res = await fetch('https://universal-data-format-converter.p.rapidapi.com/convert', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/xml',
+    'Accept': 'application/json',
+    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
+    'x-rapidapi-host': 'universal-data-format-converter.p.rapidapi.com'
+  },
+  body: xml
+});
+const json = await res.json() as Record&lt;string, unknown&gt;;
+console.log(json);</code></pre></div></div>
+                    <div id="snippet-xml-json-python-raw" class="code-block code-format-raw"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-xml-json-python-raw">Copy</button><pre><code>import http.client
+
+conn = http.client.HTTPSConnection("universal-data-format-converter.p.rapidapi.com")
+payload = '&lt;user id="1"&gt;&lt;name&gt;John&lt;/name&gt;&lt;age&gt;30&lt;/age&gt;&lt;/user&gt;'
+headers = {
+    'Content-Type': 'application/xml',
+    'Accept': 'application/json',
+    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
+    'x-rapidapi-host': 'universal-data-format-converter.p.rapidapi.com'
+}
+conn.request("POST", "/convert", payload, headers)
+res = conn.getresponse()
+print(res.read().decode())</code></pre></div></div>
+                    <div id="snippet-xml-json-java-raw" class="code-block code-format-raw"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-xml-json-java-raw">Copy</button><pre><code>String xml = "&lt;user id=\\"1\\"&gt;&lt;name&gt;John&lt;/name&gt;&lt;age&gt;30&lt;/age&gt;&lt;/user&gt;";
+HttpRequest request = HttpRequest.newBuilder()
+    .uri(URI.create("https://universal-data-format-converter.p.rapidapi.com/convert"))
+    .header("Content-Type", "application/xml")
+    .header("Accept", "application/json")
+    .header("x-rapidapi-key", "YOUR_RAPIDAPI_KEY")
+    .header("x-rapidapi-host", "universal-data-format-converter.p.rapidapi.com")
+    .method("POST", HttpRequest.BodyPublishers.ofString(xml))
+    .build();
+HttpResponse&lt;String&gt; response = HttpClient.newHttpClient()
+    .send(request, HttpResponse.BodyHandlers.ofString());
+System.out.println(response.body());</code></pre></div></div>
                 </div>
 
                 <!-- JSON → CSV -->
                 <div id="conv-json-csv" class="conv-section">
-                    <div id="snippet-json-csv-curl" class="code-block active"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-json-csv-curl">Copy</button><pre><code>curl --request POST \
+                    <div id="snippet-json-csv-curl" class="code-block active code-format-json"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-json-csv-curl">Copy</button><pre><code>curl --request POST \
   --url 'https://universal-data-format-converter.p.rapidapi.com/convert' \
   --header 'Content-Type: application/json' \
   --header 'x-rapidapi-host: universal-data-format-converter.p.rapidapi.com' \
@@ -313,7 +460,7 @@ System.out.println(response.body());
   "to": "csv",
   "data": [{"name": "John", "age": 30}, {"name": "Jane", "age": 25}]
 }'</code></pre></div></div>
-                    <div id="snippet-json-csv-javascript" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-json-csv-javascript">Copy</button><pre><code>const res = await fetch('https://universal-data-format-converter.p.rapidapi.com/convert', {
+                    <div id="snippet-json-csv-javascript" class="code-block code-format-json"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-json-csv-javascript">Copy</button><pre><code>const res = await fetch('https://universal-data-format-converter.p.rapidapi.com/convert', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
@@ -328,7 +475,7 @@ System.out.println(response.body());
 });
 const csv = await res.text();
 console.log(csv);</code></pre></div></div>
-                    <div id="snippet-json-csv-typescript" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-json-csv-typescript">Copy</button><pre><code>const res = await fetch('https://universal-data-format-converter.p.rapidapi.com/convert', {
+                    <div id="snippet-json-csv-typescript" class="code-block code-format-json"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-json-csv-typescript">Copy</button><pre><code>const res = await fetch('https://universal-data-format-converter.p.rapidapi.com/convert', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
@@ -343,7 +490,7 @@ console.log(csv);</code></pre></div></div>
 });
 const csv: string = await res.text();
 console.log(csv);</code></pre></div></div>
-                    <div id="snippet-json-csv-python" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-json-csv-python">Copy</button><pre><code>import http.client
+                    <div id="snippet-json-csv-python" class="code-block code-format-json"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-json-csv-python">Copy</button><pre><code>import http.client
 import json
 
 conn = http.client.HTTPSConnection("universal-data-format-converter.p.rapidapi.com")
@@ -360,7 +507,7 @@ headers = {
 conn.request("POST", "/convert", payload, headers)
 res = conn.getresponse()
 print(res.read().decode())</code></pre></div></div>
-                    <div id="snippet-json-csv-java" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-json-csv-java">Copy</button><pre><code>HttpRequest request = HttpRequest.newBuilder()
+                    <div id="snippet-json-csv-java" class="code-block code-format-json"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-json-csv-java">Copy</button><pre><code>HttpRequest request = HttpRequest.newBuilder()
     .uri(URI.create("https://universal-data-format-converter.p.rapidapi.com/convert"))
     .header("Content-Type", "application/json")
     .header("x-rapidapi-key", "YOUR_RAPIDAPI_KEY")
@@ -372,11 +519,66 @@ print(res.read().decode())</code></pre></div></div>
 HttpResponse&lt;String&gt; response = HttpClient.newHttpClient()
     .send(request, HttpResponse.BodyHandlers.ofString());
 System.out.println(response.body());</code></pre></div></div>
+                    <div id="snippet-json-csv-curl-raw" class="code-block code-format-raw"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-json-csv-curl-raw">Copy</button><pre><code>curl --request POST \
+  --url 'https://universal-data-format-converter.p.rapidapi.com/convert' \
+  --header 'Content-Type: application/json' \
+  --header 'Accept: text/csv' \
+  --header 'x-rapidapi-host: universal-data-format-converter.p.rapidapi.com' \
+  --header 'x-rapidapi-key: YOUR_RAPIDAPI_KEY' \
+  --data '[{"name":"John","age":30},{"name":"Jane","age":25}]'</code></pre></div></div>
+                    <div id="snippet-json-csv-javascript-raw" class="code-block code-format-raw"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-json-csv-javascript-raw">Copy</button><pre><code>const res = await fetch('https://universal-data-format-converter.p.rapidapi.com/convert', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'text/csv',
+    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
+    'x-rapidapi-host': 'universal-data-format-converter.p.rapidapi.com'
+  },
+  body: '[{"name":"John","age":30},{"name":"Jane","age":25}]'
+});
+const csv = await res.text();
+console.log(csv);</code></pre></div></div>
+                    <div id="snippet-json-csv-typescript-raw" class="code-block code-format-raw"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-json-csv-typescript-raw">Copy</button><pre><code>const res = await fetch('https://universal-data-format-converter.p.rapidapi.com/convert', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'text/csv',
+    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
+    'x-rapidapi-host': 'universal-data-format-converter.p.rapidapi.com'
+  },
+  body: '[{"name":"John","age":30},{"name":"Jane","age":25}]'
+});
+const csv: string = await res.text();
+console.log(csv);</code></pre></div></div>
+                    <div id="snippet-json-csv-python-raw" class="code-block code-format-raw"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-json-csv-python-raw">Copy</button><pre><code>import http.client
+
+conn = http.client.HTTPSConnection("universal-data-format-converter.p.rapidapi.com")
+payload = '[{"name":"John","age":30},{"name":"Jane","age":25}]'
+headers = {
+    'Content-Type': 'application/json',
+    'Accept': 'text/csv',
+    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
+    'x-rapidapi-host': 'universal-data-format-converter.p.rapidapi.com'
+}
+conn.request("POST", "/convert", payload, headers)
+res = conn.getresponse()
+print(res.read().decode())</code></pre></div></div>
+                    <div id="snippet-json-csv-java-raw" class="code-block code-format-raw"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-json-csv-java-raw">Copy</button><pre><code>HttpRequest request = HttpRequest.newBuilder()
+    .uri(URI.create("https://universal-data-format-converter.p.rapidapi.com/convert"))
+    .header("Content-Type", "application/json")
+    .header("Accept", "text/csv")
+    .header("x-rapidapi-key", "YOUR_RAPIDAPI_KEY")
+    .header("x-rapidapi-host", "universal-data-format-converter.p.rapidapi.com")
+    .method("POST", HttpRequest.BodyPublishers.ofString("[{\"name\":\"John\",\"age\":30},{\"name\":\"Jane\",\"age\":25}]"))
+    .build();
+HttpResponse&lt;String&gt; response = HttpClient.newHttpClient()
+    .send(request, HttpResponse.BodyHandlers.ofString());
+System.out.println(response.body());</code></pre></div></div>
                 </div>
 
                 <!-- CSV → JSON -->
                 <div id="conv-csv-json" class="conv-section">
-                    <div id="snippet-csv-json-curl" class="code-block active"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-csv-json-curl">Copy</button><pre><code>curl --request POST \
+                    <div id="snippet-csv-json-curl" class="code-block active code-format-json"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-csv-json-curl">Copy</button><pre><code>curl --request POST \
   --url 'https://universal-data-format-converter.p.rapidapi.com/convert' \
   --header 'Content-Type: application/json' \
   --header 'x-rapidapi-host: universal-data-format-converter.p.rapidapi.com' \
@@ -386,7 +588,7 @@ System.out.println(response.body());</code></pre></div></div>
   "to": "json",
   "data": "name,age\nJohn,30\nJane,25"
 }'</code></pre></div></div>
-                    <div id="snippet-csv-json-javascript" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-csv-json-javascript">Copy</button><pre><code>const res = await fetch('https://universal-data-format-converter.p.rapidapi.com/convert', {
+                    <div id="snippet-csv-json-javascript" class="code-block code-format-json"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-csv-json-javascript">Copy</button><pre><code>const res = await fetch('https://universal-data-format-converter.p.rapidapi.com/convert', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
@@ -401,7 +603,7 @@ System.out.println(response.body());</code></pre></div></div>
 });
 const json = await res.json();
 console.log(json);</code></pre></div></div>
-                    <div id="snippet-csv-json-typescript" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-csv-json-typescript">Copy</button><pre><code>const res = await fetch('https://universal-data-format-converter.p.rapidapi.com/convert', {
+                    <div id="snippet-csv-json-typescript" class="code-block code-format-json"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-csv-json-typescript">Copy</button><pre><code>const res = await fetch('https://universal-data-format-converter.p.rapidapi.com/convert', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
@@ -416,7 +618,7 @@ console.log(json);</code></pre></div></div>
 });
 const json = await res.json() as Record&lt;string, unknown&gt;[];
 console.log(json);</code></pre></div></div>
-                    <div id="snippet-csv-json-python" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-csv-json-python">Copy</button><pre><code>import http.client
+                    <div id="snippet-csv-json-python" class="code-block code-format-json"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-csv-json-python">Copy</button><pre><code>import http.client
 import json
 
 conn = http.client.HTTPSConnection("universal-data-format-converter.p.rapidapi.com")
@@ -433,7 +635,7 @@ headers = {
 conn.request("POST", "/convert", payload, headers)
 res = conn.getresponse()
 print(res.read().decode())</code></pre></div></div>
-                    <div id="snippet-csv-json-java" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-csv-json-java">Copy</button><pre><code>String csvData = "name,age\\nJohn,30\\nJane,25";
+                    <div id="snippet-csv-json-java" class="code-block code-format-json"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-csv-json-java">Copy</button><pre><code>String csvData = "name,age\\nJohn,30\\nJane,25";
 String body = String.format("{\"from\":\"csv\",\"to\":\"json\",\"data\":\"%s\"}",
     jsonEscape(csvData));
 
@@ -449,6 +651,64 @@ HttpResponse&lt;String&gt; response = HttpClient.newHttpClient()
 System.out.println(response.body());
 
 // Helper: private static String jsonEscape(String s) { return s.replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", "\\n"); }</code></pre></div></div>
+                    <div id="snippet-csv-json-curl-raw" class="code-block code-format-raw"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-csv-json-curl-raw">Copy</button><pre><code>curl --request POST \
+  --url 'https://universal-data-format-converter.p.rapidapi.com/convert' \
+  --header 'Content-Type: text/csv' \
+  --header 'Accept: application/json' \
+  --header 'x-rapidapi-host: universal-data-format-converter.p.rapidapi.com' \
+  --header 'x-rapidapi-key: YOUR_RAPIDAPI_KEY' \
+  --data $'name,age\nJohn,30\nJane,25'</code></pre></div></div>
+                    <div id="snippet-csv-json-javascript-raw" class="code-block code-format-raw"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-csv-json-javascript-raw">Copy</button><pre><code>const csv = 'name,age\nJohn,30\nJane,25';
+const res = await fetch('https://universal-data-format-converter.p.rapidapi.com/convert', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'text/csv',
+    'Accept': 'application/json',
+    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
+    'x-rapidapi-host': 'universal-data-format-converter.p.rapidapi.com'
+  },
+  body: csv
+});
+const json = await res.json();
+console.log(json);</code></pre></div></div>
+                    <div id="snippet-csv-json-typescript-raw" class="code-block code-format-raw"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-csv-json-typescript-raw">Copy</button><pre><code>const csv = 'name,age\nJohn,30\nJane,25';
+const res = await fetch('https://universal-data-format-converter.p.rapidapi.com/convert', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'text/csv',
+    'Accept': 'application/json',
+    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
+    'x-rapidapi-host': 'universal-data-format-converter.p.rapidapi.com'
+  },
+  body: csv
+});
+const json = await res.json() as Record&lt;string, unknown&gt;[];
+console.log(json);</code></pre></div></div>
+                    <div id="snippet-csv-json-python-raw" class="code-block code-format-raw"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-csv-json-python-raw">Copy</button><pre><code>import http.client
+
+conn = http.client.HTTPSConnection("universal-data-format-converter.p.rapidapi.com")
+payload = 'name,age\nJohn,30\nJane,25'
+headers = {
+    'Content-Type': 'text/csv',
+    'Accept': 'application/json',
+    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
+    'x-rapidapi-host': 'universal-data-format-converter.p.rapidapi.com'
+}
+conn.request("POST", "/convert", payload, headers)
+res = conn.getresponse()
+print(res.read().decode())</code></pre></div></div>
+                    <div id="snippet-csv-json-java-raw" class="code-block code-format-raw"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-csv-json-java-raw">Copy</button><pre><code>String csv = "name,age\nJohn,30\nJane,25";
+HttpRequest request = HttpRequest.newBuilder()
+    .uri(URI.create("https://universal-data-format-converter.p.rapidapi.com/convert"))
+    .header("Content-Type", "text/csv")
+    .header("Accept", "application/json")
+    .header("x-rapidapi-key", "YOUR_RAPIDAPI_KEY")
+    .header("x-rapidapi-host", "universal-data-format-converter.p.rapidapi.com")
+    .method("POST", HttpRequest.BodyPublishers.ofString(csv))
+    .build();
+HttpResponse&lt;String&gt; response = HttpClient.newHttpClient()
+    .send(request, HttpResponse.BodyHandlers.ofString());
+System.out.println(response.body());</code></pre></div></div>
                 </div>
 
                 <p><button type="button" class="postman-btn" id="postman-download">Download Postman collection</button></p>
@@ -475,6 +735,10 @@ System.out.println(response.body());
                     </li>
                 </ul>
             </section>
+            <div class="suggestions-box">
+                <p><strong>We appreciate all suggestions and questions.</strong> Your feedback helps us improve this API. Share your ideas, report issues, or ask questions on the <a href="https://rapidapi.com/precisionsolutionstech/api/universal-data-format-converter/discussions" target="_blank" rel="noopener">RapidAPI discussions page</a>.</p>
+                <p><a href="https://rapidapi.com/precisionsolutionstech/api/universal-data-format-converter/discussions" target="_blank" rel="noopener" class="cta-primary" style="display:inline-block;margin:0">Share feedback →</a></p>
+            </div>
             <section><h2 id="related">Related APIs</h2>
                 <ul class="related-apis">
                     <li><a href="json-schema-validator.html">JSON Schema Validator</a></li>
@@ -485,7 +749,7 @@ System.out.println(response.body());
             <div class="browse-all"><a href="../index.html">Browse all APIs in the catalog →</a></div>
         </article>
         <footer>
-            <p><a href="https://rapidapi.com/precisionsolutionstech/api/universal-data-format-converter" target="_blank" rel="noopener">Subscribe on RapidAPI</a> · <a href="../index.html">API Catalog</a> · <a href="../faq.html">FAQ</a></p>
+            <p><a href="https://rapidapi.com/precisionsolutionstech/api/universal-data-format-converter" target="_blank" rel="noopener">Subscribe on RapidAPI</a> · <a href="../index.html">API Catalog</a> · <a href="../faq.html">FAQ</a> · <a href="https://rapidapi.com/precisionsolutionstech/api/universal-data-format-converter/discussions" target="_blank" rel="noopener">Have a suggestion?</a></p>
             <p>© 2026 Precision Solutions Tech</p>
         </footer>
     </div>
@@ -500,31 +764,46 @@ System.out.println(response.body());
         'json-csv': { from: 'json', to: 'csv', data: [{ name: 'John', age: 30 }, { name: 'Jane', age: 25 }] },
         'csv-json': { from: 'csv', to: 'json', data: 'name,age\nJohn,30\nJane,25' }
     };
+    var rawByConv = {
+        'json-xml': '{"name":"John","age":30}',
+        'xml-json': '<user id="1"><name>John</name><age>30</age></user>',
+        'json-csv': '[{"name":"John","age":30},{"name":"Jane","age":25}]',
+        'csv-json': 'name,age\nJohn,30\nJane,25'
+    };
+    var rawLabels = { 'json-xml':'Paste raw JSON', 'xml-json':'Paste raw XML', 'json-csv':'Paste raw JSON', 'csv-json':'Paste raw CSV' };
     document.querySelectorAll('[data-rapid-docs]').forEach(function(a){ a.href = rapidUrl; });
     document.getElementById('toggle-req').addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('request-schema'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); });
     document.getElementById('toggle-res').addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('response-schema'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); });
     var toggleErrors=document.getElementById('toggle-errors');if(toggleErrors){ toggleErrors.addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('error-codes'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); }); }
+    function updateCodeVisibility(){
+        var conv = document.querySelector('.conv-tabs button.active').getAttribute('data-conv');
+        var lang = document.querySelector('.lang-tabs button.active').getAttribute('data-lang');
+        var fmt = document.querySelector('input[name="code-format"]:checked').value;
+        document.body.classList.toggle('code-format-raw-mode', fmt === 'raw');
+        document.querySelectorAll('#conv-'+conv+' .code-block').forEach(function(b){ b.classList.remove('active'); });
+        var sel = fmt === 'raw' ? 'snippet-'+conv+'-'+lang+'-raw' : 'snippet-'+conv+'-'+lang;
+        var el = document.getElementById(sel);
+        if(el) el.classList.add('active');
+    }
+    document.querySelectorAll('input[name="code-format"]').forEach(function(r){
+        r.addEventListener('change', updateCodeVisibility);
+    });
     document.querySelectorAll('.conv-tabs button').forEach(function(btn){
         btn.addEventListener('click',function(){
             document.querySelectorAll('.conv-tabs button').forEach(function(b){ b.classList.remove('active'); });
             document.querySelectorAll('.conv-section').forEach(function(s){ s.classList.remove('active'); });
-            document.querySelectorAll('.code-block').forEach(function(b){ b.classList.remove('active'); });
             this.classList.add('active');
             var conv = this.getAttribute('data-conv');
             document.getElementById('conv-'+conv).classList.add('active');
             document.getElementById('body-json').value = JSON.stringify(bodyByConv[conv], null, 2);
-            var lang = document.querySelector('.lang-tabs button.active');
-            if(lang){ var el = document.getElementById('snippet-'+conv+'-'+lang.getAttribute('data-lang')); if(el) el.classList.add('active'); }
+            updateCodeVisibility();
         });
     });
     document.querySelectorAll('.lang-tabs button').forEach(function(btn){
         btn.addEventListener('click',function(){
             document.querySelectorAll('.lang-tabs button').forEach(function(b){ b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
-            document.querySelectorAll('.code-block').forEach(function(b){ b.classList.remove('active'); });
             this.classList.add('active'); this.setAttribute('aria-selected','true');
-            var conv = document.querySelector('.conv-tabs button.active').getAttribute('data-conv');
-            var el = document.getElementById('snippet-'+conv+'-'+this.getAttribute('data-lang'));
-            if(el) el.classList.add('active');
+            updateCodeVisibility();
         });
     });
     document.querySelectorAll('.copy-btn').forEach(function(btn){
@@ -536,11 +815,20 @@ System.out.println(response.body());
     document.querySelectorAll('.faq-q').forEach(function(btn){
         btn.addEventListener('click',function(){ var expanded=this.getAttribute('aria-expanded')==='true'; this.setAttribute('aria-expanded',!expanded); var panel=document.getElementById(this.getAttribute('aria-controls')); if(panel) panel.classList.toggle('show',!expanded); });
     });
-    document.getElementById('conv-type').addEventListener('change',function(){
-        var conv = this.value;
+    function updatePlaygroundBody(){
+        var conv = document.getElementById('conv-type').value;
+        var fmt = document.querySelector('input[name="body-format"]:checked').value;
         document.getElementById('body-json').value = JSON.stringify(bodyByConv[conv], null, 2);
+        document.getElementById('body-raw').value = rawByConv[conv];
+        document.getElementById('body-raw-label').textContent = rawLabels[conv];
+        document.getElementById('body-json-wrap').style.display = fmt === 'json' ? 'block' : 'none';
+        document.getElementById('body-raw-wrap').style.display = fmt === 'raw' ? 'block' : 'none';
+    }
+    document.getElementById('conv-type').addEventListener('change', updatePlaygroundBody);
+    document.querySelectorAll('input[name="body-format"]').forEach(function(r){
+        r.addEventListener('change', updatePlaygroundBody);
     });
-    document.getElementById('body-json').value = JSON.stringify(bodyByConv['json-xml'], null, 2);
+    updatePlaygroundBody();
     document.getElementById('postman-download').addEventListener('click',function(){
         var baseUrl = 'https://'+host+path;
         var items = [
@@ -554,23 +842,39 @@ System.out.println(response.body());
         var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'universal-data-format-converter-postman-collection.json'; a.click(); URL.revokeObjectURL(a.href);
     });
     var runBtn=document.getElementById('run-btn'),keyInput=document.getElementById('api-key'),resultDiv=document.getElementById('play-result');
+    var contentTypeByConv = { 'json-xml':'application/json', 'xml-json':'application/xml', 'json-csv':'application/json', 'csv-json':'text/csv' };
+    var acceptByConv = { 'json-xml':'application/xml', 'xml-json':'application/json', 'json-csv':'text/csv', 'csv-json':'application/json' };
     runBtn.addEventListener('click',function(){
         var key=(keyInput.value||'').trim();
         if(!key){ resultDiv.style.display='block'; resultDiv.className='result error'; resultDiv.textContent='Please enter your RapidAPI key.'; return; }
-        var bodyStr=document.getElementById('body-json').value.trim(),body;
-        try{body=JSON.parse(bodyStr);}catch(e){resultDiv.style.display='block';resultDiv.className='result error';resultDiv.textContent='Invalid JSON: '+e.message;return;}
-        runBtn.disabled=true;resultDiv.style.display='block';resultDiv.className='result';resultDiv.textContent='Loading…';
-        fetch('https://'+host+path,{method:'POST',headers:{'Content-Type':'application/json','x-rapidapi-key':key,'x-rapidapi-host':host},body:JSON.stringify(body)})
-        .then(function(r){return r.text().then(function(t){return{status:r.status,body:t,ok:r.ok};});})
+        var fmt = document.querySelector('input[name="body-format"]:checked').value;
+        var conv = document.getElementById('conv-type').value;
+        var body, contentType;
+        if(fmt === 'raw'){
+            body = document.getElementById('body-raw').value;
+            contentType = contentTypeByConv[conv];
+            if((conv === 'json-xml' || conv === 'json-csv') && body.trim()){
+                try{ JSON.parse(body); }catch(e){ resultDiv.style.display='block'; resultDiv.className='result error'; resultDiv.textContent='Invalid JSON: '+e.message; return; }
+            }
+        } else {
+            var bodyStr = document.getElementById('body-json').value.trim();
+            try{ body = JSON.parse(bodyStr); }catch(e){ resultDiv.style.display='block'; resultDiv.className='result error'; resultDiv.textContent='Invalid JSON: '+e.message; return; }
+            body = JSON.stringify(body);
+            contentType = 'application/json';
+        }
+        runBtn.disabled=true; resultDiv.style.display='block'; resultDiv.className='result'; resultDiv.textContent='Loading…';
+        var headers = { 'Content-Type': contentType, 'Accept': acceptByConv[conv], 'x-rapidapi-key': key, 'x-rapidapi-host': host };
+        fetch('https://'+host+path, { method: 'POST', headers: headers, body: fmt === 'raw' ? body : body })
+        .then(function(r){ return r.text().then(function(t){ return { status: r.status, body: t, ok: r.ok }; }); })
         .then(function(o){
-            resultDiv.className='result '+(o.ok?'success':'error');
+            resultDiv.className = 'result ' + (o.ok ? 'success' : 'error');
             try{
-                var parsed=JSON.parse(o.body);
-                resultDiv.textContent=typeof parsed==='object'?JSON.stringify(parsed,null,2):parsed;
-            }catch(_){resultDiv.textContent=o.status+'\n'+o.body;}
+                var parsed = JSON.parse(o.body);
+                resultDiv.textContent = typeof parsed === 'object' ? JSON.stringify(parsed, null, 2) : parsed;
+            }catch(_){ resultDiv.textContent = o.status + '\n' + o.body; }
         })
-        .catch(function(e){resultDiv.className='result error';resultDiv.textContent='Request failed: '+e.message;})
-        .finally(function(){runBtn.disabled=false;});
+        .catch(function(e){ resultDiv.className='result error'; resultDiv.textContent='Request failed: '+e.message; })
+        .finally(function(){ runBtn.disabled=false; });
     });
 })();
     </script>
