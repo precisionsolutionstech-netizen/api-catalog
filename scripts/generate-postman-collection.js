@@ -76,16 +76,57 @@ const folders = INPUTS.map(from => ({
   item: OUTPUTS.map(to => createRequest(from, to))
 }));
 
+/** Postman request for file upload (multipart). User selects file in Postman for the "file" key. */
+function createFileUploadRequest(name, to, accept) {
+  const formdata = [
+    { key: 'file', type: 'file', src: '', description: 'Select a file (.xlsx, .csv, .json, etc.). Input format is inferred from filename.' },
+    { key: 'to', value: to, type: 'text', description: 'Output format' }
+  ];
+  return {
+    name,
+    request: {
+      method: 'POST',
+      header: [
+        { key: 'Accept', value: accept || ACCEPT_BY_TO[to] || 'text/plain' },
+        { key: 'x-rapidapi-key', value: '{{rapidapi_key}}', type: 'text' },
+        { key: 'x-rapidapi-host', value: 'universal-data-format-converter.p.rapidapi.com', type: 'text' }
+      ],
+      body: {
+        mode: 'formdata',
+        formdata
+      },
+      url: {
+        raw: 'https://universal-data-format-converter.p.rapidapi.com/convert',
+        protocol: 'https',
+        host: ['universal-data-format-converter', 'p', 'rapidapi', 'com'],
+        path: ['convert']
+      }
+    }
+  };
+}
+
+const fileUploadFolder = {
+  name: 'File upload (multipart)',
+  description: 'Send a file; input format is inferred from extension. Add form field "to" for output format. Optionally "options" (JSON string) and "download=1".',
+  item: [
+    createFileUploadRequest('File (any) → JSON', 'json', 'application/json'),
+    createFileUploadRequest('File (any) → CSV', 'csv', 'text/csv'),
+    createFileUploadRequest('File (any) → Excel', 'excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'),
+    createFileUploadRequest('File (any) → PDF', 'pdf', 'application/pdf'),
+    createFileUploadRequest('File (any) → XML', 'xml', 'application/xml')
+  ]
+};
+
 const collection = {
   info: {
     name: 'Universal Data Format Converter API',
-    description: 'Full collection for all format conversions. Set rapidapi_key in collection variables.',
+    description: 'Full collection for all format conversions (JSON body + file upload). Set rapidapi_key in collection variables.',
     schema: 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json'
   },
   variable: [
     { key: 'rapidapi_key', value: 'YOUR_RAPIDAPI_KEY', type: 'string' }
   ],
-  item: folders
+  item: [fileUploadFolder, ...folders]
 };
 
 const outPath = path.join(__dirname, '../apis/universal-data-format-converter-postman.json');

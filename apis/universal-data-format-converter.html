@@ -92,6 +92,11 @@
         .browse-all a { font-weight: 600; font-size: 1.05rem; }
         .suggestions-box { margin: 32px 0; padding: 24px; background: var(--surface); border-radius: 12px; border: 1px solid var(--accent); text-align: center; }
         .suggestions-box p { margin: 0 0 16px; font-size: 1.05rem; }
+        .whats-new { margin: 24px 0 32px; padding: 20px 24px; background: var(--surface); border-radius: 12px; border: 1px solid var(--success); }
+        .whats-new h2 { margin: 0 0 12px; padding: 0; border: none; font-size: 1.2rem; }
+        .whats-new p { margin: 0 0 10px; font-size: 1rem; }
+        .whats-new p:last-child { margin-bottom: 0; }
+        .whats-new a { font-weight: 600; }
         footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.9rem; text-align: center; }
         .formats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; margin: 12px 0; }
         .formats-grid span { padding: 6px 10px; background: var(--surface); border-radius: 6px; font-size: 0.9rem; }
@@ -106,6 +111,11 @@
                 <p class="lead">Convert <strong>JSON to CSV</strong>, <strong>CSV to JSON</strong>, <strong>XML to JSON</strong>, <strong>JSON to XML</strong>, <strong>Excel to JSON</strong>, <strong>YAML to JSON</strong>, and more. One API for JSON, XML, CSV, TSV, Excel, YAML, NDJSON, SQL INSERT, HTML table, ENV, query string, Base64, and PDF. Stateless, 20MB max. Deterministic output.</p>
                 <a href="https://rapidapi.com/precisionsolutionstech/api/universal-data-format-converter" target="_blank" rel="noopener" class="cta-primary">Subscribe on RapidAPI →</a>
             </header>
+            <section class="whats-new" aria-label="What's new">
+                <h2 id="whats-new">What’s new</h2>
+                <p><strong>File conversion.</strong> You can now send a <strong>file</strong> (Excel, CSV, JSON, XML, YAML, etc.) via multipart upload and get back any supported format—JSON, CSV, PDF, Excel, and more. No need to paste or base64-encode: just pick a file, choose an output format, and run. Try <strong>Upload file</strong> in the playground below.</p>
+                <p><strong>Want another format?</strong> If you need to convert from or to a file type or data format we don’t support yet, <a href="https://rapidapi.com/precisionsolutionstech/api/universal-data-format-converter/discussions" target="_blank" rel="noopener">add it to the discussions on RapidAPI</a>. We use your feedback to prioritize new conversions.</p>
+            </section>
             <section><h2 id="why">Why use this API?</h2>
                 <p>Need to <strong>convert JSON to CSV</strong> for Excel? <strong>CSV to JSON</strong> for APIs? <strong>XML to JSON</strong> or <strong>JSON to XML</strong> for legacy systems? <strong>Excel to JSON</strong> or <strong>YAML to JSON</strong> for pipelines? Legacy systems use XML. APIs return JSON. Spreadsheets use CSV and Excel. Data pipelines use YAML, NDJSON, and more. Instead of building custom converters for every integration path, use one endpoint for all supported conversions.</p>
             </section>
@@ -131,7 +141,8 @@
                 <p>Examples: <strong>convert JSON to CSV</strong> for spreadsheets, <strong>CSV to JSON</strong> for APIs, <strong>XML to JSON</strong> for modern apps, <strong>Excel to JSON</strong> for data pipelines. Try the playground below.</p>
             </section>
             <section><h2 id="schemas">Request &amp; response schema</h2>
-                <p><a href="#request-schema" class="schema-toggle" data-target="request-schema">View request schema</a> · <a href="#response-schema" class="schema-toggle" data-target="response-schema">View response schema</a> · <a href="#error-codes" class="schema-toggle" data-target="error-codes">View error codes</a></p>
+                <p>Three ways to call the API: <strong>raw body</strong> (Content-Type + Accept), <strong>JSON body</strong> (from, to, data), or <strong>file upload</strong> (multipart).</p>
+                <p><a href="#request-schema" class="schema-toggle" data-target="request-schema">View JSON request schema</a> · <a href="#multipart-schema" class="schema-toggle" data-target="multipart-schema">View file upload (multipart) schema</a> · <a href="#response-schema" class="schema-toggle" data-target="response-schema">View response schema</a> · <a href="#error-codes" class="schema-toggle" data-target="error-codes">View error codes</a></p>
                 <div id="request-schema" class="schema-content">
                     <table class="schema-table"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
                     <tbody>
@@ -139,6 +150,16 @@
                         <tr><td><code>to</code></td><td>string</td><td>Output format: same + pdf</td></tr>
                         <tr><td><code>data</code></td><td>object|string</td><td>Input payload (object/array for JSON, string for text formats, base64 for excel)</td></tr>
                         <tr><td><code>options</code></td><td>object</td><td><code>input</code> and <code>output</code> options per format. See options below.</td></tr>
+                    </tbody></table>
+                </div>
+                <div id="multipart-schema" class="schema-content">
+                    <p>Send <code>multipart/form-data</code> with a <strong>file</strong> part. Input format is inferred from the file extension or Content-Type (.xlsx → excel, .json → json, .csv → csv, etc.).</p>
+                    <table class="schema-table"><thead><tr><th>Field</th><th>Required</th><th>Description</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>file</code></td><td>Yes</td><td>The file to convert (e.g. Excel, CSV, JSON)</td></tr>
+                        <tr><td><code>to</code></td><td>No</td><td>Output format (json, csv, pdf, excel, xml, …). Default: json, or use Accept header.</td></tr>
+                        <tr><td><code>options</code></td><td>No</td><td>JSON string with <code>input</code> / <code>output</code> options (same shape as JSON body).</td></tr>
+                        <tr><td><code>download</code></td><td>No</td><td>Set to <code>1</code> or <code>true</code> for <code>Content-Disposition: attachment</code> and a suggested filename.</td></tr>
                     </tbody></table>
                 </div>
                 <div id="response-schema" class="schema-content">
@@ -162,24 +183,42 @@
             </section>
             <section>
                 <h2 id="playground">Try it in the playground</h2>
-                <p>Select from/to format, configure options, add your <a href="https://rapidapi.com/precisionsolutionstech/api/universal-data-format-converter" target="_blank" rel="noopener">RapidAPI key</a>, run, then get code in your language.</p>
+                <p>Select from/to format (or <strong>upload a file</strong>), configure options, add your <a href="https://rapidapi.com/precisionsolutionstech/api/universal-data-format-converter" target="_blank" rel="noopener">RapidAPI key</a>, run, then get code in your language.</p>
                 <div class="playground">
                     <label for="api-key">RapidAPI Key (required)</label>
                     <input type="password" id="api-key" placeholder="Your RapidAPI key" autocomplete="off">
-                    <div style="display:flex;gap:20px;flex-wrap:wrap;margin-bottom:12px">
-                        <div>
-                            <label for="from-format">From format</label>
-                            <select id="from-format"></select>
-                        </div>
-                        <div>
-                            <label for="to-format">To format</label>
-                            <select id="to-format"></select>
-                        </div>
+                    <div style="margin-bottom:12px">
+                        <label style="margin-right:12px">Input mode:</label>
+                        <label style="font-weight:normal;margin-right:16px"><input type="radio" name="input-mode" id="input-mode-paste" value="paste" checked> Paste data</label>
+                        <label style="font-weight:normal"><input type="radio" name="input-mode" id="input-mode-file" value="file"> Upload file</label>
                     </div>
-                    <label for="play-data" id="play-data-label">Request data</label>
-                    <textarea id="play-data"></textarea>
-                    <div id="input-options-panel" class="opt-panel"><h4>Input options (for selected "from" format)</h4><div class="opt-body" id="input-options-body"></div></div>
-                    <div id="output-options-panel" class="opt-panel"><h4>Output options (for selected "to" format)</h4><div class="opt-body" id="output-options-body"></div></div>
+                    <div id="paste-mode-fields">
+                        <div style="display:flex;gap:20px;flex-wrap:wrap;margin-bottom:12px">
+                            <div>
+                                <label for="from-format">From format</label>
+                                <select id="from-format"></select>
+                            </div>
+                            <div>
+                                <label for="to-format">To format</label>
+                                <select id="to-format"></select>
+                            </div>
+                        </div>
+                        <label for="play-data" id="play-data-label">Request data</label>
+                        <textarea id="play-data"></textarea>
+                        <div id="input-options-panel" class="opt-panel"><h4>Input options (for selected "from" format)</h4><div class="opt-body" id="input-options-body"></div></div>
+                        <div id="output-options-panel" class="opt-panel"><h4>Output options (for selected "to" format)</h4><div class="opt-body" id="output-options-body"></div></div>
+                    </div>
+                    <div id="file-mode-fields" style="display:none">
+                        <label for="play-file">File (required)</label>
+                        <input type="file" id="play-file" accept=".xlsx,.xls,.csv,.tsv,.json,.xml,.yaml,.yml,.ndjson,.html,.env" style="display:block;margin-bottom:12px">
+                        <div style="margin-bottom:12px">
+                            <label for="to-format-file">To format</label>
+                            <select id="to-format-file"></select>
+                        </div>
+                        <label style="display:block;margin-bottom:8px"><input type="checkbox" id="play-download"> Download as attachment</label>
+                        <label for="play-options-json">Options (JSON, optional)</label>
+                        <textarea id="play-options-json" placeholder='{"output":{"pdf":{"pageSize":"Letter"}}}' style="min-height:60px;margin-bottom:12px"></textarea>
+                    </div>
                     <button type="button" id="run-btn">Run request</button>
                     <div id="play-result" class="result" style="display:none;" aria-live="polite"></div>
                 </div>
@@ -210,7 +249,7 @@
                     <li><button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a0a">How do I convert JSON to CSV?</button><div id="faq-a0a" class="faq-a">Send a POST request with <code>from: "json"</code>, <code>to: "csv"</code>, and your JSON in the <code>data</code> field. The API returns CSV text. Use the playground above to try it.</div></li>
                     <li><button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a0b">How do I convert CSV to JSON?</button><div id="faq-a0b" class="faq-a">Send a POST request with <code>from: "csv"</code>, <code>to: "json"</code>, and your CSV in the <code>data</code> field. Returns a JSON array of objects (one per row).</div></li>
                     <li><button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a0c">Can I convert XML to JSON?</button><div id="faq-a0c" class="faq-a">Yes. Use <code>from: "xml"</code> and <code>to: "json"</code>. All formats convert bidirectionally except PDF (output-only).</div></li>
-                    <li><button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a0d">Can I convert Excel to JSON?</button><div id="faq-a0d" class="faq-a">Yes. Send Excel as base64 with <code>from: "excel"</code>, <code>to: "json"</code>. Returns a JSON array of rows. Or use raw body with Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.</div></li>
+                    <li><button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a0d">Can I convert Excel to JSON?</button><div id="faq-a0d" class="faq-a">Yes. Send Excel as base64 with <code>from: "excel"</code>, <code>to: "json"</code>. Or <strong>upload a file</strong> with multipart: send a <code>file</code> part (e.g. .xlsx) and optional <code>to</code> (json, csv, pdf, excel, …). Input format is inferred from the file extension. Try “Upload file” in the playground below.</div></li>
                     <li><button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a1">Does it store the content?</button><div id="faq-a1" class="faq-a">No. Fully stateless. Your data is processed in memory and discarded immediately.</div></li>
                     <li><button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a2">Can I convert CSV to XML?</button><div id="faq-a2" class="faq-a">Yes. All supported formats convert bidirectionally. PDF is output-only (tabular data).</div></li>
                     <li><button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a3">What is the maximum payload size?</button><div id="faq-a3" class="faq-a">20MB per request. Requests exceeding this return 413 PAYLOAD_TOO_LARGE.</div></li>
@@ -223,6 +262,7 @@
                     <li><button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a10">Does YAML support anchors?</button><div id="faq-a10" class="faq-a">Yes, with limits. Recursive anchor bombs are prevented. Max alias count is enforced.</div></li>
                     <li><button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a11">What if I use an unknown option?</button><div id="faq-a11" class="faq-a">Unknown input or output options may return 422. Use only documented options under <code>options.input</code> and <code>options.output</code>.</div></li>
                     <li><button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a12">Can I use raw body instead of JSON wrapper?</button><div id="faq-a12" class="faq-a">Yes. Send raw payload with Content-Type and Accept headers. The API infers format from Content-Type and output from Accept.</div></li>
+                    <li><button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a-file">Can I upload a file instead of pasting data?</button><div id="faq-a-file" class="faq-a">Yes. Send <code>multipart/form-data</code> with a <code>file</code> part. Use a filename with a known extension (.xlsx, .csv, .json, .xml, .yaml, etc.) so the API can infer input format. Add form fields <code>to</code> (output format), optional <code>options</code> (JSON string), and <code>download=1</code> to get a file back with a suggested filename. Same <code>/convert</code> endpoint.</div></li>
                     <li><button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a13">How are CSV columns with commas handled?</button><div id="faq-a13" class="faq-a">RFC 4180-style escaping. Values with commas, quotes, or newlines are quoted. You can customize delimiter and quoteChar in input options.</div></li>
                     <li><button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a14">Is SQL INSERT output required?</button><div id="faq-a14" class="faq-a">For <code>to: "sql-insert"</code>, you must provide <code>options.output.sqlInsert.tableName</code>. Dialect (postgres, mysql, sqlite) and batchSize are optional.</div></li>
                     <li><button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a15">What happens with invalid input?</button><div id="faq-a15" class="faq-a">Malformed input returns 400 with error code INVALID_INPUT and a details message. Unsupported format returns 415 UNSUPPORTED_FORMAT.</div></li>
@@ -231,6 +271,26 @@
                     <li><button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a18">Does Excel output support multiple sheets?</button><div id="faq-a18" class="faq-a">Yes. Set <code>options.output.excel.multiSheetMode</code> to "multi" for multiple sheets. Default is "multi".</div></li>
                     <li><button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a19">What HTML is parsed for html-table input?</button><div id="faq-a19" class="faq-a">Only <code>&lt;table&gt;</code> elements. Use <code>options.input.htmlTable.tableIndex</code> to select which table when multiple exist.</div></li>
                     <li><button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a20">Can I pipe large XML/CSV from a URL?</button><div id="faq-a20" class="faq-a">Yes. Use raw body with Content-Type and Accept headers. Pipe with curl: <code>curl -s URL | curl -X POST -H "Content-Type: text/csv" -H "Accept: application/json" -d @- API_URL</code>.</div></li>
+                    <li><button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a-pdf">I have a PDF with data. Can I pass it to the API?</button><div id="faq-a-pdf" class="faq-a">This API does not accept PDF as input. First call the <a href="pdf-table-extraction.html">PDF Table Extraction API</a> (<code>POST /extract</code>) with your PDF to get structured JSON (tables with rows). Then pass that JSON to this converter with <code>from: "json"</code> and your desired <code>to</code> format (e.g. <code>csv</code>, <code>excel</code>). Example (JavaScript):<pre class="faq-code" style="margin:10px 0 0;padding:10px;background:var(--bg);border-radius:6px;font-size:12px;overflow:auto;">const key = 'YOUR_RAPIDAPI_KEY';
+
+// 1) Extract tables from PDF
+const form = new FormData();
+form.append('file', pdfFile); // your PDF File object
+const extractRes = await fetch('https://pdf-table-extraction-api.p.rapidapi.com/extract', {
+  method: 'POST',
+  headers: { 'x-rapidapi-key': key, 'x-rapidapi-host': 'pdf-table-extraction-api.p.rapidapi.com' },
+  body: form
+});
+const extracted = await extractRes.json();
+const rows = extracted.tables?.flatMap(t => t.rows ?? []) ?? [];
+
+// 2) Convert JSON to CSV (or excel, xml, etc.)
+const convertRes = await fetch('https://universal-data-format-converter.p.rapidapi.com/convert', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json', 'Accept': 'text/csv', 'x-rapidapi-key': key, 'x-rapidapi-host': 'universal-data-format-converter.p.rapidapi.com' },
+  body: JSON.stringify({ from: 'json', to: 'csv', data: rows })
+});
+const csv = await convertRes.text();</pre></div></li>
                 </ul>
             </section>
             <div class="suggestions-box">
@@ -238,6 +298,7 @@
             </div>
             <section><h2 id="related">Related APIs</h2>
                 <ul class="related-apis">
+                    <li><a href="pdf-table-extraction.html">PDF Table Extraction</a> — extract tables from PDFs to JSON, then convert with this API</li>
                     <li><a href="json-schema-validator.html">JSON Schema Validator</a></li>
                     <li><a href="json-payload-consistency-checker.html">JSON Payload Consistency Checker</a></li>
                     <li><a href="html-to-markdown.html">HTML to Markdown Converter</a></li>
@@ -285,6 +346,22 @@
     });
     OUTPUT_FORMATS.forEach(function(f){
         var o = document.createElement('option'); o.value = f; o.textContent = f; toSelect.appendChild(o);
+    });
+    var toFormatFile = document.getElementById('to-format-file');
+    OUTPUT_FORMATS.forEach(function(f){
+        var o = document.createElement('option'); o.value = f; o.textContent = f; toFormatFile.appendChild(o);
+    });
+
+    function isFileMode(){ return document.getElementById('input-mode-file').checked; }
+    document.getElementById('input-mode-paste').addEventListener('change', function(){
+        document.getElementById('paste-mode-fields').style.display = '';
+        document.getElementById('file-mode-fields').style.display = 'none';
+        updatePlayground(); refreshCode();
+    });
+    document.getElementById('input-mode-file').addEventListener('change', function(){
+        document.getElementById('paste-mode-fields').style.display = 'none';
+        document.getElementById('file-mode-fields').style.display = 'block';
+        refreshCode();
     });
 
     function buildOptRows(prefix, formatKey, container){
@@ -372,13 +449,55 @@
     document.getElementById('run-btn').addEventListener('click', function(){
         var key = (document.getElementById('api-key').value || '').trim();
         if(!key){ document.getElementById('play-result').style.display='block'; document.getElementById('play-result').className='result error'; document.getElementById('play-result').textContent='Please enter your RapidAPI key.'; return; }
-        var req = getPlaygroundRequest();
-        if(req.error){ document.getElementById('play-result').style.display='block'; document.getElementById('play-result').className='result error'; document.getElementById('play-result').textContent=req.error; return; }
-        var body = JSON.stringify({ from: req.from, to: req.to, data: req.data, options: req.options || {} });
         document.getElementById('run-btn').disabled = true;
         document.getElementById('play-result').style.display = 'block';
         document.getElementById('play-result').className = 'result';
         document.getElementById('play-result').textContent = 'Loading…';
+
+        if(isFileMode()){
+            var fileInput = document.getElementById('play-file');
+            if(!fileInput.files || fileInput.files.length === 0){ document.getElementById('play-result').className = 'result error'; document.getElementById('play-result').textContent = 'Please select a file.'; document.getElementById('run-btn').disabled = false; return; }
+            var toF = document.getElementById('to-format-file').value;
+            var form = new FormData();
+            form.append('file', fileInput.files[0]);
+            form.append('to', toF);
+            var optStr = (document.getElementById('play-options-json').value || '').trim();
+            if(optStr){ try{ JSON.parse(optStr); form.append('options', optStr); } catch(e){ document.getElementById('play-result').className = 'result error'; document.getElementById('play-result').textContent = 'Invalid options JSON: ' + e.message; document.getElementById('run-btn').disabled = false; return; } }
+            if(document.getElementById('play-download').checked) form.append('download', '1');
+            var accept = toF === 'json' ? 'application/json' : toF === 'pdf' || toF === 'excel' ? 'application/octet-stream' : 'text/plain';
+            fetch('https://'+host+path, {
+                method: 'POST',
+                headers: { 'Accept': accept, 'x-rapidapi-key': key, 'x-rapidapi-host': host },
+                body: form
+            }).then(function(r){
+                var ct = r.headers.get('content-type') || '';
+                if(toF === 'excel' || toF === 'pdf'){
+                    return r.arrayBuffer().then(function(buf){
+                        if(!r.ok){
+                            try{ var txt = new TextDecoder().decode(buf); var j = JSON.parse(txt); return { ok: false, data: JSON.stringify(j, null, 2) }; }catch(_){ return { ok: false, data: r.status + ' ' + r.statusText }; }
+                        }
+                        var blob = new Blob([buf], { type: ct || (toF === 'pdf' ? 'application/pdf' : 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') });
+                        var url = URL.createObjectURL(blob);
+                        var a = document.createElement('a'); a.href = url; a.download = 'output.' + (toF === 'pdf' ? 'pdf' : 'xlsx'); a.click();
+                        URL.revokeObjectURL(url);
+                        return { ok: true, data: 'File downloaded: output.' + (toF === 'pdf' ? 'pdf' : 'xlsx') };
+                    });
+                }
+                if(ct.includes('application/json')) return r.json().then(function(j){ return { ok: r.ok, data: JSON.stringify(j, null, 2) }; });
+                return r.text().then(function(t){ return { ok: r.ok, data: r.status + '\n' + (t.length > 2000 ? t.slice(0,2000) + '...[truncated]' : t) }; });
+            }).then(function(o){
+                document.getElementById('play-result').className = 'result ' + (o.ok ? 'success' : 'error');
+                document.getElementById('play-result').textContent = o.data;
+            }).catch(function(e){
+                document.getElementById('play-result').className = 'result error';
+                document.getElementById('play-result').textContent = 'Request failed: ' + e.message;
+            }).finally(function(){ document.getElementById('run-btn').disabled = false; });
+            return;
+        }
+
+        var req = getPlaygroundRequest();
+        if(req.error){ document.getElementById('play-result').style.display='block'; document.getElementById('play-result').className='result error'; document.getElementById('play-result').textContent=req.error; document.getElementById('run-btn').disabled = false; return; }
+        var body = JSON.stringify({ from: req.from, to: req.to, data: req.data, options: req.options || {} });
         var accept = req.to === 'json' ? 'application/json' : req.to === 'pdf' || req.to === 'excel' ? 'application/octet-stream' : 'text/plain';
         fetch('https://'+host+path, {
             method: 'POST',
@@ -410,10 +529,72 @@
     });
 
     function generateCode(lang){
+        var key = 'YOUR_RAPIDAPI_KEY';
+        if(isFileMode()){
+            var toF = document.getElementById('to-format-file').value;
+            var accept = toF === 'json' ? 'application/json' : toF === 'pdf' || toF === 'excel' ? 'application/octet-stream' : 'text/plain';
+            var optStr = (document.getElementById('play-options-json').value || '').trim();
+            var download = document.getElementById('play-download').checked;
+            if(lang === 'curl'){
+                var curl = 'curl --request POST \\\n  --url \'https://'+host+path+'\' \\\n  --header \'Accept: '+accept+'\' \\\n  --header \'x-rapidapi-key: '+key+'\' \\\n  --header \'x-rapidapi-host: '+host+'\' \\\n  -F \'file=@yourfile.xlsx\' \\\n  -F \'to='+toF+'\'';
+                if(download) curl += ' \\\n  -F \'download=1\'';
+                if(optStr) curl += ' \\\n  -F \'options=\''+optStr.replace(/'/g,"'\\\\''")+'\'';
+                return curl;
+            }
+            if(lang === 'javascript'){
+                var j = 'const form = new FormData();\nform.append(\'file\', fileInput.files[0]);\nform.append(\'to\', \''+toF+'\');\n';
+                if(download) j += 'form.append(\'download\', \'1\');\n';
+                if(optStr) j += 'form.append(\'options\', \''+optStr.replace(/\\/g,'\\\\').replace(/'/g,"\\'")+'\');\n';
+                j += 'const res = await fetch(\'https://'+host+path+'\', {\n  method: \'POST\',\n  headers: { \'Accept\': \''+accept+'\', \'x-rapidapi-key\': \''+key+'\', \'x-rapidapi-host\': \''+host+'\' },\n  body: form\n});\nconst result = '+(toF === 'json' ? 'await res.json()' : toF === 'pdf' || toF === 'excel' ? 'await res.arrayBuffer()' : 'await res.text()')+';\nconsole.log(result);';
+                return j;
+            }
+            if(lang === 'typescript'){
+                var cast = toF === 'json' ? ' as Record<string, unknown>' : toF === 'pdf' || toF === 'excel' ? ': ArrayBuffer' : ': string';
+                var t = 'const form = new FormData();\nform.append(\'file\', fileInput.files[0]);\nform.append(\'to\', \''+toF+'\');\n';
+                if(download) t += 'form.append(\'download\', \'1\');\n';
+                if(optStr) t += 'form.append(\'options\', \''+optStr.replace(/\\/g,'\\\\').replace(/'/g,"\\'")+'\');\n';
+                t += 'const res = await fetch(\'https://'+host+path+'\', {\n  method: \'POST\',\n  headers: { \'Accept\': \''+accept+'\', \'x-rapidapi-key\': \''+key+'\', \'x-rapidapi-host\': \''+host+'\' },\n  body: form\n});\nconst result'+cast+' = '+(toF === 'json' ? 'await res.json()' : toF === 'pdf' || toF === 'excel' ? 'await res.arrayBuffer()' : 'await res.text()')+';\nconsole.log(result);';
+                return t;
+            }
+            if(lang === 'python'){
+                var dataPy = 'data = {"to": "'+toF+'"}\n';
+                if(download) dataPy += 'data["download"] = "1"\n';
+                var py = 'import requests\n\nurl = "https://'+host+path+'"\nheaders = {"Accept": "'+accept+'", "x-rapidapi-key": "'+key+'", "x-rapidapi-host": "'+host+'"}\nfiles = {"file": open("yourfile.xlsx", "rb")}\n'+dataPy+'res = requests.post(url, headers=headers, files=files, data=data)\nprint(res.text if res.ok else res.json())';
+                return py;
+            }
+            if(lang === 'java'){
+                var boundary = '----FormBoundary' + String(Math.random()).slice(2, 12);
+                var ja = '// Java 11+. Replace path with your file.\n';
+                ja += 'import java.io.ByteArrayOutputStream;\nimport java.net.URI;\nimport java.net.http.HttpClient;\nimport java.net.http.HttpRequest;\nimport java.net.http.HttpResponse;\nimport java.nio.charset.StandardCharsets;\nimport java.nio.file.Files;\nimport java.nio.file.Path;\nimport java.nio.file.Paths;\n\n';
+                ja += 'Path filePath = Paths.get("yourfile.xlsx");\n';
+                ja += 'String boundary = "'+boundary+'";\n';
+                ja += 'String to = "'+toF+'";\n';
+                ja += 'byte[] fileBytes = Files.readAllBytes(filePath);\n';
+                ja += 'ByteArrayOutputStream out = new ByteArrayOutputStream();\n';
+                ja += 'String nl = "\\r\\n";\n';
+                ja += 'out.write(("--" + boundary + nl + "Content-Disposition: form-data; name=\\"file\\"; filename=\\"\" + filePath.getFileName() + "\\"" + nl + "Content-Type: application/octet-stream" + nl + nl).getBytes(StandardCharsets.UTF_8));\n';
+                ja += 'out.write(fileBytes);\n';
+                ja += 'out.write((nl + "--" + boundary + nl + "Content-Disposition: form-data; name=\\"to\\"" + nl + nl + to + nl).getBytes(StandardCharsets.UTF_8));\n';
+                if(download) ja += 'out.write(("--" + boundary + nl + "Content-Disposition: form-data; name=\\"download\\"" + nl + nl + "1" + nl).getBytes(StandardCharsets.UTF_8));\n';
+                ja += 'out.write(("--" + boundary + "--" + nl).getBytes(StandardCharsets.UTF_8));\n';
+                ja += 'HttpRequest request = HttpRequest.newBuilder()\n';
+                ja += '    .uri(URI.create("https://'+host+path+'"))\n';
+                ja += '    .header("Content-Type", "multipart/form-data; boundary=" + boundary)\n';
+                ja += '    .header("Accept", "'+accept+'")\n';
+                ja += '    .header("x-rapidapi-key", "'+key+'")\n';
+                ja += '    .header("x-rapidapi-host", "'+host+'")\n';
+                ja += '    .POST(HttpRequest.BodyPublishers.ofByteArray(out.toByteArray()))\n';
+                ja += '    .build();\n';
+                ja += 'HttpResponse<byte[]> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofByteArray());\n';
+                ja += 'System.out.println(response.statusCode());\n';
+                ja += 'System.out.println(new String(response.body(), StandardCharsets.UTF_8));';
+                return ja;
+            }
+            return '';
+        }
         var req = getPlaygroundRequest();
         if(req.error) return '// ' + req.error;
         var bodyStr = JSON.stringify({ from: req.from, to: req.to, data: req.data, options: req.options || {} });
-        var key = 'YOUR_RAPIDAPI_KEY';
         var accept = req.to === 'json' ? 'application/json' : req.to === 'pdf' || req.to === 'excel' ? 'application/octet-stream' : 'text/plain';
         var bodyEscaped = bodyStr.replace(/\\/g,'\\\\').replace(/"/g,'\\"').replace(/\n/g,'\\n');
         var handlers = { json: 'await res.json()', text: 'await res.text()', binary: 'await res.arrayBuffer()' };
@@ -451,6 +632,9 @@
     document.getElementById('input-options-body').addEventListener('change', refreshCode);
     document.getElementById('output-options-body').addEventListener('change', refreshCode);
     playData.addEventListener('input', function(){ setTimeout(refreshCode, 100); });
+    document.getElementById('to-format-file').addEventListener('change', refreshCode);
+    document.getElementById('play-download').addEventListener('change', refreshCode);
+    document.getElementById('play-options-json').addEventListener('input', function(){ setTimeout(refreshCode, 100); });
 
     document.querySelectorAll('.schema-toggle').forEach(function(btn){
         btn.addEventListener('click', function(e){ e.preventDefault(); var id = this.getAttribute('data-target') || (this.getAttribute('href')||'').slice(1); if(id){ var d = document.getElementById(id); if(d) d.classList.toggle('show'); } });

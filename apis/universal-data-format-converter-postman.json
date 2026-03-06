@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "Universal Data Format Converter API",
-    "description": "Full collection for all format conversions. Set rapidapi_key in collection variables.",
+    "description": "Full collection for all format conversions (JSON body + file upload). Set rapidapi_key in collection variables.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
@@ -12,6 +12,272 @@
     }
   ],
   "item": [
+    {
+      "name": "File upload (multipart)",
+      "description": "Send a file; input format is inferred from extension. Add form field \"to\" for output format. Optionally \"options\" (JSON string) and \"download=1\".",
+      "item": [
+        {
+          "name": "File (any) → JSON",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "x-rapidapi-key",
+                "value": "{{rapidapi_key}}",
+                "type": "text"
+              },
+              {
+                "key": "x-rapidapi-host",
+                "value": "universal-data-format-converter.p.rapidapi.com",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": "",
+                  "description": "Select a file (.xlsx, .csv, .json, etc.). Input format is inferred from filename."
+                },
+                {
+                  "key": "to",
+                  "value": "json",
+                  "type": "text",
+                  "description": "Output format"
+                }
+              ]
+            },
+            "url": {
+              "raw": "https://universal-data-format-converter.p.rapidapi.com/convert",
+              "protocol": "https",
+              "host": [
+                "universal-data-format-converter",
+                "p",
+                "rapidapi",
+                "com"
+              ],
+              "path": [
+                "convert"
+              ]
+            }
+          }
+        },
+        {
+          "name": "File (any) → CSV",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/csv"
+              },
+              {
+                "key": "x-rapidapi-key",
+                "value": "{{rapidapi_key}}",
+                "type": "text"
+              },
+              {
+                "key": "x-rapidapi-host",
+                "value": "universal-data-format-converter.p.rapidapi.com",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": "",
+                  "description": "Select a file (.xlsx, .csv, .json, etc.). Input format is inferred from filename."
+                },
+                {
+                  "key": "to",
+                  "value": "csv",
+                  "type": "text",
+                  "description": "Output format"
+                }
+              ]
+            },
+            "url": {
+              "raw": "https://universal-data-format-converter.p.rapidapi.com/convert",
+              "protocol": "https",
+              "host": [
+                "universal-data-format-converter",
+                "p",
+                "rapidapi",
+                "com"
+              ],
+              "path": [
+                "convert"
+              ]
+            }
+          }
+        },
+        {
+          "name": "File (any) → Excel",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+              },
+              {
+                "key": "x-rapidapi-key",
+                "value": "{{rapidapi_key}}",
+                "type": "text"
+              },
+              {
+                "key": "x-rapidapi-host",
+                "value": "universal-data-format-converter.p.rapidapi.com",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": "",
+                  "description": "Select a file (.xlsx, .csv, .json, etc.). Input format is inferred from filename."
+                },
+                {
+                  "key": "to",
+                  "value": "excel",
+                  "type": "text",
+                  "description": "Output format"
+                }
+              ]
+            },
+            "url": {
+              "raw": "https://universal-data-format-converter.p.rapidapi.com/convert",
+              "protocol": "https",
+              "host": [
+                "universal-data-format-converter",
+                "p",
+                "rapidapi",
+                "com"
+              ],
+              "path": [
+                "convert"
+              ]
+            }
+          }
+        },
+        {
+          "name": "File (any) → PDF",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/pdf"
+              },
+              {
+                "key": "x-rapidapi-key",
+                "value": "{{rapidapi_key}}",
+                "type": "text"
+              },
+              {
+                "key": "x-rapidapi-host",
+                "value": "universal-data-format-converter.p.rapidapi.com",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": "",
+                  "description": "Select a file (.xlsx, .csv, .json, etc.). Input format is inferred from filename."
+                },
+                {
+                  "key": "to",
+                  "value": "pdf",
+                  "type": "text",
+                  "description": "Output format"
+                }
+              ]
+            },
+            "url": {
+              "raw": "https://universal-data-format-converter.p.rapidapi.com/convert",
+              "protocol": "https",
+              "host": [
+                "universal-data-format-converter",
+                "p",
+                "rapidapi",
+                "com"
+              ],
+              "path": [
+                "convert"
+              ]
+            }
+          }
+        },
+        {
+          "name": "File (any) → XML",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/xml"
+              },
+              {
+                "key": "x-rapidapi-key",
+                "value": "{{rapidapi_key}}",
+                "type": "text"
+              },
+              {
+                "key": "x-rapidapi-host",
+                "value": "universal-data-format-converter.p.rapidapi.com",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": "",
+                  "description": "Select a file (.xlsx, .csv, .json, etc.). Input format is inferred from filename."
+                },
+                {
+                  "key": "to",
+                  "value": "xml",
+                  "type": "text",
+                  "description": "Output format"
+                }
+              ]
+            },
+            "url": {
+              "raw": "https://universal-data-format-converter.p.rapidapi.com/convert",
+              "protocol": "https",
+              "host": [
+                "universal-data-format-converter",
+                "p",
+                "rapidapi",
+                "com"
+              ],
+              "path": [
+                "convert"
+              ]
+            }
+          }
+        }
+      ]
+    },
     {
       "name": "From json",
       "item": [
