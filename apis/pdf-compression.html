@@ -25,7 +25,7 @@
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"API Catalog","item":"https://precisionsolutionstech-netizen.github.io/api-catalog/"},{"@type":"ListItem","position":2,"name":"PDF Compression","item":"https://precisionsolutionstech-netizen.github.io/api-catalog/apis/pdf-compression.html"}]}
     </script>
     <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does it store files?","acceptedAnswer":{"@type":"Answer","text":"No. Fully stateless."}},{"@type":"Question","name":"Max file size?","acceptedAnswer":{"@type":"Answer","text":"80MB."}}]}
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What are the RapidAPI pricing tiers?","acceptedAnswer":{"@type":"Answer","text":"Basic is free with 15 requests per month. Pro is $9.99 per month with 500 requests. Ultra is $15 per month with 2000 requests and about $0.03 per overage request. Mega is $30 per month with 10000 requests and about $0.02 per overage request. Confirm on the live RapidAPI listing."}},{"@type":"Question","name":"Does it store files?","acceptedAnswer":{"@type":"Answer","text":"No. Fully stateless."}},{"@type":"Question","name":"Max file size?","acceptedAnswer":{"@type":"Answer","text":"80MB."}}]}
     </script>
     <style>
         :root { --bg: #0f172a; --surface: #1e293b; --border: #334155; --text: #e2e8f0; --muted: #94a3b8; --accent: #38bdf8; --success: #34d399; --error: #f87171; }
@@ -82,7 +82,7 @@
         .faq-q { width: 100%; padding: 14px 12px; cursor: pointer; font-weight: 600; display: flex; justify-content: space-between; align-items: center; text-align: left; background: transparent; color: var(--text); border: none; font-family: inherit; font-size: inherit; }
         .faq-q:hover { background: var(--surface); }
         .faq-q::after { content: '+'; flex-shrink: 0; margin-left: 8px; width: 1.5rem; height: 1.5rem; display: inline-flex; align-items: center; justify-content: center; border-radius: 4px; background: var(--surface); color: var(--accent); font-size: 1.1rem; line-height: 1; }
-        .faq-q[aria-expanded="true"]::after { content: '2'; }
+        .faq-q[aria-expanded="true"]::after { content: '\2212'; }
         .faq-a { padding: 12px 12px 16px; color: var(--muted); display: none; background: var(--surface); margin: 0 12px 8px; border-radius: 6px; font-weight: normal; }
         .faq-a.show { display: block; }
         .related-apis { list-style: none; padding: 0; margin: 0; }
@@ -90,6 +90,22 @@
         .related-apis a { font-weight: 500; }
         .browse-all { margin: 28px 0; padding: 16px; background: var(--surface); border-radius: 8px; border: 1px solid var(--border); text-align: center; }
         .browse-all a { font-weight: 600; font-size: 1.05rem; }
+        .pricing-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 12px; }
+        @media (max-width: 960px) { .pricing-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 520px) { .pricing-grid { grid-template-columns: 1fr; } }
+        .pricing-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 18px; }
+        .pricing-card-featured { border-color: var(--accent); box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.2); }
+        .pricing-badge { display: inline-block; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--success); margin-bottom: 8px; }
+        .pricing-card h3 { margin: 0 0 8px; font-size: 1.05rem; }
+        .pricing-price { font-size: 1.15rem; font-weight: 700; margin: 0 0 10px; }
+        .pricing-period { font-weight: 500; font-size: 0.9rem; color: var(--muted); }
+        .pricing-quotas { line-height: 1.55; }
+        .pricing-overage { font-size: 0.88rem; color: var(--muted); margin-top: 8px; }
+        .pricing-note { font-size: 0.88rem; color: var(--muted); margin-top: 14px; }
+        .cta-sub { display: block; margin-top: 10px; font-size: 0.95rem; color: var(--muted); font-weight: 500; }
+        .lang-select { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-bottom: 14px; }
+        .lang-select select { padding: 8px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-weight: 600; }
+        .playground button.secondary { background: var(--surface); color: var(--accent); border: 1px solid var(--border); }
         footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.9rem; text-align: center; }
     </style>
 </head>
@@ -100,6 +116,8 @@
         <article>
             <header>
                 <h1>PDF Compression API</h1>
+                <p><a href="https://rapidapi.com/precisionsolutionstech/api/pdf-compression-api1" target="_blank" rel="noopener" class="cta-primary">Try on RapidAPI</a></p>
+                <span class="cta-sub">Pricing differs from other listings: Basic is <strong>15</strong> free calls/mo (not 100). See <a href="#pricing">pricing</a> below.</span>
                 <p class="lead">PDF compressor, optimizer, and shrinker API. Reduce PDF file size while preserving quality. Speed, lossless, or max compression modes. Multipart upload. Email attachments, web downloads, storage. Stateless, 80MB max.</p>
             </header>
             <section><h2 id="why">Why use this API?</h2><p>Shrink PDFs for storage or transfer without losing quality.</p></section>
@@ -143,41 +161,57 @@
                 </div>
             </section>
             <section>
-                <h2 id="code">Copy code</h2>
-                <p>Host: <code>pdf-compression-api1.p.rapidapi.com</code>, endpoint: <code>POST /optimize</code>. Returns PDF by default; send <code>Accept: application/json</code> for metadata only. Choose language:</p>
-                <div class="lang-tabs" role="tablist">
-                    <button type="button" role="tab" aria-selected="true" data-lang="curl" class="active">cURL</button>
-                    <button type="button" role="tab" aria-selected="false" data-lang="javascript">JavaScript</button>
-                    <button type="button" role="tab" aria-selected="false" data-lang="python">Python</button>
-                    <button type="button" role="tab" aria-selected="false" data-lang="java">Java</button>
+                <h2 id="code">Get code</h2>
+                <p>Snippets use the same <strong>mode</strong>, <strong>query parameters</strong>, and <strong>metadata-only</strong> choices as the playground above. Pick a language and copy, or click <strong>Refresh code</strong> after changing options.</p>
+                <p>Host: <code>pdf-compression-api1.p.rapidapi.com</code>, <code>POST /optimize</code>, multipart field <code>file</code>. PDF binary by default; <code>Accept: application/json</code> for size metadata only.</p>
+                <div class="lang-select">
+                    <label for="code-lang">Language:</label>
+                    <select id="code-lang">
+                        <option value="curl">cURL</option>
+                        <option value="javascript">JavaScript</option>
+                        <option value="typescript">TypeScript</option>
+                        <option value="python">Python</option>
+                        <option value="java">Java (OkHttp)</option>
+                    </select>
+                    <button type="button" id="refresh-code-btn" class="secondary">Refresh code</button>
                 </div>
-                <div id="snippet-curl" class="code-block active"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-curl">Copy</button><pre><code>curl --request POST \
-  --url 'https://pdf-compression-api1.p.rapidapi.com/optimize' \
-  --header 'X-RapidAPI-Host: pdf-compression-api1.p.rapidapi.com' \
-  --header 'X-RapidAPI-Key: YOUR_RAPIDAPI_KEY' \
-  --form 'file=@document.pdf' \
-  --output optimized.pdf</code></pre></div></div>
-                <div id="snippet-javascript" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-javascript">Copy</button><pre><code>const formData = new FormData();
-formData.append('file', document.querySelector('input[type=file]').files[0]);
-const res = await fetch('https://pdf-compression-api1.p.rapidapi.com/optimize', {
-  method: 'POST',
-  headers: { 'X-RapidAPI-Key': 'YOUR_RAPIDAPI_KEY', 'X-RapidAPI-Host': 'pdf-compression-api1.p.rapidapi.com' },
-  body: formData
-});
-const blob = await res.blob();
-// Default: blob is the PDF. For metadata only, send Accept: application/json and use res.json()</code></pre></div></div>
-                <div id="snippet-python" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-python">Copy</button><pre><code>import requests
-
-url = &quot;https://pdf-compression-api1.p.rapidapi.com/optimize&quot;
-headers = {'X-RapidAPI-Key': 'YOUR_RAPIDAPI_KEY', 'X-RapidAPI-Host': 'pdf-compression-api1.p.rapidapi.com'}
-with open('document.pdf', 'rb') as f:
-    r = requests.post(url, files={'file': f}, headers=headers)
-with open('optimized.pdf', 'wb') as out:
-    out.write(r.content)</code></pre></div></div>
-                <div id="snippet-java" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-java">Copy</button><pre><code>// POST to /optimize with multipart file part named 'file'. Response is PDF binary; write to file. See RapidAPI docs for full example.</code></pre></div></div>
+                <div class="code-wrap"><button type="button" class="copy-btn" id="copy-code-btn">Copy</button><pre><code id="generated-code"></code></pre></div>
                 <p><button type="button" class="postman-btn" id="postman-download">Download Postman collection</button></p>
+                <p class="file-upload-note">Replace <code>YOUR_RAPIDAPI_KEY</code> and the file path. Java example requires OkHttp on the classpath.</p>
             </section>
             <section><h2 id="expect">What to expect</h2><p>By default the API returns the optimized PDF (binary). Send <code>Accept: application/json</code> to receive JSON with <code>originalSize</code>, <code>optimizedSize</code>, <code>reductionBytes</code>, <code>reductionPercent</code> only. Use your RapidAPI key in headers. Stateless; no data stored. See <a href="https://rapidapi.com/precisionsolutionstech/api/pdf-compression-api1" target="_blank" rel="noopener">RapidAPI docs</a> for full details.</p></section>
+            <section id="pricing" aria-labelledby="pricing-heading">
+                <h2 id="pricing-heading">Pricing &amp; tiers (RapidAPI)</h2>
+                <p>This API uses <strong>lower monthly quotas</strong> than our typical 100 / 10k / 100k / 250k layout. Ultra and Mega include <strong>pay-as-you-go overage</strong> after the included requests.</p>
+                <div class="pricing-grid">
+                    <div class="pricing-card">
+                        <h3>Basic</h3>
+                        <p class="pricing-price">$0<span class="pricing-period">/mo</span></p>
+                        <p class="pricing-quotas"><strong>15</strong> requests/month included</p>
+                        <p class="pricing-overage">No overage listed on the plan (hard cap).</p>
+                    </div>
+                    <div class="pricing-card">
+                        <h3>Pro</h3>
+                        <p class="pricing-price">$9.99<span class="pricing-period">/mo</span></p>
+                        <p class="pricing-quotas"><strong>500</strong> requests/month included</p>
+                        <p class="pricing-overage">No overage listed on the plan.</p>
+                    </div>
+                    <div class="pricing-card pricing-card-featured">
+                        <span class="pricing-badge">Recommended</span>
+                        <h3>Ultra</h3>
+                        <p class="pricing-price">$15<span class="pricing-period">/mo</span></p>
+                        <p class="pricing-quotas"><strong>2,000</strong> requests/month included</p>
+                        <p class="pricing-overage">Overage: <strong>~$0.03</strong> per extra request.</p>
+                    </div>
+                    <div class="pricing-card">
+                        <h3>Mega</h3>
+                        <p class="pricing-price">$30<span class="pricing-period">/mo</span></p>
+                        <p class="pricing-quotas"><strong>10,000</strong> requests/month included</p>
+                        <p class="pricing-overage">Overage: <strong>~$0.02</strong> per extra request.</p>
+                    </div>
+                </div>
+                <p class="pricing-note">Prices and quotas match the provider RapidAPI dashboard as of the last update; always confirm on the live <a href="https://rapidapi.com/precisionsolutionstech/api/pdf-compression-api1" target="_blank" rel="noopener">PDF Compression API</a> listing.</p>
+            </section>
             <section><h2 id="about">About this API</h2>
 
                 <h3 id="who-should-use">Who Should Use This API</h3>
@@ -222,6 +256,10 @@ with open('optimized.pdf', 'wb') as out:
             <section><h2 id="faq">Frequently Asked Questions</h2>
                 <ul class="faq-list">
                     <li>
+                        <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a0" id="faq-q0">How is pricing different from your other APIs?</button>
+                        <div id="faq-a0" class="faq-a" role="region" aria-labelledby="faq-q0">Basic includes 15 requests/month (not 100). Pro is 500/mo at $9.99. Ultra is $15/mo for 2,000 requests with about $0.03 per overage call. Mega is $30/mo for 10,000 with about $0.02 per overage. Confirm on RapidAPI.</div>
+                    </li>
+                    <li>
                         <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a1" id="faq-q1">Does it store files?</button>
                         <div id="faq-a1" class="faq-a" role="region" aria-labelledby="faq-q1">No. Fully stateless.</div>
                     </li><li>
@@ -233,42 +271,123 @@ with open('optimized.pdf', 'wb') as out:
             <div class="browse-all"><a href="../index.html">Browse all APIs in the catalog →</a></div>
         </article>
         <footer>
-            <p><a href="https://rapidapi.com/precisionsolutionstech/api/pdf-compression-api1" target="_blank" rel="noopener">Subscribe on RapidAPI</a> · <a href="../index.html">API Catalog</a></p>
+            <p><a href="https://rapidapi.com/precisionsolutionstech/api/pdf-compression-api1" target="_blank" rel="noopener">Subscribe on RapidAPI</a> · <a href="../index.html">API Catalog</a> · <a href="../faq.html">FAQ</a></p>
             <p>© 2026 Precision Solutions Tech</p>
         </footer>
     </div>
     <script>
 (function(){
-    var host='pdf-compression-api1.p.rapidapi.com',path='/optimize',body="{}",fileUpload=true,rapidUrl="https://rapidapi.com/precisionsolutionstech/api/pdf-compression-api1";
+    var host='pdf-compression-api1.p.rapidapi.com',path='/optimize',fileUpload=true,rapidUrl="https://rapidapi.com/precisionsolutionstech/api/pdf-compression-api1";
+
+    function buildQueryString() {
+        var params = [];
+        var m = document.getElementById('param-mode');
+        if (m && m.value) params.push('mode=' + encodeURIComponent(m.value));
+        if (m && m.value === 'lossless') {
+            var ai = document.getElementById('param-allow-image');
+            if (ai && ai.checked) params.push('allowImageCompression=true');
+        }
+        if (m && m.value === 'maxCompression') {
+            var cl = document.getElementById('param-compression-level');
+            if (cl && cl.value) params.push('compressionLevel=' + encodeURIComponent(cl.value));
+        }
+        var iq = document.getElementById('param-image-quality');
+        if (iq && iq.value !== '') {
+            var v = parseInt(iq.value, 10);
+            if (!isNaN(v) && v >= 0 && v <= 100) params.push('imageQuality=' + v);
+        }
+        return params.length ? '?' + params.join('&') : '';
+    }
+
+    function fullUrl() {
+        return 'https://' + host + path + buildQueryString();
+    }
+
+    function isMetadataOnly() {
+        var el = document.getElementById('metadata-only');
+        return !!(el && el.checked);
+    }
+
+    function escapeShellSingleQuoted(s) {
+        return s.replace(/'/g, "'\\''");
+    }
+
+    function generateCode(lang) {
+        var url = fullUrl();
+        var meta = isMetadataOnly();
+        var key = 'YOUR_RAPIDAPI_KEY';
+        if (lang === 'curl') {
+            var curl = "curl --request POST \\\n  --url '" + escapeShellSingleQuoted(url) + "' \\\n  --header 'X-RapidAPI-Host: " + host + "' \\\n  --header 'X-RapidAPI-Key: " + key + "'";
+            if (meta) curl += " \\\n  --header 'Accept: application/json'";
+            curl += " \\\n  --form 'file=@document.pdf'";
+            curl += meta ? "\n# Response body is JSON (sizes). Omit Accept header and add --output optimized.pdf for the PDF binary." : " \\\n  --output optimized.pdf";
+            return curl;
+        }
+        var urlJson = JSON.stringify(url);
+        var hdr = "    'X-RapidAPI-Key': '" + key + "',\n    'X-RapidAPI-Host': '" + host + "'";
+        if (meta) hdr += ",\n    'Accept': 'application/json'";
+        if (lang === 'javascript') {
+            var js = 'const url = ' + urlJson + ';\nconst formData = new FormData();\nformData.append(\'file\', fileInput.files[0]);\nconst res = await fetch(url, {\n  method: \'POST\',\n  headers: {\n' + hdr + '\n  },\n  body: formData\n});\n';
+            return js + (meta ? 'const data = await res.json();\nconsole.log(data);' : 'const blob = await res.blob();\n// save as optimized.pdf');
+        }
+        if (lang === 'typescript') {
+            var ts = 'const url = ' + urlJson + ';\nconst formData = new FormData();\nformData.append(\'file\', fileInput.files[0]);\nconst res = await fetch(url, {\n  method: \'POST\',\n  headers: {\n' + hdr + '\n  },\n  body: formData\n});\n';
+            return ts + (meta ? 'const data: unknown = await res.json();\nconsole.log(data);' : 'const blob = await res.blob();\n// save as optimized.pdf');
+        }
+        if (lang === 'python') {
+            var py = 'import requests\n\nurl = ' + JSON.stringify(url) + '\nheaders = {\n    \'X-RapidAPI-Key\': \'' + key + '\',\n    \'X-RapidAPI-Host\': \'' + host + '\'';
+            if (meta) py += ',\n    \'Accept\': \'application/json\'';
+            py += '\n}\nwith open(\'document.pdf\', \'rb\') as f:\n    r = requests.post(url, files={\'file\': f}, headers=headers)\n';
+            return py + (meta ? 'print(r.json())' : 'with open(\'optimized.pdf\', \'wb\') as out:\n    out.write(r.content)');
+        }
+        if (lang === 'java') {
+            var urlJava = url.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+            var java = '// OkHttp 4+ — e.g. implementation("com.squareup.okhttp3:okhttp:4.12.0")\nimport okhttp3.*;\nimport java.io.File;\n\nString url = "' + urlJava + '";\nRequestBody fileBody = RequestBody.create(new File("document.pdf"), MediaType.parse("application/pdf"));\nMultipartBody body = new MultipartBody.Builder()\n    .setType(MultipartBody.FORM)\n    .addFormDataPart("file", "document.pdf", fileBody)\n    .build();\nRequest request = new Request.Builder()\n    .url(url)\n    .addHeader("X-RapidAPI-Key", "' + key + '")\n    .addHeader("X-RapidAPI-Host", "' + host + '")';
+            if (meta) java += '\n    .addHeader("Accept", "application/json")';
+            java += '\n    .post(body)\n    .build();\ntry (Response response = new OkHttpClient().newCall(request).execute()) {\n    // JSON metadata vs PDF bytes — inspect Content-Type\n}\n';
+            return java;
+        }
+        return '';
+    }
+
+    function refreshCode() {
+        var el = document.getElementById('generated-code');
+        var sel = document.getElementById('code-lang');
+        if (el && sel) el.textContent = generateCode(sel.value);
+    }
+
     document.querySelectorAll('[data-rapid-docs]').forEach(function(a){ a.href = rapidUrl; });
     document.getElementById('toggle-req').addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('request-schema'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); });
     document.getElementById('toggle-res').addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('response-schema'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); });
     var toggleErrors=document.getElementById('toggle-errors');if(toggleErrors){ toggleErrors.addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('error-codes'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); }); }
-    document.querySelectorAll('.lang-tabs button').forEach(function(btn){
-        btn.addEventListener('click',function(){
-            document.querySelectorAll('.lang-tabs button').forEach(function(b){ b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
-            document.querySelectorAll('.code-block').forEach(function(b){ b.classList.remove('active'); });
-            this.classList.add('active'); this.setAttribute('aria-selected','true');
-            var el=document.getElementById('snippet-'+this.getAttribute('data-lang')); if(el) el.classList.add('active');
+
+    document.getElementById('code-lang').addEventListener('change', refreshCode);
+    document.getElementById('refresh-code-btn').addEventListener('click', refreshCode);
+    document.getElementById('copy-code-btn').addEventListener('click', function () {
+        var btn = document.getElementById('copy-code-btn');
+        var t = document.getElementById('generated-code').textContent;
+        navigator.clipboard.writeText(t).then(function () {
+            var o = btn.textContent; btn.textContent = 'Copied!'; setTimeout(function () { btn.textContent = o; }, 1500);
         });
     });
-    document.querySelectorAll('.copy-btn').forEach(function(btn){
-        btn.addEventListener('click',function(){
-            var id=this.getAttribute('data-copy'),block=document.getElementById(id),pre=block?block.querySelector('pre code'):null,btn=this;
-            if(pre) navigator.clipboard.writeText(pre.textContent).then(function(){ var t=btn.textContent; btn.textContent='Copied!'; setTimeout(function(){ btn.textContent=t; },1500); });
-        });
-    });
-    
+
     document.querySelectorAll('.faq-q').forEach(function(btn){
         btn.addEventListener('click',function(){ var expanded=this.getAttribute('aria-expanded')==='true'; this.setAttribute('aria-expanded',!expanded); var panel=document.getElementById(this.getAttribute('aria-controls')); if(panel) panel.classList.toggle('show',!expanded); });
     });
-    var modeEl=document.getElementById('param-mode'), allowImgEl=document.getElementById('param-allow-image'), allowImgLabel=document.getElementById('label-allow-image'), compLevelEl=document.getElementById('param-compression-level'), compLevelLabel=document.getElementById('label-compression-level');
-    function updateParamVisibility(){ var m=modeEl.value; allowImgLabel.style.display=m==='lossless'?'block':'none'; compLevelLabel.style.display=compLevelEl.style.display=m==='maxCompression'?'block':'none'; }
+    var modeEl=document.getElementById('param-mode'), allowImgLabel=document.getElementById('label-allow-image'), compLevelEl=document.getElementById('param-compression-level'), compLevelLabel=document.getElementById('label-compression-level');
+    function updateParamVisibility(){ var m=modeEl.value; allowImgLabel.style.display=m==='lossless'?'block':'none'; compLevelLabel.style.display=compLevelEl.style.display=m==='maxCompression'?'block':'none'; refreshCode(); }
     if(modeEl){ modeEl.addEventListener('change',updateParamVisibility); updateParamVisibility(); }
+    ['param-allow-image','param-compression-level','metadata-only'].forEach(function(id){
+        var el=document.getElementById(id);
+        if(el) el.addEventListener('change', refreshCode);
+    });
+    var iqEl=document.getElementById('param-image-quality');
+    if(iqEl){ iqEl.addEventListener('input', refreshCode); iqEl.addEventListener('change', refreshCode); }
+
     document.getElementById('postman-download').addEventListener('click',function(){
-        var coll = { info: { name: "PDF Compression API", schema: 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json' }, item: [{ name: 'Request', request: { method: 'POST', header: [{ key: 'Content-Type', value: 'application/json' }, { key: 'x-rapidapi-key', value: 'YOUR_RAPIDAPI_KEY' }, { key: 'x-rapidapi-host', value: host }], url: 'https://'+host+path } } ] };
-        if(!fileUpload){ coll.item[0].request.body = { mode: 'raw', raw: typeof body==='string'?body:JSON.stringify(body) }; }
-        else { coll.item[0].request.header = [{ key: 'X-RapidAPI-Key', value: 'YOUR_RAPIDAPI_KEY' }, { key: 'X-RapidAPI-Host', value: host }]; coll.item[0].request.url = 'https://'+host+path; coll.item[0].request.body = { mode: 'formdata', formdata: [{ key: 'file', type: 'file', src: '' }] }; }
+        var hdrs = [{ key: 'X-RapidAPI-Key', value: 'YOUR_RAPIDAPI_KEY' }, { key: 'X-RapidAPI-Host', value: host }];
+        if (isMetadataOnly()) hdrs.push({ key: 'Accept', value: 'application/json' });
+        var coll = { info: { name: "PDF Compression API", schema: 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json' }, item: [{ name: 'POST /optimize', request: { method: 'POST', header: hdrs, url: fullUrl(), body: { mode: 'formdata', formdata: [{ key: 'file', type: 'file', src: '' }] } } }] };
         var blob = new Blob([JSON.stringify(coll,null,2)], { type: 'application/json' });
         var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'pdf-compression-postman-collection.json'; a.click(); URL.revokeObjectURL(a.href);
     });
@@ -276,39 +395,34 @@ with open('optimized.pdf', 'wb') as out:
     runBtn.addEventListener('click',function(){
         var key=(keyInput.value||'').trim();
         if(!key){ resultDiv.style.display='block'; resultDiv.className='result error'; resultDiv.textContent='Please enter your RapidAPI key.'; return; }
-        
-    var fileInput=document.getElementById('file-input');
-    if(!fileInput.files||!fileInput.files[0]){resultDiv.style.display='block';resultDiv.className='result error';resultDiv.textContent='Please select a PDF file.';return;}
-    runBtn.disabled=true;resultDiv.style.display='block';resultDiv.className='result';resultDiv.textContent='Uploading…';
-    var formData=new FormData();formData.append('file',fileInput.files[0]);
-    var metadataOnly=document.getElementById('metadata-only')&&document.getElementById('metadata-only').checked;
-    var params=[];
-    var m=document.getElementById('param-mode'); if(m&&m.value) params.push('mode='+encodeURIComponent(m.value));
-    if(m&&m.value==='lossless'){ var ai=document.getElementById('param-allow-image'); if(ai&&ai.checked) params.push('allowImageCompression=true'); }
-    if(m&&m.value==='maxCompression'){ var cl=document.getElementById('param-compression-level'); if(cl&&cl.value) params.push('compressionLevel='+encodeURIComponent(cl.value)); }
-    var iq=document.getElementById('param-image-quality'); if(iq&&iq.value!==''){ var v=parseInt(iq.value,10); if(!isNaN(v)&&v>=0&&v<=100) params.push('imageQuality='+v); }
-    var url='https://'+host+path; if(params.length) url+='?'+params.join('&');
-    var headers={'X-RapidAPI-Key':key,'X-RapidAPI-Host':host};
-    if(metadataOnly) headers['Accept']='application/json';
-    fetch(url,{method:'POST',headers:headers,body:formData})
-    .then(function(r){
-      var ct=r.headers.get('Content-Type')||'';
-      if(metadataOnly||ct.indexOf('application/json')>=0){ return r.json().then(function(j){ return { json: true, data: j }; }); }
-      return r.blob().then(function(b){ return { json: false, blob: b, size: b.size }; });
-    })
-    .then(function(o){
-      resultDiv.className='result success';
-      if(o.json){ resultDiv.textContent=JSON.stringify(o.data,null,2); }
-      else{
-        resultDiv.textContent='';
-        resultDiv.appendChild(document.createTextNode('PDF received ('+o.size+' bytes). '));
-        var a=document.createElement('a'); a.href=URL.createObjectURL(o.blob); a.download='optimized.pdf'; a.textContent='Download optimized.pdf';
-        resultDiv.appendChild(a);
-      }
-    })
-    .catch(function(e){resultDiv.className='result error';resultDiv.textContent='Request failed: '+e.message;})
-    .finally(function(){runBtn.disabled=false;});
+        var fileInput=document.getElementById('file-input');
+        if(!fileInput.files||!fileInput.files[0]){resultDiv.style.display='block';resultDiv.className='result error';resultDiv.textContent='Please select a PDF file.';return;}
+        runBtn.disabled=true;resultDiv.style.display='block';resultDiv.className='result';resultDiv.textContent='Uploading…';
+        var formData=new FormData();formData.append('file',fileInput.files[0]);
+        var meta=isMetadataOnly();
+        var url=fullUrl();
+        var headers={'X-RapidAPI-Key':key,'X-RapidAPI-Host':host};
+        if(meta) headers['Accept']='application/json';
+        fetch(url,{method:'POST',headers:headers,body:formData})
+        .then(function(r){
+            var ct=r.headers.get('Content-Type')||'';
+            if(meta||ct.indexOf('application/json')>=0){ return r.json().then(function(j){ return { json: true, data: j }; }); }
+            return r.blob().then(function(b){ return { json: false, blob: b, size: b.size }; });
+        })
+        .then(function(o){
+            resultDiv.className='result success';
+            if(o.json){ resultDiv.textContent=JSON.stringify(o.data,null,2); }
+            else{
+                resultDiv.textContent='';
+                resultDiv.appendChild(document.createTextNode('PDF received ('+o.size+' bytes). '));
+                var a=document.createElement('a'); a.href=URL.createObjectURL(o.blob); a.download='optimized.pdf'; a.textContent='Download optimized.pdf';
+                resultDiv.appendChild(a);
+            }
+        })
+        .catch(function(e){resultDiv.className='result error';resultDiv.textContent='Request failed: '+e.message;})
+        .finally(function(){runBtn.disabled=false;});
     });
+    refreshCode();
 })();
     </script>
 </body>

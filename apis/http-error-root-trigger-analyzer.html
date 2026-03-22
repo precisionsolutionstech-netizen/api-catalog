@@ -5,27 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="../favicon.svg" type="image/svg+xml">
     <link rel="icon" href="../favicon.png" type="image/png" sizes="32x32">
-    <title>HTTP Error Root Trigger Analyzer API | RapidAPI</title>
-    <meta name="description" content="HTTP error analyzer, root cause classifier, and fault diagnosis API. Analyze 4xx/5xx errors for root trigger, confidence, and next steps. Incident triage, error debugging, API monitoring. Rule-based, deterministic, stateless.">
-    <meta name="keywords" content="http-error-root-trigger-analyzer, API, RapidAPI, developer">
+    <title>HTTP Error Root Trigger Analyzer | Classify 4xx/5xx Root Causes</title>
+    <meta name="description" content="Rule-based, deterministic analysis of HTTP 4xx/5xx events: trigger category, subcategory, confidence, likely layer, next steps, retry hint. POST /analyze or /analyze/batch with status, headers, duration, proxy type. No outbound calls. Stateless, 1MB max.">
+    <meta name="keywords" content="HTTP error analysis, root cause API, 502 504 triage, SRE incident, API fault analyzer, RapidAPI">
     <link rel="canonical" href="https://precisionsolutionstech-netizen.github.io/api-catalog/apis/http-error-root-trigger-analyzer.html">
     <meta property="og:url" content="https://precisionsolutionstech-netizen.github.io/api-catalog/apis/http-error-root-trigger-analyzer.html">
     <meta property="og:image" content="https://precisionsolutionstech-netizen.github.io/api-catalog/og-default.png">
     <meta property="og:type" content="article">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="HTTP Error Root Trigger Analyzer API">
-    <meta name="twitter:description" content="Identify API failure causes. Stateless.">
+    <meta name="twitter:title" content="HTTP Error Root Trigger Analyzer — Rule-Based, Deterministic">
+    <meta name="twitter:description" content="Single or batch POST; get triggerCategory, likelyLayer, recommendedNextSteps. No ML.">
     <meta name="twitter:image" content="https://precisionsolutionstech-netizen.github.io/api-catalog/og-default.png">
     <meta property="og:title" content="HTTP Error Root Trigger Analyzer API">
-    <meta property="og:description" content="HTTP error analyzer, root cause classifier, and fault diagnosis API. Analyze 4xx/5xx errors for root trigger, confidence, and next steps. Incident triage, error debugging, API monitoring. Rule-based, deterministic, stateless.">
+    <meta property="og:description" content="Triage gateway vs upstream vs client failures from status, timing, and headers—safe for on-call and alert routing.">
     <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"TechArticle","headline":"HTTP Error Root Trigger Analyzer API","name":"HTTP Error Root Trigger Analyzer API","description":"HTTP error analyzer, root cause classifier, and fault diagnosis API. Analyze 4xx/5xx errors for root trigger, confidence, and next steps. Incident triage, error debugging, API monitoring. Rule-based, deterministic, stateless.","author":{"@type":"Organization","name":"Precision Solutions Tech"},"url":"https://precisionsolutionstech-netizen.github.io/api-catalog/apis/http-error-root-trigger-analyzer.html"}
+{"@context":"https://schema.org","@type":"TechArticle","headline":"HTTP Error Root Trigger Analyzer API","name":"HTTP Error Root Trigger Analyzer API","description":"Deterministic rule-based classification of HTTP 4xx/5xx error events with confidence, likely layer, and recommended next steps. POST /analyze or /analyze/batch. Stateless, 1MB JSON body limit.","author":{"@type":"Organization","name":"Precision Solutions Tech"},"url":"https://precisionsolutionstech-netizen.github.io/api-catalog/apis/http-error-root-trigger-analyzer.html"}
     </script>
     <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"API Catalog","item":"https://precisionsolutionstech-netizen.github.io/api-catalog/"},{"@type":"ListItem","position":2,"name":"HTTP Error Root Trigger Analyzer","item":"https://precisionsolutionstech-netizen.github.io/api-catalog/apis/http-error-root-trigger-analyzer.html"}]}
     </script>
     <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does it call my API?","acceptedAnswer":{"@type":"Answer","text":"No. It analyzes error data you send."}},{"@type":"Question","name":"Does it store data?","acceptedAnswer":{"@type":"Answer","text":"No. Fully stateless."}}]}
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does this API call my service or replay requests?","acceptedAnswer":{"@type":"Answer","text":"No. You send a JSON description of an error event (status, optional headers, duration, etc.). Nothing is executed against your URLs."}},{"@type":"Question","name":"What is the maximum request body size?","acceptedAnswer":{"@type":"Answer","text":"1MB per request for both POST /analyze and POST /analyze/batch."}},{"@type":"Question","name":"Does it store or log my payloads?","acceptedAnswer":{"@type":"Answer","text":"Processing is stateless; the service does not persist your request bodies for this product."}},{"@type":"Question","name":"Is this AI or machine learning?","acceptedAnswer":{"@type":"Answer","text":"No. Classification uses deterministic rules grounded in HTTP semantics and common proxy or gateway header patterns."}},{"@type":"Question","name":"What status codes are supported?","acceptedAnswer":{"@type":"Answer","text":"statusCode must be a number from 400 through 599. Values outside that range return INVALID_STATUS_CODE or validation errors in batch."}},{"@type":"Question","name":"What is the difference between /analyze and /analyze/batch?","acceptedAnswer":{"@type":"Answer","text":"/analyze accepts one error object. /analyze/batch accepts a non-empty JSON array of events and returns results plus a summary with category counts."}},{"@type":"Question","name":"Where are pricing and quotas defined?","acceptedAnswer":{"@type":"Answer","text":"On RapidAPI: Basic is free with 100 requests per month; Pro is $9.99/month with 10,000; Ultra is $49.99/month (popular) with 100,000; Mega is $99.99/month with 250,000. Overage is on the live listing."}},{"@type":"Question","name":"What is the minimum input for a useful result?","acceptedAnswer":{"@type":"Answer","text":"Only statusCode is required. Adding duration, responseHeaders, proxyType, and retryAttemptCount usually improves confidence and next steps."}}]}
     </script>
     <style>
         :root { --bg: #0f172a; --surface: #1e293b; --border: #334155; --text: #e2e8f0; --muted: #94a3b8; --accent: #38bdf8; --success: #34d399; --error: #f87171; }
@@ -33,19 +33,17 @@
         body { margin: 0; font-family: ui-sans-serif, system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
         .wrap { max-width: 900px; margin: 0 auto; padding: 24px 20px; }
         a { color: var(--accent); }
-        nav { margin-bottom: 32px; font-size: 0.9rem; }
         h1 { font-size: 1.9rem; margin: 0 0 12px; }
         .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; }
         h2 { font-size: 1.35rem; margin: 32px 0 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
         section { margin-bottom: 28px; }
         .playground { background: var(--surface); border-radius: 12px; padding: 20px; margin: 24px 0; border: 1px solid var(--border); }
         .playground label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 0.9rem; }
-        .playground input[type="password"], .playground select { width: 100%; max-width: 320px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); margin-bottom: 12px; }
-        .playground textarea { width: 100%; min-height: 120px; padding: 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); font-family: ui-monospace, monospace; font-size: 13px; resize: vertical; }
-        .playground input[type="file"] { margin-bottom: 12px; }
+        .playground input[type="password"], .playground select { width: 100%; max-width: 360px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); margin-bottom: 12px; }
+        .playground textarea { width: 100%; min-height: 200px; padding: 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); font-family: ui-monospace, monospace; font-size: 13px; resize: vertical; }
         .playground button { padding: 10px 20px; background: var(--accent); color: var(--bg); border: none; border-radius: 8px; font-weight: 600; cursor: pointer; margin-top: 8px; }
         .playground button:disabled { opacity: 0.6; cursor: not-allowed; }
-        .playground .result { margin-top: 16px; padding: 12px; border-radius: 8px; background: var(--bg); border: 1px solid var(--border); white-space: pre-wrap; word-break: break-all; font-family: ui-monospace, monospace; font-size: 12px; max-height: 320px; overflow: auto; }
+        .playground .result { margin-top: 16px; padding: 12px; border-radius: 8px; background: var(--bg); border: 1px solid var(--border); white-space: pre-wrap; word-break: break-all; font-family: ui-monospace, monospace; font-size: 12px; max-height: 380px; overflow: auto; }
         .playground .result.error { border-color: var(--error); color: var(--error); }
         .playground .result.success { border-color: var(--success); }
         .file-upload-note { font-size: 0.85rem; color: var(--muted); margin-top: 4px; }
@@ -53,12 +51,6 @@
         .code-wrap pre { margin: 0; padding: 14px 16px; background: var(--surface); border-radius: 8px; border: 1px solid var(--border); overflow-x: auto; font-size: 13px; }
         .code-wrap .copy-btn { position: absolute; top: 10px; right: 10px; padding: 6px 12px; background: var(--border); color: var(--text); border: none; border-radius: 6px; font-size: 12px; cursor: pointer; }
         .code-wrap .copy-btn:hover { background: var(--accent); color: var(--bg); }
-        .lang-tabs { display: flex; gap: 4px; margin-bottom: 8px; flex-wrap: wrap; }
-        .lang-tabs button { padding: 8px 14px; background: var(--surface); border: 1px solid var(--border); color: var(--muted); border-radius: 6px; cursor: pointer; font-size: 0.9rem; }
-        .lang-tabs button.active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
-        .code-block { display: none; }
-        .code-block.active { display: block; }
-        .schema-section { margin: 16px 0; }
         .schema-toggle { color: var(--accent); cursor: pointer; text-decoration: none; font-weight: 600; }
         .schema-toggle:hover { text-decoration: underline; }
         .schema-content { display: none; margin-top: 12px; padding: 12px; background: var(--surface); border-radius: 8px; border: 1px solid var(--border); overflow-x: auto; }
@@ -66,15 +58,47 @@
         .schema-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
         .schema-table th, .schema-table td { padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--border); }
         .schema-table code { font-size: 0.85em; }
-        .long-desc { color: var(--muted); font-size: 0.98rem; }
-        .long-desc p { margin: 0.75em 0; }
-        .long-desc ul { margin: 0.75em 0; padding-left: 1.5em; }
-        .long-desc li { margin: 0.35em 0; }
         .postman-btn { display: inline-block; margin-top: 12px; padding: 10px 18px; background: var(--surface); border: 1px solid var(--border); color: var(--accent); border-radius: 8px; cursor: pointer; font-weight: 600; text-decoration: none; }
         .postman-btn:hover { background: var(--border); }
-        
-        .cta-primary { display: inline-block; margin: 0 0 24px; padding: 12px 24px; background: var(--accent); color: var(--bg); border: none; border-radius: 8px; font-weight: 600; font-size: 1rem; text-decoration: none; cursor: pointer; }
+        .cta-primary { display: inline-block; margin: 0; padding: 12px 24px; background: var(--accent); color: var(--bg); border: none; border-radius: 8px; font-weight: 600; font-size: 1rem; text-decoration: none; cursor: pointer; }
         .cta-primary:hover { filter: brightness(1.1); }
+        .cta-primary.cta-hero { padding: 16px 32px; font-size: 1.125rem; font-weight: 700; border-radius: 10px; box-shadow: 0 4px 24px rgba(56, 189, 248, 0.25); }
+        .cta-sub { display: block; margin-top: 10px; font-size: 0.95rem; color: var(--muted); font-weight: 500; }
+        .use-case-list, .who-list { margin: 0.5em 0 0; padding-left: 1.25em; }
+        .use-case-list li, .who-list li { margin: 0.45em 0; }
+        .pricing-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 12px; }
+        @media (max-width: 960px) { .pricing-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 520px) { .pricing-grid { grid-template-columns: 1fr; } }
+        .pricing-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 18px; }
+        .pricing-card-featured { border-color: var(--accent); box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.2); }
+        .pricing-badge { display: inline-block; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--success); margin-bottom: 8px; }
+        .pricing-card h3 { margin: 0 0 8px; font-size: 1.05rem; }
+        .pricing-price { font-size: 1.15rem; font-weight: 700; margin: 0 0 10px; }
+        .pricing-period { font-weight: 500; font-size: 0.9rem; color: var(--muted); }
+        .pricing-quotas { line-height: 1.55; }
+        .pricing-note { font-size: 0.88rem; color: var(--muted); margin-top: 14px; }
+        .social-proof { margin: 28px 0; padding: 20px 22px; background: var(--surface); border-radius: 0 10px 10px 0; border: 1px solid var(--border); border-left: 4px solid var(--accent); }
+        .social-proof p { margin: 0; color: var(--muted); font-size: 1rem; }
+        .playground-follow-cta { margin-top: 20px; font-size: 0.95rem; color: var(--muted); }
+        .playground button.secondary { background: var(--surface); color: var(--accent); border: 1px solid var(--border); }
+        .playground .pg-row { display: flex; flex-wrap: wrap; gap: 16px 24px; align-items: flex-end; margin-bottom: 14px; }
+        .playground .pg-field { min-width: 200px; flex: 1; }
+        .playground .pg-field label { margin-bottom: 6px; }
+        .playground .pg-field select { max-width: none; width: 100%; }
+        .lang-select { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-bottom: 14px; }
+        .lang-select select { padding: 8px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-weight: 600; }
+        .example-block { margin: 18px 0; padding: 16px; background: var(--surface); border-radius: 10px; border: 1px solid var(--border); }
+        .example-block h3 { margin: 0 0 8px; font-size: 1.05rem; }
+        .example-block p { margin: 0 0 12px; color: var(--muted); font-size: 0.95rem; }
+        .roi-strip { margin: 0 0 28px; padding: 18px 20px; background: var(--surface); border-radius: 12px; border: 1px solid var(--border); border-left: 4px solid var(--accent); }
+        .roi-strip p { margin: 0; font-size: 1.05rem; line-height: 1.55; }
+        .why-build ul { margin: 0.5em 0 0; padding-left: 1.25em; }
+        .why-build li { margin: 0.4em 0; }
+        .enterprise-line { font-size: 0.98rem; color: var(--muted); margin: 0 0 20px; line-height: 1.55; }
+        .integration-note { margin-top: 18px; font-size: 0.95rem; color: var(--muted); }
+        .positioning-callout { font-size: 0.95rem; color: var(--muted); margin: 12px 0 0; line-height: 1.55; }
+        .long-desc { color: var(--muted); font-size: 0.98rem; }
+        .long-desc p { margin: 0.75em 0; }
         .global-nav { margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
         .global-nav a { margin-right: 16px; }
         .faq-list { list-style: none; padding: 0; margin: 0; }
@@ -82,11 +106,11 @@
         .faq-q { width: 100%; padding: 14px 12px; cursor: pointer; font-weight: 600; display: flex; justify-content: space-between; align-items: center; text-align: left; background: transparent; color: var(--text); border: none; font-family: inherit; font-size: inherit; }
         .faq-q:hover { background: var(--surface); }
         .faq-q::after { content: '+'; flex-shrink: 0; margin-left: 8px; width: 1.5rem; height: 1.5rem; display: inline-flex; align-items: center; justify-content: center; border-radius: 4px; background: var(--surface); color: var(--accent); font-size: 1.1rem; line-height: 1; }
-        .faq-q[aria-expanded="true"]::after { content: '2'; }
+        .faq-q[aria-expanded="true"]::after { content: '\2212'; }
         .faq-a { padding: 12px 12px 16px; color: var(--muted); display: none; background: var(--surface); margin: 0 12px 8px; border-radius: 6px; font-weight: normal; }
         .faq-a.show { display: block; }
         .related-apis { list-style: none; padding: 0; margin: 0; }
-        .related-apis li { margin: 10px 0; padding-left: 0; }
+        .related-apis li { margin: 10px 0; }
         .related-apis a { font-weight: 500; }
         .browse-all { margin: 28px 0; padding: 16px; background: var(--surface); border-radius: 8px; border: 1px solid var(--border); text-align: center; }
         .browse-all a { font-weight: 600; font-size: 1.05rem; }
@@ -98,239 +122,458 @@
         <nav class="global-nav" aria-label="Main"><a href="../index.html">Home</a><a href="../faq.html">FAQ</a><a href="../index.html#normalization">Normalization APIs</a><a href="../index.html#validation">Validation APIs</a><a href="../index.html#comparison">Comparison APIs</a><a href="../blog/what-is-data-normalization.html">Blog</a></nav>
         <nav aria-label="Breadcrumb"><a href="../index.html">API Catalog</a> → HTTP Error Root Trigger Analyzer</nav>
         <article>
-            <header>
-                <h1>HTTP Error Root Trigger Analyzer API</h1>
-                <p class="lead">HTTP error analyzer, root cause classifier, and fault diagnosis API. Analyze 4xx/5xx errors for root trigger, confidence, and next steps. Incident triage, error debugging, API monitoring. Rule-based, deterministic, stateless.</p>
+            <header class="hero">
+                <h1>Classify 4xx/5xx Failures: Root Trigger, Layer, and Next Steps</h1>
+                <p class="lead">Send one error event to <strong>POST <code>/analyze</code></strong> or many to <strong>POST <code>/analyze/batch</code></strong> with <code>statusCode</code> (400–599) plus optional <code>method</code>, <code>url</code>, <code>duration</code>, <code>requestHeaders</code>, <code>responseHeaders</code>, <code>proxyType</code>, <code>retryAttemptCount</code>, and more. Get <code>triggerCategory</code>, <code>triggerSubcategory</code>, <code>confidenceScore</code>, <code>likelyLayer</code>, <code>recommendedNextSteps</code>, <code>retryRecommendation</code>, and <code>severityHint</code>—<strong>rule-based</strong>, deterministic, not ML. No calls to your URLs. <strong>1MB</strong> JSON limit.</p>
+                <p class="cta-row">
+                    <a href="https://rapidapi.com/precisionsolutionstech/api/api-fault-analysis-engine" target="_blank" rel="noopener" class="cta-primary cta-hero">Try the Analyzer</a>
+                    <span class="cta-sub">Basic on RapidAPI: <strong>100 requests/month</strong> free</span>
+                </p>
             </header>
-            <section><h2 id="why">Why use this API?</h2><p>HTTP 5xx or 4xx can have multiple causes. This API helps categorize and diagnose root triggers.</p></section>
-            <section><h2 id="what">What the API does</h2><p>POST with error context (status, headers, body). Returns analysis and suggested causes.</p></section>
+            <section class="roi-strip" aria-label="What this saves you">
+                <p><strong>Turn “another 502” into a routing decision.</strong> Same status code can mean upstream refusal, gateway timeout, or misconfigured proxy. Headers plus timing give the model enough signal to suggest infra vs app vs client follow-up—without log scraping.</p>
+            </section>
+            <section id="use-cases" aria-labelledby="use-cases-heading">
+                <h2 id="use-cases-heading">Real-world use cases</h2>
+                <ul class="use-case-list">
+                    <li><strong>On-call triage</strong> — Attach analysis to PagerDuty or Slack when spikes hit.</li>
+                    <li><strong>Alert enrichment</strong> — Add <code>triggerCategory</code> and <code>likelyLayer</code> before routing to teams.</li>
+                    <li><strong>Client integration debug</strong> — Outbound <code>401</code>/<code>403</code> with request header context.</li>
+                    <li><strong>429 investigation</strong> — Combine <code>Retry-After</code> and <code>retryAttemptCount</code> for storm vs legitimate limit.</li>
+                    <li><strong>Batch pattern mining</strong> — <code>/analyze/batch</code> + <code>summary.categoryCounts</code> for weekly reviews.</li>
+                </ul>
+            </section>
+            <section id="why-not-diy" class="why-build" aria-labelledby="why-not-diy-heading">
+                <h2 id="why-not-diy-heading">Why not maintain this logic in every service?</h2>
+                <ul>
+                    <li>Proxy-specific headers and RFC nuance change over time</li>
+                    <li>Duplicated heuristics drift between teams</li>
+                    <li>Central rules stay testable and consistent</li>
+                </ul>
+            </section>
+            <section id="who-helps" aria-labelledby="who-heading">
+                <h2 id="who-heading">Who this API helps</h2>
+                <ul class="who-list">
+                    <li>Backend and platform engineers</li>
+                    <li>SRE and incident response</li>
+                    <li>API and developer-relations teams</li>
+                    <li>Observability pipeline owners</li>
+                </ul>
+            </section>
+            <section id="what">
+                <h2>What the API does</h2>
+                <p><strong>POST <code>/analyze</code></strong> — JSON object: required numeric <code>statusCode</code> in 400–599; optional fields per schema below.</p>
+                <p><strong>POST <code>/analyze/batch</code></strong> — JSON array of the same event objects (non-empty). Response includes <code>results</code> and <code>summary</code> with <code>categoryCounts</code>.</p>
+                <p><strong>GET <code>/health</code></strong> — <code>{ "status": "ok" }</code>.</p>
+                <p class="positioning-callout">This is <strong>not</strong> a substitute for traces or logs; it classifies HTTP-level signals you already captured.</p>
+            </section>
+            <section id="deterministic" aria-labelledby="deterministic-heading">
+                <h2 id="deterministic-heading">Deterministic by design</h2>
+                <p>Identical JSON in yields identical JSON out—suitable for fixtures and contract tests.</p>
+            </section>
             <section>
-                <h2 id="schemas">Request &amp; response schema</h2>
-                <p><a href="#request-schema" class="schema-toggle" id="toggle-req" aria-expanded="false">View request schema</a> &middot; <a href="#response-schema" class="schema-toggle" id="toggle-res" aria-expanded="false">View response schema</a></p>
-                
-                <div id="request-schema" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>statusCode</code></td><td><code>number</code></td><td>HTTP status code.</td></tr><tr><td><code>message</code></td><td><code>string</code></td><td>Error message or body.</td></tr></tbody></table></div>
-                <div id="response-schema" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>triggerCategory</code></td><td><code>string</code></td><td></td></tr><tr><td><code>triggerSubcategory</code></td><td><code>string</code></td><td></td></tr><tr><td><code>confidenceScore</code></td><td><code>number</code></td><td></td></tr><tr><td><code>classificationReasoning</code></td><td><code>string</code></td><td></td></tr><tr><td><code>likelyLayer</code></td><td><code>string</code></td><td></td></tr><tr><td><code>recommendedNextSteps</code></td><td><code>array</code></td><td></td></tr><tr><td><code>retryRecommendation</code></td><td><code>string</code></td><td></td></tr><tr><td><code>severityHint</code></td><td><code>string</code></td><td></td></tr></tbody></table></div>
+                <h2 id="schemas">Request &amp; response</h2>
+                <p><strong>Host:</strong> <code>api-fault-analysis-engine.p.rapidapi.com</code> — confirm <code>x-rapidapi-host</code> in your <a href="https://rapidapi.com/precisionsolutionstech/api/api-fault-analysis-engine" target="_blank" rel="noopener">RapidAPI app</a>.</p>
+                <p><a href="#request-fields" class="schema-toggle" id="toggle-req" aria-expanded="false">View event fields</a> &middot; <a href="#response-fields" class="schema-toggle" id="toggle-res" aria-expanded="false">View analysis response</a> &middot; <a href="#batch-response" class="schema-toggle" id="toggle-batch" aria-expanded="false">View batch response</a> &middot; <a href="#api-errors" class="schema-toggle" id="toggle-err" aria-expanded="false">View HTTP errors</a></p>
+                <div id="request-fields" class="schema-content" aria-hidden="true">
+                    <p><strong>Required:</strong> <code>statusCode</code> (number, 400–599).</p>
+                    <table class="schema-table"><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody>
+                    <tr><td><code>method</code></td><td>HTTP method string.</td></tr>
+                    <tr><td><code>url</code> / <code>path</code></td><td>Request URL or path.</td></tr>
+                    <tr><td><code>timestamp</code></td><td>String or number.</td></tr>
+                    <tr><td><code>duration</code></td><td>Round-trip ms.</td></tr>
+                    <tr><td><code>direction</code></td><td>e.g. incoming, outgoing, upstream.</td></tr>
+                    <tr><td><code>requestHeaders</code> / <code>responseHeaders</code></td><td>Flat maps (string or string[] values).</td></tr>
+                    <tr><td><code>proxyType</code></td><td>e.g. envoy, nginx, cloudflare, cloudfront.</td></tr>
+                    <tr><td><code>timeoutValues</code></td><td><code>client</code>, <code>gateway</code>, <code>upstream</code> (ms).</td></tr>
+                    <tr><td><code>payloadSize</code></td><td><code>request</code> / <code>response</code> bytes.</td></tr>
+                    <tr><td><code>retryAttemptCount</code></td><td>Integer retry count.</td></tr>
+                    <tr><td><code>tlsMetadata</code></td><td>Protocol, cipher, certificateError.</td></tr>
+                    <tr><td><code>errorMessage</code></td><td>Short message or log excerpt.</td></tr>
+                    </tbody></table>
+                </div>
+                <div id="response-fields" class="schema-content" aria-hidden="true">
+                    <table class="schema-table"><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody>
+                    <tr><td><code>triggerCategory</code></td><td>High-level bucket (e.g. TIMEOUT, DEPENDENCY_FAILURE).</td></tr>
+                    <tr><td><code>triggerSubcategory</code></td><td>Fine-grained label.</td></tr>
+                    <tr><td><code>confidenceScore</code></td><td>0–1.</td></tr>
+                    <tr><td><code>classificationReasoning</code></td><td>Human-readable rationale.</td></tr>
+                    <tr><td><code>likelyLayer</code></td><td>CLIENT, PROXY, GATEWAY, UPSTREAM, APPLICATION, INFRA.</td></tr>
+                    <tr><td><code>recommendedNextSteps</code></td><td>Ordered strings.</td></tr>
+                    <tr><td><code>commonMisinterpretations</code></td><td>Optional clarifications.</td></tr>
+                    <tr><td><code>relatedHttpSpecs</code> / <code>relatedHeadersOfInterest</code></td><td>Optional reference lists.</td></tr>
+                    <tr><td><code>retryRecommendation</code></td><td>YES, NO, or CONDITIONAL.</td></tr>
+                    <tr><td><code>severityHint</code></td><td>INFORMATIONAL, WARNING, CRITICAL.</td></tr>
+                    </tbody></table>
+                </div>
+                <div id="batch-response" class="schema-content" aria-hidden="true">
+                    <p><code>{ "results": [ AnalysisResult, ... ], "summary": { "totalEvents": n, "categoryCounts": { ... } } }</code></p>
+                </div>
+                <div id="api-errors" class="schema-content" aria-hidden="true">
+                    <table class="schema-table"><thead><tr><th>HTTP</th><th><code>error</code></th><th>Meaning</th></tr></thead><tbody>
+                    <tr><td>400</td><td><code>INVALID_REQUEST</code></td><td>Missing/invalid body; missing <code>statusCode</code>; batch not an array or empty; bad event at index.</td></tr>
+                    <tr><td>400</td><td><code>INVALID_STATUS_CODE</code></td><td><code>/analyze</code>: status not in 400–599.</td></tr>
+                    <tr><td>400/413</td><td>(parser)</td><td>Invalid JSON or body over Express 1MB limit.</td></tr>
+                    <tr><td>500</td><td><code>INTERNAL_ERROR</code></td><td>Unexpected failure.</td></tr>
+                    </tbody></table>
+                </div>
             </section>
             <section>
                 <h2 id="playground">Try it in the playground</h2>
-                <p>Add your <a href="https://rapidapi.com/precisionsolutionstech/api/api-fault-analysis-engine" target="_blank" rel="noopener">RapidAPI key</a> and run. Key is sent only to RapidAPI.</p>
+                <p>Switch between single and batch, pick a sample, add your <a href="https://rapidapi.com/precisionsolutionstech/api/api-fault-analysis-engine" target="_blank" rel="noopener">RapidAPI key</a>, run or copy code.</p>
                 <div class="playground">
                     <label for="api-key">RapidAPI Key (required)</label>
                     <input type="password" id="api-key" placeholder="Your RapidAPI key" autocomplete="off">
-                    
+                    <div class="pg-row">
+                        <div class="pg-field">
+                            <label for="pg-endpoint">Endpoint</label>
+                            <select id="pg-endpoint">
+                                <option value="analyze">POST /analyze (one event)</option>
+                                <option value="batch">POST /analyze/batch (array)</option>
+                            </select>
+                        </div>
+                        <div class="pg-field">
+                            <label for="pg-sample">Sample</label>
+                            <select id="pg-sample"></select>
+                        </div>
+                    </div>
+                    <p class="file-upload-note" id="pg-hint">Batch mode requires a JSON array of events.</p>
                     <label for="body-json">Request body (JSON)</label>
-                    <textarea id="body-json" placeholder='{}'>{
-  &quot;statusCode&quot;: 502,
-  &quot;method&quot;: &quot;POST&quot;,
-  &quot;url&quot;: &quot;https://api.example.com/users&quot;,
-  &quot;duration&quot;: 12,
-  &quot;responseHeaders&quot;: {
-    &quot;x-envoy-upstream-service-time&quot;: &quot;10&quot;
-  },
-  &quot;proxyType&quot;: &quot;envoy&quot;,
-  &quot;direction&quot;: &quot;incoming&quot;
-}</textarea>
+                    <textarea id="body-json"></textarea>
                     <button type="button" id="run-btn">Run request</button>
                     <div id="play-result" class="result" style="display:none;" aria-live="polite"></div>
                 </div>
+                <p class="playground-follow-cta"><a href="https://rapidapi.com/precisionsolutionstech/api/api-fault-analysis-engine" target="_blank" rel="noopener">Subscribe on RapidAPI</a> for production quotas.</p>
             </section>
             <section>
-                <h2 id="code">Copy code</h2>
-                <p>Host: <code>api-fault-analysis-engine.p.rapidapi.com</code>, endpoint: <code>POST /analyze</code>. Choose language:</p>
-                <div class="lang-tabs" role="tablist">
-                    <button type="button" role="tab" aria-selected="true" data-lang="curl" class="active">cURL</button>
-                    <button type="button" role="tab" aria-selected="false" data-lang="javascript">JavaScript</button>
-                    <button type="button" role="tab" aria-selected="false" data-lang="python">Python</button>
-                    <button type="button" role="tab" aria-selected="false" data-lang="java">Java</button>
+                <h2 id="code">Get code</h2>
+                <p>Reflects the playground. Host: <code>api-fault-analysis-engine.p.rapidapi.com</code>.</p>
+                <div class="lang-select">
+                    <label for="code-lang">Language:</label>
+                    <select id="code-lang">
+                        <option value="curl">cURL</option>
+                        <option value="javascript">JavaScript</option>
+                        <option value="typescript">TypeScript</option>
+                        <option value="python">Python</option>
+                        <option value="java">Java</option>
+                    </select>
+                    <button type="button" id="refresh-code-btn" class="secondary">Refresh code</button>
                 </div>
-                <div id="snippet-curl" class="code-block active"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-curl">Copy</button><pre><code>curl --request POST \
-  --url 'https://api-fault-analysis-engine.p.rapidapi.com/analyze' \
-  --header 'Content-Type: application/json' \
-  --header 'x-rapidapi-host: api-fault-analysis-engine.p.rapidapi.com' \
-  --header 'x-rapidapi-key: YOUR_RAPIDAPI_KEY' \
-  --data '{
-  &quot;statusCode&quot;: 502,
-  &quot;method&quot;: &quot;POST&quot;,
-  &quot;url&quot;: &quot;https://api.example.com/users&quot;,
-  &quot;duration&quot;: 12,
-  &quot;responseHeaders&quot;: {
-    &quot;x-envoy-upstream-service-time&quot;: &quot;10&quot;
-  },
-  &quot;proxyType&quot;: &quot;envoy&quot;,
-  &quot;direction&quot;: &quot;incoming&quot;
-}'</code></pre></div></div>
-                <div id="snippet-javascript" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-javascript">Copy</button><pre><code>const res = await fetch('https://api-fault-analysis-engine.p.rapidapi.com/analyze', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
-    'x-rapidapi-host': 'api-fault-analysis-engine.p.rapidapi.com'
-  },
-  body: '{   &quot;statusCode&quot;: 502,   &quot;method&quot;: &quot;POST&quot;,   &quot;url&quot;: &quot;https://api.example.com/users&quot;,   &quot;duration&quot;: 12,   &quot;responseHeaders&quot;: {     &quot;x-envoy-upstream-service-time&quot;: &quot;10&quot;   },   &quot;proxyType&quot;: &quot;envoy&quot;,   &quot;direction&quot;: &quot;incoming&quot; }'
-});
-const data = await res.json();
-console.log(data);</code></pre></div></div>
-                <div id="snippet-python" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-python">Copy</button><pre><code>import http.client
-import json
-
-conn = http.client.HTTPSConnection(&quot;api-fault-analysis-engine.p.rapidapi.com&quot;)
-payload = '{
-  &quot;statusCode&quot;: 502,
-  &quot;method&quot;: &quot;POST&quot;,
-  &quot;url&quot;: &quot;https://api.example.com/users&quot;,
-  &quot;duration&quot;: 12,
-  &quot;responseHeaders&quot;: {
-    &quot;x-envoy-upstream-service-time&quot;: &quot;10&quot;
-  },
-  &quot;proxyType&quot;: &quot;envoy&quot;,
-  &quot;direction&quot;: &quot;incoming&quot;
-}'
-headers = {
-    'Content-Type': 'application/json',
-    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
-    'x-rapidapi-host': 'api-fault-analysis-engine.p.rapidapi.com'
-}
-conn.request(&quot;POST&quot;, &quot;/analyze&quot;, payload, headers)
-res = conn.getresponse()
-print(res.read().decode())</code></pre></div></div>
-                <div id="snippet-java" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-java">Copy</button><pre><code>HttpRequest request = HttpRequest.newBuilder()
-    .uri(URI.create(&quot;https://api-fault-analysis-engine.p.rapidapi.com/analyze&quot;))
-    .header(&quot;Content-Type&quot;, &quot;application/json&quot;)
-    .header(&quot;x-rapidapi-key&quot;, &quot;YOUR_RAPIDAPI_KEY&quot;)
-    .header(&quot;x-rapidapi-host&quot;, &quot;api-fault-analysis-engine.p.rapidapi.com&quot;)
-    .method(&quot;POST&quot;, HttpRequest.BodyPublishers.ofString(&quot;{
-  \&quot;statusCode\&quot;: 502,
-  \&quot;method\&quot;: \&quot;POST\&quot;,
-  \&quot;url\&quot;: \&quot;https://api.example.com/users\&quot;,
-  \&quot;duration\&quot;: 12,
-  \&quot;responseHeaders\&quot;: {
-    \&quot;x-envoy-upstream-service-time\&quot;: \&quot;10\&quot;
-  },
-  \&quot;proxyType\&quot;: \&quot;envoy\&quot;,
-  \&quot;direction\&quot;: \&quot;incoming\&quot;
-}&quot;))
-    .build();
-HttpResponse&lt;String&gt; response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-System.out.println(response.body());</code></pre></div></div>
+                <div class="code-wrap"><button type="button" class="copy-btn" id="copy-code-btn">Copy</button><pre><code id="generated-code"></code></pre></div>
                 <p><button type="button" class="postman-btn" id="postman-download">Download Postman collection</button></p>
+                <p class="integration-note"><strong>Integration time:</strong> One POST from your alert webhook or pipeline.</p>
             </section>
-            <section><h2 id="expect">What to expect</h2><p>Response format depends on the endpoint. Use your RapidAPI key in headers. Stateless; no data stored. See <a href="https://rapidapi.com/precisionsolutionstech/api/api-fault-analysis-engine" target="_blank" rel="noopener">RapidAPI docs</a> for full response schema.</p></section>
-            <section><h2 id="about">About this API</h2>
-
-                <h3 id="who-should-use">Who Should Use This API</h3>
-                <p>Platform and SRE teams diagnosing API and HTTP failure causes.</p>
-                <h3 id="also-known-as">Also Known As</h3>
-                <p>API fault analyzer, HTTP error analyzer, root cause API.</p>
-<div class="long-desc">
-<p>API Fault Analysis Engine</p>
-<p>The API Fault Analysis Engine analyzes HTTP 4xx/5xx error events and returns root trigger classifications to help engineering teams quickly understand why errors are happening.</p>
-<p>What This API Does</p>
-<p>Given an HTTP error event, this API provides:</p>
-<ul>
-<li>**Root trigger classification** — Identifies the category and subcategory of the error trigger</li>
-<li>**Confidence score** — Indicates how confident the classification is (0-1)</li>
-<li>**Explanatory reasoning** — Human-readable explanation grounded in HTTP/proxy semantics</li>
-<li>**Likely layer** — Identifies where the error likely occurred (client, proxy, gateway, upstream, application, infra)</li>
-<li>**Recommended next steps** — Ordered list of investigation steps</li>
-<li>**Additional context** — Retry recommendations, severity hints, related HTTP specs, and more</li>
-</ul>
-<p>The API works without knowledge of your internal system and requires no persistent storage or training data. It uses deterministic rule sets based on HTTP RFCs, proxy/CDN behaviors, and known header conventions.</p>
-<p>Key Features</p>
-<ul>
-<li>**Stateless &amp; Fast** — No data storage, &lt;100ms response time</li>
-<li>**Deterministic** — Identical inputs produce identical outputs</li>
-<li>**Rule-Based** — No AI/ML, grounded in HTTP RFCs and proxy behaviors</li>
-<li>**Batch Support** — Analyze single events or batches of errors</li>
-<li>**Production-Ready** — Safe for alert pipelines and on-call use</li>
-<li>**HTTP RFC Compliant** — Based on official HTTP specifications</li>
-</ul>
-<p>Use Cases</p>
-<ul>
-<li>**On-Call Incident Triage** — Quickly classify errors during incidents</li>
-<li>**Client Integration Debugging** — Understand why third-party API calls fail</li>
-<li>**Rate Limit Monitoring** — Distinguish retry storms from legitimate limits</li>
-<li>**Gateway vs Application Errors** — Identify where failures occur</li>
-<li>**Error Pattern Analysis** — Analyze batches to find systemic issues</li>
-<li>**API Monitoring** — Integrate into monitoring tools for automatic error classification</li>
-<li>**Incident Response** — Route incidents to correct teams based on error classification</li>
-</ul>
-<p>Who This Is For</p>
-<p>### Backend Engineers</p>
-<p>Quickly classify production errors during on-call incidents. Instead of manually checking logs, headers, and timing data, get instant root trigger classification with actionable next steps.</p>
-<p>### Platform / SRE Teams</p>
-<p>Integrate into alert pipelines to automatically route incidents to the right team. A 502 error could be a gateway issue (route to infrastructure) or an upstream dependency (route to service owners).</p>
-<p>### API Product Teams</p>
-<p>Understand client error patterns at scale. Analyze batches of errors to identify common issues like authentication problems, rate limiting, or payload size violations.</p>
-<p>### SaaS Companies</p>
-<p>When integrating with third-party APIs, quickly determine if errors are caused by your client code, their API, or intermediate proxies/CDNs. Essential for debugging integration issues.</p>
-<p>### DevOps / Observability Teams</p>
-<p>Enhance existing monitoring tools with intelligent error classification. Works alongside log aggregation, APM, and distributed tracing to provide context-aware error analysis.</p>
-
-</div></section>
-            <section><h2 id="faq">Frequently Asked Questions</h2>
+            <section id="examples" aria-labelledby="examples-heading">
+                <h2 id="examples-heading">Real-world examples</h2>
+                <div class="example-block">
+                    <h3>1. Gateway 502 with Envoy timing</h3>
+                    <p>Include <code>duration</code>, <code>responseHeaders</code> like <code>x-envoy-upstream-service-time</code>, and <code>proxyType: "envoy"</code> to separate fast upstream refusal from slow timeouts.</p>
+                </div>
+                <div class="example-block">
+                    <h3>2. Weekly error digest</h3>
+                    <p>POST an array of representative events to <code>/analyze/batch</code> and sort by <code>summary.categoryCounts</code>.</p>
+                </div>
+                <div class="example-block">
+                    <h3>3. Retry policy hints</h3>
+                    <p>Use <code>retryRecommendation</code> and <code>severityHint</code> as signals—not as automatic retry engines.</p>
+                </div>
+            </section>
+            <section id="pricing" aria-labelledby="pricing-heading">
+                <h2 id="pricing-heading">Pricing &amp; tiers (RapidAPI)</h2>
+                <p class="enterprise-line">Built for <strong>high-volume</strong> alert and pipeline enrichment.</p>
+                <p>Plans on <a href="https://rapidapi.com/precisionsolutionstech/api/api-fault-analysis-engine" target="_blank" rel="noopener">RapidAPI</a>:</p>
+                <div class="pricing-grid">
+                    <div class="pricing-card">
+                        <h3>Basic</h3>
+                        <p class="pricing-price">$0<span class="pricing-period">/mo</span></p>
+                        <p class="pricing-quotas"><strong>100</strong> requests/month included</p>
+                    </div>
+                    <div class="pricing-card">
+                        <h3>Pro</h3>
+                        <p class="pricing-price">$9.99<span class="pricing-period">/mo</span></p>
+                        <p class="pricing-quotas"><strong>10,000</strong> requests/month included</p>
+                    </div>
+                    <div class="pricing-card pricing-card-featured">
+                        <span class="pricing-badge">Popular</span>
+                        <h3>Ultra</h3>
+                        <p class="pricing-price">$49.99<span class="pricing-period">/mo</span></p>
+                        <p class="pricing-quotas"><strong>100,000</strong> requests/month included</p>
+                    </div>
+                    <div class="pricing-card">
+                        <h3>Mega</h3>
+                        <p class="pricing-price">$99.99<span class="pricing-period">/mo</span></p>
+                        <p class="pricing-quotas"><strong>250,000</strong> requests/month included</p>
+                    </div>
+                </div>
+                <p class="pricing-note">Overage follows the live RapidAPI listing.</p>
+            </section>
+            <aside class="social-proof" aria-label="Positioning">
+                <p>Pair with <strong>API Error &amp; Status Normalization</strong> when you also need a stable client-facing error taxonomy separate from root-trigger diagnosis.</p>
+            </aside>
+            <section id="expect"><h2>What to expect</h2><p><strong>200</strong> with an analysis object or batch wrapper on success. <strong>400</strong> for validation issues. Oversized or malformed JSON may fail before handlers. <strong>500</strong> on rare internal errors.</p></section>
+            <section id="about"><h2>About this API</h2>
+                <h3 id="also-known-as">Also known as</h3>
+                <p>API fault analysis engine, HTTP root cause classifier, error triage API.</p>
+                <div class="long-desc">
+                    <p>Trigger categories include client, auth, rate limits, proxy/TLS, timeouts, dependency failures, routing, infra limits, retry storms, and more—see the README for the full enum.</p>
+                </div>
+            </section>
+            <section id="faq"><h2>Frequently asked questions</h2>
                 <ul class="faq-list">
-                    <li>
-                        <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a1" id="faq-q1">Does it call my API?</button>
-                        <div id="faq-a1" class="faq-a" role="region" aria-labelledby="faq-q1">No. It analyzes error data you send.</div>
-                    </li><li>
-                        <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a2" id="faq-q2">Does it store data?</button>
-                        <div id="faq-a2" class="faq-a" role="region" aria-labelledby="faq-q2">No. Fully stateless.</div>
-                    </li>
+                    <li><button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a1" id="faq-q1">Does this API call my service or replay requests?</button>
+                        <div id="faq-a1" class="faq-a" role="region" aria-labelledby="faq-q1">No. You only send a JSON description of what already happened.</div></li>
+                    <li><button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a2" id="faq-q2">What is the maximum request body size?</button>
+                        <div id="faq-a2" class="faq-a" role="region" aria-labelledby="faq-q2">1MB per request.</div></li>
+                    <li><button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a3" id="faq-q3">Does it store my payloads?</button>
+                        <div id="faq-a3" class="faq-a" role="region" aria-labelledby="faq-q3">Stateless processing; not persisted by this product.</div></li>
+                    <li><button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a4" id="faq-q4">Is this AI or machine learning?</button>
+                        <div id="faq-a4" class="faq-a" role="region" aria-labelledby="faq-q4">No—deterministic rules from HTTP and common proxy behavior.</div></li>
+                    <li><button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a5" id="faq-q5">What status codes are supported?</button>
+                        <div id="faq-a5" class="faq-a" role="region" aria-labelledby="faq-q5">400–599 only for each event.</div></li>
+                    <li><button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a6" id="faq-q6">What is the difference between /analyze and /analyze/batch?</button>
+                        <div id="faq-a6" class="faq-a" role="region" aria-labelledby="faq-q6">One object vs non-empty array plus summary category counts.</div></li>
+                    <li><button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a7" id="faq-q7">Where are pricing and quotas?</button>
+                        <div id="faq-a7" class="faq-a" role="region" aria-labelledby="faq-q7">On RapidAPI: Basic 100/mo; Pro $9.99/10k; Ultra $49.99/100k; Mega $99.99/250k.</div></li>
+                    <li><button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a8" id="faq-q8">What is the minimum useful input?</button>
+                        <div id="faq-a8" class="faq-a" role="region" aria-labelledby="faq-q8">statusCode alone works; headers and duration improve confidence.</div></li>
+                </ul>
+            </section>
+            <section id="related-apis" aria-labelledby="related-heading">
+                <h2 id="related-heading">Related APIs</h2>
+                <ul class="related-apis">
+                    <li><a href="api-error-status-normalization.html">API Error &amp; Status Normalization</a> — canonical error taxonomy for clients</li>
+                    <li><a href="adaptive-rate-limit-calculator.html">Adaptive Rate Limit Response Calculator</a> — 429/503 policy hints</li>
+                    <li><a href="json-schema-validator.html">JSON Schema Validator</a> — validate payloads</li>
                 </ul>
             </section>
             <div class="browse-all"><a href="../index.html">Browse all APIs in the catalog →</a></div>
         </article>
         <footer>
-            <p><a href="https://rapidapi.com/precisionsolutionstech/api/api-fault-analysis-engine" target="_blank" rel="noopener">Subscribe on RapidAPI</a> · <a href="../index.html">API Catalog</a></p>
+            <p><a href="https://rapidapi.com/precisionsolutionstech/api/api-fault-analysis-engine" target="_blank" rel="noopener">Subscribe on RapidAPI</a> · <a href="../index.html">API Catalog</a> · <a href="../faq.html">FAQ</a></p>
             <p>© 2026 Precision Solutions Tech</p>
         </footer>
     </div>
     <script>
-(function(){
-    var host='api-fault-analysis-engine.p.rapidapi.com',path='/analyze',body="{\n  \"statusCode\": 502,\n  \"method\": \"POST\",\n  \"url\": \"https://api.example.com/users\",\n  \"duration\": 12,\n  \"responseHeaders\": {\n    \"x-envoy-upstream-service-time\": \"10\"\n  },\n  \"proxyType\": \"envoy\",\n  \"direction\": \"incoming\"\n}",fileUpload=false,rapidUrl="https://rapidapi.com/precisionsolutionstech/api/api-fault-analysis-engine";
-    document.querySelectorAll('[data-rapid-docs]').forEach(function(a){ a.href = rapidUrl; });
-    document.getElementById('toggle-req').addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('request-schema'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); });
-    document.getElementById('toggle-res').addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('response-schema'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); });
-    var toggleErrors=document.getElementById('toggle-errors');if(toggleErrors){ toggleErrors.addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('error-codes'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); }); }
-    document.querySelectorAll('.lang-tabs button').forEach(function(btn){
-        btn.addEventListener('click',function(){
-            document.querySelectorAll('.lang-tabs button').forEach(function(b){ b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
-            document.querySelectorAll('.code-block').forEach(function(b){ b.classList.remove('active'); });
-            this.classList.add('active'); this.setAttribute('aria-selected','true');
-            var el=document.getElementById('snippet-'+this.getAttribute('data-lang')); if(el) el.classList.add('active');
+(function () {
+    var host = 'api-fault-analysis-engine.p.rapidapi.com';
+    var SINGLE = {
+        gateway_502: {
+            statusCode: 502,
+            method: 'POST',
+            url: 'https://api.example.com/users',
+            duration: 12,
+            responseHeaders: { 'x-envoy-upstream-service-time': '10' },
+            proxyType: 'envoy',
+            direction: 'incoming'
+        },
+        rate_429: {
+            statusCode: 429,
+            method: 'GET',
+            responseHeaders: { 'retry-after': '60' },
+            retryAttemptCount: 4
+        },
+        auth_401: {
+            statusCode: 401,
+            method: 'GET',
+            url: 'https://api.partner.com/v1/data',
+            requestHeaders: { authorization: '' }
+        }
+    };
+    var SINGLE_LABELS = [
+        ['gateway_502', '502 — Envoy / gateway headers'],
+        ['rate_429', '429 — Retry-After + retry count'],
+        ['auth_401', '401 — missing/empty Authorization']
+    ];
+    var BATCH_SAMPLE = [
+        {
+            statusCode: 502,
+            method: 'POST',
+            duration: 12,
+            responseHeaders: { 'x-envoy-upstream-service-time': '10' }
+        },
+        {
+            statusCode: 429,
+            method: 'GET',
+            responseHeaders: { 'retry-after': '60' }
+        },
+        {
+            statusCode: 504,
+            method: 'GET',
+            duration: 30000,
+            responseHeaders: { 'x-envoy-upstream-service-time': '30000' }
+        }
+    ];
+
+    var endpointSel = document.getElementById('pg-endpoint');
+    var sampleSelect = document.getElementById('pg-sample');
+    var bodyTextarea = document.getElementById('body-json');
+
+    function isBatch() { return endpointSel.value === 'batch'; }
+
+    function rebuildSamples() {
+        sampleSelect.innerHTML = '';
+        if (isBatch()) {
+            var o = document.createElement('option');
+            o.value = 'batch_default';
+            o.textContent = 'Three events (502, 429, 504)';
+            sampleSelect.appendChild(o);
+        } else {
+            SINGLE_LABELS.forEach(function (pair) {
+                var opt = document.createElement('option');
+                opt.value = pair[0];
+                opt.textContent = pair[1];
+                sampleSelect.appendChild(opt);
+            });
+        }
+        applySample();
+    }
+
+    function applySample() {
+        if (isBatch()) {
+            bodyTextarea.value = JSON.stringify(BATCH_SAMPLE, null, 2);
+        } else {
+            var key = sampleSelect.value;
+            var obj = SINGLE[key];
+            bodyTextarea.value = obj ? JSON.stringify(obj, null, 2) : '{}';
+        }
+        refreshCode();
+    }
+
+    endpointSel.addEventListener('change', rebuildSamples);
+    sampleSelect.addEventListener('change', applySample);
+    bodyTextarea.addEventListener('input', function () { setTimeout(refreshCode, 150); });
+
+    function bindToggle(btnId, panelId) {
+        var btn = document.getElementById(btnId);
+        if (!btn) return;
+        btn.addEventListener('click', function (e) {
+            e.preventDefault();
+            var d = document.getElementById(panelId);
+            if (!d) return;
+            d.classList.toggle('show');
+            btn.setAttribute('aria-expanded', d.classList.contains('show'));
+        });
+    }
+    bindToggle('toggle-req', 'request-fields');
+    bindToggle('toggle-res', 'response-fields');
+    bindToggle('toggle-batch', 'batch-response');
+    bindToggle('toggle-err', 'api-errors');
+
+    function parseJson() {
+        var s = bodyTextarea.value.trim();
+        try { return { ok: true, value: JSON.parse(s) }; }
+        catch (e) { return { ok: false, error: e.message }; }
+    }
+
+    function validateForRequest(parsed) {
+        if (!parsed.ok) return parsed;
+        var v = parsed.value;
+        if (isBatch()) {
+            if (!Array.isArray(v)) return { ok: false, error: 'Batch mode requires a JSON array.' };
+            if (v.length === 0) return { ok: false, error: 'Array must not be empty.' };
+            return { ok: true, body: v };
+        }
+        if (Array.isArray(v)) return { ok: false, error: 'Single /analyze expects a JSON object, not an array.' };
+        if (!v || typeof v !== 'object') return { ok: false, error: 'Body must be a JSON object.' };
+        return { ok: true, body: v };
+    }
+
+    function path() { return isBatch() ? '/analyze/batch' : '/analyze'; }
+
+    function generateCode(lang) {
+        var key = 'YOUR_RAPIDAPI_KEY';
+        var parsed = parseJson();
+        var v = validateForRequest(parsed);
+        if (!v.ok) return '// Fix JSON: ' + v.error;
+        var bodyStr = JSON.stringify(v.body);
+        var url = 'https://' + host + path();
+        if (lang === 'curl') {
+            return 'curl --request POST \\\n  --url \'' + url + '\' \\\n  --header \'Content-Type: application/json\' \\\n  --header \'x-rapidapi-key: ' + key + '\' \\\n  --header \'x-rapidapi-host: ' + host + '\' \\\n  --data \'' + bodyStr.replace(/\\/g, '\\\\').replace(/'/g, "'\\''") + '\'';
+        }
+        if (lang === 'javascript') {
+            return 'const res = await fetch(\'' + url + '\', {\n  method: \'POST\',\n  headers: {\n    \'Content-Type\': \'application/json\',\n    \'x-rapidapi-key\': \'' + key + '\',\n    \'x-rapidapi-host\': \'' + host + '\'\n  },\n  body: ' + JSON.stringify(bodyStr) + '\n});\nconst data = await res.json();\nconsole.log(data);';
+        }
+        if (lang === 'typescript') {
+            return 'const res = await fetch(\'' + url + '\', {\n  method: \'POST\',\n  headers: {\n    \'Content-Type\': \'application/json\',\n    \'x-rapidapi-key\': \'' + key + '\',\n    \'x-rapidapi-host\': \'' + host + '\'\n  },\n  body: ' + JSON.stringify(bodyStr) + '\n});\nconst data: unknown = await res.json();\nconsole.log(data);';
+        }
+        if (lang === 'python') {
+            var esc = bodyStr.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+            return 'import http.client\n\nconn = http.client.HTTPSConnection("' + host + '")\npayload = "' + esc + '"\nheaders = {\n    "Content-Type": "application/json",\n    "x-rapidapi-key": "' + key + '",\n    "x-rapidapi-host": "' + host + '"\n}\nconn.request("POST", "' + path() + '", payload, headers)\nres = conn.getresponse()\nprint(res.read().decode())';
+        }
+        if (lang === 'java') {
+            var j = bodyStr.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n').replace(/\r/g, '\\r');
+            return 'HttpRequest request = HttpRequest.newBuilder()\n    .uri(URI.create("' + url + '"))\n    .header("Content-Type", "application/json")\n    .header("x-rapidapi-key", "' + key + '")\n    .header("x-rapidapi-host", "' + host + '")\n    .method("POST", HttpRequest.BodyPublishers.ofString("' + j + '"))\n    .build();\nHttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());\nSystem.out.println(response.body());';
+        }
+        return '';
+    }
+
+    function refreshCode() {
+        var el = document.getElementById('generated-code');
+        if (el) el.textContent = generateCode(document.getElementById('code-lang').value);
+    }
+    document.getElementById('code-lang').addEventListener('change', refreshCode);
+    document.getElementById('refresh-code-btn').addEventListener('click', refreshCode);
+    document.getElementById('copy-code-btn').addEventListener('click', function () {
+        var t = document.getElementById('generated-code').textContent;
+        var btn = document.getElementById('copy-code-btn');
+        navigator.clipboard.writeText(t).then(function () {
+            var o = btn.textContent; btn.textContent = 'Copied!'; setTimeout(function () { btn.textContent = o; }, 1500);
         });
     });
-    document.querySelectorAll('.copy-btn').forEach(function(btn){
-        btn.addEventListener('click',function(){
-            var id=this.getAttribute('data-copy'),block=document.getElementById(id),pre=block?block.querySelector('pre code'):null,btn=this;
-            if(pre) navigator.clipboard.writeText(pre.textContent).then(function(){ var t=btn.textContent; btn.textContent='Copied!'; setTimeout(function(){ btn.textContent=t; },1500); });
+
+    document.querySelectorAll('.faq-q').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            var expanded = this.getAttribute('aria-expanded') === 'true';
+            this.setAttribute('aria-expanded', !expanded);
+            var panel = document.getElementById(this.getAttribute('aria-controls'));
+            if (panel) panel.classList.toggle('show', !expanded);
         });
     });
-    
-    document.querySelectorAll('.faq-q').forEach(function(btn){
-        btn.addEventListener('click',function(){ var expanded=this.getAttribute('aria-expanded')==='true'; this.setAttribute('aria-expanded',!expanded); var panel=document.getElementById(this.getAttribute('aria-controls')); if(panel) panel.classList.toggle('show',!expanded); });
-    });
-    document.getElementById('postman-download').addEventListener('click',function(){
-        var coll = { info: { name: "HTTP Error Root Trigger Analyzer API", schema: 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json' }, item: [{ name: 'Request', request: { method: 'POST', header: [{ key: 'Content-Type', value: 'application/json' }, { key: 'x-rapidapi-key', value: 'YOUR_RAPIDAPI_KEY' }, { key: 'x-rapidapi-host', value: host }], url: 'https://'+host+path } } ] };
-        if(!fileUpload){ coll.item[0].request.body = { mode: 'raw', raw: typeof body==='string'?body:JSON.stringify(body) }; }
-        else { coll.item[0].request.header = [{ key: 'X-RapidAPI-Key', value: 'YOUR_RAPIDAPI_KEY' }, { key: 'X-RapidAPI-Host', value: host }]; coll.item[0].request.url = 'https://'+host+path+'?outputFormat=json'; coll.item[0].request.body = { mode: 'formdata', formdata: [{ key: 'file', type: 'file', src: '' }] }; }
-        var blob = new Blob([JSON.stringify(coll,null,2)], { type: 'application/json' });
+
+    document.getElementById('postman-download').addEventListener('click', function () {
+        var parsed = parseJson();
+        var v = validateForRequest(parsed);
+        if (!v.ok) { alert(v.error); return; }
+        var coll = {
+            info: { name: 'HTTP Error Root Trigger Analyzer API', schema: 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json' },
+            item: [{
+                name: isBatch() ? 'POST /analyze/batch' : 'POST /analyze',
+                request: {
+                    method: 'POST',
+                    header: [
+                        { key: 'Content-Type', value: 'application/json' },
+                        { key: 'x-rapidapi-key', value: 'YOUR_RAPIDAPI_KEY' },
+                        { key: 'x-rapidapi-host', value: host }
+                    ],
+                    body: { mode: 'raw', raw: JSON.stringify(v.body) },
+                    url: 'https://' + host + path()
+                }
+            }]
+        };
+        var blob = new Blob([JSON.stringify(coll, null, 2)], { type: 'application/json' });
         var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'http-error-root-trigger-analyzer-postman-collection.json'; a.click(); URL.revokeObjectURL(a.href);
     });
-    var runBtn=document.getElementById('run-btn'),keyInput=document.getElementById('api-key'),resultDiv=document.getElementById('play-result');
-    runBtn.addEventListener('click',function(){
-        var key=(keyInput.value||'').trim();
-        if(!key){ resultDiv.style.display='block'; resultDiv.className='result error'; resultDiv.textContent='Please enter your RapidAPI key.'; return; }
-        
-    var bodyStr=document.getElementById('body-json').value.trim(),body;
-    try{body=JSON.parse(bodyStr);}catch(e){resultDiv.style.display='block';resultDiv.className='result error';resultDiv.textContent='Invalid JSON: '+e.message;return;}
-    runBtn.disabled=true;resultDiv.style.display='block';resultDiv.className='result';resultDiv.textContent='Loading…';
-    fetch('https://'+host+path,{method:'POST',headers:{'Content-Type':'application/json','x-rapidapi-key':key,'x-rapidapi-host':host},body:JSON.stringify(body)})
-    .then(function(r){return r.text().then(function(t){return{status:r.status,body:t};});})
-    .then(function(o){resultDiv.className='result '+(o.status>=200&&o.status<300?'success':'error');try{resultDiv.textContent=JSON.stringify(JSON.parse(o.body),null,2);}catch(_){resultDiv.textContent=o.status+'\n'+o.body;}})
-    .catch(function(e){resultDiv.className='result error';resultDiv.textContent='Request failed: '+e.message;})
-    .finally(function(){runBtn.disabled=false;});
+
+    var runBtn = document.getElementById('run-btn'), keyInput = document.getElementById('api-key'), resultDiv = document.getElementById('play-result');
+    runBtn.addEventListener('click', function () {
+        var key = (keyInput.value || '').trim();
+        if (!key) { resultDiv.style.display = 'block'; resultDiv.className = 'result error'; resultDiv.textContent = 'Please enter your RapidAPI key.'; return; }
+        var parsed = parseJson();
+        if (!parsed.ok) { resultDiv.style.display = 'block'; resultDiv.className = 'result error'; resultDiv.textContent = 'Invalid JSON: ' + parsed.error; return; }
+        var v = validateForRequest(parsed);
+        if (!v.ok) { resultDiv.style.display = 'block'; resultDiv.className = 'result error'; resultDiv.textContent = v.error; return; }
+        runBtn.disabled = true; resultDiv.style.display = 'block'; resultDiv.className = 'result'; resultDiv.textContent = 'Loading…';
+        fetch('https://' + host + path(), { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-rapidapi-key': key, 'x-rapidapi-host': host }, body: JSON.stringify(v.body) })
+            .then(function (r) { return r.text().then(function (t) { return { status: r.status, body: t }; }); })
+            .then(function (o) {
+                resultDiv.className = 'result ' + (o.status >= 200 && o.status < 300 ? 'success' : 'error');
+                try { resultDiv.textContent = JSON.stringify(JSON.parse(o.body), null, 2); } catch (_) { resultDiv.textContent = o.status + '\n' + o.body; }
+            })
+            .catch(function (e) { resultDiv.className = 'result error'; resultDiv.textContent = 'Request failed: ' + e.message; })
+            .finally(function () { runBtn.disabled = false; });
     });
+
+    rebuildSamples();
 })();
     </script>
 </body>

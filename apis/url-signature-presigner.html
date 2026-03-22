@@ -5,27 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="../favicon.svg" type="image/svg+xml">
     <link rel="icon" href="../favicon.png" type="image/png" sizes="32x32">
-    <title>URL Signature Presigner API | RapidAPI</title>
-    <meta name="description" content="Presigned URL generator, signer, and secure link API. Create cryptographically signed URLs for temporary downloads, uploads, callbacks, and CDN content. HMAC-SHA256, IP restrictions, method binding. Stateless, no database required.">
-    <meta name="keywords" content="url-signature-presigner, API, RapidAPI, developer">
+    <title>URL Signature Presigner API — HMAC Presigned URLs, Sign &amp; Verify | RapidAPI</title>
+    <meta name="description" content="Presign and verify URLs with HMAC-SHA256/SHA512: expiration, HTTP method, IP allowlists, headers, payload size. POST /sign and POST /verify. Stateless—no URL storage. RapidAPI.">
+    <meta name="keywords" content="presigned URL API, URL signature API, HMAC signed URL, temporary download link API, CDN signed URL, RapidAPI">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <link rel="canonical" href="https://precisionsolutionstech-netizen.github.io/api-catalog/apis/url-signature-presigner.html">
     <meta property="og:url" content="https://precisionsolutionstech-netizen.github.io/api-catalog/apis/url-signature-presigner.html">
     <meta property="og:image" content="https://precisionsolutionstech-netizen.github.io/api-catalog/og-default.png">
     <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Precision Solutions Tech API Catalog">
+    <meta property="article:section" content="Developer APIs">
+    <meta property="og:title" content="URL Signature Presigner API — Sign &amp; Verify Presigned URLs">
+    <meta property="og:description" content="POST /sign builds tamper-proof URLs; POST /verify checks signature, expiry, method, and constraints. No storage.">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="URL Signature Presigner API">
-    <meta name="twitter:description" content="Generate signed URLs. Stateless.">
+    <meta name="twitter:description" content="HMAC presigned URLs for downloads, uploads, callbacks, and CDN gates—sign and verify in one product.">
     <meta name="twitter:image" content="https://precisionsolutionstech-netizen.github.io/api-catalog/og-default.png">
-    <meta property="og:title" content="URL Signature Presigner API">
-    <meta property="og:description" content="Presigned URL generator, signer, and secure link API. Create cryptographically signed URLs for temporary downloads, uploads, callbacks, and CDN content. HMAC-SHA256, IP restrictions, method binding. Stateless, no database required.">
     <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"TechArticle","headline":"URL Signature Presigner API","name":"URL Signature Presigner API","description":"Presigned URL generator, signer, and secure link API. Create cryptographically signed URLs for temporary downloads, uploads, callbacks, and CDN content. HMAC-SHA256, IP restrictions, method binding. Stateless, no database required.","author":{"@type":"Organization","name":"Precision Solutions Tech"},"url":"https://precisionsolutionstech-netizen.github.io/api-catalog/apis/url-signature-presigner.html"}
+{"@context":"https://schema.org","@type":"TechArticle","headline":"URL Signature Presigner API — HMAC Presigned URLs","name":"URL Signature Presigner API","description":"Cryptographically sign URLs with expiration, method binding, IP and header constraints, then verify requests with POST /verify. HMAC-SHA256 or SHA512. Stateless.","author":{"@type":"Organization","name":"Precision Solutions Tech"},"publisher":{"@type":"Organization","name":"Precision Solutions Tech"},"url":"https://precisionsolutionstech-netizen.github.io/api-catalog/apis/url-signature-presigner.html"}
     </script>
     <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"API Catalog","item":"https://precisionsolutionstech-netizen.github.io/api-catalog/"},{"@type":"ListItem","position":2,"name":"URL Signature Presigner","item":"https://precisionsolutionstech-netizen.github.io/api-catalog/apis/url-signature-presigner.html"}]}
     </script>
     <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does it store URLs?","acceptedAnswer":{"@type":"Answer","text":"No. Fully stateless."}},{"@type":"Question","name":"What signing methods?","acceptedAnswer":{"@type":"Answer","text":"Check RapidAPI docs for supported algorithms."}}]}
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does the API store signed URLs?","acceptedAnswer":{"@type":"Answer","text":"No. It is fully stateless; secrets and payloads are not persisted."}},{"@type":"Question","name":"What algorithms are supported?","acceptedAnswer":{"@type":"Answer","text":"HMAC-SHA256 by default; HMAC-SHA512 via the algorithm field. See RapidAPI docs for details."}},{"@type":"Question","name":"What are POST /sign and POST /verify?","acceptedAnswer":{"@type":"Answer","text":"POST /sign returns a signed_url with embedded constraints. POST /verify validates a signed URL against secret, method, client IP, headers, and payload size."}},{"@type":"Question","name":"Where are pricing and quotas defined?","acceptedAnswer":{"@type":"Answer","text":"On RapidAPI: Basic is free with 100 requests per month; Pro is 9.99 dollars per month with 10000 requests; Ultra is 49.99 dollars per month with 100000 requests; Mega is 99.99 dollars per month with 250000 requests. Overage pricing is on the live listing."}}]}
     </script>
     <style>
         :root { --bg: #0f172a; --surface: #1e293b; --border: #334155; --text: #e2e8f0; --muted: #94a3b8; --accent: #38bdf8; --success: #34d399; --error: #f87171; }
@@ -33,7 +36,6 @@
         body { margin: 0; font-family: ui-sans-serif, system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
         .wrap { max-width: 900px; margin: 0 auto; padding: 24px 20px; }
         a { color: var(--accent); }
-        nav { margin-bottom: 32px; font-size: 0.9rem; }
         h1 { font-size: 1.9rem; margin: 0 0 12px; }
         .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; }
         h2 { font-size: 1.35rem; margin: 32px 0 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
@@ -41,8 +43,7 @@
         .playground { background: var(--surface); border-radius: 12px; padding: 20px; margin: 24px 0; border: 1px solid var(--border); }
         .playground label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 0.9rem; }
         .playground input[type="password"], .playground select { width: 100%; max-width: 320px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); margin-bottom: 12px; }
-        .playground textarea { width: 100%; min-height: 120px; padding: 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); font-family: ui-monospace, monospace; font-size: 13px; resize: vertical; }
-        .playground input[type="file"] { margin-bottom: 12px; }
+        .playground textarea { width: 100%; min-height: 160px; padding: 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); font-family: ui-monospace, monospace; font-size: 13px; resize: vertical; }
         .playground button { padding: 10px 20px; background: var(--accent); color: var(--bg); border: none; border-radius: 8px; font-weight: 600; cursor: pointer; margin-top: 8px; }
         .playground button:disabled { opacity: 0.6; cursor: not-allowed; }
         .playground .result { margin-top: 16px; padding: 12px; border-radius: 8px; background: var(--bg); border: 1px solid var(--border); white-space: pre-wrap; word-break: break-all; font-family: ui-monospace, monospace; font-size: 12px; max-height: 320px; overflow: auto; }
@@ -53,12 +54,6 @@
         .code-wrap pre { margin: 0; padding: 14px 16px; background: var(--surface); border-radius: 8px; border: 1px solid var(--border); overflow-x: auto; font-size: 13px; }
         .code-wrap .copy-btn { position: absolute; top: 10px; right: 10px; padding: 6px 12px; background: var(--border); color: var(--text); border: none; border-radius: 6px; font-size: 12px; cursor: pointer; }
         .code-wrap .copy-btn:hover { background: var(--accent); color: var(--bg); }
-        .lang-tabs { display: flex; gap: 4px; margin-bottom: 8px; flex-wrap: wrap; }
-        .lang-tabs button { padding: 8px 14px; background: var(--surface); border: 1px solid var(--border); color: var(--muted); border-radius: 6px; cursor: pointer; font-size: 0.9rem; }
-        .lang-tabs button.active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
-        .code-block { display: none; }
-        .code-block.active { display: block; }
-        .schema-section { margin: 16px 0; }
         .schema-toggle { color: var(--accent); cursor: pointer; text-decoration: none; font-weight: 600; }
         .schema-toggle:hover { text-decoration: underline; }
         .schema-content { display: none; margin-top: 12px; padding: 12px; background: var(--surface); border-radius: 8px; border: 1px solid var(--border); overflow-x: auto; }
@@ -72,9 +67,41 @@
         .long-desc li { margin: 0.35em 0; }
         .postman-btn { display: inline-block; margin-top: 12px; padding: 10px 18px; background: var(--surface); border: 1px solid var(--border); color: var(--accent); border-radius: 8px; cursor: pointer; font-weight: 600; text-decoration: none; }
         .postman-btn:hover { background: var(--border); }
-        
-        .cta-primary { display: inline-block; margin: 0 0 24px; padding: 12px 24px; background: var(--accent); color: var(--bg); border: none; border-radius: 8px; font-weight: 600; font-size: 1rem; text-decoration: none; cursor: pointer; }
+        .cta-primary { display: inline-block; margin: 0; padding: 12px 24px; background: var(--accent); color: var(--bg); border: none; border-radius: 8px; font-weight: 600; font-size: 1rem; text-decoration: none; cursor: pointer; }
         .cta-primary:hover { filter: brightness(1.1); }
+        .cta-primary.cta-hero { padding: 16px 32px; font-size: 1.125rem; font-weight: 700; border-radius: 10px; box-shadow: 0 4px 24px rgba(56, 189, 248, 0.25); }
+        .cta-sub { display: block; margin-top: 10px; font-size: 0.95rem; color: var(--muted); font-weight: 500; }
+        .use-case-list, .who-list { margin: 0.5em 0 0; padding-left: 1.25em; }
+        .use-case-list li, .who-list li { margin: 0.45em 0; }
+        .endpoint-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 12px; }
+        @media (max-width: 640px) { .endpoint-pair { grid-template-columns: 1fr; } }
+        .endpoint-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+        .endpoint-card h3 { margin: 0 0 8px; font-size: 1.05rem; }
+        .endpoint-card p { margin: 0; font-size: 0.92rem; color: var(--muted); }
+        .pricing-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 12px; }
+        @media (max-width: 960px) { .pricing-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 520px) { .pricing-grid { grid-template-columns: 1fr; } }
+        .pricing-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 18px; }
+        .pricing-card-featured { border-color: var(--accent); box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.2); }
+        .pricing-badge { display: inline-block; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--success); margin-bottom: 8px; }
+        .pricing-card h3 { margin: 0 0 8px; font-size: 1.05rem; }
+        .pricing-price { font-size: 1.15rem; font-weight: 700; margin: 0 0 10px; }
+        .pricing-period { font-weight: 500; font-size: 0.9rem; color: var(--muted); }
+        .pricing-quotas { line-height: 1.55; }
+        .pricing-note { font-size: 0.88rem; color: var(--muted); margin-top: 14px; }
+        .social-proof { margin: 28px 0; padding: 20px 22px; background: var(--surface); border-radius: 0 10px 10px 0; border: 1px solid var(--border); border-left: 4px solid var(--accent); }
+        .social-proof p { margin: 0; color: var(--muted); font-size: 1rem; }
+        .social-proof p + p { margin-top: 0.5em; }
+        .playground-follow-cta { margin-top: 20px; font-size: 0.95rem; color: var(--muted); }
+        .playground button.secondary { background: var(--surface); color: var(--accent); border: 1px solid var(--border); }
+        .playground .pg-row { display: flex; flex-wrap: wrap; gap: 16px 24px; align-items: flex-end; margin-bottom: 14px; }
+        .playground .pg-field { min-width: 200px; flex: 1; }
+        .playground .pg-field label { margin-bottom: 6px; }
+        .playground .pg-field select { max-width: none; width: 100%; }
+        .lang-select { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-bottom: 14px; }
+        .lang-select select { padding: 8px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-weight: 600; }
+        .suggestions-box { margin: 24px 0; padding: 20px 22px; background: var(--surface); border-radius: 12px; border: 1px solid var(--accent); }
+        .suggestions-box p { margin: 0; font-size: 1rem; }
         .global-nav { margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
         .global-nav a { margin-right: 16px; }
         .faq-list { list-style: none; padding: 0; margin: 0; }
@@ -82,7 +109,7 @@
         .faq-q { width: 100%; padding: 14px 12px; cursor: pointer; font-weight: 600; display: flex; justify-content: space-between; align-items: center; text-align: left; background: transparent; color: var(--text); border: none; font-family: inherit; font-size: inherit; }
         .faq-q:hover { background: var(--surface); }
         .faq-q::after { content: '+'; flex-shrink: 0; margin-left: 8px; width: 1.5rem; height: 1.5rem; display: inline-flex; align-items: center; justify-content: center; border-radius: 4px; background: var(--surface); color: var(--accent); font-size: 1.1rem; line-height: 1; }
-        .faq-q[aria-expanded="true"]::after { content: '2'; }
+        .faq-q[aria-expanded="true"]::after { content: '\2212'; }
         .faq-a { padding: 12px 12px 16px; color: var(--muted); display: none; background: var(--surface); margin: 0 12px 8px; border-radius: 6px; font-weight: normal; }
         .faq-a.show { display: block; }
         .related-apis { list-style: none; padding: 0; margin: 0; }
@@ -91,6 +118,12 @@
         .browse-all { margin: 28px 0; padding: 16px; background: var(--surface); border-radius: 8px; border: 1px solid var(--border); text-align: center; }
         .browse-all a { font-weight: 600; font-size: 1.05rem; }
         footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.9rem; text-align: center; }
+        .roi-strip { margin: 0 0 28px; padding: 18px 20px; background: var(--surface); border-radius: 12px; border: 1px solid var(--border); border-left: 4px solid var(--accent); }
+        .roi-strip p { margin: 0; font-size: 1.05rem; line-height: 1.55; color: var(--text); }
+        .why-build ul { margin: 0.5em 0 0; padding-left: 1.25em; }
+        .why-build li { margin: 0.4em 0; }
+        .enterprise-line { font-size: 0.98rem; color: var(--muted); margin: 0 0 20px; line-height: 1.55; padding-bottom: 4px; }
+        .integration-note { margin-top: 18px; font-size: 0.95rem; color: var(--muted); }
     </style>
 </head>
 <body>
@@ -98,228 +131,389 @@
         <nav class="global-nav" aria-label="Main"><a href="../index.html">Home</a><a href="../faq.html">FAQ</a><a href="../index.html#normalization">Normalization APIs</a><a href="../index.html#validation">Validation APIs</a><a href="../index.html#comparison">Comparison APIs</a><a href="../blog/what-is-data-normalization.html">Blog</a></nav>
         <nav aria-label="Breadcrumb"><a href="../index.html">API Catalog</a> → URL Signature Presigner</nav>
         <article>
-            <header>
-                <h1>URL Signature Presigner API</h1>
-                <p class="lead">Presigned URL generator, signer, and secure link API. Create cryptographically signed URLs for temporary downloads, uploads, callbacks, and CDN content. HMAC-SHA256, IP restrictions, method binding. Stateless, no database required.</p>
+            <header class="hero">
+                <h1>Presign and Verify URLs With HMAC—No Sessions, No Storage</h1>
+                <p class="lead"><strong>POST /sign</strong> turns a base URL plus constraints into a <strong>tamper-proof signed URL</strong> (expiry, HTTP method, IP allowlist, headers, max payload). <strong>POST /verify</strong> checks a client request against the same secret—ideal for downloads, uploads, callbacks, and CDN gates. <strong>HMAC-SHA256</strong> (default) or <strong>SHA512</strong>. Fully <strong>stateless</strong>.</p>
+                <p class="cta-row">
+                    <a href="https://rapidapi.com/precisionsolutionstech/api/url-signature-presigner-api" target="_blank" rel="noopener" class="cta-primary cta-hero">Try URL Signature Presigner on RapidAPI</a>
+                    <span class="cta-sub">Basic on RapidAPI: <strong>100 requests/month</strong> free (see live listing for current quotas)</span>
+                </p>
             </header>
-            <section><h2 id="why">Why use this API?</h2><p>Grant temporary access to downloads, uploads, or callbacks without databases or sessions. HMAC-SHA256 signatures; works with any CDN or server.</p></section>
-            <section><h2 id="what">What the API does</h2><p>POST /sign with URL and constraints (expiry, method, IP, etc.). Returns signed URL. POST /verify to verify a request.</p></section>
+            <section class="roi-strip" aria-label="What this saves you">
+                <p><strong>Skip bespoke HMAC and canonicalization bugs.</strong> One service handles deterministic URL canonicalization, clock-skew-aware expiry, and structured verification diagnostics—so your edge workers and gateways stay thin.</p>
+            </section>
+            <section id="endpoints-overview" aria-labelledby="ep-heading">
+                <h2 id="ep-heading">Endpoints</h2>
+                <p>Same RapidAPI host for both; send JSON with <code>Content-Type: application/json</code>.</p>
+                <div class="endpoint-pair">
+                    <div class="endpoint-card">
+                        <h3><code>POST /sign</code></h3>
+                        <p>Returns <code>signed_url</code> (and metadata). Requires <code>url</code>, <code>secret</code>, and either <code>expiration</code> or <code>expires_in_seconds</code>.</p>
+                    </div>
+                    <div class="endpoint-card">
+                        <h3><code>POST /verify</code></h3>
+                        <p>Validates <code>signedUrl</code> with <code>secret</code> and optional <code>method</code>, <code>clientIp</code>, <code>headers</code>, <code>payloadSize</code>. Returns <code>valid</code> and per-check detail.</p>
+                    </div>
+                </div>
+            </section>
+            <section id="use-cases" aria-labelledby="use-cases-heading">
+                <h2 id="use-cases-heading">Use cases</h2>
+                <ul class="use-case-list">
+                    <li><strong>Time-limited downloads</strong> — share a file link that expires automatically.</li>
+                    <li><strong>Direct uploads</strong> — constrain method, size, and window without exposing long-lived credentials.</li>
+                    <li><strong>Webhooks &amp; callbacks</strong> — issue URLs valid only for a method and time range.</li>
+                    <li><strong>CDN / edge gates</strong> — verify at the edge without a database lookup.</li>
+                </ul>
+            </section>
+            <section id="why-not-diy" class="why-build" aria-labelledby="why-not-diy-heading">
+                <h2 id="why-not-diy-heading">Why not roll your own signer?</h2>
+                <ul>
+                    <li>Canonical URL and query ordering mistakes break signatures silently</li>
+                    <li>Clock skew and replay windows are easy to get wrong</li>
+                    <li>Constraint encoding must stay in lockstep between sign and verify</li>
+                </ul>
+                <p>This API keeps sign and verify behavior aligned and returns explicit check results on verification failures.</p>
+            </section>
+            <section id="who-helps" aria-labelledby="who-heading">
+                <h2 id="who-heading">Who it helps</h2>
+                <ul class="who-list">
+                    <li>Backend and platform engineers standardizing temporary access</li>
+                    <li>Teams using Cloudflare Workers, Lambda@Edge, or API gateways</li>
+                    <li>SaaS products exposing one-off or short-lived resource links</li>
+                </ul>
+            </section>
+            <div class="suggestions-box">
+                <p><strong>Questions or feature requests?</strong> Use <a href="https://rapidapi.com/precisionsolutionstech/api/url-signature-presigner-api/discussions" target="_blank" rel="noopener">RapidAPI discussions</a> for this listing.</p>
+            </div>
             <section>
-                <h2 id="schemas">Request &amp; response schema</h2>
-                <p><a href="#request-schema" class="schema-toggle" id="toggle-req" aria-expanded="false">View request schema</a> &middot; <a href="#response-schema" class="schema-toggle" id="toggle-res" aria-expanded="false">View response schema</a></p>
-                
-                <div id="request-schema" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>url</code></td><td><code>string</code></td><td>URL to sign.</td></tr><tr><td><code>expiresInSeconds</code></td><td><code>number</code></td><td>Expiration in seconds.</td></tr></tbody></table></div>
-                <div id="response-schema" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>signedUrl</code></td><td><code>string</code></td><td>Signed URL.</td></tr></tbody></table></div>
+                <h2 id="schemas">Request, response &amp; errors</h2>
+                <p><strong>Host:</strong> <code>url-signature-presigner-api.p.rapidapi.com</code> — headers <code>x-rapidapi-key</code>, <code>x-rapidapi-host</code>.</p>
+                <p><a href="#sign-req" class="schema-toggle" id="toggle-sign-req" aria-expanded="false">Sign request fields</a> · <a href="#sign-res" class="schema-toggle" id="toggle-sign-res" aria-expanded="false">Sign response</a> · <a href="#verify-req" class="schema-toggle" id="toggle-verify-req" aria-expanded="false">Verify request</a> · <a href="#error-codes" class="schema-toggle" id="toggle-errors" aria-expanded="false">Error codes</a></p>
+                <div id="sign-req" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>url</code></td><td>string</td><td>Required. Base URL to sign (<code>http</code>/<code>https</code>).</td></tr><tr><td><code>secret</code></td><td>string</td><td>Required. Signing secret (never returned).</td></tr><tr><td><code>expiration</code></td><td>number / string</td><td>Unix time or ISO 8601 (use this or TTL, not both).</td></tr><tr><td><code>expires_in_seconds</code></td><td>number</td><td>Relative TTL from now.</td></tr><tr><td><code>method</code></td><td>string / array</td><td>Allowed HTTP method(s).</td></tr><tr><td><code>allowedIps</code></td><td>string / array</td><td>IPs or CIDRs.</td></tr><tr><td><code>requiredHeaders</code></td><td>object</td><td>Header names and values to enforce.</td></tr><tr><td><code>maxPayloadSize</code></td><td>number</td><td>Max body size in bytes.</td></tr><tr><td><code>metadata</code></td><td>object</td><td>Opaque signed metadata.</td></tr><tr><td><code>clockSkewTolerance</code></td><td>number</td><td>Seconds (default often 300).</td></tr><tr><td><code>algorithm</code></td><td>string</td><td><code>sha256</code> (default) or <code>sha512</code>.</td></tr></tbody></table></div>
+                <div id="sign-res" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>signed_url</code></td><td>string</td><td>URL with signature query parameters.</td></tr><tr><td><code>expires_at</code></td><td>number</td><td>Expiry Unix timestamp.</td></tr><tr><td><code>signatureVersion</code></td><td>string</td><td>e.g. <code>v1-sha256</code>.</td></tr><tr><td><code>canonicalHash</code></td><td>string</td><td>Debug hash of canonical input.</td></tr><tr><td><code>constraintSummary</code></td><td>object</td><td>Summary of embedded constraints.</td></tr></tbody></table></div>
+                <div id="verify-req" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>signedUrl</code></td><td>string</td><td>Required.</td></tr><tr><td><code>secret</code></td><td>string</td><td>Required.</td></tr><tr><td><code>method</code></td><td>string</td><td>Actual method used.</td></tr><tr><td><code>clientIp</code></td><td>string</td><td>Client IP for IP rules.</td></tr><tr><td><code>headers</code></td><td>object</td><td>Request headers for header rules.</td></tr><tr><td><code>payloadSize</code></td><td>number</td><td>Body size in bytes.</td></tr><tr><td><code>verificationTime</code></td><td>number</td><td>Optional time override (testing).</td></tr></tbody></table></div>
+                <div id="error-codes" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Code</th><th>Endpoint</th><th>HTTP</th><th>Description</th></tr></thead><tbody><tr><td><code>MISSING_URL</code></td><td>/sign</td><td>400</td><td><code>url</code> missing or empty</td></tr><tr><td><code>MISSING_EXPIRATION</code></td><td>/sign</td><td>400</td><td>Neither expiration nor TTL</td></tr><tr><td><code>MISSING_SECRET</code></td><td>both</td><td>400</td><td><code>secret</code> required</td></tr><tr><td><code>INVALID_TTL</code></td><td>/sign</td><td>400</td><td>Invalid <code>expires_in_seconds</code></td></tr><tr><td><code>INVALID_URL</code></td><td>both</td><td>400</td><td>Malformed URL</td></tr><tr><td><code>UNSUPPORTED_SCHEME</code></td><td>/sign</td><td>400</td><td>Not http/https</td></tr><tr><td><code>MISSING_SIGNED_URL</code></td><td>/verify</td><td>400</td><td><code>signedUrl</code> missing</td></tr><tr><td><code>SIGNING_ERROR</code></td><td>/sign</td><td>400</td><td>Signing failed</td></tr><tr><td><code>VERIFICATION_ERROR</code></td><td>/verify</td><td>400</td><td>Verification failed</td></tr></tbody></table></div>
             </section>
             <section>
-                <h2 id="playground">Try it in the playground</h2>
-                <p>Add your <a href="https://rapidapi.com/precisionsolutionstech/api/url-signature-presigner-api" target="_blank" rel="noopener">RapidAPI key</a> and run. Key is sent only to RapidAPI.</p>
+                <h2 id="playground">Playground</h2>
+                <p>Pick a sample (or edit JSON), add your <a href="https://rapidapi.com/precisionsolutionstech/api/url-signature-presigner-api" target="_blank" rel="noopener">RapidAPI key</a>. For <strong>verify</strong>, paste a real <code>signed_url</code> from a <strong>sign</strong> response first.</p>
                 <div class="playground">
                     <label for="api-key">RapidAPI Key (required)</label>
                     <input type="password" id="api-key" placeholder="Your RapidAPI key" autocomplete="off">
-                    
+                    <div class="pg-row">
+                        <div class="pg-field">
+                            <label for="pg-sample">Sample</label>
+                            <select id="pg-sample" aria-describedby="pg-sample-hint"></select>
+                        </div>
+                    </div>
+                    <p id="pg-sample-hint" class="file-upload-note">Request URL: <code id="pg-url-display"></code></p>
                     <label for="body-json">Request body (JSON)</label>
-                    <textarea id="body-json" placeholder='{}'>{
-  &quot;url&quot;: &quot;https://example.com/files/report.pdf&quot;,
-  &quot;expiration&quot;: 1738108800,
-  &quot;secret&quot;: &quot;your-secret-key&quot;,
-  &quot;method&quot;: &quot;GET&quot;,
-  &quot;allowedIps&quot;: [&quot;192.168.1.100&quot;],
-  &quot;maxPayloadSize&quot;: 10485760
-}</textarea>
+                    <textarea id="body-json"></textarea>
                     <button type="button" id="run-btn">Run request</button>
                     <div id="play-result" class="result" style="display:none;" aria-live="polite"></div>
                 </div>
+                <p class="playground-follow-cta"><a href="https://rapidapi.com/precisionsolutionstech/api/url-signature-presigner-api" target="_blank" rel="noopener">Open listing on RapidAPI</a> for full schemas and quotas.</p>
             </section>
             <section>
-                <h2 id="code">Copy code</h2>
-                <p>Host: <code>url-signature-presigner-api.p.rapidapi.com</code>, endpoint: <code>POST /sign</code>. Choose language:</p>
-                <div class="lang-tabs" role="tablist">
-                    <button type="button" role="tab" aria-selected="true" data-lang="curl" class="active">cURL</button>
-                    <button type="button" role="tab" aria-selected="false" data-lang="javascript">JavaScript</button>
-                    <button type="button" role="tab" aria-selected="false" data-lang="python">Python</button>
-                    <button type="button" role="tab" aria-selected="false" data-lang="java">Java</button>
+                <h2 id="code">Get code</h2>
+                <p>Snippets use the playground JSON and path. Choose a language, <strong>Refresh code</strong> after edits.</p>
+                <div class="lang-select">
+                    <label for="code-lang">Language:</label>
+                    <select id="code-lang">
+                        <option value="curl">cURL</option>
+                        <option value="javascript">JavaScript</option>
+                        <option value="typescript">TypeScript</option>
+                        <option value="python">Python</option>
+                        <option value="java">Java</option>
+                    </select>
+                    <button type="button" id="refresh-code-btn" class="secondary">Refresh code</button>
                 </div>
-                <div id="snippet-curl" class="code-block active"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-curl">Copy</button><pre><code>curl --request POST \
-  --url 'https://url-signature-presigner-api.p.rapidapi.com/sign' \
-  --header 'Content-Type: application/json' \
-  --header 'x-rapidapi-host: url-signature-presigner-api.p.rapidapi.com' \
-  --header 'x-rapidapi-key: YOUR_RAPIDAPI_KEY' \
-  --data '{
-  &quot;url&quot;: &quot;https://example.com/files/report.pdf&quot;,
-  &quot;expiration&quot;: 1738108800,
-  &quot;secret&quot;: &quot;your-secret-key&quot;,
-  &quot;method&quot;: &quot;GET&quot;,
-  &quot;allowedIps&quot;: [&quot;192.168.1.100&quot;],
-  &quot;maxPayloadSize&quot;: 10485760
-}'</code></pre></div></div>
-                <div id="snippet-javascript" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-javascript">Copy</button><pre><code>const res = await fetch('https://url-signature-presigner-api.p.rapidapi.com/sign', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
-    'x-rapidapi-host': 'url-signature-presigner-api.p.rapidapi.com'
-  },
-  body: '{   &quot;url&quot;: &quot;https://example.com/files/report.pdf&quot;,   &quot;expiration&quot;: 1738108800,   &quot;secret&quot;: &quot;your-secret-key&quot;,   &quot;method&quot;: &quot;GET&quot;,   &quot;allowedIps&quot;: [&quot;192.168.1.100&quot;],   &quot;maxPayloadSize&quot;: 10485760 }'
-});
-const data = await res.json();
-console.log(data);</code></pre></div></div>
-                <div id="snippet-python" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-python">Copy</button><pre><code>import http.client
-import json
-
-conn = http.client.HTTPSConnection(&quot;url-signature-presigner-api.p.rapidapi.com&quot;)
-payload = '{
-  &quot;url&quot;: &quot;https://example.com/files/report.pdf&quot;,
-  &quot;expiration&quot;: 1738108800,
-  &quot;secret&quot;: &quot;your-secret-key&quot;,
-  &quot;method&quot;: &quot;GET&quot;,
-  &quot;allowedIps&quot;: [&quot;192.168.1.100&quot;],
-  &quot;maxPayloadSize&quot;: 10485760
-}'
-headers = {
-    'Content-Type': 'application/json',
-    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
-    'x-rapidapi-host': 'url-signature-presigner-api.p.rapidapi.com'
-}
-conn.request(&quot;POST&quot;, &quot;/sign&quot;, payload, headers)
-res = conn.getresponse()
-print(res.read().decode())</code></pre></div></div>
-                <div id="snippet-java" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-java">Copy</button><pre><code>HttpRequest request = HttpRequest.newBuilder()
-    .uri(URI.create(&quot;https://url-signature-presigner-api.p.rapidapi.com/sign&quot;))
-    .header(&quot;Content-Type&quot;, &quot;application/json&quot;)
-    .header(&quot;x-rapidapi-key&quot;, &quot;YOUR_RAPIDAPI_KEY&quot;)
-    .header(&quot;x-rapidapi-host&quot;, &quot;url-signature-presigner-api.p.rapidapi.com&quot;)
-    .method(&quot;POST&quot;, HttpRequest.BodyPublishers.ofString(&quot;{
-  \&quot;url\&quot;: \&quot;https://example.com/files/report.pdf\&quot;,
-  \&quot;expiration\&quot;: 1738108800,
-  \&quot;secret\&quot;: \&quot;your-secret-key\&quot;,
-  \&quot;method\&quot;: \&quot;GET\&quot;,
-  \&quot;allowedIps\&quot;: [\&quot;192.168.1.100\&quot;],
-  \&quot;maxPayloadSize\&quot;: 10485760
-}&quot;))
-    .build();
-HttpResponse&lt;String&gt; response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-System.out.println(response.body());</code></pre></div></div>
+                <div class="code-wrap"><button type="button" class="copy-btn" id="copy-code-btn">Copy</button><pre><code id="generated-code"></code></pre></div>
                 <p><button type="button" class="postman-btn" id="postman-download">Download Postman collection</button></p>
+                <p class="integration-note">Secrets are never echoed in successful sign responses; treat RapidAPI traffic as sensitive in logs.</p>
             </section>
-            <section><h2 id="expect">What to expect</h2><p>Response format depends on the endpoint. Use your RapidAPI key in headers. Stateless; no data stored. See <a href="https://rapidapi.com/precisionsolutionstech/api/url-signature-presigner-api" target="_blank" rel="noopener">RapidAPI docs</a> for full response schema.</p></section>
-            <section><h2 id="about">About this API</h2>
-
-                <h3 id="who-should-use">Who Should Use This API</h3>
-                <p>Developers needing signed URLs for secure, time-limited resource access.</p>
-                <h3 id="also-known-as">Also Known As</h3>
-                <p>Signed URL API, URL presigner, secure URL generator.</p>
-<div class="long-desc">
-<p>URL Signature Presigner API</p>
-<p>The URL Signature Presigner API enables teams to securely grant temporary access to URLs (downloads, uploads, redirects, callbacks) using cryptographically signed URLs, without requiring databases, sessions, or persistent state. All authorization logic is encoded in the URL signature itself. Verification is fully deterministic and stateless.</p>
-<p>What This API Does</p>
-<p>Given a URL and access constraints, this API generates a cryptographically signed URL that:</p>
-<ul>
-<li>**Encodes expiration time** — URL automatically becomes invalid after expiration</li>
-<li>**Binds to HTTP methods** — Restrict to GET, POST, PUT, DELETE, etc.</li>
-<li>**Restricts by IP address** — Allow only specific IPs or CIDR ranges</li>
-<li>**Requires headers** — Enforce Content-Type, Authorization, or custom headers</li>
-<li>**Limits payload size** — Prevent oversized requests</li>
-<li>**Includes custom metadata** — Embed opaque, signed metadata for your use case</li>
-</ul>
-<p>The signed URL can be verified without server-side state, making it perfect for CDNs, edge workers, and stateless architectures.</p>
-<p>Key Features</p>
-<ul>
-<li>**Stateless &amp; Secure** — No databases or sessions required; authorization encoded in URL signature</li>
-<li>**Vendor-Agnostic** — Works with any CDN, edge worker, or server; no vendor lock-in</li>
-<li>**Deterministic Verification** — Identical inputs produce identical outputs; fully debuggable</li>
-<li>**Production-Ready** — Fast enough for edge usage; timing-safe comparisons; clock skew handling</li>
-<li>**Flexible Constraints** — Restrict by time, HTTP method, IP address, headers, or payload size</li>
-<li>**Cryptographically Secure** — HMAC-SHA256/SHA512 signatures; tamper-proof URLs</li>
-</ul>
-<p>Use Cases</p>
-<ul>
-<li>**Temporary File Downloads** — Generate secure download links that expire automatically</li>
-<li>**Secure Upload URLs** — Allow direct uploads to storage with size and time restrictions</li>
-<li>**One-Time Report Access** — Generate links to sensitive reports with IP and time restrictions</li>
-<li>**Callback URLs with Limited Validity** — Issue webhook callback URLs valid only for specific time windows</li>
-<li>**CDN-Backed Protected Content** — Serve protected content via CDN without origin authentication</li>
-<li>**API Gateway Temporary Access** — Grant temporary API access tokens encoded in URLs</li>
-<li>**Presigned URLs** — Generate presigned URLs for S3, Cloud Storage, and similar services</li>
-<li>**Stateless Authentication** — Implement stateless access control without databases</li>
-</ul>
-<p>Who This Is For</p>
-<p>### Backend Engineers</p>
-<p>Generate secure presigned URLs for file downloads, uploads, and temporary access without building custom cryptographic logic.</p>
-<p>### Platform / Infra Teams</p>
-<p>Standardize URL signing across services. Ensure consistent, secure temporary access patterns.</p>
-<p>### Edge / CDN Developers</p>
-<p>Verify presigned URLs at the edge without database lookups. Perfect for Cloudflare Workers, AWS Lambda@Edge, and similar platforms.</p>
-<p>### SaaS Teams</p>
-<p>Expose temporary download links, secure upload URLs, and one-time report access without maintaining session state.</p>
-<p>### API Providers</p>
-<p>Issue callback URLs and webhook endpoints with limited validity. Control access by time, method, and source.</p>
-
-</div></section>
-            <section><h2 id="faq">Frequently Asked Questions</h2>
+            <section id="pricing" aria-labelledby="pricing-heading">
+                <h2 id="pricing-heading">Pricing &amp; tiers (RapidAPI)</h2>
+                <p class="enterprise-line">Illustrative tiers—confirm quotas and overage on the <a href="https://rapidapi.com/precisionsolutionstech/api/url-signature-presigner-api" target="_blank" rel="noopener">live listing</a>.</p>
+                <div class="pricing-grid">
+                    <div class="pricing-card">
+                        <h3>Basic</h3>
+                        <p class="pricing-price">$0<span class="pricing-period">/mo</span></p>
+                        <p class="pricing-quotas"><strong>100</strong>/month included</p>
+                    </div>
+                    <div class="pricing-card">
+                        <h3>Pro</h3>
+                        <p class="pricing-price">$9.99<span class="pricing-period">/mo</span></p>
+                        <p class="pricing-quotas"><strong>10,000</strong>/month included</p>
+                    </div>
+                    <div class="pricing-card pricing-card-featured">
+                        <span class="pricing-badge">Recommended</span>
+                        <h3>Ultra</h3>
+                        <p class="pricing-price">$49.99<span class="pricing-period">/mo</span></p>
+                        <p class="pricing-quotas"><strong>100,000</strong>/month included</p>
+                    </div>
+                    <div class="pricing-card">
+                        <h3>Mega</h3>
+                        <p class="pricing-price">$99.99<span class="pricing-period">/mo</span></p>
+                        <p class="pricing-quotas"><strong>250,000</strong>/month included</p>
+                    </div>
+                </div>
+                <p class="pricing-note">If RapidAPI changes plans, the listing is authoritative.</p>
+            </section>
+            <div class="social-proof">
+                <p>Use with <a href="adaptive-rate-limit-calculator.html">Adaptive Rate Limit Response Calculator</a> when you are also shaping <code>429</code> behavior, or <a href="http-error-root-trigger-analyzer.html">HTTP Error Root Trigger Analyzer</a> for incident triage.</p>
+            </div>
+            <section id="expect"><h2>What to expect</h2><p>JSON bodies for both routes. <strong>400</strong> with structured errors for invalid input; <strong>200</strong> with <code>signed_url</code> or verification payload on success. See the README and RapidAPI reference for every field.</p></section>
+            <section id="about"><h2>About</h2>
+                <h3>Also known as</h3>
+                <p>Signed URL API, URL presigner, secure temporary link generator.</p>
+                <div class="long-desc">
+                    <p>The URL Signature Presigner API packages HMAC signing and verification with deterministic canonicalization—so teams can issue and check presigned URLs without maintaining crypto plumbing in every service.</p>
+                </div>
+            </section>
+            <section id="faq"><h2>Frequently asked questions</h2>
                 <ul class="faq-list">
-                    <li>
-                        <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a1" id="faq-q1">Does it store URLs?</button>
-                        <div id="faq-a1" class="faq-a" role="region" aria-labelledby="faq-q1">No. Fully stateless.</div>
-                    </li><li>
-                        <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a2" id="faq-q2">What signing methods?</button>
-                        <div id="faq-a2" class="faq-a" role="region" aria-labelledby="faq-q2">Check RapidAPI docs for supported algorithms.</div>
-                    </li>
+                    <li><button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a1" id="faq-q1">Does it store URLs or secrets?</button>
+                        <div id="faq-a1" class="faq-a" role="region" aria-labelledby="faq-q1">No. Processing is stateless; secrets are not logged or returned in responses.</div></li>
+                    <li><button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a2" id="faq-q2">SHA256 vs SHA512?</button>
+                        <div id="faq-a2" class="faq-a" role="region" aria-labelledby="faq-q2">Default is HMAC-SHA256. Set <code>algorithm</code> to <code>sha512</code> when you need SHA-512; the version marker in the URL reflects the choice.</div></li>
+                    <li><button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a3" id="faq-q3">Expiration vs expires_in_seconds?</button>
+                        <div id="faq-a3" class="faq-a" role="region" aria-labelledby="faq-q3">Use <code>expiration</code> for an absolute time (Unix or ISO). Use <code>expires_in_seconds</code> for a TTL from “now” at sign time. Provide one, not both.</div></li>
+                    <li><button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a4" id="faq-q4">Can I revoke a URL early?</button>
+                        <div id="faq-a4" class="faq-a" role="region" aria-labelledby="faq-q4">Not with stateless presigning alone—short TTLs and tight constraints limit exposure. Long-lived revocation needs your own allowlist outside this API.</div></li>
+                    <li><button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a5" id="faq-q5">Where are pricing and quotas?</button>
+                        <div id="faq-a5" class="faq-a" role="region" aria-labelledby="faq-q5">On RapidAPI. This page shows indicative tiers (Basic through Mega); always confirm on the live listing.</div></li>
+                </ul>
+            </section>
+            <section id="related-apis" aria-labelledby="related-heading">
+                <h2 id="related-heading">Related APIs</h2>
+                <ul class="related-apis">
+                    <li><a href="adaptive-rate-limit-calculator.html">Adaptive Rate Limit Response Calculator</a></li>
+                    <li><a href="http-error-root-trigger-analyzer.html">HTTP Error Root Trigger Analyzer</a></li>
+                    <li><a href="pii-detection-redaction.html">PII Detection &amp; Redaction</a></li>
+                    <li><a href="json-schema-validator.html">JSON Schema Validator</a></li>
                 </ul>
             </section>
             <div class="browse-all"><a href="../index.html">Browse all APIs in the catalog →</a></div>
         </article>
         <footer>
-            <p><a href="https://rapidapi.com/precisionsolutionstech/api/url-signature-presigner-api" target="_blank" rel="noopener">Subscribe on RapidAPI</a> · <a href="../index.html">API Catalog</a></p>
+            <p><a href="https://rapidapi.com/precisionsolutionstech/api/url-signature-presigner-api" target="_blank" rel="noopener">Subscribe on RapidAPI</a> · <a href="../index.html">API Catalog</a> · <a href="../faq.html">FAQ</a></p>
             <p>© 2026 Precision Solutions Tech</p>
         </footer>
     </div>
     <script>
-(function(){
-    var host='url-signature-presigner-api.p.rapidapi.com',path='/sign',body="{\n  \"url\": \"https://example.com/files/report.pdf\",\n  \"expiration\": 1738108800,\n  \"secret\": \"your-secret-key\",\n  \"method\": \"GET\",\n  \"allowedIps\": [\"192.168.1.100\"],\n  \"maxPayloadSize\": 10485760\n}",fileUpload=false,rapidUrl="https://rapidapi.com/precisionsolutionstech/api/url-signature-presigner-api";
-    document.querySelectorAll('[data-rapid-docs]').forEach(function(a){ a.href = rapidUrl; });
-    document.getElementById('toggle-req').addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('request-schema'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); });
-    document.getElementById('toggle-res').addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('response-schema'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); });
-    var toggleErrors=document.getElementById('toggle-errors');if(toggleErrors){ toggleErrors.addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('error-codes'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); }); }
-    document.querySelectorAll('.lang-tabs button').forEach(function(btn){
-        btn.addEventListener('click',function(){
-            document.querySelectorAll('.lang-tabs button').forEach(function(b){ b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
-            document.querySelectorAll('.code-block').forEach(function(b){ b.classList.remove('active'); });
-            this.classList.add('active'); this.setAttribute('aria-selected','true');
-            var el=document.getElementById('snippet-'+this.getAttribute('data-lang')); if(el) el.classList.add('active');
+(function () {
+    var host = 'url-signature-presigner-api.p.rapidapi.com';
+
+    var SIGN_ABS = {
+        url: 'https://example.com/files/report.pdf',
+        expiration: 1893456000,
+        secret: 'your-secret-key',
+        method: 'GET',
+        allowedIps: ['192.168.1.100'],
+        maxPayloadSize: 10485760
+    };
+
+    var SIGN_TTL = {
+        url: 'https://example.com/files/report.pdf',
+        expires_in_seconds: 300,
+        secret: 'your-secret-key',
+        method: 'GET',
+        allowedIps: ['192.168.1.100']
+    };
+
+    var VERIFY_TEMPLATE = {
+        signedUrl: 'https://example.com/files/report.pdf?exp=1738108800&v=v1-sha256&sig=REPLACE_WITH_REAL_SIG&c=eyJtZXRob2QiOiJHRVQiLCJhbGxvd2VkSXBzIjpbIjE5Mi4xNjguMS4xMDAiXSwibWF4UGF5bG9hZFNpemUiOjEwNDg1NzYwfQ',
+        secret: 'your-secret-key',
+        method: 'GET',
+        clientIp: '192.168.1.100',
+        payloadSize: 1024
+    };
+
+    var SAMPLES = {
+        sign_abs: { path: '/sign', body: SIGN_ABS, label: 'POST /sign — absolute expiration' },
+        sign_ttl: { path: '/sign', body: SIGN_TTL, label: 'POST /sign — expires_in_seconds (TTL)' },
+        verify: { path: '/verify', body: VERIFY_TEMPLATE, label: 'POST /verify — template (paste signed_url from /sign)' }
+    };
+
+    var SAMPLE_ORDER = ['sign_abs', 'sign_ttl', 'verify'];
+
+    var currentPath = '/sign';
+    var sampleSelect = document.getElementById('pg-sample');
+    var bodyTextarea = document.getElementById('body-json');
+    var urlDisplay = document.getElementById('pg-url-display');
+
+    SAMPLE_ORDER.forEach(function (key) {
+        var o = document.createElement('option');
+        o.value = key;
+        o.textContent = SAMPLES[key].label;
+        sampleSelect.appendChild(o);
+    });
+
+    function applySample() {
+        var s = SAMPLES[sampleSelect.value];
+        if (!s) return;
+        currentPath = s.path;
+        bodyTextarea.value = JSON.stringify(s.body, null, 2);
+        urlDisplay.textContent = 'https://' + host + currentPath;
+        refreshCode();
+    }
+
+    sampleSelect.addEventListener('change', applySample);
+    bodyTextarea.addEventListener('input', function () { setTimeout(refreshCode, 150); });
+
+    function bindToggle(btnId, panelId) {
+        var btn = document.getElementById(btnId);
+        if (!btn) return;
+        btn.addEventListener('click', function (e) {
+            e.preventDefault();
+            var d = document.getElementById(panelId);
+            if (!d) return;
+            d.classList.toggle('show');
+            btn.setAttribute('aria-expanded', d.classList.contains('show'));
+        });
+    }
+    bindToggle('toggle-sign-req', 'sign-req');
+    bindToggle('toggle-sign-res', 'sign-res');
+    bindToggle('toggle-verify-req', 'verify-req');
+    bindToggle('toggle-errors', 'error-codes');
+
+    function parseBody() {
+        var bodyStr = bodyTextarea.value.trim();
+        try { return { ok: true, body: JSON.parse(bodyStr) }; }
+        catch (e) { return { ok: false, error: e.message }; }
+    }
+
+    function inferPath() {
+        var p = parseBody();
+        if (!p.ok) return currentPath;
+        if (p.body && typeof p.body.signedUrl === 'string') return '/verify';
+        return '/sign';
+    }
+
+    function generateCode(lang) {
+        var key = 'YOUR_RAPIDAPI_KEY';
+        var path = inferPath();
+        var parsed = parseBody();
+        if (!parsed.ok) return '// Fix JSON: ' + parsed.error;
+        var bodyStr = JSON.stringify(parsed.body);
+        var url = 'https://' + host + path;
+        if (lang === 'curl') {
+            return 'curl --request POST \\\n  --url \'' + url.replace(/'/g, "'\\''") + '\' \\\n  --header \'Content-Type: application/json\' \\\n  --header \'x-rapidapi-key: ' + key + '\' \\\n  --header \'x-rapidapi-host: ' + host + '\' \\\n  --data \'' + bodyStr.replace(/\\/g, '\\\\').replace(/'/g, "'\\''") + '\'';
+        }
+        if (lang === 'javascript') {
+            return 'const res = await fetch(' + JSON.stringify(url) + ', {\n  method: \'POST\',\n  headers: {\n    \'Content-Type\': \'application/json\',\n    \'x-rapidapi-key\': \'' + key + '\',\n    \'x-rapidapi-host\': \'' + host + '\'\n  },\n  body: ' + JSON.stringify(bodyStr) + '\n});\nconst data = await res.json();\nconsole.log(data);';
+        }
+        if (lang === 'typescript') {
+            return 'const res = await fetch(' + JSON.stringify(url) + ', {\n  method: \'POST\',\n  headers: {\n    \'Content-Type\': \'application/json\',\n    \'x-rapidapi-key\': \'' + key + '\',\n    \'x-rapidapi-host\': \'' + host + '\'\n  },\n  body: ' + JSON.stringify(bodyStr) + '\n});\nconst data: unknown = await res.json();\nconsole.log(data);';
+        }
+        if (lang === 'python') {
+            var esc = bodyStr.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+            return 'import http.client\n\nconn = http.client.HTTPSConnection("' + host + '")\npayload = "' + esc + '"\nheaders = {\n    "Content-Type": "application/json",\n    "x-rapidapi-key": "' + key + '",\n    "x-rapidapi-host": "' + host + '"\n}\nconn.request("POST", "' + path + '", payload, headers)\nres = conn.getresponse()\nprint(res.read().decode())';
+        }
+        if (lang === 'java') {
+            var j = bodyStr.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n').replace(/\r/g, '\\r');
+            var urlEsc = url.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+            return 'HttpRequest request = HttpRequest.newBuilder()\n    .uri(URI.create("' + urlEsc + '"))\n    .header("Content-Type", "application/json")\n    .header("x-rapidapi-key", "' + key + '")\n    .header("x-rapidapi-host", "' + host + '")\n    .method("POST", HttpRequest.BodyPublishers.ofString("' + j + '"))\n    .build();\nHttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());\nSystem.out.println(response.body());';
+        }
+        return '';
+    }
+
+    function refreshCode() {
+        var el = document.getElementById('generated-code');
+        if (el) el.textContent = generateCode(document.getElementById('code-lang').value);
+    }
+
+    document.getElementById('code-lang').addEventListener('change', refreshCode);
+    document.getElementById('refresh-code-btn').addEventListener('click', refreshCode);
+    document.getElementById('copy-code-btn').addEventListener('click', function () {
+        var t = document.getElementById('generated-code').textContent;
+        var btn = document.getElementById('copy-code-btn');
+        navigator.clipboard.writeText(t).then(function () {
+            var o = btn.textContent;
+            btn.textContent = 'Copied!';
+            setTimeout(function () { btn.textContent = o; }, 1500);
         });
     });
-    document.querySelectorAll('.copy-btn').forEach(function(btn){
-        btn.addEventListener('click',function(){
-            var id=this.getAttribute('data-copy'),block=document.getElementById(id),pre=block?block.querySelector('pre code'):null,btn=this;
-            if(pre) navigator.clipboard.writeText(pre.textContent).then(function(){ var t=btn.textContent; btn.textContent='Copied!'; setTimeout(function(){ btn.textContent=t; },1500); });
+
+    document.querySelectorAll('.faq-q').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            var expanded = this.getAttribute('aria-expanded') === 'true';
+            this.setAttribute('aria-expanded', !expanded);
+            var panel = document.getElementById(this.getAttribute('aria-controls'));
+            if (panel) panel.classList.toggle('show', !expanded);
         });
     });
-    
-    document.querySelectorAll('.faq-q').forEach(function(btn){
-        btn.addEventListener('click',function(){ var expanded=this.getAttribute('aria-expanded')==='true'; this.setAttribute('aria-expanded',!expanded); var panel=document.getElementById(this.getAttribute('aria-controls')); if(panel) panel.classList.toggle('show',!expanded); });
+
+    document.getElementById('postman-download').addEventListener('click', function () {
+        var parsed = parseBody();
+        if (!parsed.ok) { alert('Fix JSON in the playground first.'); return; }
+        var path = inferPath();
+        var url = 'https://' + host + path;
+        var coll = {
+            info: { name: 'URL Signature Presigner API', schema: 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json' },
+            item: [{
+                name: 'POST ' + path,
+                request: {
+                    method: 'POST',
+                    header: [
+                        { key: 'Content-Type', value: 'application/json' },
+                        { key: 'x-rapidapi-key', value: 'YOUR_RAPIDAPI_KEY' },
+                        { key: 'x-rapidapi-host', value: host }
+                    ],
+                    body: { mode: 'raw', raw: JSON.stringify(parsed.body) },
+                    url: url
+                }
+            }]
+        };
+        var blob = new Blob([JSON.stringify(coll, null, 2)], { type: 'application/json' });
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'url-signature-presigner-postman-collection.json';
+        a.click();
+        URL.revokeObjectURL(a.href);
     });
-    document.getElementById('postman-download').addEventListener('click',function(){
-        var coll = { info: { name: "URL Signature Presigner API", schema: 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json' }, item: [{ name: 'Request', request: { method: 'POST', header: [{ key: 'Content-Type', value: 'application/json' }, { key: 'x-rapidapi-key', value: 'YOUR_RAPIDAPI_KEY' }, { key: 'x-rapidapi-host', value: host }], url: 'https://'+host+path } } ] };
-        if(!fileUpload){ coll.item[0].request.body = { mode: 'raw', raw: typeof body==='string'?body:JSON.stringify(body) }; }
-        else { coll.item[0].request.header = [{ key: 'X-RapidAPI-Key', value: 'YOUR_RAPIDAPI_KEY' }, { key: 'X-RapidAPI-Host', value: host }]; coll.item[0].request.url = 'https://'+host+path+'?outputFormat=json'; coll.item[0].request.body = { mode: 'formdata', formdata: [{ key: 'file', type: 'file', src: '' }] }; }
-        var blob = new Blob([JSON.stringify(coll,null,2)], { type: 'application/json' });
-        var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'url-signature-presigner-postman-collection.json'; a.click(); URL.revokeObjectURL(a.href);
+
+    var runBtn = document.getElementById('run-btn');
+    var keyInput = document.getElementById('api-key');
+    var resultDiv = document.getElementById('play-result');
+    runBtn.addEventListener('click', function () {
+        var key = (keyInput.value || '').trim();
+        if (!key) {
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result error';
+            resultDiv.textContent = 'Please enter your RapidAPI key.';
+            return;
+        }
+        var parsed = parseBody();
+        if (!parsed.ok) {
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result error';
+            resultDiv.textContent = 'Invalid JSON: ' + parsed.error;
+            return;
+        }
+        var path = inferPath();
+        urlDisplay.textContent = 'https://' + host + path;
+        runBtn.disabled = true;
+        resultDiv.style.display = 'block';
+        resultDiv.className = 'result';
+        resultDiv.textContent = 'Loading…';
+        fetch('https://' + host + path, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'x-rapidapi-key': key, 'x-rapidapi-host': host },
+            body: JSON.stringify(parsed.body)
+        })
+            .then(function (r) { return r.text().then(function (t) { return { status: r.status, body: t }; }); })
+            .then(function (o) {
+                resultDiv.className = 'result ' + (o.status >= 200 && o.status < 300 ? 'success' : 'error');
+                try { resultDiv.textContent = JSON.stringify(JSON.parse(o.body), null, 2); }
+                catch (_) { resultDiv.textContent = o.status + '\n' + o.body; }
+            })
+            .catch(function (e) { resultDiv.className = 'result error'; resultDiv.textContent = 'Request failed: ' + e.message; })
+            .finally(function () { runBtn.disabled = false; });
     });
-    var runBtn=document.getElementById('run-btn'),keyInput=document.getElementById('api-key'),resultDiv=document.getElementById('play-result');
-    runBtn.addEventListener('click',function(){
-        var key=(keyInput.value||'').trim();
-        if(!key){ resultDiv.style.display='block'; resultDiv.className='result error'; resultDiv.textContent='Please enter your RapidAPI key.'; return; }
-        
-    var bodyStr=document.getElementById('body-json').value.trim(),body;
-    try{body=JSON.parse(bodyStr);}catch(e){resultDiv.style.display='block';resultDiv.className='result error';resultDiv.textContent='Invalid JSON: '+e.message;return;}
-    runBtn.disabled=true;resultDiv.style.display='block';resultDiv.className='result';resultDiv.textContent='Loading…';
-    fetch('https://'+host+path,{method:'POST',headers:{'Content-Type':'application/json','x-rapidapi-key':key,'x-rapidapi-host':host},body:JSON.stringify(body)})
-    .then(function(r){return r.text().then(function(t){return{status:r.status,body:t};});})
-    .then(function(o){resultDiv.className='result '+(o.status>=200&&o.status<300?'success':'error');try{resultDiv.textContent=JSON.stringify(JSON.parse(o.body),null,2);}catch(_){resultDiv.textContent=o.status+'\n'+o.body;}})
-    .catch(function(e){resultDiv.className='result error';resultDiv.textContent='Request failed: '+e.message;})
-    .finally(function(){runBtn.disabled=false;});
-    });
+
+    applySample();
 })();
     </script>
 </body>
