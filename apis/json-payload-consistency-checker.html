@@ -5,27 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="../favicon.svg" type="image/svg+xml">
     <link rel="icon" href="../favicon.png" type="image/png" sizes="32x32">
-    <title>JSON Payload Consistency Checker API | RapidAPI</title>
-    <meta name="description" content="JSON sanity checker, consistency analyzer, and data quality API. Detect missing fields, type drift, nullability issues, schema violations in JSON. API testing, CI/CD, data quality. Rule-based, deterministic, production-ready.">
-    <meta name="keywords" content="json-payload-consistency-checker, API, RapidAPI, developer">
+    <title>JSON Payload Consistency Checker | Data Quality &amp; Drift Detection</title>
+    <meta name="description" content="POST /analyze with a JSON object or array: detect missing fields, type drift, nullability issues, bad dates, numeric strings, key casing drift, duplicate keys, and more. Rule-based, deterministic, stateless. ~10MB body limit.">
+    <meta name="keywords" content="JSON consistency API, payload quality, API testing, CI/CD JSON, RapidAPI">
     <link rel="canonical" href="https://precisionsolutionstech-netizen.github.io/api-catalog/apis/json-payload-consistency-checker.html">
     <meta property="og:url" content="https://precisionsolutionstech-netizen.github.io/api-catalog/apis/json-payload-consistency-checker.html">
     <meta property="og:image" content="https://precisionsolutionstech-netizen.github.io/api-catalog/og-default.png">
     <meta property="og:type" content="article">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="JSON Payload Consistency Checker API">
-    <meta name="twitter:description" content="Analyze JSON consistency.">
+    <meta name="twitter:title" content="JSON Payload Consistency Checker — Structural drift in one call">
+    <meta name="twitter:description" content="Arrays of objects, nested arrays, or a single object: warnings with codes and paths.">
     <meta name="twitter:image" content="https://precisionsolutionstech-netizen.github.io/api-catalog/og-default.png">
     <meta property="og:title" content="JSON Payload Consistency Checker API">
-    <meta property="og:description" content="JSON sanity checker, consistency analyzer, and data quality API. Detect missing fields, type drift, nullability issues, schema violations in JSON. API testing, CI/CD, data quality. Rule-based, deterministic, production-ready.">
+    <meta property="og:description" content="Find silent JSON inconsistencies before production: missing fields, mixed types, dates, collisions. Deterministic.">
     <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"TechArticle","headline":"JSON Payload Consistency Checker API","name":"JSON Payload Consistency Checker API","description":"JSON sanity checker, consistency analyzer, and data quality API. Detect missing fields, type drift, nullability issues, schema violations in JSON. API testing, CI/CD, data quality. Rule-based, deterministic, production-ready.","author":{"@type":"Organization","name":"Precision Solutions Tech"},"url":"https://precisionsolutionstech-netizen.github.io/api-catalog/apis/json-payload-consistency-checker.html"}
+{"@context":"https://schema.org","@type":"TechArticle","headline":"JSON Payload Consistency Checker API","name":"JSON Payload Consistency Checker API","description":"Analyze JSON objects or arrays for cross-item consistency: missing fields, type drift, nullability, dates, numeric strings, key casing, duplicates. POST /analyze. Stateless, ~10MB JSON body.","author":{"@type":"Organization","name":"Precision Solutions Tech"},"url":"https://precisionsolutionstech-netizen.github.io/api-catalog/apis/json-payload-consistency-checker.html"}
     </script>
     <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"API Catalog","item":"https://precisionsolutionstech-netizen.github.io/api-catalog/"},{"@type":"ListItem","position":2,"name":"JSON Payload Consistency Checker","item":"https://precisionsolutionstech-netizen.github.io/api-catalog/apis/json-payload-consistency-checker.html"}]}
     </script>
     <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What does it do?","acceptedAnswer":{"@type":"Answer","text":"Checks consistency of JSON structure across multiple samples."}},{"@type":"Question","name":"Does it store data?","acceptedAnswer":{"@type":"Answer","text":"No. Fully stateless."}}]}
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What do I send in the request body?","acceptedAnswer":{"@type":"Answer","text":"Any single JSON value: usually an array of objects to compare across items, or an object (nested arrays are analyzed recursively). There is no payloads wrapper—the body is the value itself."}},{"@type":"Question","name":"What is the maximum request size?","acceptedAnswer":{"@type":"Answer","text":"About 10MB for the JSON body per Express limits. If the serialized payload exceeds 10MB after parsing, the API returns HTTP 413 with PAYLOAD_TOO_LARGE."}},{"@type":"Question","name":"Does the API store my JSON?","acceptedAnswer":{"@type":"Answer","text":"No. Processing is stateless and in-memory."}},{"@type":"Question","name":"Is this the same as JSON Schema validation?","acceptedAnswer":{"@type":"Answer","text":"No. This API finds inconsistencies across concrete samples (e.g. mixed types in the same field). Use JSON Schema Validator when you have a schema contract."}},{"@type":"Question","name":"What endpoint and host should I use?","acceptedAnswer":{"@type":"Answer","text":"POST https://json-payload-consistency-checker.p.rapidapi.com/analyze with x-rapidapi-key and x-rapidapi-host. Confirm in your RapidAPI app if the host differs."}},{"@type":"Question","name":"How are invalid JSON and oversized payloads handled?","acceptedAnswer":{"@type":"Answer","text":"Malformed JSON often returns HTTP 400 with validJson false and invalidJson true. Oversized parsed payloads return HTTP 413 with error PAYLOAD_TOO_LARGE."}},{"@type":"Question","name":"Where are pricing and quotas defined?","acceptedAnswer":{"@type":"Answer","text":"On RapidAPI: Basic is free with 100 requests per month; Pro is $9.99/month with 10,000; Ultra is $49.99/month with 100,000; Mega is $99.99/month with 250,000."}},{"@type":"Question","name":"Can I use this in CI/CD?","acceptedAnswer":{"@type":"Answer","text":"Yes. Results are deterministic; gate on warning codes or summary.warningCount thresholds."}}]}
     </script>
     <style>
         :root { --bg: #0f172a; --surface: #1e293b; --border: #334155; --text: #e2e8f0; --muted: #94a3b8; --accent: #38bdf8; --success: #34d399; --error: #f87171; }
@@ -33,19 +33,17 @@
         body { margin: 0; font-family: ui-sans-serif, system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
         .wrap { max-width: 900px; margin: 0 auto; padding: 24px 20px; }
         a { color: var(--accent); }
-        nav { margin-bottom: 32px; font-size: 0.9rem; }
         h1 { font-size: 1.9rem; margin: 0 0 12px; }
         .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; }
         h2 { font-size: 1.35rem; margin: 32px 0 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
         section { margin-bottom: 28px; }
         .playground { background: var(--surface); border-radius: 12px; padding: 20px; margin: 24px 0; border: 1px solid var(--border); }
         .playground label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 0.9rem; }
-        .playground input[type="password"], .playground select { width: 100%; max-width: 320px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); margin-bottom: 12px; }
-        .playground textarea { width: 100%; min-height: 120px; padding: 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); font-family: ui-monospace, monospace; font-size: 13px; resize: vertical; }
-        .playground input[type="file"] { margin-bottom: 12px; }
+        .playground input[type="password"], .playground select { width: 100%; max-width: 360px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); margin-bottom: 12px; }
+        .playground textarea { width: 100%; min-height: 220px; padding: 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); font-family: ui-monospace, monospace; font-size: 13px; resize: vertical; }
         .playground button { padding: 10px 20px; background: var(--accent); color: var(--bg); border: none; border-radius: 8px; font-weight: 600; cursor: pointer; margin-top: 8px; }
         .playground button:disabled { opacity: 0.6; cursor: not-allowed; }
-        .playground .result { margin-top: 16px; padding: 12px; border-radius: 8px; background: var(--bg); border: 1px solid var(--border); white-space: pre-wrap; word-break: break-all; font-family: ui-monospace, monospace; font-size: 12px; max-height: 320px; overflow: auto; }
+        .playground .result { margin-top: 16px; padding: 12px; border-radius: 8px; background: var(--bg); border: 1px solid var(--border); white-space: pre-wrap; word-break: break-all; font-family: ui-monospace, monospace; font-size: 12px; max-height: 380px; overflow: auto; }
         .playground .result.error { border-color: var(--error); color: var(--error); }
         .playground .result.success { border-color: var(--success); }
         .file-upload-note { font-size: 0.85rem; color: var(--muted); margin-top: 4px; }
@@ -53,12 +51,6 @@
         .code-wrap pre { margin: 0; padding: 14px 16px; background: var(--surface); border-radius: 8px; border: 1px solid var(--border); overflow-x: auto; font-size: 13px; }
         .code-wrap .copy-btn { position: absolute; top: 10px; right: 10px; padding: 6px 12px; background: var(--border); color: var(--text); border: none; border-radius: 6px; font-size: 12px; cursor: pointer; }
         .code-wrap .copy-btn:hover { background: var(--accent); color: var(--bg); }
-        .lang-tabs { display: flex; gap: 4px; margin-bottom: 8px; flex-wrap: wrap; }
-        .lang-tabs button { padding: 8px 14px; background: var(--surface); border: 1px solid var(--border); color: var(--muted); border-radius: 6px; cursor: pointer; font-size: 0.9rem; }
-        .lang-tabs button.active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
-        .code-block { display: none; }
-        .code-block.active { display: block; }
-        .schema-section { margin: 16px 0; }
         .schema-toggle { color: var(--accent); cursor: pointer; text-decoration: none; font-weight: 600; }
         .schema-toggle:hover { text-decoration: underline; }
         .schema-content { display: none; margin-top: 12px; padding: 12px; background: var(--surface); border-radius: 8px; border: 1px solid var(--border); overflow-x: auto; }
@@ -66,15 +58,50 @@
         .schema-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
         .schema-table th, .schema-table td { padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--border); }
         .schema-table code { font-size: 0.85em; }
-        .long-desc { color: var(--muted); font-size: 0.98rem; }
-        .long-desc p { margin: 0.75em 0; }
-        .long-desc ul { margin: 0.75em 0; padding-left: 1.5em; }
-        .long-desc li { margin: 0.35em 0; }
         .postman-btn { display: inline-block; margin-top: 12px; padding: 10px 18px; background: var(--surface); border: 1px solid var(--border); color: var(--accent); border-radius: 8px; cursor: pointer; font-weight: 600; text-decoration: none; }
         .postman-btn:hover { background: var(--border); }
-        
-        .cta-primary { display: inline-block; margin: 0 0 24px; padding: 12px 24px; background: var(--accent); color: var(--bg); border: none; border-radius: 8px; font-weight: 600; font-size: 1rem; text-decoration: none; cursor: pointer; }
+        .cta-primary { display: inline-block; margin: 0; padding: 12px 24px; background: var(--accent); color: var(--bg); border: none; border-radius: 8px; font-weight: 600; font-size: 1rem; text-decoration: none; cursor: pointer; }
         .cta-primary:hover { filter: brightness(1.1); }
+        .cta-primary.cta-hero { padding: 16px 32px; font-size: 1.125rem; font-weight: 700; border-radius: 10px; box-shadow: 0 4px 24px rgba(56, 189, 248, 0.25); }
+        .cta-sub { display: block; margin-top: 10px; font-size: 0.95rem; color: var(--muted); font-weight: 500; }
+        .use-case-list, .who-list { margin: 0.5em 0 0; padding-left: 1.25em; }
+        .use-case-list li, .who-list li { margin: 0.45em 0; }
+        .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
+        @media (max-width: 720px) { .compare-grid { grid-template-columns: 1fr; } }
+        .code-sample { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; overflow-x: auto; }
+        .code-sample h3 { margin: 0 0 10px; font-size: 0.85rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+        .code-sample pre { margin: 0; font-family: ui-monospace, monospace; font-size: 11px; line-height: 1.45; white-space: pre; }
+        .pricing-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 12px; }
+        @media (max-width: 960px) { .pricing-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 520px) { .pricing-grid { grid-template-columns: 1fr; } }
+        .pricing-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 18px; }
+        .pricing-card-featured { border-color: var(--accent); box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.2); }
+        .pricing-badge { display: inline-block; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--success); margin-bottom: 8px; }
+        .pricing-card h3 { margin: 0 0 8px; font-size: 1.05rem; }
+        .pricing-price { font-size: 1.15rem; font-weight: 700; margin: 0 0 10px; }
+        .pricing-period { font-weight: 500; font-size: 0.9rem; color: var(--muted); }
+        .pricing-quotas { line-height: 1.55; }
+        .pricing-note { font-size: 0.88rem; color: var(--muted); margin-top: 14px; }
+        .social-proof { margin: 28px 0; padding: 20px 22px; background: var(--surface); border-radius: 0 10px 10px 0; border: 1px solid var(--border); border-left: 4px solid var(--accent); }
+        .social-proof p { margin: 0; color: var(--muted); font-size: 1rem; }
+        .playground-follow-cta { margin-top: 20px; font-size: 0.95rem; color: var(--muted); }
+        .playground button.secondary { background: var(--surface); color: var(--accent); border: 1px solid var(--border); }
+        .playground .pg-row { display: flex; flex-wrap: wrap; gap: 16px 24px; align-items: flex-end; margin-bottom: 14px; }
+        .playground .pg-field { min-width: 220px; flex: 1; }
+        .playground .pg-field label { margin-bottom: 6px; }
+        .playground .pg-field select { max-width: none; width: 100%; }
+        .lang-select { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-bottom: 14px; }
+        .lang-select select { padding: 8px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-weight: 600; }
+        .example-block { margin: 18px 0; padding: 16px; background: var(--surface); border-radius: 10px; border: 1px solid var(--border); }
+        .example-block h3 { margin: 0 0 8px; font-size: 1.05rem; }
+        .example-block p { margin: 0 0 12px; color: var(--muted); font-size: 0.95rem; }
+        .roi-strip { margin: 0 0 28px; padding: 18px 20px; background: var(--surface); border-radius: 12px; border: 1px solid var(--border); border-left: 4px solid var(--accent); }
+        .roi-strip p { margin: 0; font-size: 1.05rem; line-height: 1.55; }
+        .enterprise-line { font-size: 0.98rem; color: var(--muted); margin: 0 0 20px; line-height: 1.55; }
+        .integration-note { margin-top: 18px; font-size: 0.95rem; color: var(--muted); }
+        .positioning-callout { font-size: 0.95rem; color: var(--muted); margin: 12px 0 0; line-height: 1.55; }
+        .long-desc { color: var(--muted); font-size: 0.98rem; }
+        .long-desc p { margin: 0.75em 0; }
         .global-nav { margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
         .global-nav a { margin-right: 16px; }
         .faq-list { list-style: none; padding: 0; margin: 0; }
@@ -82,11 +109,11 @@
         .faq-q { width: 100%; padding: 14px 12px; cursor: pointer; font-weight: 600; display: flex; justify-content: space-between; align-items: center; text-align: left; background: transparent; color: var(--text); border: none; font-family: inherit; font-size: inherit; }
         .faq-q:hover { background: var(--surface); }
         .faq-q::after { content: '+'; flex-shrink: 0; margin-left: 8px; width: 1.5rem; height: 1.5rem; display: inline-flex; align-items: center; justify-content: center; border-radius: 4px; background: var(--surface); color: var(--accent); font-size: 1.1rem; line-height: 1; }
-        .faq-q[aria-expanded="true"]::after { content: '2'; }
+        .faq-q[aria-expanded="true"]::after { content: '\2212'; }
         .faq-a { padding: 12px 12px 16px; color: var(--muted); display: none; background: var(--surface); margin: 0 12px 8px; border-radius: 6px; font-weight: normal; }
         .faq-a.show { display: block; }
         .related-apis { list-style: none; padding: 0; margin: 0; }
-        .related-apis li { margin: 10px 0; padding-left: 0; }
+        .related-apis li { margin: 10px 0; }
         .related-apis a { font-weight: 500; }
         .browse-all { margin: 28px 0; padding: 16px; background: var(--surface); border-radius: 8px; border: 1px solid var(--border); text-align: center; }
         .browse-all a { font-weight: 600; font-size: 1.05rem; }
@@ -98,256 +125,364 @@
         <nav class="global-nav" aria-label="Main"><a href="../index.html">Home</a><a href="../faq.html">FAQ</a><a href="../index.html#normalization">Normalization APIs</a><a href="../index.html#validation">Validation APIs</a><a href="../index.html#comparison">Comparison APIs</a><a href="../blog/what-is-data-normalization.html">Blog</a></nav>
         <nav aria-label="Breadcrumb"><a href="../index.html">API Catalog</a> → JSON Payload Consistency Checker</nav>
         <article>
-            <header>
-                <h1>JSON Payload Consistency Checker API</h1>
-                <p class="lead">JSON sanity checker, consistency analyzer, and data quality API. Detect missing fields, type drift, nullability issues, schema violations in JSON. API testing, CI/CD, data quality. Rule-based, deterministic, production-ready.</p>
+            <header class="hero">
+                <h1>Catch Silent JSON Drift Before It Breaks Clients</h1>
+                <p class="lead">Send <strong>one JSON value</strong> in the body—usually an <strong>array of objects</strong> from an API or pipeline—and get <code>warnings[]</code> with codes like <code>MISSING_FIELD</code>, <code>TYPE_INCONSISTENCY</code>, <code>NUMERIC_STRING</code>, plus <code>summary.warningCount</code> and <code>summary.totalItems</code>. For a root <strong>object</strong>, nested arrays are scanned recursively. Not JSON Schema and not AI: <strong>deterministic</strong> rules. <strong>POST <code>/analyze</code></strong>, ~<strong>10MB</strong> body, stateless.</p>
+                <p class="cta-row">
+                    <a href="https://rapidapi.com/precisionsolutionstech/api/json-payload-consistency-checker" target="_blank" rel="noopener" class="cta-primary cta-hero">Try on RapidAPI</a>
+                    <span class="cta-sub">Basic: <strong>100 requests/month</strong> free</span>
+                </p>
             </header>
-            <section><h2 id="why">Why use this API?</h2><p>Detect schema drift and inconsistent payloads across samples or versions.</p></section>
-            <section><h2 id="what">What the API does</h2><p>POST with payload(s). Returns consistency analysis and recommendations.</p></section>
+            <section class="roi-strip" aria-label="What this saves you">
+                <p><strong>Validators only say “valid JSON.”</strong> This flags <em>inconsistent</em> shapes across rows—mixed types, missing keys in some items, sketchy dates—so CI can fail on <code>summary.warningCount</code> or specific codes.</p>
+            </section>
+            <section id="use-cases" aria-labelledby="use-cases-heading">
+                <h2 id="use-cases-heading">Real-world use cases</h2>
+                <ul class="use-case-list">
+                    <li><strong>API response QA</strong> — Sample N responses; ensure every object exposes the same fields and types.</li>
+                    <li><strong>ETL / ingestion</strong> — Check batches from a partner before loading.</li>
+                    <li><strong>CI golden tests</strong> — Compare captured payloads against expectations using warning codes.</li>
+                    <li><strong>Version drift</strong> — After a backend deploy, spot new optional fields turning into inconsistent types.</li>
+                </ul>
+            </section>
+            <section id="who-helps" aria-labelledby="who-heading">
+                <h2 id="who-heading">Who this API helps</h2>
+                <ul class="who-list">
+                    <li>Backend and API engineers</li>
+                    <li>Data and platform teams</li>
+                    <li>QA automating contract-ish checks without maintaining a full schema</li>
+                </ul>
+            </section>
+            <section id="before-after" aria-labelledby="before-after-heading">
+                <h2 id="before-after-heading">Illustrative output</h2>
+                <div class="compare-grid">
+                    <div class="code-sample">
+                        <h3>Summary</h3>
+                        <pre><code>summary: {
+  totalItems: 3,
+  warningCount: 3
+}</code></pre>
+                    </div>
+                    <div class="code-sample">
+                        <h3>Warning (example)</h3>
+                        <pre><code>{ code: "TYPE_INCONSISTENCY",
+  field: "age",
+  metadata: { typeCounts: {...} } }</code></pre>
+                    </div>
+                </div>
+            </section>
+            <section id="what">
+                <h2>What the API does</h2>
+                <p><strong>POST <code>/analyze</code></strong> — Body is the JSON to analyze (Content-Type <code>application/json</code>). You may also send a JSON string as <code>text/plain</code> (server parses it).</p>
+                <p><strong>GET <code>/health</code></strong> — Liveness.</p>
+                <p class="positioning-callout">There is <strong>no</strong> <code>{ "payloads": [...] }</code> wrapper—the HTTP body <em>is</em> the payload. The old catalog snippet that used <code>/check</code> was incorrect; the live service uses <code>/analyze</code>.</p>
+            </section>
+            <section id="deterministic" aria-labelledby="deterministic-heading">
+                <h2 id="deterministic-heading">Deterministic analysis</h2>
+                <p>Same JSON input always yields the same warnings and counts. No training data, no probabilistic guesses.</p>
+            </section>
             <section>
-                <h2 id="schemas">Request &amp; response schema</h2>
-                <p><a href="#request-schema" class="schema-toggle" id="toggle-req" aria-expanded="false">View request schema</a> &middot; <a href="#response-schema" class="schema-toggle" id="toggle-res" aria-expanded="false">View response schema</a> &middot; <a href="#error-codes" class="schema-toggle" id="toggle-errors" aria-expanded="false">View error &amp; warning codes</a></p>
-                <div id="error-codes" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Code</th><th>HTTP</th><th>Description</th></tr></thead><tbody><tr><td><code>INVALID_JSON</code></td><td><code>Request body is not valid JSON syntax</code></td><td>400</td></tr><tr><td><code>PAYLOAD_TOO_LARGE</code></td><td><code>Payload exceeds the maximum size limit (10MB)</code></td><td>400</td></tr></tbody></table></div>
-                <div id="request-schema" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>payloads</code></td><td><code>array</code></td><td>JSON payloads to analyze.</td></tr></tbody></table></div>
-                <div id="response-schema" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>validJson</code></td><td><code>boolean</code></td><td></td></tr><tr><td><code>rootType</code></td><td><code>string</code></td><td></td></tr><tr><td><code>summary.totalItems</code></td><td><code>integer</code></td><td></td></tr><tr><td><code>summary.warningCount</code></td><td><code>integer</code></td><td></td></tr><tr><td><code>warnings</code></td><td><code>array</code></td><td></td></tr></tbody></table></div>
+                <h2 id="schemas">Request, response &amp; errors</h2>
+                <p><strong>Endpoint:</strong> <code>POST https://json-payload-consistency-checker.p.rapidapi.com/analyze</code> with <code>x-rapidapi-key</code> and <code>x-rapidapi-host: json-payload-consistency-checker.p.rapidapi.com</code> (verify in your <a href="https://rapidapi.com/precisionsolutionstech/api/json-payload-consistency-checker" target="_blank" rel="noopener">RapidAPI app</a>).</p>
+                <p><a href="#request-body" class="schema-toggle" id="toggle-req" aria-expanded="false">Request body</a> &middot; <a href="#response-fields" class="schema-toggle" id="toggle-res" aria-expanded="false">Success response</a> &middot; <a href="#warning-codes" class="schema-toggle" id="toggle-warn" aria-expanded="false">Warning codes</a> &middot; <a href="#http-errors" class="schema-toggle" id="toggle-err" aria-expanded="false">HTTP errors</a></p>
+                <div id="request-body" class="schema-content" aria-hidden="true">
+                    <p>The entire body must be one JSON value:</p>
+                    <table class="schema-table"><thead><tr><th>Shape</th><th>Typical use</th></tr></thead><tbody>
+                    <tr><td><code>[{...}, {...}]</code></td><td>Compare objects across array elements (missing fields, types, etc.).</td></tr>
+                    <tr><td><code>{ ... }</code></td><td>Object-level checks plus recursive analysis of nested arrays inside the object.</td></tr>
+                    </tbody></table>
+                </div>
+                <div id="response-fields" class="schema-content" aria-hidden="true">
+                    <table class="schema-table"><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody>
+                    <tr><td><code>validJson</code></td><td><code>true</code> when analysis ran.</td></tr>
+                    <tr><td><code>rootType</code></td><td><code>array</code> or <code>object</code>.</td></tr>
+                    <tr><td><code>summary</code></td><td><code>totalItems</code>, <code>warningCount</code>.</td></tr>
+                    <tr><td><code>warnings[]</code></td><td><code>code</code>, <code>field</code> path, <code>metadata</code>.</td></tr>
+                    </tbody></table>
+                </div>
+                <div id="warning-codes" class="schema-content" aria-hidden="true">
+                    <p>Examples: <code>MISSING_FIELD</code>, <code>TYPE_INCONSISTENCY</code>, <code>NULLABILITY_DRIFT</code>, <code>INVALID_DATE_FORMAT</code>, <code>KEY_CASING_INCONSISTENCY</code>, <code>NON_OBJECT_ARRAY_ITEM</code>, <code>NUMERIC_STRING</code>, <code>KEY_COLLISION</code>, <code>DUPLICATE_KEY</code>, <code>PAYLOAD_TOO_LARGE</code> (when returned inside analysis results).</p>
+                </div>
+                <div id="http-errors" class="schema-content" aria-hidden="true">
+                    <table class="schema-table"><thead><tr><th>Situation</th><th>HTTP</th><th>Body (typical)</th></tr></thead><tbody>
+                    <tr><td>Malformed JSON (syntax)</td><td>400</td><td><code>validJson: false</code>, <code>invalidJson: true</code></td></tr>
+                    <tr><td>Empty / missing body</td><td>400</td><td>Same as invalid JSON</td></tr>
+                    <tr><td>Serialized payload &gt; 10MB after parse</td><td>413</td><td><code>error: "PAYLOAD_TOO_LARGE"</code>, optional <code>warnings</code> entry</td></tr>
+                    </tbody></table>
+                    <p>Raw HTTP body larger than Express’s JSON limit may be rejected by the framework before your JSON reaches the handler.</p>
+                </div>
             </section>
             <section>
                 <h2 id="playground">Try it in the playground</h2>
-                <p>Add your <a href="https://rapidapi.com/precisionsolutionstech/api/json-payload-consistency-checker" target="_blank" rel="noopener">RapidAPI key</a> and run. Key is sent only to RapidAPI.</p>
+                <p>Pick a sample or paste your own JSON (array or object). Add your <a href="https://rapidapi.com/precisionsolutionstech/api/json-payload-consistency-checker" target="_blank" rel="noopener">RapidAPI key</a>.</p>
                 <div class="playground">
                     <label for="api-key">RapidAPI Key (required)</label>
                     <input type="password" id="api-key" placeholder="Your RapidAPI key" autocomplete="off">
-                    
+                    <div class="pg-row">
+                        <div class="pg-field">
+                            <label for="pg-sample">Sample request</label>
+                            <select id="pg-sample" aria-describedby="pg-sample-hint"></select>
+                        </div>
+                    </div>
+                    <p id="pg-sample-hint" class="file-upload-note">Body must be valid JSON (array or object).</p>
                     <label for="body-json">Request body (JSON)</label>
-                    <textarea id="body-json" placeholder='{}'>[
-  {
-    &quot;name&quot;: &quot;John&quot;,
-    &quot;email&quot;: &quot;john@example.com&quot;,
-    &quot;age&quot;: 30
-  },
-  {
-    &quot;name&quot;: &quot;Jane&quot;,
-    &quot;email&quot;: &quot;jane@example.com&quot;,
-    &quot;age&quot;: &quot;25&quot;
-  },
-  {
-    &quot;name&quot;: &quot;Bob&quot;
-  }
-]</textarea>
+                    <textarea id="body-json" placeholder="[]"></textarea>
                     <button type="button" id="run-btn">Run request</button>
                     <div id="play-result" class="result" style="display:none;" aria-live="polite"></div>
                 </div>
+                <p class="playground-follow-cta"><a href="https://rapidapi.com/precisionsolutionstech/api/json-payload-consistency-checker" target="_blank" rel="noopener">Subscribe on RapidAPI</a> for production quotas.</p>
             </section>
             <section>
-                <h2 id="code">Copy code</h2>
-                <p>Host: <code>json-payload-consistency-checker.p.rapidapi.com</code>, endpoint: <code>POST /check</code>. Choose language:</p>
-                <div class="lang-tabs" role="tablist">
-                    <button type="button" role="tab" aria-selected="true" data-lang="curl" class="active">cURL</button>
-                    <button type="button" role="tab" aria-selected="false" data-lang="javascript">JavaScript</button>
-                    <button type="button" role="tab" aria-selected="false" data-lang="python">Python</button>
-                    <button type="button" role="tab" aria-selected="false" data-lang="java">Java</button>
+                <h2 id="code">Get code</h2>
+                <p>Snippets reflect the playground. Path: <code>/analyze</code>.</p>
+                <div class="lang-select">
+                    <label for="code-lang">Language:</label>
+                    <select id="code-lang">
+                        <option value="curl">cURL</option>
+                        <option value="javascript">JavaScript</option>
+                        <option value="typescript">TypeScript</option>
+                        <option value="python">Python</option>
+                        <option value="java">Java</option>
+                    </select>
+                    <button type="button" id="refresh-code-btn" class="secondary">Refresh code</button>
                 </div>
-                <div id="snippet-curl" class="code-block active"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-curl">Copy</button><pre><code>curl --request POST \
-  --url 'https://json-payload-consistency-checker.p.rapidapi.com/check' \
-  --header 'Content-Type: application/json' \
-  --header 'x-rapidapi-host: json-payload-consistency-checker.p.rapidapi.com' \
-  --header 'x-rapidapi-key: YOUR_RAPIDAPI_KEY' \
-  --data '[
-  {
-    &quot;name&quot;: &quot;John&quot;,
-    &quot;email&quot;: &quot;john@example.com&quot;,
-    &quot;age&quot;: 30
-  },
-  {
-    &quot;name&quot;: &quot;Jane&quot;,
-    &quot;email&quot;: &quot;jane@example.com&quot;,
-    &quot;age&quot;: &quot;25&quot;
-  },
-  {
-    &quot;name&quot;: &quot;Bob&quot;
-  }
-]'</code></pre></div></div>
-                <div id="snippet-javascript" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-javascript">Copy</button><pre><code>const res = await fetch('https://json-payload-consistency-checker.p.rapidapi.com/check', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
-    'x-rapidapi-host': 'json-payload-consistency-checker.p.rapidapi.com'
-  },
-  body: '[   {     &quot;name&quot;: &quot;John&quot;,     &quot;email&quot;: &quot;john@example.com&quot;,     &quot;age&quot;: 30   },   {     &quot;name&quot;: &quot;Jane&quot;,     &quot;email&quot;: &quot;jane@example.com&quot;,     &quot;age&quot;: &quot;25&quot;   },   {     &quot;name&quot;: &quot;Bob&quot;   } ]'
-});
-const data = await res.json();
-console.log(data);</code></pre></div></div>
-                <div id="snippet-python" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-python">Copy</button><pre><code>import http.client
-import json
-
-conn = http.client.HTTPSConnection(&quot;json-payload-consistency-checker.p.rapidapi.com&quot;)
-payload = '[
-  {
-    &quot;name&quot;: &quot;John&quot;,
-    &quot;email&quot;: &quot;john@example.com&quot;,
-    &quot;age&quot;: 30
-  },
-  {
-    &quot;name&quot;: &quot;Jane&quot;,
-    &quot;email&quot;: &quot;jane@example.com&quot;,
-    &quot;age&quot;: &quot;25&quot;
-  },
-  {
-    &quot;name&quot;: &quot;Bob&quot;
-  }
-]'
-headers = {
-    'Content-Type': 'application/json',
-    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
-    'x-rapidapi-host': 'json-payload-consistency-checker.p.rapidapi.com'
-}
-conn.request(&quot;POST&quot;, &quot;/check&quot;, payload, headers)
-res = conn.getresponse()
-print(res.read().decode())</code></pre></div></div>
-                <div id="snippet-java" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-java">Copy</button><pre><code>HttpRequest request = HttpRequest.newBuilder()
-    .uri(URI.create(&quot;https://json-payload-consistency-checker.p.rapidapi.com/check&quot;))
-    .header(&quot;Content-Type&quot;, &quot;application/json&quot;)
-    .header(&quot;x-rapidapi-key&quot;, &quot;YOUR_RAPIDAPI_KEY&quot;)
-    .header(&quot;x-rapidapi-host&quot;, &quot;json-payload-consistency-checker.p.rapidapi.com&quot;)
-    .method(&quot;POST&quot;, HttpRequest.BodyPublishers.ofString(&quot;[
-  {
-    \&quot;name\&quot;: \&quot;John\&quot;,
-    \&quot;email\&quot;: \&quot;john@example.com\&quot;,
-    \&quot;age\&quot;: 30
-  },
-  {
-    \&quot;name\&quot;: \&quot;Jane\&quot;,
-    \&quot;email\&quot;: \&quot;jane@example.com\&quot;,
-    \&quot;age\&quot;: \&quot;25\&quot;
-  },
-  {
-    \&quot;name\&quot;: \&quot;Bob\&quot;
-  }
-]&quot;))
-    .build();
-HttpResponse&lt;String&gt; response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-System.out.println(response.body());</code></pre></div></div>
+                <div class="code-wrap"><button type="button" class="copy-btn" id="copy-code-btn">Copy</button><pre><code id="generated-code"></code></pre></div>
                 <p><button type="button" class="postman-btn" id="postman-download">Download Postman collection</button></p>
+                <p class="integration-note"><strong>Integration time:</strong> One POST per batch or sample file in CI.</p>
             </section>
-            <section><h2 id="expect">What to expect</h2><p>Response format depends on the endpoint. Use your RapidAPI key in headers. Stateless; no data stored. See <a href="https://rapidapi.com/precisionsolutionstech/api/json-payload-consistency-checker" target="_blank" rel="noopener">RapidAPI docs</a> for full response schema.</p></section>
-            <section><h2 id="about">About this API</h2>
-
-                <h3 id="who-should-use">Who Should Use This API</h3>
-                <p>Backend and data teams analyzing payload consistency, API contract and quality checks.</p>
-                <h3 id="also-known-as">Also Known As</h3>
-                <p>JSON consistency API, payload consistency checker, JSON structure analyzer.</p>
-<div class="long-desc">
-<p>JSON Payload Consistency Checker API</p>
-<p>The JSON Payload Consistency Checker API analyzes JSON payloads and detects data consistency problems that often go unnoticed until production. Basic JSON validators only tell you whether JSON is syntactically valid. They do not detect silent data issues that cause bugs, broken assumptions, and downstream failures.</p>
-<p>What This API Does</p>
-<p>Given a JSON payload, this API detects:</p>
-<ul>
-<li>**Missing fields** across array items</li>
-<li>**Mixed data types** (e.g., numbers vs strings)</li>
-<li>**Nullability drift** (inconsistent null values)</li>
-<li>**Malformed ISO 8601 date strings**</li>
-<li>**Numeric values represented as strings**</li>
-<li>**Boolean drift** (`true` vs `&quot;true&quot;`)</li>
-<li>**Key casing inconsistencies** (`firstName` vs `first_name`)</li>
-<li>**Non-object items** inside arrays of objects</li>
-<li>**Key collisions** (case-insensitive duplicates)</li>
-</ul>
-<p>Arrays are analyzed recursively at any nesting level, and issues are reported using fully-qualified field paths.</p>
-<p>Key Features</p>
-<ul>
-<li>**Rule-Based &amp; Deterministic** — Explicit, machine-readable checks; no AI</li>
-<li>**Recursive Analysis** — Arrays analyzed at any nesting level</li>
-<li>**Stateless** — No data storage, 10MB max payload</li>
-<li>**Production-Ready** — Ideal for CI/CD, API evolution, third-party data quality</li>
-<li>**Fast &amp; Reliable** — Sub-second response times for most payloads</li>
-</ul>
-<p>Use Cases</p>
-<ul>
-<li>**API Response Validation** — Catch inconsistent array structures before release</li>
-<li>**Third-Party Data Quality** — Audit external API responses for drift</li>
-<li>**CI/CD Pipelines** — Fail builds when JSON consistency regresses</li>
-<li>**Data Ingestion** — Verify payloads before processing</li>
-<li>**API Testing** — Automated JSON quality checks in test suites</li>
-<li>**Data Quality Assurance** — Ensure JSON payloads meet consistency standards</li>
-</ul>
-<p>Who This Is For</p>
-<p>### Backend Engineers</p>
-<p>Validate API responses and catch data inconsistencies before they reach production. Perfect for API testing and quality assurance.</p>
-<p>### DevOps &amp; CI/CD Teams</p>
-<p>Integrate JSON consistency checks into your CI/CD pipelines. Fail builds automatically when data quality regresses.</p>
-<p>### Data Engineers</p>
-<p>Verify JSON payloads in data pipelines. Ensure consistent structure across batches and sources.</p>
-<p>### QA Engineers</p>
-<p>Automate JSON quality testing. Catch schema drift and type inconsistencies in API responses.</p>
-<p>### API Product Teams</p>
-<p>Monitor API response quality over time. Ensure backward compatibility and consistent data structures.</p>
-
-</div></section>
-            <section><h2 id="faq">Frequently Asked Questions</h2>
+            <section id="examples" aria-labelledby="examples-heading">
+                <h2 id="examples-heading">Real-world examples</h2>
+                <div class="example-block">
+                    <h3>1. Fail CI on any drift</h3>
+                    <p>POST your nightly sample array; fail the job if <code>warnings.length &gt; 0</code> or if <code>MISSING_FIELD</code> appears on critical paths.</p>
+                </div>
+                <div class="example-block">
+                    <h3>2. Allow-list benign codes</h3>
+                    <p>Ignore <code>NUMERIC_STRING</code> on specific paths (e.g. legacy SKU fields) but fail on <code>TYPE_INCONSISTENCY</code> or <code>MISSING_FIELD</code> for core columns.</p>
+                </div>
+                <div class="example-block">
+                    <h3>3. Pair with schema validation</h3>
+                    <p>Use <a href="json-schema-validator.html">JSON Schema Validator</a> for contract enforcement; use this API to catch what the schema did not anticipate across real samples.</p>
+                </div>
+            </section>
+            <section id="pricing" aria-labelledby="pricing-heading">
+                <h2 id="pricing-heading">Pricing &amp; tiers (RapidAPI)</h2>
+                <p class="enterprise-line">Built for teams running <strong>repeated quality checks</strong> on API and pipeline JSON.</p>
+                <p>Plans on <a href="https://rapidapi.com/precisionsolutionstech/api/json-payload-consistency-checker" target="_blank" rel="noopener">RapidAPI</a>:</p>
+                <div class="pricing-grid">
+                    <div class="pricing-card">
+                        <h3>Basic</h3>
+                        <p class="pricing-price">$0<span class="pricing-period">/mo</span></p>
+                        <p class="pricing-quotas"><strong>100</strong> requests/month included</p>
+                    </div>
+                    <div class="pricing-card">
+                        <h3>Pro</h3>
+                        <p class="pricing-price">$9.99<span class="pricing-period">/mo</span></p>
+                        <p class="pricing-quotas"><strong>10,000</strong> requests/month included</p>
+                    </div>
+                    <div class="pricing-card pricing-card-featured">
+                        <span class="pricing-badge">Popular</span>
+                        <h3>Ultra</h3>
+                        <p class="pricing-price">$49.99<span class="pricing-period">/mo</span></p>
+                        <p class="pricing-quotas"><strong>100,000</strong> requests/month included</p>
+                    </div>
+                    <div class="pricing-card">
+                        <h3>Mega</h3>
+                        <p class="pricing-price">$99.99<span class="pricing-period">/mo</span></p>
+                        <p class="pricing-quotas"><strong>250,000</strong> requests/month included</p>
+                    </div>
+                </div>
+                <p class="pricing-note">Overage and plan changes follow the live RapidAPI listing.</p>
+            </section>
+            <aside class="social-proof" aria-label="Positioning">
+                <p>Pair with <strong><a href="json-diff-checker.html">JSON Diff Checker</a></strong> when you have exactly two snapshots and care about breaking vs non-breaking structural changes between them.</p>
+            </aside>
+            <section id="expect"><h2>What to expect</h2><p><strong>200</strong> with <code>validJson: true</code>, <code>warnings</code>, and <code>summary</code> when analysis succeeds. <strong>400</strong> with <code>invalidJson: true</code> for many client errors. <strong>413</strong> when the parsed payload exceeds the size guard.</p></section>
+            <section id="about"><h2>About this API</h2>
+                <h3 id="also-known-as">Also known as</h3>
+                <p>JSON sanity checker, payload consistency API, JSON structure analyzer, data quality JSON API.</p>
+                <div class="long-desc">
+                    <p>Source implementation lives in the <code>json-sanity-checker-api</code> repository; the RapidAPI product name is JSON Payload Consistency Checker. See the README for the full warning catalog and design limits (no schema inference, no auto-fix).</p>
+                </div>
+            </section>
+            <section id="faq"><h2>Frequently asked questions</h2>
                 <ul class="faq-list">
-                    <li>
-                        <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a1" id="faq-q1">What does it do?</button>
-                        <div id="faq-a1" class="faq-a" role="region" aria-labelledby="faq-q1">Checks consistency of JSON structure across multiple samples.</div>
-                    </li><li>
-                        <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a2" id="faq-q2">Does it store data?</button>
-                        <div id="faq-a2" class="faq-a" role="region" aria-labelledby="faq-q2">No. Fully stateless.</div>
-                    </li>
+                    <li><button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a1" id="faq-q1">What do I send in the request body?</button>
+                        <div id="faq-a1" class="faq-a" role="region" aria-labelledby="faq-q1">One JSON value: typically an array of objects, or an object (nested arrays are scanned). No <code>payloads</code> wrapper.</div></li>
+                    <li><button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a2" id="faq-q2">What is the maximum request size?</button>
+                        <div id="faq-a2" class="faq-a" role="region" aria-labelledby="faq-q2">About 10MB for the JSON body; larger <em>serialized</em> payloads after parse return 413 with PAYLOAD_TOO_LARGE.</div></li>
+                    <li><button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a3" id="faq-q3">Does the API store my JSON?</button>
+                        <div id="faq-a3" class="faq-a" role="region" aria-labelledby="faq-q3">No. Stateless in-memory processing.</div></li>
+                    <li><button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a4" id="faq-q4">Is this the same as JSON Schema validation?</button>
+                        <div id="faq-a4" class="faq-a" role="region" aria-labelledby="faq-q4">No. This compares concrete samples for drift; schema validation enforces a declared contract.</div></li>
+                    <li><button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a5" id="faq-q5">What endpoint and host should I use?</button>
+                        <div id="faq-a5" class="faq-a" role="region" aria-labelledby="faq-q5">POST /analyze on json-payload-consistency-checker.p.rapidapi.com—confirm host in RapidAPI.</div></li>
+                    <li><button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a6" id="faq-q6">How are invalid JSON and oversized payloads handled?</button>
+                        <div id="faq-a6" class="faq-a" role="region" aria-labelledby="faq-q6">400 with validJson false and invalidJson true for bad syntax; 413 with PAYLOAD_TOO_LARGE when the parsed payload is too big.</div></li>
+                    <li><button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a7" id="faq-q7">Where are pricing and quotas?</button>
+                        <div id="faq-a7" class="faq-a" role="region" aria-labelledby="faq-q7">On RapidAPI: Basic 100/mo; Pro $9.99/10k; Ultra $49.99/100k; Mega $99.99/250k.</div></li>
+                    <li><button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a8" id="faq-q8">Can I use this in CI/CD?</button>
+                        <div id="faq-a8" class="faq-a" role="region" aria-labelledby="faq-q8">Yes—threshold on warningCount or specific codes; output is deterministic.</div></li>
+                </ul>
+            </section>
+            <section id="related-apis" aria-labelledby="related-heading">
+                <h2 id="related-heading">Related APIs</h2>
+                <ul class="related-apis">
+                    <li><a href="json-schema-validator.html">JSON Schema Validator</a> — validate against a schema</li>
+                    <li><a href="json-diff-checker.html">JSON Diff Checker</a> — two-version structural diff</li>
+                    <li><a href="api-error-status-normalization.html">API Error &amp; Status Normalization</a> — normalize error payloads</li>
                 </ul>
             </section>
             <div class="browse-all"><a href="../index.html">Browse all APIs in the catalog →</a></div>
         </article>
         <footer>
-            <p><a href="https://rapidapi.com/precisionsolutionstech/api/json-payload-consistency-checker" target="_blank" rel="noopener">Subscribe on RapidAPI</a> · <a href="../index.html">API Catalog</a></p>
+            <p><a href="https://rapidapi.com/precisionsolutionstech/api/json-payload-consistency-checker" target="_blank" rel="noopener">Subscribe on RapidAPI</a> · <a href="../index.html">API Catalog</a> · <a href="../faq.html">FAQ</a></p>
             <p>© 2026 Precision Solutions Tech</p>
         </footer>
     </div>
     <script>
-(function(){
-    var host='json-payload-consistency-checker.p.rapidapi.com',path='/check',body="[\n  {\n    \"name\": \"John\",\n    \"email\": \"john@example.com\",\n    \"age\": 30\n  },\n  {\n    \"name\": \"Jane\",\n    \"email\": \"jane@example.com\",\n    \"age\": \"25\"\n  },\n  {\n    \"name\": \"Bob\"\n  }\n]",fileUpload=false,rapidUrl="https://rapidapi.com/precisionsolutionstech/api/json-payload-consistency-checker";
-    document.querySelectorAll('[data-rapid-docs]').forEach(function(a){ a.href = rapidUrl; });
-    document.getElementById('toggle-req').addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('request-schema'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); });
-    document.getElementById('toggle-res').addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('response-schema'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); });
-    var toggleErrors=document.getElementById('toggle-errors');if(toggleErrors){ toggleErrors.addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('error-codes'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); }); }
-    document.querySelectorAll('.lang-tabs button').forEach(function(btn){
-        btn.addEventListener('click',function(){
-            document.querySelectorAll('.lang-tabs button').forEach(function(b){ b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
-            document.querySelectorAll('.code-block').forEach(function(b){ b.classList.remove('active'); });
-            this.classList.add('active'); this.setAttribute('aria-selected','true');
-            var el=document.getElementById('snippet-'+this.getAttribute('data-lang')); if(el) el.classList.add('active');
+(function () {
+    var host = 'json-payload-consistency-checker.p.rapidapi.com';
+    var path = '/analyze';
+    var SAMPLES = {
+        mixed: [
+            { name: 'John', email: 'john@example.com', age: 30 },
+            { name: 'Jane', email: 'jane@example.com', age: '25' },
+            { name: 'Bob' }
+        ],
+        clean: [
+            { name: 'Ada', email: 'ada@example.com', age: 36 },
+            { name: 'Lin', email: 'lin@example.com', age: 29 },
+            { name: 'Raj', email: 'raj@example.com', age: 41 }
+        ],
+        nested_zip: [
+            { name: 'John', address: { city: 'NYC', zip: '10001' } },
+            { name: 'Jane', address: { city: 'LA' } }
+        ]
+    };
+    var SAMPLE_LABELS = [
+        ['mixed', 'Root array — type drift + missing field'],
+        ['clean', 'Root array — consistent shape (clean)'],
+        ['nested_zip', 'Root array — nested object missing zip']
+    ];
+    var sampleSelect = document.getElementById('pg-sample');
+    var bodyTextarea = document.getElementById('body-json');
+    SAMPLE_LABELS.forEach(function (pair) {
+        var o = document.createElement('option');
+        o.value = pair[0];
+        o.textContent = pair[1];
+        sampleSelect.appendChild(o);
+    });
+    function applySample() {
+        var v = SAMPLES[sampleSelect.value];
+        bodyTextarea.value = v ? JSON.stringify(v, null, 2) : '[]';
+        refreshCode();
+    }
+    sampleSelect.addEventListener('change', applySample);
+    bodyTextarea.addEventListener('input', function () { setTimeout(refreshCode, 150); });
+
+    function bindToggle(btnId, panelId) {
+        var btn = document.getElementById(btnId);
+        if (!btn) return;
+        btn.addEventListener('click', function (e) {
+            e.preventDefault();
+            var d = document.getElementById(panelId);
+            if (!d) return;
+            d.classList.toggle('show');
+            btn.setAttribute('aria-expanded', d.classList.contains('show'));
+        });
+    }
+    bindToggle('toggle-req', 'request-body');
+    bindToggle('toggle-res', 'response-fields');
+    bindToggle('toggle-warn', 'warning-codes');
+    bindToggle('toggle-err', 'http-errors');
+
+    function parseBody() {
+        var s = bodyTextarea.value.trim();
+        try { return { ok: true, body: JSON.parse(s) }; }
+        catch (e) { return { ok: false, error: e.message }; }
+    }
+
+    function generateCode(lang) {
+        var key = 'YOUR_RAPIDAPI_KEY';
+        var parsed = parseBody();
+        if (!parsed.ok) return '// Fix JSON in playground: ' + parsed.error;
+        var bodyStr = JSON.stringify(parsed.body);
+        var url = 'https://' + host + path;
+        if (lang === 'curl') {
+            return 'curl --request POST \\\n  --url \'' + url + '\' \\\n  --header \'Content-Type: application/json\' \\\n  --header \'x-rapidapi-key: ' + key + '\' \\\n  --header \'x-rapidapi-host: ' + host + '\' \\\n  --data \'' + bodyStr.replace(/\\/g, '\\\\').replace(/'/g, "'\\''") + '\'';
+        }
+        if (lang === 'javascript') {
+            return 'const res = await fetch(\'' + url + '\', {\n  method: \'POST\',\n  headers: {\n    \'Content-Type\': \'application/json\',\n    \'x-rapidapi-key\': \'' + key + '\',\n    \'x-rapidapi-host\': \'' + host + '\'\n  },\n  body: ' + JSON.stringify(bodyStr) + '\n});\nconst data = await res.json();\nconsole.log(data);';
+        }
+        if (lang === 'typescript') {
+            return 'const res = await fetch(\'' + url + '\', {\n  method: \'POST\',\n  headers: {\n    \'Content-Type\': \'application/json\',\n    \'x-rapidapi-key\': \'' + key + '\',\n    \'x-rapidapi-host\': \'' + host + '\'\n  },\n  body: ' + JSON.stringify(bodyStr) + '\n});\nconst data: unknown = await res.json();\nconsole.log(data);';
+        }
+        if (lang === 'python') {
+            var esc = bodyStr.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+            return 'import http.client\n\nconn = http.client.HTTPSConnection("' + host + '")\npayload = "' + esc + '"\nheaders = {\n    "Content-Type": "application/json",\n    "x-rapidapi-key": "' + key + '",\n    "x-rapidapi-host": "' + host + '"\n}\nconn.request("POST", "' + path + '", payload, headers)\nres = conn.getresponse()\nprint(res.read().decode())';
+        }
+        if (lang === 'java') {
+            var j = bodyStr.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n').replace(/\r/g, '\\r');
+            return 'HttpRequest request = HttpRequest.newBuilder()\n    .uri(URI.create("' + url + '"))\n    .header("Content-Type", "application/json")\n    .header("x-rapidapi-key", "' + key + '")\n    .header("x-rapidapi-host", "' + host + '")\n    .method("POST", HttpRequest.BodyPublishers.ofString("' + j + '"))\n    .build();\nHttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());\nSystem.out.println(response.body());';
+        }
+        return '';
+    }
+
+    function refreshCode() {
+        var el = document.getElementById('generated-code');
+        if (el) el.textContent = generateCode(document.getElementById('code-lang').value);
+    }
+    document.getElementById('code-lang').addEventListener('change', refreshCode);
+    document.getElementById('refresh-code-btn').addEventListener('click', refreshCode);
+    document.getElementById('copy-code-btn').addEventListener('click', function () {
+        var t = document.getElementById('generated-code').textContent;
+        var btn = document.getElementById('copy-code-btn');
+        navigator.clipboard.writeText(t).then(function () {
+            var o = btn.textContent; btn.textContent = 'Copied!'; setTimeout(function () { btn.textContent = o; }, 1500);
         });
     });
-    document.querySelectorAll('.copy-btn').forEach(function(btn){
-        btn.addEventListener('click',function(){
-            var id=this.getAttribute('data-copy'),block=document.getElementById(id),pre=block?block.querySelector('pre code'):null,btn=this;
-            if(pre) navigator.clipboard.writeText(pre.textContent).then(function(){ var t=btn.textContent; btn.textContent='Copied!'; setTimeout(function(){ btn.textContent=t; },1500); });
+
+    document.querySelectorAll('.faq-q').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            var expanded = this.getAttribute('aria-expanded') === 'true';
+            this.setAttribute('aria-expanded', !expanded);
+            var panel = document.getElementById(this.getAttribute('aria-controls'));
+            if (panel) panel.classList.toggle('show', !expanded);
         });
     });
-    
-    document.querySelectorAll('.faq-q').forEach(function(btn){
-        btn.addEventListener('click',function(){ var expanded=this.getAttribute('aria-expanded')==='true'; this.setAttribute('aria-expanded',!expanded); var panel=document.getElementById(this.getAttribute('aria-controls')); if(panel) panel.classList.toggle('show',!expanded); });
-    });
-    document.getElementById('postman-download').addEventListener('click',function(){
-        var coll = { info: { name: "JSON Payload Consistency Checker API", schema: 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json' }, item: [{ name: 'Request', request: { method: 'POST', header: [{ key: 'Content-Type', value: 'application/json' }, { key: 'x-rapidapi-key', value: 'YOUR_RAPIDAPI_KEY' }, { key: 'x-rapidapi-host', value: host }], url: 'https://'+host+path } } ] };
-        if(!fileUpload){ coll.item[0].request.body = { mode: 'raw', raw: typeof body==='string'?body:JSON.stringify(body) }; }
-        else { coll.item[0].request.header = [{ key: 'X-RapidAPI-Key', value: 'YOUR_RAPIDAPI_KEY' }, { key: 'X-RapidAPI-Host', value: host }]; coll.item[0].request.url = 'https://'+host+path+'?outputFormat=json'; coll.item[0].request.body = { mode: 'formdata', formdata: [{ key: 'file', type: 'file', src: '' }] }; }
-        var blob = new Blob([JSON.stringify(coll,null,2)], { type: 'application/json' });
+
+    document.getElementById('postman-download').addEventListener('click', function () {
+        var parsed = parseBody();
+        if (!parsed.ok) { alert('Fix JSON in the playground before downloading.'); return; }
+        var coll = { info: { name: 'JSON Payload Consistency Checker API', schema: 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json' }, item: [{ name: 'POST /analyze', request: { method: 'POST', header: [{ key: 'Content-Type', value: 'application/json' }, { key: 'x-rapidapi-key', value: 'YOUR_RAPIDAPI_KEY' }, { key: 'x-rapidapi-host', value: host }], body: { mode: 'raw', raw: JSON.stringify(parsed.body) }, url: 'https://' + host + path } }] };
+        var blob = new Blob([JSON.stringify(coll, null, 2)], { type: 'application/json' });
         var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'json-payload-consistency-checker-postman-collection.json'; a.click(); URL.revokeObjectURL(a.href);
     });
-    var runBtn=document.getElementById('run-btn'),keyInput=document.getElementById('api-key'),resultDiv=document.getElementById('play-result');
-    runBtn.addEventListener('click',function(){
-        var key=(keyInput.value||'').trim();
-        if(!key){ resultDiv.style.display='block'; resultDiv.className='result error'; resultDiv.textContent='Please enter your RapidAPI key.'; return; }
-        
-    var bodyStr=document.getElementById('body-json').value.trim(),body;
-    try{body=JSON.parse(bodyStr);}catch(e){resultDiv.style.display='block';resultDiv.className='result error';resultDiv.textContent='Invalid JSON: '+e.message;return;}
-    runBtn.disabled=true;resultDiv.style.display='block';resultDiv.className='result';resultDiv.textContent='Loading…';
-    fetch('https://'+host+path,{method:'POST',headers:{'Content-Type':'application/json','x-rapidapi-key':key,'x-rapidapi-host':host},body:JSON.stringify(body)})
-    .then(function(r){return r.text().then(function(t){return{status:r.status,body:t};});})
-    .then(function(o){resultDiv.className='result '+(o.status>=200&&o.status<300?'success':'error');try{resultDiv.textContent=JSON.stringify(JSON.parse(o.body),null,2);}catch(_){resultDiv.textContent=o.status+'\n'+o.body;}})
-    .catch(function(e){resultDiv.className='result error';resultDiv.textContent='Request failed: '+e.message;})
-    .finally(function(){runBtn.disabled=false;});
+
+    var runBtn = document.getElementById('run-btn'), keyInput = document.getElementById('api-key'), resultDiv = document.getElementById('play-result');
+    runBtn.addEventListener('click', function () {
+        var key = (keyInput.value || '').trim();
+        if (!key) { resultDiv.style.display = 'block'; resultDiv.className = 'result error'; resultDiv.textContent = 'Please enter your RapidAPI key.'; return; }
+        var parsed = parseBody();
+        if (!parsed.ok) { resultDiv.style.display = 'block'; resultDiv.className = 'result error'; resultDiv.textContent = 'Invalid JSON: ' + parsed.error; return; }
+        runBtn.disabled = true; resultDiv.style.display = 'block'; resultDiv.className = 'result'; resultDiv.textContent = 'Loading…';
+        fetch('https://' + host + path, { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-rapidapi-key': key, 'x-rapidapi-host': host }, body: JSON.stringify(parsed.body) })
+            .then(function (r) { return r.text().then(function (t) { return { status: r.status, body: t }; }); })
+            .then(function (o) {
+                var okBody = false;
+                try {
+                    var j = JSON.parse(o.body);
+                    okBody = j.validJson === true;
+                } catch (_) {}
+                resultDiv.className = 'result ' + (o.status >= 200 && o.status < 300 && okBody ? 'success' : 'error');
+                try { resultDiv.textContent = JSON.stringify(JSON.parse(o.body), null, 2); } catch (_) { resultDiv.textContent = o.status + '\n' + o.body; }
+            })
+            .catch(function (e) { resultDiv.className = 'result error'; resultDiv.textContent = 'Request failed: ' + e.message; })
+            .finally(function () { runBtn.disabled = false; });
     });
+
+    applySample();
 })();
     </script>
 </body>

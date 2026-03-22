@@ -25,7 +25,7 @@
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"API Catalog","item":"https://precisionsolutionstech-netizen.github.io/api-catalog/"},{"@type":"ListItem","position":2,"name":"PII Detection & Redaction","item":"https://precisionsolutionstech-netizen.github.io/api-catalog/apis/pii-detection-redaction.html"}]}
     </script>
     <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does it store the text?","acceptedAnswer":{"@type":"Answer","text":"No. Fully stateless."}},{"@type":"Question","name":"What PII types?","acceptedAnswer":{"@type":"Answer","text":"Common types; see RapidAPI docs."}}]}
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What are the RapidAPI pricing tiers?","acceptedAnswer":{"@type":"Answer","text":"Basic is free with 100 requests per month. Pro is 9.99 dollars per month with 10000 requests and no overage listed. Ultra is 29.99 dollars per month with 35000 requests and about 0.003 dollars per overage request. Mega is 74.99 dollars per month with 150000 requests and about 0.002 per overage. Confirm on the live RapidAPI listing."}},{"@type":"Question","name":"Does it store the text?","acceptedAnswer":{"@type":"Answer","text":"No. Fully stateless."}},{"@type":"Question","name":"What PII types?","acceptedAnswer":{"@type":"Answer","text":"Common types; see RapidAPI docs."}}]}
     </script>
     <style>
         :root { --bg: #0f172a; --surface: #1e293b; --border: #334155; --text: #e2e8f0; --muted: #94a3b8; --accent: #38bdf8; --success: #34d399; --error: #f87171; }
@@ -53,11 +53,10 @@
         .code-wrap pre { margin: 0; padding: 14px 16px; background: var(--surface); border-radius: 8px; border: 1px solid var(--border); overflow-x: auto; font-size: 13px; }
         .code-wrap .copy-btn { position: absolute; top: 10px; right: 10px; padding: 6px 12px; background: var(--border); color: var(--text); border: none; border-radius: 6px; font-size: 12px; cursor: pointer; }
         .code-wrap .copy-btn:hover { background: var(--accent); color: var(--bg); }
-        .lang-tabs { display: flex; gap: 4px; margin-bottom: 8px; flex-wrap: wrap; }
-        .lang-tabs button { padding: 8px 14px; background: var(--surface); border: 1px solid var(--border); color: var(--muted); border-radius: 6px; cursor: pointer; font-size: 0.9rem; }
-        .lang-tabs button.active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
-        .code-block { display: none; }
-        .code-block.active { display: block; }
+        .lang-select { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-bottom: 14px; }
+        .lang-select select { padding: 8px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-weight: 600; }
+        .lang-select button.secondary { padding: 8px 14px; background: var(--surface); color: var(--accent); border: 1px solid var(--border); border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 0.9rem; }
+        .lang-select button.secondary:hover { background: var(--border); }
         .schema-section { margin: 16px 0; }
         .schema-toggle { color: var(--accent); cursor: pointer; text-decoration: none; font-weight: 600; }
         .schema-toggle:hover { text-decoration: underline; }
@@ -82,7 +81,7 @@
         .faq-q { width: 100%; padding: 14px 12px; cursor: pointer; font-weight: 600; display: flex; justify-content: space-between; align-items: center; text-align: left; background: transparent; color: var(--text); border: none; font-family: inherit; font-size: inherit; }
         .faq-q:hover { background: var(--surface); }
         .faq-q::after { content: '+'; flex-shrink: 0; margin-left: 8px; width: 1.5rem; height: 1.5rem; display: inline-flex; align-items: center; justify-content: center; border-radius: 4px; background: var(--surface); color: var(--accent); font-size: 1.1rem; line-height: 1; }
-        .faq-q[aria-expanded="true"]::after { content: '2'; }
+        .faq-q[aria-expanded="true"]::after { content: '\2212'; }
         .faq-a { padding: 12px 12px 16px; color: var(--muted); display: none; background: var(--surface); margin: 0 12px 8px; border-radius: 6px; font-weight: normal; }
         .faq-a.show { display: block; }
         .related-apis { list-style: none; padding: 0; margin: 0; }
@@ -90,6 +89,19 @@
         .related-apis a { font-weight: 500; }
         .browse-all { margin: 28px 0; padding: 16px; background: var(--surface); border-radius: 8px; border: 1px solid var(--border); text-align: center; }
         .browse-all a { font-weight: 600; font-size: 1.05rem; }
+        .pricing-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 12px; }
+        @media (max-width: 960px) { .pricing-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 520px) { .pricing-grid { grid-template-columns: 1fr; } }
+        .pricing-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 18px; }
+        .pricing-card-featured { border-color: var(--accent); box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.2); }
+        .pricing-badge { display: inline-block; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--success); margin-bottom: 8px; }
+        .pricing-card h3 { margin: 0 0 8px; font-size: 1.05rem; }
+        .pricing-price { font-size: 1.15rem; font-weight: 700; margin: 0 0 10px; }
+        .pricing-period { font-weight: 500; font-size: 0.9rem; color: var(--muted); }
+        .pricing-quotas { line-height: 1.55; }
+        .pricing-overage { font-size: 0.88rem; color: var(--muted); margin-top: 8px; }
+        .pricing-note { font-size: 0.88rem; color: var(--muted); margin-top: 14px; }
+        .cta-sub { display: block; margin-top: 10px; font-size: 0.95rem; color: var(--muted); font-weight: 500; }
         footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.9rem; text-align: center; }
     </style>
 </head>
@@ -100,6 +112,8 @@
         <article>
             <header>
                 <h1>PII Detection & Redaction API</h1>
+                <p><a href="https://rapidapi.com/precisionsolutionstech/api/sensitive-data-detection-redaction-api" target="_blank" rel="noopener" class="cta-primary">Try on RapidAPI</a></p>
+                <span class="cta-sub">Free tier: <strong>100</strong> requests/mo. <strong>Ultra</strong> and <strong>Mega</strong> include per-request overage—see <a href="#pricing">pricing</a>.</span>
                 <p class="lead">PII detector, redactor, and log sanitizer API. Find and mask sensitive data (emails, SSN, credentials, secrets) in JSON and text. Detect, redact, or both. Log sanitization, API redaction, CI/CD. Rule-based, stateless.</p>
             </header>
             <section><h2 id="why">Why use this API?</h2><p>Compliance (GDPR, CCPA) and security require identifying and redacting PII before logging, sharing, or storing data.</p></section>
@@ -131,74 +145,57 @@
                 </div>
             </section>
             <section>
-                <h2 id="code">Copy code</h2>
-                <p>Host: <code>sensitive-data-detection-redaction-api.p.rapidapi.com</code>, endpoint: <code>POST /scan</code>. Choose language:</p>
-                <div class="lang-tabs" role="tablist">
-                    <button type="button" role="tab" aria-selected="true" data-lang="curl" class="active">cURL</button>
-                    <button type="button" role="tab" aria-selected="false" data-lang="javascript">JavaScript</button>
-                    <button type="button" role="tab" aria-selected="false" data-lang="python">Python</button>
-                    <button type="button" role="tab" aria-selected="false" data-lang="java">Java</button>
+                <h2 id="code">Get code</h2>
+                <p>Snippets use the same <strong>Request body (JSON)</strong> as the playground above. Pick a language and copy, or click <strong>Refresh code</strong> after editing the JSON (it must parse).</p>
+                <p>Host: <code>sensitive-data-detection-redaction-api.p.rapidapi.com</code>, <code>POST /scan</code>, <code>Content-Type: application/json</code>.</p>
+                <div class="lang-select">
+                    <label for="code-lang">Language:</label>
+                    <select id="code-lang">
+                        <option value="curl">cURL</option>
+                        <option value="javascript">JavaScript</option>
+                        <option value="typescript">TypeScript</option>
+                        <option value="python">Python</option>
+                        <option value="java">Java (HttpClient)</option>
+                    </select>
+                    <button type="button" id="refresh-code-btn" class="secondary">Refresh code</button>
                 </div>
-                <div id="snippet-curl" class="code-block active"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-curl">Copy</button><pre><code>curl --request POST \
-  --url 'https://sensitive-data-detection-redaction-api.p.rapidapi.com/scan' \
-  --header 'Content-Type: application/json' \
-  --header 'x-rapidapi-host: sensitive-data-detection-redaction-api.p.rapidapi.com' \
-  --header 'x-rapidapi-key: YOUR_RAPIDAPI_KEY' \
-  --data '{
-  &quot;payload&quot;: {
-    &quot;user&quot;: &quot;alice&quot;,
-    &quot;email&quot;: &quot;alice@example.com&quot;,
-    &quot;ssn&quot;: &quot;123-45-6789&quot;
-  }
-}'</code></pre></div></div>
-                <div id="snippet-javascript" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-javascript">Copy</button><pre><code>const res = await fetch('https://sensitive-data-detection-redaction-api.p.rapidapi.com/scan', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
-    'x-rapidapi-host': 'sensitive-data-detection-redaction-api.p.rapidapi.com'
-  },
-  body: '{   &quot;payload&quot;: {     &quot;user&quot;: &quot;alice&quot;,     &quot;email&quot;: &quot;alice@example.com&quot;,     &quot;ssn&quot;: &quot;123-45-6789&quot;   } }'
-});
-const data = await res.json();
-console.log(data);</code></pre></div></div>
-                <div id="snippet-python" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-python">Copy</button><pre><code>import http.client
-import json
-
-conn = http.client.HTTPSConnection(&quot;sensitive-data-detection-redaction-api.p.rapidapi.com&quot;)
-payload = '{
-  &quot;payload&quot;: {
-    &quot;user&quot;: &quot;alice&quot;,
-    &quot;email&quot;: &quot;alice@example.com&quot;,
-    &quot;ssn&quot;: &quot;123-45-6789&quot;
-  }
-}'
-headers = {
-    'Content-Type': 'application/json',
-    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
-    'x-rapidapi-host': 'sensitive-data-detection-redaction-api.p.rapidapi.com'
-}
-conn.request(&quot;POST&quot;, &quot;/scan&quot;, payload, headers)
-res = conn.getresponse()
-print(res.read().decode())</code></pre></div></div>
-                <div id="snippet-java" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-java">Copy</button><pre><code>HttpRequest request = HttpRequest.newBuilder()
-    .uri(URI.create(&quot;https://sensitive-data-detection-redaction-api.p.rapidapi.com/scan&quot;))
-    .header(&quot;Content-Type&quot;, &quot;application/json&quot;)
-    .header(&quot;x-rapidapi-key&quot;, &quot;YOUR_RAPIDAPI_KEY&quot;)
-    .header(&quot;x-rapidapi-host&quot;, &quot;sensitive-data-detection-redaction-api.p.rapidapi.com&quot;)
-    .method(&quot;POST&quot;, HttpRequest.BodyPublishers.ofString(&quot;{
-  \&quot;payload\&quot;: {
-    \&quot;user\&quot;: \&quot;alice\&quot;,
-    \&quot;email\&quot;: \&quot;alice@example.com\&quot;,
-    \&quot;ssn\&quot;: \&quot;123-45-6789\&quot;
-  }
-}&quot;))
-    .build();
-HttpResponse&lt;String&gt; response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-System.out.println(response.body());</code></pre></div></div>
+                <div class="code-wrap"><button type="button" class="copy-btn" id="copy-code-btn">Copy</button><pre><code id="generated-code"></code></pre></div>
                 <p><button type="button" class="postman-btn" id="postman-download">Download Postman collection</button></p>
+                <p class="file-upload-note">Replace <code>YOUR_RAPIDAPI_KEY</code>. Generated snippets require valid JSON in the playground textarea.</p>
             </section>
             <section><h2 id="expect">What to expect</h2><p>Response format depends on the endpoint. Use your RapidAPI key in headers. Stateless; no data stored. See <a href="https://rapidapi.com/precisionsolutionstech/api/sensitive-data-detection-redaction-api" target="_blank" rel="noopener">RapidAPI docs</a> for full response schema.</p></section>
+            <section id="pricing" aria-labelledby="pricing-heading">
+                <h2 id="pricing-heading">Pricing &amp; tiers (RapidAPI)</h2>
+                <p><strong>Basic</strong> and <strong>Pro</strong> have fixed monthly quotas with no overage listed on the plan. <strong>Ultra</strong> and <strong>Mega</strong> add per-request overage after the included calls.</p>
+                <div class="pricing-grid">
+                    <div class="pricing-card">
+                        <h3>Basic</h3>
+                        <p class="pricing-price">$0<span class="pricing-period">/mo</span></p>
+                        <p class="pricing-quotas"><strong>100</strong> requests/month included</p>
+                        <p class="pricing-overage">No overage listed (hard cap unless RapidAPI shows otherwise).</p>
+                    </div>
+                    <div class="pricing-card">
+                        <h3>Pro</h3>
+                        <p class="pricing-price">$9.99<span class="pricing-period">/mo</span></p>
+                        <p class="pricing-quotas"><strong>10,000</strong> requests/month included</p>
+                        <p class="pricing-overage">No overage listed on the plan.</p>
+                    </div>
+                    <div class="pricing-card pricing-card-featured">
+                        <span class="pricing-badge">Recommended</span>
+                        <h3>Ultra</h3>
+                        <p class="pricing-price">$29.99<span class="pricing-period">/mo</span></p>
+                        <p class="pricing-quotas"><strong>35,000</strong> requests/month included</p>
+                        <p class="pricing-overage">Overage: <strong>~$0.003</strong> per extra request.</p>
+                    </div>
+                    <div class="pricing-card">
+                        <h3>Mega</h3>
+                        <p class="pricing-price">$74.99<span class="pricing-period">/mo</span></p>
+                        <p class="pricing-quotas"><strong>150,000</strong> requests/month included</p>
+                        <p class="pricing-overage">Overage: <strong>~$0.002</strong> per extra request.</p>
+                    </div>
+                </div>
+                <p class="pricing-note">Confirm current prices on the live <a href="https://rapidapi.com/precisionsolutionstech/api/sensitive-data-detection-redaction-api" target="_blank" rel="noopener">Sensitive Data Detection &amp; Redaction API</a> listing.</p>
+            </section>
             <section><h2 id="about">About this API</h2>
 
                 <h3 id="who-should-use">Who Should Use This API</h3>
@@ -237,6 +234,10 @@ System.out.println(response.body());</code></pre></div></div>
             <section><h2 id="faq">Frequently Asked Questions</h2>
                 <ul class="faq-list">
                     <li>
+                        <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a0" id="faq-q0">What are the RapidAPI quotas and overage?</button>
+                        <div id="faq-a0" class="faq-a" role="region" aria-labelledby="faq-q0">Basic: 100/mo free. Pro: $9.99 for 10,000/mo (no overage listed). Ultra: $29.99 for 35,000/mo + ~$0.003 overage. Mega: $74.99 for 150,000/mo + ~$0.002 overage. Verify on RapidAPI.</div>
+                    </li>
+                    <li>
                         <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a1" id="faq-q1">Does it store the text?</button>
                         <div id="faq-a1" class="faq-a" role="region" aria-labelledby="faq-q1">No. Fully stateless.</div>
                     </li><li>
@@ -248,39 +249,107 @@ System.out.println(response.body());</code></pre></div></div>
             <div class="browse-all"><a href="../index.html">Browse all APIs in the catalog →</a></div>
         </article>
         <footer>
-            <p><a href="https://rapidapi.com/precisionsolutionstech/api/sensitive-data-detection-redaction-api" target="_blank" rel="noopener">Subscribe on RapidAPI</a> · <a href="../index.html">API Catalog</a></p>
+            <p><a href="https://rapidapi.com/precisionsolutionstech/api/sensitive-data-detection-redaction-api" target="_blank" rel="noopener">Subscribe on RapidAPI</a> · <a href="../index.html">API Catalog</a> · <a href="../faq.html">FAQ</a></p>
             <p>© 2026 Precision Solutions Tech</p>
         </footer>
     </div>
     <script>
 (function(){
-    var host='sensitive-data-detection-redaction-api.p.rapidapi.com',path='/scan',body="{\n  \"payload\": {\n    \"user\": \"alice\",\n    \"email\": \"alice@example.com\",\n    \"ssn\": \"123-45-6789\"\n  }\n}",fileUpload=false,rapidUrl="https://rapidapi.com/precisionsolutionstech/api/sensitive-data-detection-redaction-api";
+    var host='sensitive-data-detection-redaction-api.p.rapidapi.com',path='/scan',rapidUrl="https://rapidapi.com/precisionsolutionstech/api/sensitive-data-detection-redaction-api";
+
+    function fullUrl() { return 'https://' + host + path; }
+
+    function getBodyForCode() {
+        var t = document.getElementById('body-json').value.trim();
+        if (!t) return { ok: false, error: 'Request body is empty' };
+        try {
+            var obj = JSON.parse(t);
+            return { ok: true, obj: obj, compact: JSON.stringify(obj) };
+        } catch (e) {
+            return { ok: false, error: e.message };
+        }
+    }
+
+    function postmanRawBody() {
+        var br = getBodyForCode();
+        if (br.ok) return JSON.stringify(br.obj, null, 2);
+        return document.getElementById('body-json').value.trim();
+    }
+
+    function escapeShellSingleQuoted(s) {
+        return s.replace(/'/g, "'\\''");
+    }
+
+    function escapePythonTripleDouble(s) {
+        return s.replace(/\\/g, '\\\\').replace(/"""/g, '\\"\\"\\"');
+    }
+
+    function escapeJavaString(s) {
+        return s.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\r/g, '\\r').replace(/\n/g, '\\n');
+    }
+
+    function generateCode(lang) {
+        var br = getBodyForCode();
+        if (!br.ok) {
+            return '// Invalid JSON in playground — fix Request body (JSON), then click Refresh code.\n// ' + br.error;
+        }
+        var compact = br.compact;
+        var url = fullUrl();
+        var key = 'YOUR_RAPIDAPI_KEY';
+        if (lang === 'curl') {
+            return "curl --request POST \\\n  --url '" + escapeShellSingleQuoted(url) + "' \\\n  --header 'Content-Type: application/json' \\\n  --header 'x-rapidapi-host: " + host + "' \\\n  --header 'x-rapidapi-key: " + key + "' \\\n  --data '" + escapeShellSingleQuoted(compact) + "'";
+        }
+        var hdr = "    'Content-Type': 'application/json',\n    'x-rapidapi-key': '" + key + "',\n    'x-rapidapi-host': '" + host + "'";
+        var bodyLit = JSON.stringify(compact);
+        if (lang === 'javascript') {
+            return "const res = await fetch(" + JSON.stringify(url) + ", {\n  method: 'POST',\n  headers: {\n" + hdr + "\n  },\n  body: " + bodyLit + "\n});\nconst data = await res.json();\nconsole.log(data);";
+        }
+        if (lang === 'typescript') {
+            return "const res = await fetch(" + JSON.stringify(url) + ", {\n  method: 'POST',\n  headers: {\n" + hdr + "\n  },\n  body: " + bodyLit + "\n});\nconst data: unknown = await res.json();\nconsole.log(data);";
+        }
+        if (lang === 'python') {
+            return "import json\nimport requests\n\nurl = " + JSON.stringify(url) + "\nheaders = {\n    'Content-Type': 'application/json',\n    'x-rapidapi-key': '" + key + "',\n    'x-rapidapi-host': '" + host + "'\n}\npayload_str = \"\"\"\n" + escapePythonTripleDouble(compact) + "\n\"\"\"\nbody = json.loads(payload_str.strip())\nr = requests.post(url, headers=headers, json=body)\nprint(r.json())";
+        }
+        if (lang === 'java') {
+            var urlJava = url.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+            return "import java.net.URI;\nimport java.net.http.HttpClient;\nimport java.net.http.HttpRequest;\nimport java.net.http.HttpResponse;\n\nString url = \"" + urlJava + "\";\nString json = \"" + escapeJavaString(compact) + "\";\nHttpRequest request = HttpRequest.newBuilder()\n    .uri(URI.create(url))\n    .header(\"Content-Type\", \"application/json\")\n    .header(\"x-rapidapi-key\", \"" + key + "\")\n    .header(\"x-rapidapi-host\", \"" + host + "\")\n    .POST(HttpRequest.BodyPublishers.ofString(json))\n    .build();\nHttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());\nSystem.out.println(response.body());";
+        }
+        return '';
+    }
+
+    function refreshCode() {
+        var el = document.getElementById('generated-code');
+        var sel = document.getElementById('code-lang');
+        if (el && sel) el.textContent = generateCode(sel.value);
+    }
+
     document.querySelectorAll('[data-rapid-docs]').forEach(function(a){ a.href = rapidUrl; });
     document.getElementById('toggle-req').addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('request-schema'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); });
     document.getElementById('toggle-res').addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('response-schema'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); });
     var toggleErrors=document.getElementById('toggle-errors');if(toggleErrors){ toggleErrors.addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('error-codes'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); }); }
-    document.querySelectorAll('.lang-tabs button').forEach(function(btn){
-        btn.addEventListener('click',function(){
-            document.querySelectorAll('.lang-tabs button').forEach(function(b){ b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
-            document.querySelectorAll('.code-block').forEach(function(b){ b.classList.remove('active'); });
-            this.classList.add('active'); this.setAttribute('aria-selected','true');
-            var el=document.getElementById('snippet-'+this.getAttribute('data-lang')); if(el) el.classList.add('active');
+
+    document.getElementById('code-lang').addEventListener('change', refreshCode);
+    document.getElementById('refresh-code-btn').addEventListener('click', refreshCode);
+    document.getElementById('copy-code-btn').addEventListener('click', function () {
+        var btn = document.getElementById('copy-code-btn');
+        var t = document.getElementById('generated-code').textContent;
+        navigator.clipboard.writeText(t).then(function () {
+            var o = btn.textContent; btn.textContent = 'Copied!'; setTimeout(function () { btn.textContent = o; }, 1500);
         });
     });
-    document.querySelectorAll('.copy-btn').forEach(function(btn){
-        btn.addEventListener('click',function(){
-            var id=this.getAttribute('data-copy'),block=document.getElementById(id),pre=block?block.querySelector('pre code'):null,btn=this;
-            if(pre) navigator.clipboard.writeText(pre.textContent).then(function(){ var t=btn.textContent; btn.textContent='Copied!'; setTimeout(function(){ btn.textContent=t; },1500); });
-        });
-    });
-    
+    document.getElementById('body-json').addEventListener('input', refreshCode);
+    document.getElementById('body-json').addEventListener('change', refreshCode);
+
     document.querySelectorAll('.faq-q').forEach(function(btn){
         btn.addEventListener('click',function(){ var expanded=this.getAttribute('aria-expanded')==='true'; this.setAttribute('aria-expanded',!expanded); var panel=document.getElementById(this.getAttribute('aria-controls')); if(panel) panel.classList.toggle('show',!expanded); });
     });
     document.getElementById('postman-download').addEventListener('click',function(){
-        var coll = { info: { name: "PII Detection & Redaction API", schema: 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json' }, item: [{ name: 'Request', request: { method: 'POST', header: [{ key: 'Content-Type', value: 'application/json' }, { key: 'x-rapidapi-key', value: 'YOUR_RAPIDAPI_KEY' }, { key: 'x-rapidapi-host', value: host }], url: 'https://'+host+path } } ] };
-        if(!fileUpload){ coll.item[0].request.body = { mode: 'raw', raw: typeof body==='string'?body:JSON.stringify(body) }; }
-        else { coll.item[0].request.header = [{ key: 'X-RapidAPI-Key', value: 'YOUR_RAPIDAPI_KEY' }, { key: 'X-RapidAPI-Host', value: host }]; coll.item[0].request.url = 'https://'+host+path+'?outputFormat=json'; coll.item[0].request.body = { mode: 'formdata', formdata: [{ key: 'file', type: 'file', src: '' }] }; }
+        var hdrs = [
+            { key: 'Content-Type', value: 'application/json' },
+            { key: 'x-rapidapi-key', value: 'YOUR_RAPIDAPI_KEY' },
+            { key: 'x-rapidapi-host', value: host }
+        ];
+        var coll = { info: { name: "PII Detection & Redaction API", schema: 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json' }, item: [{ name: 'POST /scan', request: { method: 'POST', header: hdrs, url: fullUrl(), body: { mode: 'raw', raw: postmanRawBody() } } }] };
         var blob = new Blob([JSON.stringify(coll,null,2)], { type: 'application/json' });
         var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'pii-detection-redaction-postman-collection.json'; a.click(); URL.revokeObjectURL(a.href);
     });
@@ -288,16 +357,16 @@ System.out.println(response.body());</code></pre></div></div>
     runBtn.addEventListener('click',function(){
         var key=(keyInput.value||'').trim();
         if(!key){ resultDiv.style.display='block'; resultDiv.className='result error'; resultDiv.textContent='Please enter your RapidAPI key.'; return; }
-        
-    var bodyStr=document.getElementById('body-json').value.trim(),body;
-    try{body=JSON.parse(bodyStr);}catch(e){resultDiv.style.display='block';resultDiv.className='result error';resultDiv.textContent='Invalid JSON: '+e.message;return;}
-    runBtn.disabled=true;resultDiv.style.display='block';resultDiv.className='result';resultDiv.textContent='Loading…';
-    fetch('https://'+host+path,{method:'POST',headers:{'Content-Type':'application/json','x-rapidapi-key':key,'x-rapidapi-host':host},body:JSON.stringify(body)})
-    .then(function(r){return r.text().then(function(t){return{status:r.status,body:t};});})
-    .then(function(o){resultDiv.className='result '+(o.status>=200&&o.status<300?'success':'error');try{resultDiv.textContent=JSON.stringify(JSON.parse(o.body),null,2);}catch(_){resultDiv.textContent=o.status+'\n'+o.body;}})
-    .catch(function(e){resultDiv.className='result error';resultDiv.textContent='Request failed: '+e.message;})
-    .finally(function(){runBtn.disabled=false;});
+        var bodyStr=document.getElementById('body-json').value.trim(),body;
+        try{body=JSON.parse(bodyStr);}catch(e){resultDiv.style.display='block';resultDiv.className='result error';resultDiv.textContent='Invalid JSON: '+e.message;return;}
+        runBtn.disabled=true;resultDiv.style.display='block';resultDiv.className='result';resultDiv.textContent='Loading…';
+        fetch(fullUrl(),{method:'POST',headers:{'Content-Type':'application/json','x-rapidapi-key':key,'x-rapidapi-host':host},body:JSON.stringify(body)})
+        .then(function(r){return r.text().then(function(t){return{status:r.status,body:t};});})
+        .then(function(o){resultDiv.className='result '+(o.status>=200&&o.status<300?'success':'error');try{resultDiv.textContent=JSON.stringify(JSON.parse(o.body),null,2);}catch(_){resultDiv.textContent=o.status+'\n'+o.body;}})
+        .catch(function(e){resultDiv.className='result error';resultDiv.textContent='Request failed: '+e.message;})
+        .finally(function(){runBtn.disabled=false;});
     });
+    refreshCode();
 })();
     </script>
 </body>

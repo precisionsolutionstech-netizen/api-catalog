@@ -5,27 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="../favicon.svg" type="image/svg+xml">
     <link rel="icon" href="../favicon.png" type="image/png" sizes="32x32">
-    <title>Social Media Data Normalization API | RapidAPI</title>
-    <meta name="description" content="Social media combiner, normalizer, and review aggregator API. Unify posts from Twitter, Facebook, YouTube, TikTok, Reddit, Yelp, and 40+ platforms into one canonical post schema. One request → one unified feed. Stateless, 50MB max.">
-    <meta name="keywords" content="social-media-data-normalization, API, RapidAPI, developer">
+    <title>Social Media Data Normalization API (Twitter, YouTube, TikTok) | Canonical Post Schema</title>
+    <meta name="description" content="Normalize posts and reviews from Twitter, Facebook, YouTube, TikTok, Reddit, Yelp, and 40+ platforms into one canonical schema—single or mixed buckets, confidence and provenance. Stateless, 50MB max. No network fetch to social APIs.">
+    <meta name="keywords" content="social media normalization API, Twitter Facebook YouTube JSON, unified social feed, review aggregation API, TikTok Reddit schema, RapidAPI">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <link rel="canonical" href="https://precisionsolutionstech-netizen.github.io/api-catalog/apis/social-media-data-normalization.html">
     <meta property="og:url" content="https://precisionsolutionstech-netizen.github.io/api-catalog/apis/social-media-data-normalization.html">
     <meta property="og:image" content="https://precisionsolutionstech-netizen.github.io/api-catalog/og-default.png">
     <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Precision Solutions Tech API Catalog">
+    <meta property="article:section" content="Developer APIs">
+    <meta property="og:title" content="Social Media Data Normalization API | Canonical Post Schema">
+    <meta property="og:description" content="One POST /normalize merges social and review JSON into a unified post model with errors, warnings, and confidence. 50MB max, stateless.">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Social Media Data Normalization API">
-    <meta name="twitter:description" content="Unify social content. Stateless.">
+    <meta name="twitter:description" content="Unify 40+ social and review platforms into one JSON shape for analytics, search, and pipelines.">
     <meta name="twitter:image" content="https://precisionsolutionstech-netizen.github.io/api-catalog/og-default.png">
-    <meta property="og:title" content="Social Media Data Normalization API">
-    <meta property="og:description" content="Social media combiner, normalizer, and review aggregator API. Unify posts from Twitter, Facebook, YouTube, TikTok, Reddit, Yelp, and 40+ platforms into one canonical post schema. One request → one unified feed. Stateless, 50MB max.">
     <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"TechArticle","headline":"Social Media Data Normalization API","name":"Social Media Data Normalization API","description":"Social media combiner, normalizer, and review aggregator API. Unify posts from Twitter, Facebook, YouTube, TikTok, Reddit, Yelp, and 40+ platforms into one canonical post schema. One request → one unified feed. Stateless, 50MB max.","author":{"@type":"Organization","name":"Precision Solutions Tech"},"url":"https://precisionsolutionstech-netizen.github.io/api-catalog/apis/social-media-data-normalization.html"}
+{"@context":"https://schema.org","@type":"TechArticle","headline":"Social Media Data Normalization API — Unified Social & Review Schema","name":"Social Media Data Normalization API","description":"Normalize social and review payloads from 40+ platforms into one canonical post schema via POST /normalize. Supports buckets, platform hints, confidence and provenance. Stateless, 50MB max.","author":{"@type":"Organization","name":"Precision Solutions Tech"},"publisher":{"@type":"Organization","name":"Precision Solutions Tech"},"url":"https://precisionsolutionstech-netizen.github.io/api-catalog/apis/social-media-data-normalization.html"}
     </script>
     <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"API Catalog","item":"https://precisionsolutionstech-netizen.github.io/api-catalog/"},{"@type":"ListItem","position":2,"name":"Social Media Data Normalization","item":"https://precisionsolutionstech-netizen.github.io/api-catalog/apis/social-media-data-normalization.html"}]}
     </script>
     <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does it fetch from social networks?","acceptedAnswer":{"@type":"Answer","text":"No. It normalizes user-provided payloads."}},{"@type":"Question","name":"Does it store data?","acceptedAnswer":{"@type":"Answer","text":"No. Fully stateless."}}]}
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does the API fetch from social networks?","acceptedAnswer":{"@type":"Answer","text":"No. It only normalizes JSON you send. It does not call Twitter, Facebook, YouTube, or other vendor APIs."}},{"@type":"Question","name":"Do I need platform API keys for Twitter or Meta?","acceptedAnswer":{"@type":"Answer","text":"No for this API. You use your RapidAPI key here only. You obtain social JSON through your own integrations."}},{"@type":"Question","name":"Can I mix platforms in one request?","acceptedAnswer":{"@type":"Answer","text":"Yes. Send an array of buckets with platform and data arrays, or a flat array with auto-detection when possible."}},{"@type":"Question","name":"What is the max request size?","acceptedAnswer":{"@type":"Answer","text":"50MB per request and up to 50 levels of JSON nesting."}},{"@type":"Question","name":"Does it store data?","acceptedAnswer":{"@type":"Answer","text":"No. The service is fully stateless."}},{"@type":"Question","name":"Where are pricing and quotas defined?","acceptedAnswer":{"@type":"Answer","text":"On RapidAPI: Basic is free with 100 requests per month; Pro is 9.99 dollars per month with 10000 requests; Ultra is 49.99 dollars per month recommended with 100000 requests; Mega is 99.99 dollars per month with 250000 requests. Overage pricing is on the live listing."}}]}
     </script>
     <style>
         :root { --bg: #0f172a; --surface: #1e293b; --border: #334155; --text: #e2e8f0; --muted: #94a3b8; --accent: #38bdf8; --success: #34d399; --error: #f87171; }
@@ -33,7 +36,6 @@
         body { margin: 0; font-family: ui-sans-serif, system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
         .wrap { max-width: 900px; margin: 0 auto; padding: 24px 20px; }
         a { color: var(--accent); }
-        nav { margin-bottom: 32px; font-size: 0.9rem; }
         h1 { font-size: 1.9rem; margin: 0 0 12px; }
         .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; }
         h2 { font-size: 1.35rem; margin: 32px 0 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
@@ -41,8 +43,7 @@
         .playground { background: var(--surface); border-radius: 12px; padding: 20px; margin: 24px 0; border: 1px solid var(--border); }
         .playground label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 0.9rem; }
         .playground input[type="password"], .playground select { width: 100%; max-width: 320px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); margin-bottom: 12px; }
-        .playground textarea { width: 100%; min-height: 120px; padding: 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); font-family: ui-monospace, monospace; font-size: 13px; resize: vertical; }
-        .playground input[type="file"] { margin-bottom: 12px; }
+        .playground textarea { width: 100%; min-height: 140px; padding: 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); font-family: ui-monospace, monospace; font-size: 13px; resize: vertical; }
         .playground button { padding: 10px 20px; background: var(--accent); color: var(--bg); border: none; border-radius: 8px; font-weight: 600; cursor: pointer; margin-top: 8px; }
         .playground button:disabled { opacity: 0.6; cursor: not-allowed; }
         .playground .result { margin-top: 16px; padding: 12px; border-radius: 8px; background: var(--bg); border: 1px solid var(--border); white-space: pre-wrap; word-break: break-all; font-family: ui-monospace, monospace; font-size: 12px; max-height: 320px; overflow: auto; }
@@ -53,12 +54,6 @@
         .code-wrap pre { margin: 0; padding: 14px 16px; background: var(--surface); border-radius: 8px; border: 1px solid var(--border); overflow-x: auto; font-size: 13px; }
         .code-wrap .copy-btn { position: absolute; top: 10px; right: 10px; padding: 6px 12px; background: var(--border); color: var(--text); border: none; border-radius: 6px; font-size: 12px; cursor: pointer; }
         .code-wrap .copy-btn:hover { background: var(--accent); color: var(--bg); }
-        .lang-tabs { display: flex; gap: 4px; margin-bottom: 8px; flex-wrap: wrap; }
-        .lang-tabs button { padding: 8px 14px; background: var(--surface); border: 1px solid var(--border); color: var(--muted); border-radius: 6px; cursor: pointer; font-size: 0.9rem; }
-        .lang-tabs button.active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
-        .code-block { display: none; }
-        .code-block.active { display: block; }
-        .schema-section { margin: 16px 0; }
         .schema-toggle { color: var(--accent); cursor: pointer; text-decoration: none; font-weight: 600; }
         .schema-toggle:hover { text-decoration: underline; }
         .schema-content { display: none; margin-top: 12px; padding: 12px; background: var(--surface); border-radius: 8px; border: 1px solid var(--border); overflow-x: auto; }
@@ -72,9 +67,50 @@
         .long-desc li { margin: 0.35em 0; }
         .postman-btn { display: inline-block; margin-top: 12px; padding: 10px 18px; background: var(--surface); border: 1px solid var(--border); color: var(--accent); border-radius: 8px; cursor: pointer; font-weight: 600; text-decoration: none; }
         .postman-btn:hover { background: var(--border); }
-        
-        .cta-primary { display: inline-block; margin: 0 0 24px; padding: 12px 24px; background: var(--accent); color: var(--bg); border: none; border-radius: 8px; font-weight: 600; font-size: 1rem; text-decoration: none; cursor: pointer; }
+        .cta-primary { display: inline-block; margin: 0; padding: 12px 24px; background: var(--accent); color: var(--bg); border: none; border-radius: 8px; font-weight: 600; font-size: 1rem; text-decoration: none; cursor: pointer; }
         .cta-primary:hover { filter: brightness(1.1); }
+        .cta-primary.cta-hero { padding: 16px 32px; font-size: 1.125rem; font-weight: 700; border-radius: 10px; box-shadow: 0 4px 24px rgba(56, 189, 248, 0.25); }
+        .cta-sub { display: block; margin-top: 10px; font-size: 0.95rem; color: var(--muted); font-weight: 500; }
+        .use-case-list, .who-list { margin: 0.5em 0 0; padding-left: 1.25em; }
+        .use-case-list li, .who-list li { margin: 0.45em 0; }
+        .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
+        @media (max-width: 720px) { .compare-grid { grid-template-columns: 1fr; } }
+        .code-sample { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; overflow-x: auto; }
+        .code-sample h3 { margin: 0 0 10px; font-size: 0.85rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+        .code-sample pre { margin: 0; font-family: ui-monospace, monospace; font-size: 12px; line-height: 1.5; white-space: pre; }
+        .pricing-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 12px; }
+        @media (max-width: 960px) { .pricing-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 520px) { .pricing-grid { grid-template-columns: 1fr; } }
+        .pricing-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 18px; }
+        .pricing-card-featured { border-color: var(--accent); box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.2); }
+        .pricing-badge { display: inline-block; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--success); margin-bottom: 8px; }
+        .pricing-card h3 { margin: 0 0 8px; font-size: 1.05rem; color: var(--text); }
+        .pricing-price { font-size: 1.15rem; font-weight: 700; color: var(--text); margin: 0 0 10px; }
+        .pricing-period { font-weight: 500; font-size: 0.9rem; color: var(--muted); }
+        .pricing-card p { margin: 0; font-size: 0.9rem; color: var(--muted); line-height: 1.5; }
+        .pricing-quotas { line-height: 1.55; }
+        .pricing-note { font-size: 0.88rem; color: var(--muted); margin-top: 14px; }
+        .social-proof { margin: 28px 0; padding: 20px 22px; background: var(--surface); border-radius: 0 10px 10px 0; border: 1px solid var(--border); border-left: 4px solid var(--accent); }
+        .social-proof p { margin: 0; color: var(--muted); font-size: 1rem; }
+        .social-proof p + p { margin-top: 0.5em; }
+        .playground-follow-cta { margin-top: 20px; font-size: 0.95rem; color: var(--muted); }
+        .playground button.secondary { background: var(--surface); color: var(--accent); border: 1px solid var(--border); }
+        .playground .pg-row { display: flex; flex-wrap: wrap; gap: 16px 24px; align-items: flex-end; margin-bottom: 14px; }
+        .playground .pg-field { min-width: 200px; flex: 1; }
+        .playground .pg-field label { margin-bottom: 6px; }
+        .playground .pg-field select { max-width: none; width: 100%; }
+        .lang-select { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-bottom: 14px; }
+        .lang-select select { padding: 8px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-weight: 600; }
+        .suggestions-box { margin: 24px 0; padding: 20px 22px; background: var(--surface); border-radius: 12px; border: 1px solid var(--accent); }
+        .suggestions-box p { margin: 0; font-size: 1rem; }
+        .platform-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 12px; }
+        @media (max-width: 720px) { .platform-grid { grid-template-columns: 1fr; } }
+        .platform-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; }
+        .platform-card h3 { margin: 0 0 10px; font-size: 1.05rem; }
+        .platform-card p { margin: 0 0 10px; font-size: 0.92rem; color: var(--muted); }
+        .platform-card ul { margin: 0; padding-left: 1.2em; font-size: 0.9rem; color: var(--text); }
+        .platform-card li { margin: 0.35em 0; }
+        .platform-keys { font-size: 0.82rem; color: var(--muted); line-height: 1.5; word-break: break-word; }
         .global-nav { margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
         .global-nav a { margin-right: 16px; }
         .faq-list { list-style: none; padding: 0; margin: 0; }
@@ -82,7 +118,7 @@
         .faq-q { width: 100%; padding: 14px 12px; cursor: pointer; font-weight: 600; display: flex; justify-content: space-between; align-items: center; text-align: left; background: transparent; color: var(--text); border: none; font-family: inherit; font-size: inherit; }
         .faq-q:hover { background: var(--surface); }
         .faq-q::after { content: '+'; flex-shrink: 0; margin-left: 8px; width: 1.5rem; height: 1.5rem; display: inline-flex; align-items: center; justify-content: center; border-radius: 4px; background: var(--surface); color: var(--accent); font-size: 1.1rem; line-height: 1; }
-        .faq-q[aria-expanded="true"]::after { content: '2'; }
+        .faq-q[aria-expanded="true"]::after { content: '\2212'; }
         .faq-a { padding: 12px 12px 16px; color: var(--muted); display: none; background: var(--surface); margin: 0 12px 8px; border-radius: 6px; font-weight: normal; }
         .faq-a.show { display: block; }
         .related-apis { list-style: none; padding: 0; margin: 0; }
@@ -91,6 +127,13 @@
         .browse-all { margin: 28px 0; padding: 16px; background: var(--surface); border-radius: 8px; border: 1px solid var(--border); text-align: center; }
         .browse-all a { font-weight: 600; font-size: 1.05rem; }
         footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.9rem; text-align: center; }
+        .roi-strip { margin: 0 0 28px; padding: 18px 20px; background: var(--surface); border-radius: 12px; border: 1px solid var(--border); border-left: 4px solid var(--accent); }
+        .roi-strip p { margin: 0; font-size: 1.05rem; line-height: 1.55; color: var(--text); }
+        .why-build ul { margin: 0.5em 0 0; padding-left: 1.25em; }
+        .why-build li { margin: 0.4em 0; }
+        .enterprise-line { font-size: 0.98rem; color: var(--muted); margin: 0 0 20px; line-height: 1.55; padding-bottom: 4px; }
+        .integration-note { margin-top: 18px; font-size: 0.95rem; color: var(--muted); }
+        .positioning-callout { font-size: 0.95rem; color: var(--muted); margin: 12px 0 0; line-height: 1.55; }
     </style>
 </head>
 <body>
@@ -98,215 +141,444 @@
         <nav class="global-nav" aria-label="Main"><a href="../index.html">Home</a><a href="../faq.html">FAQ</a><a href="../index.html#normalization">Normalization APIs</a><a href="../index.html#validation">Validation APIs</a><a href="../index.html#comparison">Comparison APIs</a><a href="../blog/what-is-data-normalization.html">Blog</a></nav>
         <nav aria-label="Breadcrumb"><a href="../index.html">API Catalog</a> → Social Media Data Normalization</nav>
         <article>
-            <header>
-                <h1>Social Media Data Normalization API</h1>
-                <p class="lead">Social media combiner, normalizer, and review aggregator API. Unify posts from Twitter, Facebook, YouTube, TikTok, Reddit, Yelp, and 40+ platforms into one canonical post schema. One request → one unified feed. Stateless, 50MB max.</p>
+            <header class="hero">
+                <h1>Normalize Social &amp; Review Data From Any Platform Into One Schema</h1>
+                <p class="lead">One <code>POST /normalize</code> turns Twitter, Facebook, YouTube, TikTok, Reddit, Yelp, Google Reviews, and dozens of other payloads into a <strong>single canonical post model</strong>—<code>posts</code>, <code>metadata</code>, <code>confidence</code>, plus <code>warnings</code> and <code>errors</code> when items fail. Send one platform or <strong>mixed buckets</strong> in one body. Stateless, <strong>50MB</strong> max, <strong>50</strong> nesting levels.</p>
+                <p class="cta-row">
+                    <a href="https://rapidapi.com/precisionsolutionstech/api/social-media-data-normalization-interpretation" target="_blank" rel="noopener" class="cta-primary cta-hero">Try Social Media Normalization API</a>
+                    <span class="cta-sub">Basic on RapidAPI: <strong>100 requests/month</strong> free</span>
+                </p>
             </header>
-            <section><h2 id="why">Why use this API?</h2><p>Social APIs (Twitter, LinkedIn, etc.) return different structures. Normalize for aggregation, analytics, or content moderation pipelines.</p></section>
-            <section><h2 id="what">What the API does</h2><p>POST /normalize with social payload(s). Returns normalized content.</p></section>
+            <section class="roi-strip" aria-label="What this saves you">
+                <p><strong>Stop maintaining dozens of social and review parsers.</strong> Pipe webhook, export, or API JSON through one normalization step—same content, author, metrics, and media fields every time. Focus on listening, search, and analytics—not on every vendor’s field rename.</p>
+            </section>
+            <section id="use-cases" aria-labelledby="use-cases-heading">
+                <h2 id="use-cases-heading">Real-world use cases</h2>
+                <ul class="use-case-list">
+                    <li><strong>Social listening</strong> — unify tweets, posts, and videos into one index or warehouse.</li>
+                    <li><strong>Review aggregation</strong> — normalize Yelp, Trustpilot, IMDb-style payloads for comparison or ML.</li>
+                    <li><strong>Mixed-ingest ETL</strong> — one request with multiple <code>platform</code> + <code>data</code> buckets.</li>
+                    <li><strong>Confidence-aware UIs</strong> — filter on interpretation method and confidence scores.</li>
+                    <li><strong>Partial success</strong> — bad array elements surface as <code>errors</code> without failing the whole batch.</li>
+                </ul>
+            </section>
+            <section id="why-not-diy" class="why-build" aria-labelledby="why-not-diy-heading">
+                <h2 id="why-not-diy-heading">Why not build your own normalizer?</h2>
+                <ul>
+                    <li>Field names and metrics differ per network and API version</li>
+                    <li>Official vs scraped shapes trigger constant edge cases</li>
+                    <li>Each new source multiplies maintenance</li>
+                </ul>
+                <p>This API centralizes mapping logic so you can scale ingestion without a parser per platform.</p>
+            </section>
+            <section id="who-helps" aria-labelledby="who-heading">
+                <h2 id="who-heading">Who this API helps</h2>
+                <ul class="who-list">
+                    <li>Social analytics, listening, and dashboard products</li>
+                    <li>Review and reputation platforms</li>
+                    <li>Data teams building unified content lakes</li>
+                    <li>Developers who want <strong>deterministic JSON-to-JSON</strong> output (not live scraping here)</li>
+                </ul>
+            </section>
+            <section id="before-after" aria-labelledby="before-after-heading">
+                <h2 id="before-after-heading">Before and after normalization</h2>
+                <p>Networks nest text, authors, and metrics differently. The API maps them into one predictable post shape (illustrative).</p>
+                <div class="compare-grid">
+                    <div class="code-sample">
+                        <h3>Before (vendor fragment)</h3>
+                        <pre><code>{ "text": "…", "author_id": "42", "created_at": "…" }</code></pre>
+                    </div>
+                    <div class="code-sample">
+                        <h3>After (canonical)</h3>
+                        <pre><code>{
+  "content": "…",
+  "createdAtIso": "…",
+  "author": { … },
+  "interpretation": { … }
+}</code></pre>
+                    </div>
+                </div>
+            </section>
+            <section id="what"><h2>What the API does</h2><p>Send <code>POST /normalize</code> with <code>application/json</code>. Top-level body may use <code>payload</code> or <code>data</code> (aliases). For a single source, send <code>platform</code> plus a nested object. For multiple sources, send an array of buckets: each with <code>platform</code>, optional <code>platformVersion</code>, and <code>data</code> (array of raw items). Response includes <code>posts</code>, <code>authors</code>, <code>metadata</code>, <code>confidence</code>, and optional <code>warnings</code> / <code>errors</code>.</p><p class="positioning-callout">This API does <strong>not</strong> call social networks on your behalf—it only transforms JSON you already have.</p></section>
+            <section id="platforms" aria-labelledby="platforms-heading">
+                <h2 id="platforms-heading">Platforms</h2>
+                <p>Pass a <code>platform</code> string (and optional <code>platformVersion</code>, e.g. Twitter <code>2</code> vs <code>1.1</code>) for best accuracy.</p>
+                <div class="platform-grid">
+                    <div class="platform-card">
+                        <h3>Common sources</h3>
+                        <ul>
+                            <li><code>twitter</code>, <code>facebook</code>, <code>youtube</code>, <code>tiktok</code></li>
+                            <li><code>reddit</code>, <code>linkedin</code>, <code>instagram</code>, <code>bluesky</code></li>
+                            <li><code>yelp</code>, <code>google_reviews</code>, <code>trustpilot</code>, <code>github</code></li>
+                        </ul>
+                    </div>
+                    <div class="platform-card">
+                        <h3>Custom &amp; auto-detect</h3>
+                        <p>Use <code>platform: "custom"</code> for unknown shapes. You can omit <code>platform</code> in some cases; the service may infer from structure (lower confidence).</p>
+                        <p class="platform-keys">See the README on RapidAPI for the full platform table (40+ entries).</p>
+                    </div>
+                </div>
+            </section>
+            <div class="suggestions-box">
+                <p><strong>Need a new platform or version?</strong> Post on <a href="https://rapidapi.com/precisionsolutionstech/api/social-media-data-normalization-interpretation/discussions" target="_blank" rel="noopener">RapidAPI discussions</a> with the vendor name and a redacted sample payload.</p>
+            </div>
             <section>
                 <h2 id="schemas">Request &amp; response schema</h2>
-                <p><a href="#request-schema" class="schema-toggle" id="toggle-req" aria-expanded="false">View request schema</a> &middot; <a href="#response-schema" class="schema-toggle" id="toggle-res" aria-expanded="false">View response schema</a> &middot; <a href="#error-codes" class="schema-toggle" id="toggle-errors" aria-expanded="false">View error &amp; warning codes</a></p>
-                <div id="error-codes" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Code</th><th>HTTP</th><th>Description</th></tr></thead><tbody><tr><td><code>INVALID_JSON</code></td><td><code>Request body is not valid JSON (parse failure).</code></td><td>Invalid JSON syntax</td></tr><tr><td><code>MISSING_PAYLOAD</code></td><td><code>Body is missing or undefined (e.g. empty POST).</code></td><td>Request body is required</td></tr><tr><td><code>PAYLOAD_TOO_LARGE</code></td><td><code>Serialized payload size exceeds 50 MB.</code></td><td>Payload exceeds size limit</td></tr><tr><td><code>MAX_DEPTH_EXCEEDED</code></td><td><code>JSON nesting depth exceeds 50 levels.</code></td><td>Payload structure exceeds maximum depth</td></tr><tr><td><code>UNRECOGNIZED_STRUCTURE</code></td><td><code>An array element (or unwrapped item) is null, a primitive, or an array where an object was expected. **attempted** is typically `&quot;parse_as_post&quot;`. **index** is the position in the input array (or bucket) when applicable.</code></td><td>Item is not an object</td></tr><tr><td><code>INTERNAL_ERROR</code></td><td><code>Unhandled server-side exception during normalization.</code></td><td>An unexpected error occurred</td></tr></tbody></table></div>
-                <div id="request-schema" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>payload</code></td><td><code>any</code></td><td>Raw payload: single object or array of buckets</td></tr><tr><td><code>data</code></td><td><code>any</code></td><td>Alias for payload; API accepts either</td></tr><tr><td><code>platform</code></td><td><code>string</code></td><td>Platform hint for single-vendor, e.g. twitter, facebook, youtube, custom</td></tr><tr><td><code>platformVersion</code></td><td><code>string</code></td><td>Optional, e.g. 2 for Twitter API v2</td></tr><tr><td><code>debug</code></td><td><code>boolean</code></td><td>If true, response may include rawFieldMappings</td></tr></tbody></table></div>
-                <div id="response-schema" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>posts</code></td><td><code>array|null</code></td><td></td></tr><tr><td><code>authors</code></td><td><code>array|null</code></td><td></td></tr><tr><td><code>metadata</code></td><td><code>object|null</code></td><td></td></tr><tr><td><code>confidence</code></td><td><code>number</code></td><td></td></tr><tr><td><code>warnings</code></td><td><code>array|null</code></td><td></td></tr><tr><td><code>errors</code></td><td><code>array|null</code></td><td></td></tr></tbody></table></div>
+                <p><strong>Endpoint:</strong> <code>POST https://social-media-data-normalization-interpretation.p.rapidapi.com/normalize</code> with RapidAPI headers.</p>
+                <p><a href="#request-schema" class="schema-toggle" id="toggle-req" aria-expanded="false">View request schema</a> · <a href="#response-schema" class="schema-toggle" id="toggle-res" aria-expanded="false">View response schema</a> · <a href="#error-codes" class="schema-toggle" id="toggle-errors" aria-expanded="false">View error &amp; warning codes</a></p>
+                <div id="error-codes" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Code</th><th>HTTP</th><th>Description</th></tr></thead><tbody><tr><td><code>INVALID_JSON</code></td><td><code>—</code></td><td>Request body is not valid JSON</td></tr><tr><td><code>MISSING_PAYLOAD</code></td><td><code>—</code></td><td>Body missing or empty</td></tr><tr><td><code>PAYLOAD_TOO_LARGE</code></td><td><code>—</code></td><td>Exceeds 50 MB</td></tr><tr><td><code>MAX_DEPTH_EXCEEDED</code></td><td><code>—</code></td><td>Nesting &gt; 50 levels</td></tr><tr><td><code>UNRECOGNIZED_STRUCTURE</code></td><td><code>—</code></td><td>Item not a valid object where expected</td></tr><tr><td><code>INTERNAL_ERROR</code></td><td><code>—</code></td><td>Unexpected server failure</td></tr></tbody></table></div>
+                <div id="request-schema" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>payload</code> / <code>data</code></td><td><code>any</code></td><td>Main content (alias keys)</td></tr><tr><td><code>platform</code></td><td><code>string</code></td><td>Hint for single-object requests</td></tr><tr><td><code>platformVersion</code></td><td><code>string</code></td><td>Optional API version hint</td></tr><tr><td><code>debug</code></td><td><code>boolean</code></td><td>May include extra debug fields</td></tr></tbody></table></div>
+                <div id="response-schema" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>posts</code></td><td><code>array</code></td><td>Normalized posts</td></tr><tr><td><code>authors</code></td><td><code>array</code></td><td>Author records when present</td></tr><tr><td><code>metadata</code></td><td><code>object</code></td><td>Counts and batch info</td></tr><tr><td><code>confidence</code></td><td><code>number</code></td><td>Aggregate confidence</td></tr><tr><td><code>warnings</code></td><td><code>array</code></td><td>Non-fatal issues</td></tr><tr><td><code>errors</code></td><td><code>array</code></td><td>Per-item failures</td></tr></tbody></table></div>
             </section>
             <section>
                 <h2 id="playground">Try it in the playground</h2>
-                <p>Add your <a href="https://rapidapi.com/precisionsolutionstech/api/social-media-data-normalization-interpretation" target="_blank" rel="noopener">RapidAPI key</a> and run. Key is sent only to RapidAPI.</p>
+                <p>Choose a sample, edit JSON, add your <a href="https://rapidapi.com/precisionsolutionstech/api/social-media-data-normalization-interpretation" target="_blank" rel="noopener">RapidAPI key</a>, run. The key is sent only to RapidAPI.</p>
                 <div class="playground">
                     <label for="api-key">RapidAPI Key (required)</label>
                     <input type="password" id="api-key" placeholder="Your RapidAPI key" autocomplete="off">
-                    
+                    <div class="pg-row">
+                        <div class="pg-field">
+                            <label for="pg-sample">Sample request</label>
+                            <select id="pg-sample" aria-describedby="pg-sample-hint"></select>
+                        </div>
+                    </div>
+                    <p id="pg-sample-hint" class="file-upload-note">Templates load into the editor; change anything before running.</p>
                     <label for="body-json">Request body (JSON)</label>
-                    <textarea id="body-json" placeholder='{}'>{
-  &quot;platform&quot;: &quot;twitter&quot;,
-  &quot;data&quot;: {
-    &quot;id&quot;: &quot;123&quot;,
-    &quot;text&quot;: &quot;Example tweet.&quot;,
-    &quot;author_id&quot;: &quot;42&quot;,
-    &quot;created_at&quot;: &quot;2024-01-01T12:00:00Z&quot;
-  }
-}</textarea>
+                    <textarea id="body-json" placeholder='{}'></textarea>
                     <button type="button" id="run-btn">Run request</button>
                     <div id="play-result" class="result" style="display:none;" aria-live="polite"></div>
                 </div>
+                <p class="playground-follow-cta"><a href="https://rapidapi.com/precisionsolutionstech/api/social-media-data-normalization-interpretation" target="_blank" rel="noopener">Subscribe on RapidAPI</a> for production keys and quotas.</p>
             </section>
             <section>
-                <h2 id="code">Copy code</h2>
-                <p>Host: <code>social-media-data-normalization-interpretation.p.rapidapi.com</code>, endpoint: <code>POST /normalize</code>. Choose language:</p>
-                <div class="lang-tabs" role="tablist">
-                    <button type="button" role="tab" aria-selected="true" data-lang="curl" class="active">cURL</button>
-                    <button type="button" role="tab" aria-selected="false" data-lang="javascript">JavaScript</button>
-                    <button type="button" role="tab" aria-selected="false" data-lang="python">Python</button>
-                    <button type="button" role="tab" aria-selected="false" data-lang="java">Java</button>
+                <h2 id="code">Get code</h2>
+                <p>Snippets mirror the playground JSON. Pick a language, refresh after edits, then copy.</p>
+                <div class="lang-select">
+                    <label for="code-lang">Language:</label>
+                    <select id="code-lang">
+                        <option value="curl">cURL</option>
+                        <option value="javascript">JavaScript</option>
+                        <option value="typescript">TypeScript</option>
+                        <option value="python">Python</option>
+                        <option value="java">Java</option>
+                    </select>
+                    <button type="button" id="refresh-code-btn" class="secondary">Refresh code</button>
                 </div>
-                <div id="snippet-curl" class="code-block active"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-curl">Copy</button><pre><code>curl --request POST \
-  --url 'https://social-media-data-normalization-interpretation.p.rapidapi.com/normalize' \
-  --header 'Content-Type: application/json' \
-  --header 'x-rapidapi-host: social-media-data-normalization-interpretation.p.rapidapi.com' \
-  --header 'x-rapidapi-key: YOUR_RAPIDAPI_KEY' \
-  --data '{
-  &quot;platform&quot;: &quot;twitter&quot;,
-  &quot;data&quot;: {
-    &quot;id&quot;: &quot;123&quot;,
-    &quot;text&quot;: &quot;Example tweet.&quot;,
-    &quot;author_id&quot;: &quot;42&quot;,
-    &quot;created_at&quot;: &quot;2024-01-01T12:00:00Z&quot;
-  }
-}'</code></pre></div></div>
-                <div id="snippet-javascript" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-javascript">Copy</button><pre><code>const res = await fetch('https://social-media-data-normalization-interpretation.p.rapidapi.com/normalize', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
-    'x-rapidapi-host': 'social-media-data-normalization-interpretation.p.rapidapi.com'
-  },
-  body: '{   &quot;platform&quot;: &quot;twitter&quot;,   &quot;data&quot;: {     &quot;id&quot;: &quot;123&quot;,     &quot;text&quot;: &quot;Example tweet.&quot;,     &quot;author_id&quot;: &quot;42&quot;,     &quot;created_at&quot;: &quot;2024-01-01T12:00:00Z&quot;   } }'
-});
-const data = await res.json();
-console.log(data);</code></pre></div></div>
-                <div id="snippet-python" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-python">Copy</button><pre><code>import http.client
-import json
-
-conn = http.client.HTTPSConnection(&quot;social-media-data-normalization-interpretation.p.rapidapi.com&quot;)
-payload = '{
-  &quot;platform&quot;: &quot;twitter&quot;,
-  &quot;data&quot;: {
-    &quot;id&quot;: &quot;123&quot;,
-    &quot;text&quot;: &quot;Example tweet.&quot;,
-    &quot;author_id&quot;: &quot;42&quot;,
-    &quot;created_at&quot;: &quot;2024-01-01T12:00:00Z&quot;
-  }
-}'
-headers = {
-    'Content-Type': 'application/json',
-    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
-    'x-rapidapi-host': 'social-media-data-normalization-interpretation.p.rapidapi.com'
-}
-conn.request(&quot;POST&quot;, &quot;/normalize&quot;, payload, headers)
-res = conn.getresponse()
-print(res.read().decode())</code></pre></div></div>
-                <div id="snippet-java" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-java">Copy</button><pre><code>HttpRequest request = HttpRequest.newBuilder()
-    .uri(URI.create(&quot;https://social-media-data-normalization-interpretation.p.rapidapi.com/normalize&quot;))
-    .header(&quot;Content-Type&quot;, &quot;application/json&quot;)
-    .header(&quot;x-rapidapi-key&quot;, &quot;YOUR_RAPIDAPI_KEY&quot;)
-    .header(&quot;x-rapidapi-host&quot;, &quot;social-media-data-normalization-interpretation.p.rapidapi.com&quot;)
-    .method(&quot;POST&quot;, HttpRequest.BodyPublishers.ofString(&quot;{
-  \&quot;platform\&quot;: \&quot;twitter\&quot;,
-  \&quot;data\&quot;: {
-    \&quot;id\&quot;: \&quot;123\&quot;,
-    \&quot;text\&quot;: \&quot;Example tweet.\&quot;,
-    \&quot;author_id\&quot;: \&quot;42\&quot;,
-    \&quot;created_at\&quot;: \&quot;2024-01-01T12:00:00Z\&quot;
-  }
-}&quot;))
-    .build();
-HttpResponse&lt;String&gt; response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-System.out.println(response.body());</code></pre></div></div>
+                <div class="code-wrap"><button type="button" class="copy-btn" id="copy-code-btn">Copy</button><pre><code id="generated-code"></code></pre></div>
                 <p><button type="button" class="postman-btn" id="postman-download">Download Postman collection</button></p>
+                <p class="integration-note"><strong>Limits:</strong> 50MB body, 50 levels of JSON nesting (see error codes).</p>
             </section>
-            <section><h2 id="expect">What to expect</h2><p>Response format depends on the endpoint. Use your RapidAPI key in headers. Stateless; no data stored. See <a href="https://rapidapi.com/precisionsolutionstech/api/social-media-data-normalization-interpretation" target="_blank" rel="noopener">RapidAPI docs</a> for full response schema.</p></section>
+            <section id="pricing" aria-labelledby="pricing-heading">
+                <h2 id="pricing-heading">Pricing &amp; tiers (RapidAPI)</h2>
+                <p class="enterprise-line">Built for teams ingesting heterogeneous social and review JSON at scale—dashboards, lakes, and ML features.</p>
+                <p>Current plans on <a href="https://rapidapi.com/precisionsolutionstech/api/social-media-data-normalization-interpretation" target="_blank" rel="noopener">RapidAPI</a>:</p>
+                <div class="pricing-grid">
+                    <div class="pricing-card">
+                        <h3>Basic</h3>
+                        <p class="pricing-price">$0<span class="pricing-period">/mo</span></p>
+                        <p class="pricing-quotas"><strong>Primary:</strong> 100/month</p>
+                    </div>
+                    <div class="pricing-card">
+                        <h3>Pro</h3>
+                        <p class="pricing-price">$9.99<span class="pricing-period">/mo</span></p>
+                        <p class="pricing-quotas"><strong>Primary:</strong> 10,000/month</p>
+                    </div>
+                    <div class="pricing-card pricing-card-featured">
+                        <span class="pricing-badge">Recommended</span>
+                        <h3>Ultra</h3>
+                        <p class="pricing-price">$49.99<span class="pricing-period">/mo</span></p>
+                        <p class="pricing-quotas"><strong>Primary:</strong> 100,000/month, then $0.003 each</p>
+                    </div>
+                    <div class="pricing-card">
+                        <h3>Mega</h3>
+                        <p class="pricing-price">$99.99<span class="pricing-period">/mo</span></p>
+                        <p class="pricing-quotas"><strong>Primary:</strong> 250,000/month, then $0.002 each</p>
+                    </div>
+                </div>
+                <p class="pricing-note">If RapidAPI pricing or quotas change, the live listing is authoritative.</p>
+            </section>
+            <div class="social-proof">
+                <p><strong>Same family as our other normalization APIs:</strong> deterministic output, partial success, and one canonical model—here tuned for social posts and reviews.</p>
+                <p>Pair with <a href="retail-data-normalization.html">Retail</a>, <a href="job-posting-normalization.html">Job posting</a>, or <a href="event-listing-normalization.html">Event listing</a> normalization when you are standardizing data across domains.</p>
+            </div>
+            <section><h2 id="expect">What to expect</h2><p>JSON responses with <code>posts</code> and supporting fields. Use your RapidAPI key on every request. Stateless. See <a href="https://rapidapi.com/precisionsolutionstech/api/social-media-data-normalization-interpretation" target="_blank" rel="noopener">RapidAPI docs</a> for the full contract.</p></section>
             <section><h2 id="about">About this API</h2>
-
-                <h3 id="who-should-use">Who Should Use This API</h3>
-                <p>Social dashboards, content aggregators, and teams unifying social payloads.</p>
-                <h3 id="also-known-as">Also Known As</h3>
-                <p>Social media normalizer, social content API, unified social schema.</p>
+                <h3 id="who-should-use">Who should use this API</h3>
+                <p>Products that aggregate social or review content and need one schema for search, analytics, or export.</p>
+                <h3 id="also-known-as">Also known as</h3>
+                <p>Social feed normalizer, unified social JSON API, multi-platform content API.</p>
 <div class="long-desc">
 <p>Social Media Data Normalization &amp; Interpretation API</p>
-<p>Normalize social media and review data from Twitter, Facebook, YouTube, TikTok, Reddit, LinkedIn, Instagram, Yelp, Google Reviews, and 40+ platforms into one canonical post schema. One API call for single or mixed sources—no per-platform parsers. Built for social listening, review aggregation, data pipelines, and analytics dashboards that need a single, unified data model.</p>
-<p>What This API Does</p>
-<ul>
-<li>**Normalizes** raw payloads from any supported platform (Twitter API v2/v1.1, Facebook Graph, YouTube Data API, TikTok, Reddit, Mastodon, Bluesky, Yelp, IMDb, GitHub, Stack Overflow, and more) into one consistent JSON shape</li>
-<li>**Single schema** — Every post, tweet, video, or review becomes the same structure: id, content, createdAt, author, metrics, media, thread, url, plus provenance and confidence</li>
-<li>**Mixed platforms in one request** — Send an array of vendor buckets (platform + data per bucket); get one combined `posts` array. Or call once per source and merge results for parallel, multi-threaded ingestion</li>
-<li>**Confidence &amp; provenance** — Each normalized item includes interpretation method (platform_exact, platform_fuzzy, generic_inferred) and confidence score so you can filter or flag low-confidence items</li>
-<li>**No vendor keys** — You send your own raw JSON; the API does not fetch or scrape. Stateless, 50MB max payload, 50 nesting levels</li>
-</ul>
-<p>**One pipeline, one schema.** Build search, reporting, or ML on a single canonical shape instead of maintaining dozens of platform-specific parsers.</p>
-<p>Key Features</p>
-<ul>
-<li>**Stateless** — No data stored or logged; 50MB max request, 50-level max nesting</li>
-<li>**40+ platforms** — Twitter, Facebook, YouTube, TikTok, Reddit, LinkedIn, Instagram, Mastodon, Bluesky, Yelp, Google Reviews, IMDb, Trustpilot, GitHub, Stack Overflow, Discord, Slack, Telegram, and more</li>
-<li>**Single or mixed** — One object with platform + data, or array of buckets (platform + data per bucket); optional auto-detect when platform is omitted</li>
-<li>**Canonical output** — id, content, contentPlain, createdAt, createdAtIso, author, media, metrics, thread, url, provenance, interpretation (method + confidence)</li>
-<li>**Errors &amp; warnings** — Per-item errors (e.g. UNRECOGNIZED_STRUCTURE) and non-fatal warnings (e.g. PLATFORM_MISMATCH) so you know what succeeded and what didn't</li>
-</ul>
-<p>Use Cases</p>
-<ul>
-<li>**Social listening &amp; analytics** — Aggregate tweets, posts, and videos from multiple networks into one dataset for sentiment, trends, or dashboards</li>
-<li>**Review aggregation** — Normalize Yelp, Google Reviews, IMDb, Trustpilot into one schema for comparison, search, or ML</li>
-<li>**Data pipelines &amp; ETL** — Ingest social or review JSON from webhooks, scrapers, or APIs; normalize in one step before loading into a warehouse or lake</li>
-<li>**Unified search** — Index content from Twitter, Reddit, YouTube, etc. with one schema so one search layer works across all sources</li>
-<li>**Multi-threaded ingestion** — Call the API as each source returns data; combine the `posts` arrays at the end for parallel fetching with a single unified output</li>
-</ul>
-
+<p>Normalize social media and review data from Twitter, Facebook, YouTube, TikTok, Reddit, LinkedIn, Instagram, Mastodon, Bluesky, Yelp, Google Reviews, IMDb, Trustpilot, GitHub, Stack Overflow, and 40+ platforms into one canonical post schema. One API call for single or mixed sources. Built for social listening, review aggregation, and data pipelines.</p>
 </div></section>
-            <section><h2 id="faq">Frequently Asked Questions</h2>
+            <section><h2 id="faq">Frequently asked questions</h2>
                 <ul class="faq-list">
                     <li>
                         <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a1" id="faq-q1">Does it fetch from social networks?</button>
-                        <div id="faq-a1" class="faq-a" role="region" aria-labelledby="faq-q1">No. It normalizes user-provided payloads.</div>
-                    </li><li>
-                        <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a2" id="faq-q2">Does it store data?</button>
-                        <div id="faq-a2" class="faq-a" role="region" aria-labelledby="faq-q2">No. Fully stateless.</div>
+                        <div id="faq-a1" class="faq-a" role="region" aria-labelledby="faq-q1">No. It only normalizes JSON you send. It does not call Twitter, Meta, Google, or other vendor APIs on your behalf.</div>
                     </li>
+                    <li>
+                        <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a2" id="faq-q2">Do I need Twitter or Meta API keys?</button>
+                        <div id="faq-a2" class="faq-a" role="region" aria-labelledby="faq-q2">No for this endpoint. You use your RapidAPI key here. You obtain social JSON through your own integrations.</div>
+                    </li>
+                    <li>
+                        <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a3" id="faq-q3">Can I mix platforms in one request?</button>
+                        <div id="faq-a3" class="faq-a" role="region" aria-labelledby="faq-q3">Yes. Send an array of buckets with <code>platform</code> and <code>data</code> (array of raw items). You get one combined <code>posts</code> array.</div>
+                    </li>
+                    <li>
+                        <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a4" id="faq-q4">Payload vs data?</button>
+                        <div id="faq-a4" class="faq-a" role="region" aria-labelledby="faq-q4">The API accepts either top-level <code>payload</code> or <code>data</code> for the main content.</div>
+                    </li>
+                    <li>
+                        <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a5" id="faq-q5">What are the size limits?</button>
+                        <div id="faq-a5" class="faq-a" role="region" aria-labelledby="faq-q5">50MB per request and up to 50 levels of JSON nesting. Oversize or too-deep payloads return documented error codes.</div>
+                    </li>
+                    <li>
+                        <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a6" id="faq-q6">Does it store data?</button>
+                        <div id="faq-a6" class="faq-a" role="region" aria-labelledby="faq-q6">No. Fully stateless.</div>
+                    </li>
+                    <li>
+                        <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a7" id="faq-q7">Where are pricing and quotas defined?</button>
+                        <div id="faq-a7" class="faq-a" role="region" aria-labelledby="faq-q7">On RapidAPI: Basic is free with 100 requests/month; Pro ($9.99/mo) includes 10,000/month; Ultra ($49.99/mo, recommended) includes 100,000/month; Mega ($99.99/mo) includes 250,000/month—with overage rules on the listing.</div>
+                    </li>
+                </ul>
+            </section>
+            <section id="related-apis" aria-labelledby="related-heading">
+                <h2 id="related-heading">Related APIs</h2>
+                <ul class="related-apis">
+                    <li><a href="retail-data-normalization.html">Retail Data Normalization</a> — product catalog payloads</li>
+                    <li><a href="job-posting-normalization.html">Job Posting Normalization</a> — job board and ATS JSON</li>
+                    <li><a href="event-listing-normalization.html">Event Listing Normalization</a> — event platform payloads</li>
+                    <li><a href="json-schema-validator.html">JSON Schema Validator</a> — validate before normalize</li>
                 </ul>
             </section>
             <div class="browse-all"><a href="../index.html">Browse all APIs in the catalog →</a></div>
         </article>
         <footer>
-            <p><a href="https://rapidapi.com/precisionsolutionstech/api/social-media-data-normalization-interpretation" target="_blank" rel="noopener">Subscribe on RapidAPI</a> · <a href="../index.html">API Catalog</a></p>
+            <p><a href="https://rapidapi.com/precisionsolutionstech/api/social-media-data-normalization-interpretation" target="_blank" rel="noopener">Subscribe on RapidAPI</a> · <a href="../index.html">API Catalog</a> · <a href="../faq.html">FAQ</a></p>
             <p>© 2026 Precision Solutions Tech</p>
         </footer>
     </div>
     <script>
 (function(){
-    var host='social-media-data-normalization-interpretation.p.rapidapi.com',path='/normalize',body="{\n  \"platform\": \"twitter\",\n  \"data\": {\n    \"id\": \"123\",\n    \"text\": \"Example tweet.\",\n    \"author_id\": \"42\",\n    \"created_at\": \"2024-01-01T12:00:00Z\"\n  }\n}",fileUpload=false,rapidUrl="https://rapidapi.com/precisionsolutionstech/api/social-media-data-normalization-interpretation";
-    document.querySelectorAll('[data-rapid-docs]').forEach(function(a){ a.href = rapidUrl; });
-    document.getElementById('toggle-req').addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('request-schema'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); });
-    document.getElementById('toggle-res').addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('response-schema'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); });
-    var toggleErrors=document.getElementById('toggle-errors');if(toggleErrors){ toggleErrors.addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('error-codes'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); }); }
-    document.querySelectorAll('.lang-tabs button').forEach(function(btn){
-        btn.addEventListener('click',function(){
-            document.querySelectorAll('.lang-tabs button').forEach(function(b){ b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
-            document.querySelectorAll('.code-block').forEach(function(b){ b.classList.remove('active'); });
-            this.classList.add('active'); this.setAttribute('aria-selected','true');
-            var el=document.getElementById('snippet-'+this.getAttribute('data-lang')); if(el) el.classList.add('active');
+    var host = 'social-media-data-normalization-interpretation.p.rapidapi.com';
+    var path = '/normalize';
+
+    var TWITTER_SINGLE = {
+        platform: 'twitter',
+        data: {
+            id: '123',
+            text: 'Example tweet.',
+            author_id: '42',
+            created_at: '2024-01-01T12:00:00Z'
+        }
+    };
+
+    var SAMPLES = {
+        twitter: { body: TWITTER_SINGLE },
+        mixed: {
+            body: {
+                data: [
+                    {
+                        platform: 'twitter',
+                        platformVersion: '2',
+                        data: [
+                            { id: '1', text: 'First tweet.', author_id: '42', created_at: '2024-01-01T12:00:00Z' },
+                            { id: '2', text: 'Second tweet.', author_id: '42', created_at: '2024-01-01T13:00:00Z' }
+                        ]
+                    },
+                    {
+                        platform: 'facebook',
+                        data: [
+                            {
+                                id: 'fb1',
+                                message: 'Facebook post.',
+                                created_time: '2024-01-01T12:00:00Z',
+                                from: { id: '1', name: 'Alice' }
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        custom: {
+            body: {
+                platform: 'custom',
+                data: {
+                    id: 'x1',
+                    title: 'Generic item',
+                    body: 'Some text content.',
+                    created: '2024-06-01T10:00:00Z',
+                    user: { name: 'Pat' }
+                }
+            }
+        }
+    };
+
+    var SAMPLE_LABELS = [
+        ['twitter', 'Single platform — Twitter'],
+        ['mixed', 'Mixed buckets — Twitter + Facebook'],
+        ['custom', 'Custom — best-effort shape']
+    ];
+
+    var sampleSelect = document.getElementById('pg-sample');
+    var bodyTextarea = document.getElementById('body-json');
+    SAMPLE_LABELS.forEach(function (pair) {
+        var o = document.createElement('option');
+        o.value = pair[0];
+        o.textContent = pair[1];
+        sampleSelect.appendChild(o);
+    });
+
+    function applySample() {
+        var s = SAMPLES[sampleSelect.value];
+        if (!s) return;
+        bodyTextarea.value = JSON.stringify(s.body, null, 2);
+        refreshCode();
+    }
+    sampleSelect.addEventListener('change', applySample);
+    bodyTextarea.addEventListener('input', function () { setTimeout(refreshCode, 150); });
+
+    function bindSchemaToggle(btnId, panelId) {
+        var btn = document.getElementById(btnId);
+        if (!btn) return;
+        btn.addEventListener('click', function (e) {
+            e.preventDefault();
+            var d = document.getElementById(panelId);
+            if (!d) return;
+            d.classList.toggle('show');
+            btn.setAttribute('aria-expanded', d.classList.contains('show'));
+        });
+    }
+    bindSchemaToggle('toggle-req', 'request-schema');
+    bindSchemaToggle('toggle-res', 'response-schema');
+    bindSchemaToggle('toggle-errors', 'error-codes');
+
+    function parseBody() {
+        var bodyStr = bodyTextarea.value.trim();
+        try { return { ok: true, body: JSON.parse(bodyStr) }; }
+        catch (e) { return { ok: false, error: e.message }; }
+    }
+
+    function generateCode(lang) {
+        var key = 'YOUR_RAPIDAPI_KEY';
+        var parsed = parseBody();
+        if (!parsed.ok) return '// Fix JSON in playground: ' + parsed.error;
+        var bodyStr = JSON.stringify(parsed.body);
+        var url = 'https://' + host + path;
+        if (lang === 'curl') {
+            return 'curl --request POST \\\n  --url \'' + url.replace(/'/g, "'\\''") + '\' \\\n  --header \'Content-Type: application/json\' \\\n  --header \'x-rapidapi-key: ' + key + '\' \\\n  --header \'x-rapidapi-host: ' + host + '\' \\\n  --data \'' + bodyStr.replace(/\\/g, '\\\\').replace(/'/g, "'\\''") + '\'';
+        }
+        if (lang === 'javascript') {
+            return 'const res = await fetch(' + JSON.stringify(url) + ', {\n  method: \'POST\',\n  headers: {\n    \'Content-Type\': \'application/json\',\n    \'x-rapidapi-key\': \'' + key + '\',\n    \'x-rapidapi-host\': \'' + host + '\'\n  },\n  body: ' + JSON.stringify(bodyStr) + '\n});\nconst data = await res.json();\nconsole.log(data);';
+        }
+        if (lang === 'typescript') {
+            return 'const res = await fetch(' + JSON.stringify(url) + ', {\n  method: \'POST\',\n  headers: {\n    \'Content-Type\': \'application/json\',\n    \'x-rapidapi-key\': \'' + key + '\',\n    \'x-rapidapi-host\': \'' + host + '\'\n  },\n  body: ' + JSON.stringify(bodyStr) + '\n});\nconst data: unknown = await res.json();\nconsole.log(data);';
+        }
+        if (lang === 'python') {
+            var esc = bodyStr.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+            return 'import http.client\n\nconn = http.client.HTTPSConnection("' + host + '")\npayload = "' + esc + '"\nheaders = {\n    "Content-Type": "application/json",\n    "x-rapidapi-key": "' + key + '",\n    "x-rapidapi-host": "' + host + '"\n}\nconn.request("POST", "' + path + '", payload, headers)\nres = conn.getresponse()\nprint(res.read().decode())';
+        }
+        if (lang === 'java') {
+            var j = bodyStr.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n').replace(/\r/g, '\\r');
+            var urlEsc = url.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+            return 'HttpRequest request = HttpRequest.newBuilder()\n    .uri(URI.create("' + urlEsc + '"))\n    .header("Content-Type", "application/json")\n    .header("x-rapidapi-key", "' + key + '")\n    .header("x-rapidapi-host", "' + host + '")\n    .method("POST", HttpRequest.BodyPublishers.ofString("' + j + '"))\n    .build();\nHttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());\nSystem.out.println(response.body());';
+        }
+        return '';
+    }
+
+    function refreshCode() {
+        var el = document.getElementById('generated-code');
+        if (el) el.textContent = generateCode(document.getElementById('code-lang').value);
+    }
+
+    document.getElementById('code-lang').addEventListener('change', refreshCode);
+    document.getElementById('refresh-code-btn').addEventListener('click', refreshCode);
+    document.getElementById('copy-code-btn').addEventListener('click', function () {
+        var t = document.getElementById('generated-code').textContent;
+        var btn = document.getElementById('copy-code-btn');
+        navigator.clipboard.writeText(t).then(function () {
+            var o = btn.textContent;
+            btn.textContent = 'Copied!';
+            setTimeout(function () { btn.textContent = o; }, 1500);
         });
     });
-    document.querySelectorAll('.copy-btn').forEach(function(btn){
-        btn.addEventListener('click',function(){
-            var id=this.getAttribute('data-copy'),block=document.getElementById(id),pre=block?block.querySelector('pre code'):null,btn=this;
-            if(pre) navigator.clipboard.writeText(pre.textContent).then(function(){ var t=btn.textContent; btn.textContent='Copied!'; setTimeout(function(){ btn.textContent=t; },1500); });
+
+    document.querySelectorAll('.faq-q').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            var expanded = this.getAttribute('aria-expanded') === 'true';
+            this.setAttribute('aria-expanded', !expanded);
+            var panel = document.getElementById(this.getAttribute('aria-controls'));
+            if (panel) panel.classList.toggle('show', !expanded);
         });
     });
-    
-    document.querySelectorAll('.faq-q').forEach(function(btn){
-        btn.addEventListener('click',function(){ var expanded=this.getAttribute('aria-expanded')==='true'; this.setAttribute('aria-expanded',!expanded); var panel=document.getElementById(this.getAttribute('aria-controls')); if(panel) panel.classList.toggle('show',!expanded); });
+
+    document.getElementById('postman-download').addEventListener('click', function () {
+        var parsed = parseBody();
+        if (!parsed.ok) { alert('Fix JSON in the playground before downloading.'); return; }
+        var url = 'https://' + host + path;
+        var coll = {
+            info: { name: 'Social Media Data Normalization API', schema: 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json' },
+            item: [{
+                name: 'POST /normalize',
+                request: {
+                    method: 'POST',
+                    header: [
+                        { key: 'Content-Type', value: 'application/json' },
+                        { key: 'x-rapidapi-key', value: 'YOUR_RAPIDAPI_KEY' },
+                        { key: 'x-rapidapi-host', value: host }
+                    ],
+                    body: { mode: 'raw', raw: JSON.stringify(parsed.body) },
+                    url: url
+                }
+            }]
+        };
+        var blob = new Blob([JSON.stringify(coll, null, 2)], { type: 'application/json' });
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'social-media-data-normalization-postman-collection.json';
+        a.click();
+        URL.revokeObjectURL(a.href);
     });
-    document.getElementById('postman-download').addEventListener('click',function(){
-        var coll = { info: { name: "Social Media Data Normalization API", schema: 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json' }, item: [{ name: 'Request', request: { method: 'POST', header: [{ key: 'Content-Type', value: 'application/json' }, { key: 'x-rapidapi-key', value: 'YOUR_RAPIDAPI_KEY' }, { key: 'x-rapidapi-host', value: host }], url: 'https://'+host+path } } ] };
-        if(!fileUpload){ coll.item[0].request.body = { mode: 'raw', raw: typeof body==='string'?body:JSON.stringify(body) }; }
-        else { coll.item[0].request.header = [{ key: 'X-RapidAPI-Key', value: 'YOUR_RAPIDAPI_KEY' }, { key: 'X-RapidAPI-Host', value: host }]; coll.item[0].request.url = 'https://'+host+path+'?outputFormat=json'; coll.item[0].request.body = { mode: 'formdata', formdata: [{ key: 'file', type: 'file', src: '' }] }; }
-        var blob = new Blob([JSON.stringify(coll,null,2)], { type: 'application/json' });
-        var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'social-media-data-normalization-postman-collection.json'; a.click(); URL.revokeObjectURL(a.href);
+
+    var runBtn = document.getElementById('run-btn');
+    var keyInput = document.getElementById('api-key');
+    var resultDiv = document.getElementById('play-result');
+    runBtn.addEventListener('click', function () {
+        var key = (keyInput.value || '').trim();
+        if (!key) {
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result error';
+            resultDiv.textContent = 'Please enter your RapidAPI key.';
+            return;
+        }
+        var parsed = parseBody();
+        if (!parsed.ok) {
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result error';
+            resultDiv.textContent = 'Invalid JSON: ' + parsed.error;
+            return;
+        }
+        runBtn.disabled = true;
+        resultDiv.style.display = 'block';
+        resultDiv.className = 'result';
+        resultDiv.textContent = 'Loading…';
+        fetch('https://' + host + path, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'x-rapidapi-key': key, 'x-rapidapi-host': host },
+            body: JSON.stringify(parsed.body)
+        })
+            .then(function (r) { return r.text().then(function (t) { return { status: r.status, body: t }; }); })
+            .then(function (o) {
+                resultDiv.className = 'result ' + (o.status >= 200 && o.status < 300 ? 'success' : 'error');
+                try { resultDiv.textContent = JSON.stringify(JSON.parse(o.body), null, 2); }
+                catch (_) { resultDiv.textContent = o.status + '\n' + o.body; }
+            })
+            .catch(function (e) { resultDiv.className = 'result error'; resultDiv.textContent = 'Request failed: ' + e.message; })
+            .finally(function () { runBtn.disabled = false; });
     });
-    var runBtn=document.getElementById('run-btn'),keyInput=document.getElementById('api-key'),resultDiv=document.getElementById('play-result');
-    runBtn.addEventListener('click',function(){
-        var key=(keyInput.value||'').trim();
-        if(!key){ resultDiv.style.display='block'; resultDiv.className='result error'; resultDiv.textContent='Please enter your RapidAPI key.'; return; }
-        
-    var bodyStr=document.getElementById('body-json').value.trim(),body;
-    try{body=JSON.parse(bodyStr);}catch(e){resultDiv.style.display='block';resultDiv.className='result error';resultDiv.textContent='Invalid JSON: '+e.message;return;}
-    runBtn.disabled=true;resultDiv.style.display='block';resultDiv.className='result';resultDiv.textContent='Loading…';
-    fetch('https://'+host+path,{method:'POST',headers:{'Content-Type':'application/json','x-rapidapi-key':key,'x-rapidapi-host':host},body:JSON.stringify(body)})
-    .then(function(r){return r.text().then(function(t){return{status:r.status,body:t};});})
-    .then(function(o){resultDiv.className='result '+(o.status>=200&&o.status<300?'success':'error');try{resultDiv.textContent=JSON.stringify(JSON.parse(o.body),null,2);}catch(_){resultDiv.textContent=o.status+'\n'+o.body;}})
-    .catch(function(e){resultDiv.className='result error';resultDiv.textContent='Request failed: '+e.message;})
-    .finally(function(){runBtn.disabled=false;});
-    });
+
+    applySample();
 })();
     </script>
 </body>

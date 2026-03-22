@@ -5,27 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="../favicon.svg" type="image/svg+xml">
     <link rel="icon" href="../favicon.png" type="image/png" sizes="32x32">
-    <title>Adaptive Rate Limit Response Calculator API | RapidAPI</title>
-    <meta name="description" content="Rate limit calculator, 429 response advisor, and retry-backoff API. Compute correct HTTP 429 responses with retry-after headers and backoff guidance. API gateways, tiered APIs. Prevents retry storms, tier fairness. Stateless.">
-    <meta name="keywords" content="adaptive-rate-limit-calculator, API, RapidAPI, developer">
+    <title>Adaptive Rate Limit Response Calculator API | 429, Retry-After &amp; Backoff</title>
+    <meta name="description" content="Compute HTTP 429 vs 503 vs graceful degradation from signals you send—Retry-After, X-RateLimit-*, retry guidance, tier fairness, retry-storm warnings. POST /calculate or /calculate/batch. Stateless, deterministic, 1MB max. Does not enforce limits or call your APIs.">
+    <meta name="keywords" content="rate limit calculator API, Retry-After calculator, 429 response advisor, API gateway rate limit, backoff strategy API, tiered rate limit, RapidAPI">
     <link rel="canonical" href="https://precisionsolutionstech-netizen.github.io/api-catalog/apis/adaptive-rate-limit-calculator.html">
     <meta property="og:url" content="https://precisionsolutionstech-netizen.github.io/api-catalog/apis/adaptive-rate-limit-calculator.html">
     <meta property="og:image" content="https://precisionsolutionstech-netizen.github.io/api-catalog/og-default.png">
     <meta property="og:type" content="article">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Adaptive Rate Limit Response Calculator API">
-    <meta name="twitter:description" content="Calculate retry strategies. Stateless.">
+    <meta name="twitter:title" content="Adaptive Rate Limit Response Calculator — 429 &amp; Retry-After">
+    <meta name="twitter:description" content="Policy-based rate-limit response decisions: status, headers, backoff, degradation—single or batch. Stateless.">
     <meta name="twitter:image" content="https://precisionsolutionstech-netizen.github.io/api-catalog/og-default.png">
-    <meta property="og:title" content="Adaptive Rate Limit Response Calculator API">
-    <meta property="og:description" content="Rate limit calculator, 429 response advisor, and retry-backoff API. Compute correct HTTP 429 responses with retry-after headers and backoff guidance. API gateways, tiered APIs. Prevents retry storms, tier fairness. Stateless.">
+    <meta property="og:title" content="Adaptive Rate Limit Response Calculator API | 429 &amp; Retry-After">
+    <meta property="og:description" content="Turn request context and rate-limit signals into correct HTTP responses—headers, retry guidance, degradation, and reasoning. Single or batch. Fully stateless.">
     <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"TechArticle","headline":"Adaptive Rate Limit Response Calculator API","name":"Adaptive Rate Limit Response Calculator API","description":"Rate limit calculator, 429 response advisor, and retry-backoff API. Compute correct HTTP 429 responses with retry-after headers and backoff guidance. API gateways, tiered APIs. Prevents retry storms, tier fairness. Stateless.","author":{"@type":"Organization","name":"Precision Solutions Tech"},"url":"https://precisionsolutionstech-netizen.github.io/api-catalog/apis/adaptive-rate-limit-calculator.html"}
+{"@context":"https://schema.org","@type":"TechArticle","headline":"Adaptive Rate Limit Response Calculator API — 429, Retry-After & Backoff","name":"Adaptive Rate Limit Response Calculator API","description":"Computes recommended HTTP status, rate-limit headers, retry/backoff, and degradation from signals you provide. Does not enforce limits or store counters. Stateless, 1MB max.","author":{"@type":"Organization","name":"Precision Solutions Tech"},"url":"https://precisionsolutionstech-netizen.github.io/api-catalog/apis/adaptive-rate-limit-calculator.html"}
     </script>
     <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"API Catalog","item":"https://precisionsolutionstech-netizen.github.io/api-catalog/"},{"@type":"ListItem","position":2,"name":"Adaptive Rate Limit Response Calculator","item":"https://precisionsolutionstech-netizen.github.io/api-catalog/apis/adaptive-rate-limit-calculator.html"}]}
     </script>
     <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does it call APIs?","acceptedAnswer":{"@type":"Answer","text":"No. It computes strategies from headers you provide."}},{"@type":"Question","name":"Does it store data?","acceptedAnswer":{"@type":"Answer","text":"No. Fully stateless."}}]}
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does this API enforce rate limits or store counters?","acceptedAnswer":{"@type":"Answer","text":"No. It only calculates what response your gateway or service should return. You still own enforcement, token buckets, and storage."}},{"@type":"Question","name":"What is the difference between POST /calculate and POST /calculate/batch?","acceptedAnswer":{"@type":"Answer","text":"POST /calculate accepts one decision input object (requestContext, rateLimitSignals, systemStateSignals). POST /calculate/batch accepts a requests array and returns results plus a summary."}},{"@type":"Question","name":"What is the max request body size?","acceptedAnswer":{"@type":"Answer","text":"1MB per request (JSON body)."}},{"@type":"Question","name":"Does it call my API or Redis?","acceptedAnswer":{"@type":"Answer","text":"No. It does not make outbound calls. Send the signals your system already knows (quota, remaining, load, tier, idempotency, retry count)."}},{"@type":"Question","name":"Is the output deterministic?","acceptedAnswer":{"@type":"Answer","text":"Yes. The same input JSON produces the same decision output."}},{"@type":"Question","name":"Which HTTP statuses can it recommend?","acceptedAnswer":{"@type":"Answer","text":"Typically 200 when within limits, 429 when rate-limited, or 503 under critical load—plus optional degradation suggestions and Retry-After / X-RateLimit-* style headers in the response body."}},{"@type":"Question","name":"Where are pricing and quotas defined?","acceptedAnswer":{"@type":"Answer","text":"On RapidAPI for this API: Basic is free with 100 requests per month; Pro is $9.99/month (marked as the recommended plan on the listing) with 10,000 requests; Ultra is $39.99/month with 50,000 requests; Mega is $99.99/month with 500,000 requests. The listing also includes a second billable object (10,240/month per plan with its own overage). See the live RapidAPI page for exact quotas and overage rates."}},{"@type":"Question","name":"Can I use it from edge or serverless workers?","acceptedAnswer":{"@type":"Answer","text":"Yes. The service is stateless and suitable for synchronous calls from gateways, sidecars, or edge functions as long as you stay within the body size limit."}}]}
     </script>
     <style>
         :root { --bg: #0f172a; --surface: #1e293b; --border: #334155; --text: #e2e8f0; --muted: #94a3b8; --accent: #38bdf8; --success: #34d399; --error: #f87171; }
@@ -72,9 +72,57 @@
         .long-desc li { margin: 0.35em 0; }
         .postman-btn { display: inline-block; margin-top: 12px; padding: 10px 18px; background: var(--surface); border: 1px solid var(--border); color: var(--accent); border-radius: 8px; cursor: pointer; font-weight: 600; text-decoration: none; }
         .postman-btn:hover { background: var(--border); }
-        
-        .cta-primary { display: inline-block; margin: 0 0 24px; padding: 12px 24px; background: var(--accent); color: var(--bg); border: none; border-radius: 8px; font-weight: 600; font-size: 1rem; text-decoration: none; cursor: pointer; }
+        .cta-primary { display: inline-block; margin: 0; padding: 12px 24px; background: var(--accent); color: var(--bg); border: none; border-radius: 8px; font-weight: 600; font-size: 1rem; text-decoration: none; cursor: pointer; }
         .cta-primary:hover { filter: brightness(1.1); }
+        .cta-primary.cta-hero { padding: 16px 32px; font-size: 1.125rem; font-weight: 700; border-radius: 10px; box-shadow: 0 4px 24px rgba(56, 189, 248, 0.25); }
+        .cta-sub { display: block; margin-top: 10px; font-size: 0.95rem; color: var(--muted); font-weight: 500; }
+        .use-case-list, .who-list { margin: 0.5em 0 0; padding-left: 1.25em; }
+        .use-case-list li, .who-list li { margin: 0.45em 0; }
+        .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
+        @media (max-width: 720px) { .compare-grid { grid-template-columns: 1fr; } }
+        .code-sample { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; overflow-x: auto; }
+        .code-sample h3 { margin: 0 0 10px; font-size: 0.85rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+        .code-sample pre { margin: 0; font-family: ui-monospace, monospace; font-size: 12px; line-height: 1.5; white-space: pre; }
+        .pricing-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 12px; }
+        @media (max-width: 960px) { .pricing-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 520px) { .pricing-grid { grid-template-columns: 1fr; } }
+        .pricing-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 18px; }
+        .pricing-card-featured { border-color: var(--accent); box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.2); }
+        .pricing-badge { display: inline-block; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--success); margin-bottom: 8px; }
+        .pricing-card h3 { margin: 0 0 8px; font-size: 1.05rem; color: var(--text); }
+        .pricing-price { font-size: 1.15rem; font-weight: 700; color: var(--text); margin: 0 0 10px; }
+        .pricing-period { font-weight: 500; font-size: 0.9rem; color: var(--muted); }
+        .pricing-card p { margin: 0; font-size: 0.9rem; color: var(--muted); line-height: 1.5; }
+        .pricing-quotas { line-height: 1.55; }
+        .pricing-note { font-size: 0.88rem; color: var(--muted); margin-top: 14px; }
+        .social-proof { margin: 28px 0; padding: 20px 22px; background: var(--surface); border-radius: 0 10px 10px 0; border: 1px solid var(--border); border-left: 4px solid var(--accent); }
+        .social-proof p { margin: 0; color: var(--muted); font-size: 1rem; }
+        .social-proof p + p { margin-top: 0.5em; }
+        .playground-follow-cta { margin-top: 20px; font-size: 0.95rem; color: var(--muted); }
+        .playground button.secondary { background: var(--surface); color: var(--accent); border: 1px solid var(--border); }
+        .playground .pg-row { display: flex; flex-wrap: wrap; gap: 16px 24px; align-items: flex-end; margin-bottom: 14px; }
+        .playground .pg-field { min-width: 200px; flex: 1; }
+        .playground .pg-field label { margin-bottom: 6px; }
+        .playground .pg-field select { max-width: none; width: 100%; }
+        .lang-select { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-bottom: 14px; }
+        .lang-select select { padding: 8px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-weight: 600; }
+        .endpoint-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 12px; }
+        @media (max-width: 720px) { .endpoint-grid { grid-template-columns: 1fr; } }
+        .endpoint-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; }
+        .endpoint-card h3 { margin: 0 0 8px; font-size: 1.05rem; }
+        .endpoint-card p { margin: 0; font-size: 0.92rem; color: var(--muted); line-height: 1.55; }
+        .example-block { margin: 18px 0; padding: 16px; background: var(--surface); border-radius: 10px; border: 1px solid var(--border); }
+        .example-block h3 { margin: 0 0 8px; font-size: 1.05rem; }
+        .example-block p { margin: 0 0 12px; color: var(--muted); font-size: 0.95rem; }
+        .suggestions-box { margin: 24px 0; padding: 20px 22px; background: var(--surface); border-radius: 12px; border: 1px solid var(--accent); }
+        .suggestions-box p { margin: 0; font-size: 1rem; }
+        .roi-strip { margin: 0 0 28px; padding: 18px 20px; background: var(--surface); border-radius: 12px; border: 1px solid var(--border); border-left: 4px solid var(--accent); }
+        .roi-strip p { margin: 0; font-size: 1.05rem; line-height: 1.55; color: var(--text); }
+        .why-build ul { margin: 0.5em 0 0; padding-left: 1.25em; }
+        .why-build li { margin: 0.4em 0; }
+        .enterprise-line { font-size: 0.98rem; color: var(--muted); margin: 0 0 20px; line-height: 1.55; padding-bottom: 4px; }
+        .integration-note { margin-top: 18px; font-size: 0.95rem; color: var(--muted); }
+        .positioning-callout { font-size: 0.95rem; color: var(--muted); margin: 12px 0 0; line-height: 1.55; }
         .global-nav { margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
         .global-nav a { margin-right: 16px; }
         .faq-list { list-style: none; padding: 0; margin: 0; }
@@ -82,7 +130,7 @@
         .faq-q { width: 100%; padding: 14px 12px; cursor: pointer; font-weight: 600; display: flex; justify-content: space-between; align-items: center; text-align: left; background: transparent; color: var(--text); border: none; font-family: inherit; font-size: inherit; }
         .faq-q:hover { background: var(--surface); }
         .faq-q::after { content: '+'; flex-shrink: 0; margin-left: 8px; width: 1.5rem; height: 1.5rem; display: inline-flex; align-items: center; justify-content: center; border-radius: 4px; background: var(--surface); color: var(--accent); font-size: 1.1rem; line-height: 1; }
-        .faq-q[aria-expanded="true"]::after { content: '2'; }
+        .faq-q[aria-expanded="true"]::after { content: '\2212'; }
         .faq-a { padding: 12px 12px 16px; color: var(--muted); display: none; background: var(--surface); margin: 0 12px 8px; border-radius: 6px; font-weight: normal; }
         .faq-a.show { display: block; }
         .related-apis { list-style: none; padding: 0; margin: 0; }
@@ -95,267 +143,291 @@
 </head>
 <body>
     <div class="wrap">
-        <nav aria-label="Breadcrumb"><a href="../index.html">API Catalog</a> → Adaptive Rate Limit Calculator</nav>
+        <nav class="global-nav" aria-label="Main"><a href="../index.html">Home</a><a href="../faq.html">FAQ</a><a href="../index.html#normalization">Normalization APIs</a><a href="../index.html#validation">Validation APIs</a><a href="../index.html#comparison">Comparison APIs</a><a href="../blog/what-is-data-normalization.html">Blog</a></nav>
+        <nav aria-label="Breadcrumb"><a href="../index.html">API Catalog</a> → Adaptive Rate Limit Response Calculator</nav>
         <article>
-            <header>
-                <h1>Adaptive Rate Limit Response Calculator API</h1>
-                <p class="lead">Rate limit calculator, 429 response advisor, and retry-backoff API. Compute correct HTTP 429 responses with retry-after headers and backoff guidance. API gateways, tiered APIs. Prevents retry storms, tier fairness. Stateless.</p>
+            <header class="hero">
+                <h1>Turn Rate-Limit Signals Into Correct 429 / 503 Responses</h1>
+                <p class="lead">One POST returns the status code, Retry-After and X-RateLimit-style header values, retry recommendation, backoff seconds, degradation hint, human-readable reasoning, and which policy rules fired—so gateways and services respond consistently without reinventing HTTP semantics.</p>
+                <p class="cta-row">
+                    <a href="https://rapidapi.com/precisionsolutionstech/api/adaptive-rate-limit-response-calculator" target="_blank" rel="noopener" class="cta-primary cta-hero">Try Adaptive Rate Limit Calculator</a>
+                    <span class="cta-sub">Basic on RapidAPI: <strong>100 requests/month</strong> free</span>
+                </p>
             </header>
-            <section><h2 id="why">Why use this API?</h2><p>APIs return rate limits in different formats. This API helps clients compute when to retry and how to back off.</p></section>
-            <section><h2 id="what">What the API does</h2><p>POST with rate limit headers or payload. Returns retry-after, backoff, or strategy.</p></section>
+            <section class="roi-strip" aria-label="What this saves you">
+                <p><strong>Stop guessing Retry-After and status codes under load.</strong> Feed in quota, remaining allowance, tier, idempotency, retry count, and system health; get a deterministic decision you can map straight to outbound responses and client SDKs.</p>
+            </section>
+            <section id="use-cases" aria-labelledby="use-cases-heading">
+                <h2 id="use-cases-heading">Real-world use cases</h2>
+                <ul class="use-case-list">
+                    <li><strong>API gateways</strong> — After your tokenizer or edge counter says “over limit,” ask this API how to answer (429 vs 503, backoff, client message).</li>
+                    <li><strong>Tiered products</strong> — Different guidance for <code>free</code>, <code>paid</code>, and <code>internal</code> tiers without duplicating policy tables in every service.</li>
+                    <li><strong>Retry storm prevention</strong> — Non-idempotent methods with <code>retryCount</code> &gt; 0 can yield “do not retry” style recommendations plus warnings.</li>
+                    <li><strong>Incidents and load</strong> — Combine <code>systemLoadLevel</code> and <code>trafficClassification</code> to separate abuse, overload, and normal throttle events.</li>
+                    <li><strong>Batch simulations</strong> — Evaluate many synthetic clients in one <code>POST /calculate/batch</code> for tests or capacity planning.</li>
+                    <li><strong>Edge workers</strong> — Stateless JSON in/out; no Redis round-trip required for the <em>decision shape</em> (you still own counters).</li>
+                </ul>
+            </section>
+            <section id="why-not-diy" class="why-build" aria-labelledby="why-not-diy-heading">
+                <h2 id="why-not-diy-heading">Why not hard-code this in every service?</h2>
+                <ul>
+                    <li>429 vs 503 semantics are easy to get wrong under stress</li>
+                    <li>Retry-After and backoff interact with idempotency and method</li>
+                    <li>Tier fairness and soft limits multiply branching logic</li>
+                    <li>Policy tweaks should not require redeploying every microservice</li>
+                </ul>
+                <p>Centralizing the decision rules keeps responses consistent as your product evolves.</p>
+            </section>
+            <section id="who-helps" aria-labelledby="who-heading">
+                <h2 id="who-heading">Who this API helps</h2>
+                <ul class="who-list">
+                    <li>Backend and platform engineers building rate limiting</li>
+                    <li>SRE and infra teams standardizing gateway behavior</li>
+                    <li>API product owners with multiple pricing tiers</li>
+                    <li>Teams that need testable, deterministic policy output</li>
+                </ul>
+            </section>
+            <section id="before-after" aria-labelledby="before-after-heading">
+                <h2 id="before-after-heading">Inputs vs decision object</h2>
+                <p>You send structured <strong>signals</strong>; you receive a single <strong>decision</strong> object (or an array for batch). Headers in the JSON response are the values to apply on your side—they are not returned as real HTTP response headers from this API.</p>
+                <div class="compare-grid">
+                    <div class="code-sample">
+                        <h3>Request (excerpt)</h3>
+                        <pre><code>{
+  "requestContext": {
+    "method": "POST",
+    "clientTier": "paid",
+    "isIdempotent": false
+  },
+  "rateLimitSignals": {
+    "remainingAllowance": 0,
+    "retryCount": 2,
+    "limitType": "hard"
+  },
+  "systemStateSignals": {
+    "systemLoadLevel": "normal",
+    "trafficClassification": "legitimate"
+  }
+}</code></pre>
+                    </div>
+                    <div class="code-sample">
+                        <h3>Response (excerpt)</h3>
+                        <pre><code>{
+  "statusCode": 429,
+  "headers": { "Retry-After": 60, ... },
+  "retryRecommendation": "no",
+  "suggestedBackoffDuration": 60,
+  "decisionReasoning": "...",
+  "appliedPolicyRules": [ "..." ],
+  "warnings": [ "..." ]
+}</code></pre>
+                    </div>
+                </div>
+            </section>
+            <section id="what"><h2>What the API does</h2><p><strong>POST <code>/calculate</code></strong> accepts one decision input. <strong>POST <code>/calculate/batch</code></strong> accepts <code>{ "requests": [ ... ] }</code> and returns <code>results</code> plus a <code>summary</code>. Success responses are <strong>HTTP 200</strong> with JSON bodies describing the recommended client response—not the same as the recommended <code>statusCode</code> inside the payload.</p><p class="positioning-callout">This service does <strong>not</strong> enforce limits, track usage, or call your APIs. You supply signals from your counters, WAF, or gateway; the calculator returns advisory status, header values, and messaging.</p></section>
+            <section id="deterministic" aria-labelledby="deterministic-heading">
+                <h2 id="deterministic-heading">Deterministic by design</h2>
+                <p>The same JSON input yields the same decision output. Useful for CI fixtures, regression tests, and reproducible incident reviews.</p>
+            </section>
+            <section id="endpoints" aria-labelledby="endpoints-heading">
+                <h2 id="endpoints-heading">Endpoints</h2>
+                <p>Base URL on RapidAPI: <code>https://adaptive-rate-limit-response-calculator.p.rapidapi.com</code> (confirm <code>x-rapidapi-host</code> in your app if it differs).</p>
+                <div class="endpoint-grid">
+                    <div class="endpoint-card">
+                        <h3><code>POST /calculate</code></h3>
+                        <p>One object with optional <code>requestContext</code>, <code>rateLimitSignals</code>, and <code>systemStateSignals</code>. Returns one <code>RateLimitResponse</code>.</p>
+                    </div>
+                    <div class="endpoint-card">
+                        <h3><code>POST /calculate/batch</code></h3>
+                        <p>Requires a non-empty <code>requests</code> array of the same per-item objects. Returns <code>results</code> and optional <code>summary</code> with counts.</p>
+                    </div>
+                </div>
+            </section>
+            <div class="suggestions-box">
+                <p><strong>Using the wrong path?</strong> A <code>requests</code> wrapper belongs on <code>/calculate/batch</code> only. For a single scenario use a flat object on <code>/calculate</code>—see samples in the playground.</p>
+            </div>
             <section>
                 <h2 id="schemas">Request &amp; response schema</h2>
-                <p><a href="#request-schema" class="schema-toggle" id="toggle-req" aria-expanded="false">View request schema</a> &middot; <a href="#response-schema" class="schema-toggle" id="toggle-res" aria-expanded="false">View response schema</a></p>
-                
-                <div id="request-schema" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>requestContext</code></td><td><code>object</code></td><td>Method, endpoint, clientId, clientTier, isIdempotent.</td></tr><tr><td><code>rateLimitSignals</code></td><td><code>object</code></td><td>currentRequestRate, allowedQuota, remainingAllowance, etc.</td></tr></tbody></table></div>
-                <div id="response-schema" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>statusCode</code></td><td><code>integer</code></td><td></td></tr><tr><td><code>headers.Retry-After</code></td><td><code>integer</code></td><td></td></tr><tr><td><code>headers.X-RateLimit-Limit</code></td><td><code>integer</code></td><td></td></tr><tr><td><code>headers.X-RateLimit-Remaining</code></td><td><code>integer</code></td><td></td></tr><tr><td><code>headers.X-RateLimit-Reset</code></td><td><code>integer</code></td><td></td></tr><tr><td><code>retryRecommendation</code></td><td><code>string</code></td><td></td></tr><tr><td><code>suggestedBackoffDuration</code></td><td><code>integer</code></td><td></td></tr><tr><td><code>degradationSuggestion</code></td><td><code>string</code></td><td></td></tr><tr><td><code>decisionReasoning</code></td><td><code>string</code></td><td></td></tr><tr><td><code>appliedPolicyRules</code></td><td><code>array</code></td><td></td></tr><tr><td><code>warnings</code></td><td><code>array</code></td><td></td></tr><tr><td><code>clientMessage</code></td><td><code>string</code></td><td></td></tr></tbody></table></div>
+                <p><strong>Single:</strong> <code>POST https://adaptive-rate-limit-response-calculator.p.rapidapi.com/calculate</code> · <strong>Batch:</strong> <code>.../calculate/batch</code> — <code>Content-Type: application/json</code>, <code>x-rapidapi-key</code>, <code>x-rapidapi-host</code>.</p>
+                <p><a href="#ctx-schema" class="schema-toggle" id="toggle-ctx" aria-expanded="false">View <code>requestContext</code></a> &middot; <a href="#rate-schema" class="schema-toggle" id="toggle-rate" aria-expanded="false">View <code>rateLimitSignals</code></a> &middot; <a href="#sys-schema" class="schema-toggle" id="toggle-sys" aria-expanded="false">View <code>systemStateSignals</code></a> &middot; <a href="#response-schema" class="schema-toggle" id="toggle-res" aria-expanded="false">View single response</a> &middot; <a href="#batch-response-schema" class="schema-toggle" id="toggle-batch-res" aria-expanded="false">View batch response</a> &middot; <a href="#api-errors" class="schema-toggle" id="toggle-api-err" aria-expanded="false">View HTTP errors</a></p>
+                <div id="ctx-schema" class="schema-content" aria-hidden="true">
+                    <table class="schema-table"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
+                    <tr><td><code>method</code></td><td>string</td><td>HTTP method (e.g. GET, POST). Affects non-idempotent retry policy.</td></tr>
+                    <tr><td><code>endpoint</code></td><td>string</td><td>Optional route identifier for logging or future rules.</td></tr>
+                    <tr><td><code>clientId</code></td><td>string</td><td>Opaque client key if you use one.</td></tr>
+                    <tr><td><code>clientTier</code></td><td>string</td><td><code>free</code> | <code>paid</code> | <code>internal</code> | <code>unknown</code> (default <code>unknown</code>).</td></tr>
+                    <tr><td><code>isIdempotent</code></td><td>boolean</td><td>Whether safe retry is assumed (default false).</td></tr>
+                    <tr><td><code>timestamp</code></td><td>string | number</td><td>Optional ISO or Unix time.</td></tr>
+                    </tbody></table>
+                </div>
+                <div id="rate-schema" class="schema-content" aria-hidden="true">
+                    <table class="schema-table"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
+                    <tr><td><code>currentRequestRate</code></td><td>number</td><td>Requests per window (used with quota).</td></tr>
+                    <tr><td><code>burstSize</code></td><td>number</td><td>Optional burst ceiling.</td></tr>
+                    <tr><td><code>allowedQuota</code></td><td>number</td><td>Quota per window.</td></tr>
+                    <tr><td><code>windowSize</code></td><td>number</td><td>Window seconds (default 60).</td></tr>
+                    <tr><td><code>remainingAllowance</code></td><td>number</td><td>When ≤ 0, limit treated as exceeded if set.</td></tr>
+                    <tr><td><code>retryCount</code></td><td>number</td><td>Prior retries for this operation.</td></tr>
+                    <tr><td><code>limitType</code></td><td>string</td><td><code>hard</code> | <code>soft</code> | <code>dynamic</code> (default <code>hard</code>).</td></tr>
+                    </tbody></table>
+                </div>
+                <div id="sys-schema" class="schema-content" aria-hidden="true">
+                    <table class="schema-table"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
+                    <tr><td><code>systemLoadLevel</code></td><td>string</td><td><code>normal</code> | <code>high</code> | <code>critical</code>.</td></tr>
+                    <tr><td><code>dependencyHealth</code></td><td>number</td><td>0–1 health hint.</td></tr>
+                    <tr><td><code>knownIncident</code></td><td>boolean</td><td>Active incident flag.</td></tr>
+                    <tr><td><code>trafficClassification</code></td><td>string</td><td><code>legitimate</code> | <code>unknown</code> | <code>abusive</code>.</td></tr>
+                    </tbody></table>
+                </div>
+                <div id="response-schema" class="schema-content" aria-hidden="true">
+                    <p>HTTP 200 with one decision object:</p>
+                    <table class="schema-table"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
+                    <tr><td><code>statusCode</code></td><td>number</td><td>Recommended status for the client-facing response (e.g. 200, 429, 503).</td></tr>
+                    <tr><td><code>headers</code></td><td>object</td><td>Suggested header values: <code>Retry-After</code>, <code>X-RateLimit-Limit</code>, <code>X-RateLimit-Remaining</code>, <code>X-RateLimit-Reset</code> (Unix).</td></tr>
+                    <tr><td><code>retryRecommendation</code></td><td>string</td><td><code>yes</code> | <code>no</code> | <code>conditional</code>.</td></tr>
+                    <tr><td><code>suggestedBackoffDuration</code></td><td>number</td><td>Seconds (optional).</td></tr>
+                    <tr><td><code>degradationSuggestion</code></td><td>string</td><td><code>none</code> | <code>partial</code> | <code>cached</code> | <code>reduced_quality</code>.</td></tr>
+                    <tr><td><code>decisionReasoning</code></td><td>string</td><td>Human-readable explanation.</td></tr>
+                    <tr><td><code>appliedPolicyRules</code></td><td>string[]</td><td>Rule ids that fired.</td></tr>
+                    <tr><td><code>warnings</code></td><td>string[]</td><td>Optional (e.g. retry storm risk).</td></tr>
+                    <tr><td><code>clientMessage</code></td><td>string</td><td>Optional user-facing copy suggestion.</td></tr>
+                    </tbody></table>
+                </div>
+                <div id="batch-response-schema" class="schema-content" aria-hidden="true">
+                    <p>HTTP 200:</p>
+                    <pre style="margin:10px 0;padding:12px;background:var(--bg);border-radius:8px;font-size:12px;overflow:auto;">{ "results": [ /* RateLimitResponse */ ], "summary": { "totalRequests", "statusCodeCounts", "retryRecommendationCounts" } }</pre>
+                </div>
+                <div id="api-errors" class="schema-content" aria-hidden="true">
+                    <table class="schema-table"><thead><tr><th>HTTP</th><th><code>error</code></th><th>Meaning</th></tr></thead><tbody>
+                    <tr><td>400</td><td><code>INVALID_JSON</code></td><td>Body is not valid JSON.</td></tr>
+                    <tr><td>400</td><td><code>INVALID_REQUEST</code></td><td>Wrong shape (e.g. array to <code>/calculate</code>, missing <code>requests</code> on batch, empty batch).</td></tr>
+                    <tr><td>500</td><td><code>INTERNAL_ERROR</code></td><td>Unexpected server failure.</td></tr>
+                    </tbody></table>
+                    <p class="file-upload-note" style="margin-top:12px">Max JSON body size: <strong>1MB</strong>.</p>
+                </div>
             </section>
             <section>
                 <h2 id="playground">Try it in the playground</h2>
-                <p>Add your <a href="https://rapidapi.com/precisionsolutionstech/api/adaptive-rate-limit-response-calculator" target="_blank" rel="noopener">RapidAPI key</a> and run. Key is sent only to RapidAPI.</p>
+                <p>Pick a sample (each sets the correct path: <code>/calculate</code> vs <code>/calculate/batch</code>), add your <a href="https://rapidapi.com/precisionsolutionstech/api/adaptive-rate-limit-response-calculator" target="_blank" rel="noopener">RapidAPI key</a>, then run. The key is sent only to RapidAPI.</p>
                 <div class="playground">
                     <label for="api-key">RapidAPI Key (required)</label>
                     <input type="password" id="api-key" placeholder="Your RapidAPI key" autocomplete="off">
-                    
+                    <div class="pg-row">
+                        <div class="pg-field">
+                            <label for="pg-sample">Sample request</label>
+                            <select id="pg-sample" aria-describedby="pg-sample-hint"></select>
+                        </div>
+                    </div>
+                    <p id="pg-sample-hint" class="file-upload-note">Loads JSON and the matching endpoint. Edit freely before running.</p>
+                    <p class="file-upload-note" id="path-hint" aria-live="polite"></p>
                     <label for="body-json">Request body (JSON)</label>
-                    <textarea id="body-json" placeholder='{}'>{
-  &quot;requests&quot;: [
-    {
-      &quot;requestContext&quot;: {
-        &quot;clientTier&quot;: &quot;free&quot;
-      },
-      &quot;rateLimitSignals&quot;: {
-        &quot;remainingAllowance&quot;: 0,
-        &quot;allowedQuota&quot;: 100
-      }
-    },
-    {
-      &quot;requestContext&quot;: {
-        &quot;clientTier&quot;: &quot;paid&quot;
-      },
-      &quot;rateLimitSignals&quot;: {
-        &quot;remainingAllowance&quot;: 0,
-        &quot;allowedQuota&quot;: 200
-      }
-    },
-    {
-      &quot;requestContext&quot;: {
-        &quot;clientTier&quot;: &quot;internal&quot;
-      },
-      &quot;rateLimitSignals&quot;: {
-        &quot;remainingAllowance&quot;: 0,
-        &quot;allowedQuota&quot;: 100
-      }
-    }
-  ]
-}</textarea>
+                    <textarea id="body-json" placeholder="{}"></textarea>
                     <button type="button" id="run-btn">Run request</button>
                     <div id="play-result" class="result" style="display:none;" aria-live="polite"></div>
                 </div>
+                <p class="playground-follow-cta"><a href="https://rapidapi.com/precisionsolutionstech/api/adaptive-rate-limit-response-calculator" target="_blank" rel="noopener">Subscribe on RapidAPI</a> for production keys and plan details.</p>
             </section>
             <section>
-                <h2 id="code">Copy code</h2>
-                <p>Host: <code>adaptive-rate-limit-response-calculator.p.rapidapi.com</code>, endpoint: <code>POST /calculate</code>. Choose language:</p>
-                <div class="lang-tabs" role="tablist">
-                    <button type="button" role="tab" aria-selected="true" data-lang="curl" class="active">cURL</button>
-                    <button type="button" role="tab" aria-selected="false" data-lang="javascript">JavaScript</button>
-                    <button type="button" role="tab" aria-selected="false" data-lang="python">Python</button>
-                    <button type="button" role="tab" aria-selected="false" data-lang="java">Java</button>
+                <h2 id="code">Get code</h2>
+                <p>Snippets use the JSON and path implied by your current sample (or your edits—run validation by trying <strong>Refresh code</strong> after changing the body). Host: <code id="host-inline">adaptive-rate-limit-response-calculator.p.rapidapi.com</code></p>
+                <div class="lang-select">
+                    <label for="code-lang">Language:</label>
+                    <select id="code-lang">
+                        <option value="curl">cURL</option>
+                        <option value="javascript">JavaScript</option>
+                        <option value="typescript">TypeScript</option>
+                        <option value="python">Python</option>
+                        <option value="java">Java</option>
+                    </select>
+                    <button type="button" id="refresh-code-btn" class="secondary">Refresh code</button>
                 </div>
-                <div id="snippet-curl" class="code-block active"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-curl">Copy</button><pre><code>curl --request POST \
-  --url 'https://adaptive-rate-limit-response-calculator.p.rapidapi.com/calculate' \
-  --header 'Content-Type: application/json' \
-  --header 'x-rapidapi-host: adaptive-rate-limit-response-calculator.p.rapidapi.com' \
-  --header 'x-rapidapi-key: YOUR_RAPIDAPI_KEY' \
-  --data '{
-  &quot;requests&quot;: [
-    {
-      &quot;requestContext&quot;: {
-        &quot;clientTier&quot;: &quot;free&quot;
-      },
-      &quot;rateLimitSignals&quot;: {
-        &quot;remainingAllowance&quot;: 0,
-        &quot;allowedQuota&quot;: 100
-      }
-    },
-    {
-      &quot;requestContext&quot;: {
-        &quot;clientTier&quot;: &quot;paid&quot;
-      },
-      &quot;rateLimitSignals&quot;: {
-        &quot;remainingAllowance&quot;: 0,
-        &quot;allowedQuota&quot;: 200
-      }
-    },
-    {
-      &quot;requestContext&quot;: {
-        &quot;clientTier&quot;: &quot;internal&quot;
-      },
-      &quot;rateLimitSignals&quot;: {
-        &quot;remainingAllowance&quot;: 0,
-        &quot;allowedQuota&quot;: 100
-      }
-    }
-  ]
-}'</code></pre></div></div>
-                <div id="snippet-javascript" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-javascript">Copy</button><pre><code>const res = await fetch('https://adaptive-rate-limit-response-calculator.p.rapidapi.com/calculate', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
-    'x-rapidapi-host': 'adaptive-rate-limit-response-calculator.p.rapidapi.com'
-  },
-  body: '{   &quot;requests&quot;: [     {       &quot;requestContext&quot;: {         &quot;clientTier&quot;: &quot;free&quot;       },       &quot;rateLimitSignals&quot;: {         &quot;remainingAllowance&quot;: 0,         &quot;allowedQuota&quot;: 100       }     },     {       &quot;requestContext&quot;: {         &quot;clientTier&quot;: &quot;paid&quot;       },       &quot;rateLimitSignals&quot;: {         &quot;remainingAllowance&quot;: 0,         &quot;allowedQuota&quot;: 200       }     },     {       &quot;requestContext&quot;: {         &quot;clientTier&quot;: &quot;internal&quot;       },       &quot;rateLimitSignals&quot;: {         &quot;remainingAllowance&quot;: 0,         &quot;allowedQuota&quot;: 100       }     }   ] }'
-});
-const data = await res.json();
-console.log(data);</code></pre></div></div>
-                <div id="snippet-python" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-python">Copy</button><pre><code>import http.client
-import json
-
-conn = http.client.HTTPSConnection(&quot;adaptive-rate-limit-response-calculator.p.rapidapi.com&quot;)
-payload = '{
-  &quot;requests&quot;: [
-    {
-      &quot;requestContext&quot;: {
-        &quot;clientTier&quot;: &quot;free&quot;
-      },
-      &quot;rateLimitSignals&quot;: {
-        &quot;remainingAllowance&quot;: 0,
-        &quot;allowedQuota&quot;: 100
-      }
-    },
-    {
-      &quot;requestContext&quot;: {
-        &quot;clientTier&quot;: &quot;paid&quot;
-      },
-      &quot;rateLimitSignals&quot;: {
-        &quot;remainingAllowance&quot;: 0,
-        &quot;allowedQuota&quot;: 200
-      }
-    },
-    {
-      &quot;requestContext&quot;: {
-        &quot;clientTier&quot;: &quot;internal&quot;
-      },
-      &quot;rateLimitSignals&quot;: {
-        &quot;remainingAllowance&quot;: 0,
-        &quot;allowedQuota&quot;: 100
-      }
-    }
-  ]
-}'
-headers = {
-    'Content-Type': 'application/json',
-    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
-    'x-rapidapi-host': 'adaptive-rate-limit-response-calculator.p.rapidapi.com'
-}
-conn.request(&quot;POST&quot;, &quot;/calculate&quot;, payload, headers)
-res = conn.getresponse()
-print(res.read().decode())</code></pre></div></div>
-                <div id="snippet-java" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-java">Copy</button><pre><code>HttpRequest request = HttpRequest.newBuilder()
-    .uri(URI.create(&quot;https://adaptive-rate-limit-response-calculator.p.rapidapi.com/calculate&quot;))
-    .header(&quot;Content-Type&quot;, &quot;application/json&quot;)
-    .header(&quot;x-rapidapi-key&quot;, &quot;YOUR_RAPIDAPI_KEY&quot;)
-    .header(&quot;x-rapidapi-host&quot;, &quot;adaptive-rate-limit-response-calculator.p.rapidapi.com&quot;)
-    .method(&quot;POST&quot;, HttpRequest.BodyPublishers.ofString(&quot;{
-  \&quot;requests\&quot;: [
-    {
-      \&quot;requestContext\&quot;: {
-        \&quot;clientTier\&quot;: \&quot;free\&quot;
-      },
-      \&quot;rateLimitSignals\&quot;: {
-        \&quot;remainingAllowance\&quot;: 0,
-        \&quot;allowedQuota\&quot;: 100
-      }
-    },
-    {
-      \&quot;requestContext\&quot;: {
-        \&quot;clientTier\&quot;: \&quot;paid\&quot;
-      },
-      \&quot;rateLimitSignals\&quot;: {
-        \&quot;remainingAllowance\&quot;: 0,
-        \&quot;allowedQuota\&quot;: 200
-      }
-    },
-    {
-      \&quot;requestContext\&quot;: {
-        \&quot;clientTier\&quot;: \&quot;internal\&quot;
-      },
-      \&quot;rateLimitSignals\&quot;: {
-        \&quot;remainingAllowance\&quot;: 0,
-        \&quot;allowedQuota\&quot;: 100
-      }
-    }
-  ]
-}&quot;))
-    .build();
-HttpResponse&lt;String&gt; response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-System.out.println(response.body());</code></pre></div></div>
+                <div id="generated-code-wrap" class="code-wrap"><button type="button" class="copy-btn" id="copy-code-btn">Copy</button><pre><code id="generated-code"></code></pre></div>
                 <p><button type="button" class="postman-btn" id="postman-download">Download Postman collection</button></p>
+                <p class="integration-note"><strong>Integration time:</strong> A few minutes in any stack that can POST JSON with RapidAPI headers.</p>
             </section>
-            <section><h2 id="expect">What to expect</h2><p>Response format depends on the endpoint. Use your RapidAPI key in headers. Stateless; no data stored. See <a href="https://rapidapi.com/precisionsolutionstech/api/adaptive-rate-limit-response-calculator" target="_blank" rel="noopener">RapidAPI docs</a> for full response schema.</p></section>
+            <section id="examples" aria-labelledby="examples-heading">
+                <h2 id="examples-heading">Real-world examples</h2>
+                <div class="example-block">
+                    <h3>1. Gateway: quota exhausted for a paid client</h3>
+                    <p>Your counter sets <code>remainingAllowance: 0</code>. Send method, tier, and traffic class; map the returned <code>statusCode</code> and <code>headers</code> onto the actual HTTP response your gateway emits.</p>
+                </div>
+                <div class="example-block">
+                    <h3>2. Non-idempotent POST with retries</h3>
+                    <p>Include <code>retryCount</code> and <code>isIdempotent: false</code> for POST. The calculator can recommend against blind retries and attach warnings about amplification.</p>
+                </div>
+                <div class="example-block">
+                    <h3>3. Batch regression fixtures</h3>
+                    <p>POST a <code>requests</code> array to <code>/calculate/batch</code> and snapshot <code>results</code> in tests so policy changes are diffable in CI.</p>
+                </div>
+            </section>
+            <section id="pricing" aria-labelledby="pricing-heading">
+                <h2 id="pricing-heading">Pricing &amp; tiers (RapidAPI)</h2>
+                <p class="enterprise-line">Built for teams that want <strong>consistent, explainable</strong> rate-limit responses across gateways and services.</p>
+                <p>Current plans on <a href="https://rapidapi.com/precisionsolutionstech/api/adaptive-rate-limit-response-calculator" target="_blank" rel="noopener">RapidAPI</a>:</p>
+                <div class="pricing-grid">
+                    <div class="pricing-card">
+                        <h3>Basic</h3>
+                        <p class="pricing-price">$0<span class="pricing-period">/mo</span></p>
+                        <p class="pricing-quotas"><strong>100</strong> requests/month included (primary object)</p>
+                    </div>
+                    <div class="pricing-card pricing-card-featured">
+                        <span class="pricing-badge">Recommended</span>
+                        <h3>Pro</h3>
+                        <p class="pricing-price">$9.99<span class="pricing-period">/mo</span></p>
+                        <p class="pricing-quotas"><strong>10,000</strong> requests/month included (primary object)</p>
+                    </div>
+                    <div class="pricing-card">
+                        <h3>Ultra</h3>
+                        <p class="pricing-price">$39.99<span class="pricing-period">/mo</span></p>
+                        <p class="pricing-quotas"><strong>50,000</strong> requests/month included (primary object)</p>
+                    </div>
+                    <div class="pricing-card">
+                        <h3>Mega</h3>
+                        <p class="pricing-price">$99.99<span class="pricing-period">/mo</span></p>
+                        <p class="pricing-quotas"><strong>500,000</strong> requests/month included (primary object)</p>
+                    </div>
+                </div>
+                <p class="pricing-note">RapidAPI lists a <strong>second billable object</strong> on each plan (10,240/month with per-unit overage on the listing). Overage for the primary quota (e.g. Mega) and all plan details are on the <a href="https://rapidapi.com/precisionsolutionstech/api/adaptive-rate-limit-response-calculator" target="_blank" rel="noopener">live listing</a>.</p>
+            </section>
+            <aside class="social-proof" aria-label="Positioning">
+                <p>Teams use this API to keep <strong>429/503 behavior</strong> aligned with <strong>tier, load, and idempotency</strong>—without scattering one-off policy trees across every repo.</p>
+            </aside>
+            <section><h2 id="expect">What to expect</h2><p>Successful calls return <strong>HTTP 200</strong> with a JSON decision (or batch wrapper). Apply <code>statusCode</code> and <code>headers</code> on your edge or origin response. Invalid JSON or wrong shape returns <strong>400</strong> with <code>error</code> and <code>message</code>. No server-side counters; you remain the source of truth for usage.</p></section>
             <section><h2 id="about">About this API</h2>
-
-                <h3 id="who-should-use">Who Should Use This API</h3>
-                <p>Developers and platforms implementing retries and backoff from rate limits.</p>
-                <h3 id="also-known-as">Also Known As</h3>
-                <p>Rate limit calculator API, retry strategy API, backoff calculator.</p>
-<div class="long-desc">
-<p>Rate Limit Response Calculator API</p>
-<p>The Rate Limit Response Calculator API computes the correct HTTP rate-limit response for a request at a given moment, based on supplied signals and policy rules. The API does not enforce limits, store counters, or block traffic—it calculates decisions.</p>
-<p>What This API Does</p>
-<p>Given a request context with rate-limit signals and system state, this API provides:</p>
-<ul>
-<li>**Recommended HTTP status code** — 429, 503, or 200 with degradation</li>
-<li>**Correct rate-limit headers** — Retry-After, X-RateLimit-* headers</li>
-<li>**Retry and backoff guidance** — Whether to retry and suggested backoff duration</li>
-<li>**Degradation suggestions** — When to return partial success instead of hard blocks</li>
-<li>**Decision reasoning** — Human-readable explanation of the decision</li>
-<li>**Applied policy rules** — Which rules were used to make the decision</li>
-<li>**Warnings** — Alerts about retry storms, abuse patterns, etc.</li>
-</ul>
-<p>The API is stateless, deterministic, and requires no persistent storage. It uses policy-based rules to make decisions that respect HTTP semantics, idempotency, tier fairness, and system load.</p>
-<p>Key Features</p>
-<ul>
-<li>**Stateless &amp; Fast** — No data storage, &lt;50ms target response time</li>
-<li>**Deterministic** — Identical inputs produce identical outputs</li>
-<li>**Policy-Based** — Hard vs soft limits, tier-based fairness, abuse detection</li>
-<li>**Batch Support** — Calculate responses for multiple requests</li>
-<li>**Production-Ready** — Safe for synchronous use in hot paths</li>
-<li>**HTTP-Compliant** — Follows RFC standards for 429 Too Many Requests responses</li>
-</ul>
-<p>Use Cases</p>
-<ul>
-<li>**Gateway Decision Support** — Get correct status codes and headers for rate-limit responses</li>
-<li>**Tiered API Products** — Different responses for free vs paid vs internal clients</li>
-<li>**Retry Storm Prevention** — Correct backoff guidance to prevent synchronized retries</li>
-<li>**Graceful Degradation** — Return partial success or soft failures instead of hard blocks</li>
-<li>**Abuse vs Overload Differentiation** — Respond differently under load vs abuse vs misconfiguration</li>
-<li>**API Rate Limiting** — Standardize rate-limit responses across microservices</li>
-<li>**Edge Computing** — Stateless rate-limit calculation for CDN workers</li>
-</ul>
-<p>Who This Is For</p>
-<p>### Backend Engineers</p>
-<p>Implement rate limiting correctly without reinventing the wheel. Get the right status code, headers, and retry guidance for every scenario.</p>
-<p>### Platform / SRE Teams</p>
-<p>Standardize rate-limit responses across shared gateways and services. Ensure consistent behavior during traffic spikes and incidents.</p>
-<p>### API Product Teams</p>
-<p>Expose public APIs with tiered pricing plans. Different responses for free vs paid vs internal clients, with appropriate fairness and degradation.</p>
-<p>### Edge / CDN Workers</p>
-<p>Stateless workers compute the correct response without shared storage. Perfect for edge computing environments.</p>
-<p>### SaaS Companies</p>
-<p>Handle rate limiting consistently across multiple services. Prevent cascading failures during traffic spikes.</p>
-
-</div></section>
-            <section><h2 id="faq">Frequently Asked Questions</h2>
+                <h3 id="also-known-as">Also known as</h3>
+                <p>Rate limit calculator API, Retry-After advisor, 429 response calculator, backoff strategy API.</p>
+                <div class="long-desc">
+                    <p>The Adaptive Rate-Limit Response Calculator computes a recommended HTTP outcome from <strong>signals you already have</strong>: quotas, remaining allowance, client tier, load, traffic classification, idempotency, and retry counts.</p>
+                    <p><strong>Outputs include:</strong> suggested <code>statusCode</code>; header values such as <code>Retry-After</code> and <code>X-RateLimit-*</code>; retry recommendation; backoff seconds; degradation mode; plain-language reasoning; applied rule ids; and optional warnings (for example retry-storm risk).</p>
+                    <p><strong>Operational notes:</strong> Stateless service, deterministic mapping, JSON body limit 1MB, suitable for synchronous calls when you need a fast policy decision.</p>
+                </div>
+            </section>
+            <section><h2 id="faq">Frequently asked questions</h2>
                 <ul class="faq-list">
-                    <li>
-                        <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a1" id="faq-q1">Does it call APIs?</button>
-                        <div id="faq-a1" class="faq-a" role="region" aria-labelledby="faq-q1">No. It computes strategies from headers you provide.</div>
-                    </li><li>
-                        <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a2" id="faq-q2">Does it store data?</button>
-                        <div id="faq-a2" class="faq-a" role="region" aria-labelledby="faq-q2">No. Fully stateless.</div>
-                    </li>
+                    <li><button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a1" id="faq-q1">Does this API enforce rate limits or store counters?</button>
+                        <div id="faq-a1" class="faq-a" role="region" aria-labelledby="faq-q1">No. It only returns what your platform <em>should</em> answer with. Token buckets, Redis, and enforcement stay on your side.</div></li>
+                    <li><button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a2" id="faq-q2">What is the difference between POST /calculate and POST /calculate/batch?</button>
+                        <div id="faq-a2" class="faq-a" role="region" aria-labelledby="faq-q2"><code>/calculate</code> takes one input object. <code>/calculate/batch</code> takes <code>{ "requests": [ ... ] }</code> and returns aligned <code>results</code> plus a <code>summary</code>.</div></li>
+                    <li><button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a3" id="faq-q3">What is the max request body size?</button>
+                        <div id="faq-a3" class="faq-a" role="region" aria-labelledby="faq-q3">1MB per request.</div></li>
+                    <li><button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a4" id="faq-q4">Does it call my API or Redis?</button>
+                        <div id="faq-a4" class="faq-a" role="region" aria-labelledby="faq-q4">No outbound calls. Send whatever metrics your stack already computed.</div></li>
+                    <li><button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a5" id="faq-q5">Is the output deterministic?</button>
+                        <div id="faq-a5" class="faq-a" role="region" aria-labelledby="faq-q5">Yes—same JSON in, same decision out.</div></li>
+                    <li><button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a6" id="faq-q6">Which HTTP statuses can it recommend?</button>
+                        <div id="faq-a6" class="faq-a" role="region" aria-labelledby="faq-q6">Commonly 200 when within limits, 429 when throttled, or 503 under critical load, plus optional degradation hints. Exact values depend on your signals.</div></li>
+                    <li><button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a7" id="faq-q7">Where are pricing and quotas defined?</button>
+                        <div id="faq-a7" class="faq-a" role="region" aria-labelledby="faq-q7">For this API on RapidAPI: Basic free with 100/month; Pro $9.99/mo (recommended on the listing) with 10,000/month; Ultra $39.99/mo with 50,000/month; Mega $99.99/mo with 500,000/month for the primary object. There is also a second billed object (10,240/month per plan). See the live listing for overage rates.</div></li>
+                    <li><button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a8" id="faq-q8">Can I use it from edge or serverless workers?</button>
+                        <div id="faq-a8" class="faq-a" role="region" aria-labelledby="faq-q8">Yes, as long as you respect the 1MB JSON limit and latency budget. Stateless request/response fits many worker models.</div></li>
+                </ul>
+            </section>
+            <section id="related-apis" aria-labelledby="related-heading">
+                <h2 id="related-heading">Related APIs</h2>
+                <ul class="related-apis">
+                    <li><a href="api-error-status-normalization.html">API Error &amp; Status Normalization</a> — unify error payloads across services</li>
+                    <li><a href="http-error-root-trigger-analyzer.html">HTTP Error Root Trigger Analyzer</a> — structured failure analysis</li>
+                    <li><a href="json-schema-validator.html">JSON Schema Validator</a> — validate request/response contracts</li>
                 </ul>
             </section>
             <div class="browse-all"><a href="../index.html">Browse all APIs in the catalog →</a></div>
@@ -367,50 +439,201 @@ System.out.println(response.body());</code></pre></div></div>
     </div>
     <script>
 (function(){
-    var host='adaptive-rate-limit-response-calculator.p.rapidapi.com',path='/calculate',body="{\n  \"requests\": [\n    {\n      \"requestContext\": {\n        \"clientTier\": \"free\"\n      },\n      \"rateLimitSignals\": {\n        \"remainingAllowance\": 0,\n        \"allowedQuota\": 100\n      }\n    },\n    {\n      \"requestContext\": {\n        \"clientTier\": \"paid\"\n      },\n      \"rateLimitSignals\": {\n        \"remainingAllowance\": 0,\n        \"allowedQuota\": 200\n      }\n    },\n    {\n      \"requestContext\": {\n        \"clientTier\": \"internal\"\n      },\n      \"rateLimitSignals\": {\n        \"remainingAllowance\": 0,\n        \"allowedQuota\": 100\n      }\n    }\n  ]\n}",fileUpload=false,rapidUrl="https://rapidapi.com/precisionsolutionstech/api/adaptive-rate-limit-response-calculator";
-    document.querySelectorAll('[data-rapid-docs]').forEach(function(a){ a.href = rapidUrl; });
-    document.getElementById('toggle-req').addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('request-schema'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); });
-    document.getElementById('toggle-res').addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('response-schema'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); });
-    var toggleErrors=document.getElementById('toggle-errors');if(toggleErrors){ toggleErrors.addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('error-codes'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); }); }
-    document.querySelectorAll('.lang-tabs button').forEach(function(btn){
-        btn.addEventListener('click',function(){
-            document.querySelectorAll('.lang-tabs button').forEach(function(b){ b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
-            document.querySelectorAll('.code-block').forEach(function(b){ b.classList.remove('active'); });
-            this.classList.add('active'); this.setAttribute('aria-selected','true');
-            var el=document.getElementById('snippet-'+this.getAttribute('data-lang')); if(el) el.classList.add('active');
+    var host = 'adaptive-rate-limit-response-calculator.p.rapidapi.com';
+    var SAMPLES = {
+        single_paid: {
+            path: '/calculate',
+            body: {
+                requestContext: { method: 'GET', endpoint: '/api/users', clientId: 'client-123', clientTier: 'paid', isIdempotent: true },
+                rateLimitSignals: { currentRequestRate: 150, allowedQuota: 100, windowSize: 60, remainingAllowance: 0, retryCount: 0, limitType: 'hard' },
+                systemStateSignals: { systemLoadLevel: 'normal', dependencyHealth: 1, trafficClassification: 'legitimate' }
+            }
+        },
+        single_critical: {
+            path: '/calculate',
+            body: {
+                requestContext: { clientTier: 'paid', method: 'GET', isIdempotent: true },
+                rateLimitSignals: { remainingAllowance: 0, allowedQuota: 100, limitType: 'hard' },
+                systemStateSignals: { systemLoadLevel: 'critical', knownIncident: true, trafficClassification: 'legitimate' }
+            }
+        },
+        single_soft: {
+            path: '/calculate',
+            body: {
+                requestContext: { clientTier: 'paid', isIdempotent: true },
+                rateLimitSignals: { remainingAllowance: 0, allowedQuota: 500, limitType: 'soft', windowSize: 60 },
+                systemStateSignals: { systemLoadLevel: 'high', trafficClassification: 'legitimate' }
+            }
+        },
+        batch_tiers: {
+            path: '/calculate/batch',
+            body: {
+                requests: [
+                    { requestContext: { clientTier: 'free' }, rateLimitSignals: { remainingAllowance: 0, allowedQuota: 100 } },
+                    { requestContext: { clientTier: 'paid' }, rateLimitSignals: { remainingAllowance: 0, allowedQuota: 200 } },
+                    { requestContext: { clientTier: 'internal' }, rateLimitSignals: { remainingAllowance: 0, allowedQuota: 100 } }
+                ]
+            }
+        }
+    };
+    var SAMPLE_LABELS = [
+        ['single_paid', 'Single — hard limit, paid tier'],
+        ['single_critical', 'Single — critical load / incident'],
+        ['single_soft', 'Single — soft limit + high load'],
+        ['batch_tiers', 'Batch — free / paid / internal']
+    ];
+    var sampleSelect = document.getElementById('pg-sample');
+    var bodyTextarea = document.getElementById('body-json');
+    var pathHint = document.getElementById('path-hint');
+    SAMPLE_LABELS.forEach(function (pair) {
+        var o = document.createElement('option');
+        o.value = pair[0];
+        o.textContent = pair[1];
+        sampleSelect.appendChild(o);
+    });
+    function applySample() {
+        var cfg = SAMPLES[sampleSelect.value];
+        if (!cfg) return;
+        bodyTextarea.value = JSON.stringify(cfg.body, null, 2);
+        refreshCode();
+    }
+    sampleSelect.addEventListener('change', applySample);
+    bodyTextarea.addEventListener('input', function () { setTimeout(refreshCode, 150); });
+
+    function bindSchemaToggle(btnId, panelId) {
+        var btn = document.getElementById(btnId);
+        if (!btn) return;
+        btn.addEventListener('click', function (e) {
+            e.preventDefault();
+            var d = document.getElementById(panelId);
+            if (!d) return;
+            d.classList.toggle('show');
+            btn.setAttribute('aria-expanded', d.classList.contains('show'));
+        });
+    }
+    bindSchemaToggle('toggle-ctx', 'ctx-schema');
+    bindSchemaToggle('toggle-rate', 'rate-schema');
+    bindSchemaToggle('toggle-sys', 'sys-schema');
+    bindSchemaToggle('toggle-res', 'response-schema');
+    bindSchemaToggle('toggle-batch-res', 'batch-response-schema');
+    bindSchemaToggle('toggle-api-err', 'api-errors');
+
+    function inferPathFromBody(obj) {
+        if (obj && typeof obj === 'object' && !Array.isArray(obj) && Array.isArray(obj.requests)) return '/calculate/batch';
+        return '/calculate';
+    }
+
+    function parseBody() {
+        var bodyStr = bodyTextarea.value.trim();
+        try { return { ok: true, body: JSON.parse(bodyStr) }; }
+        catch (e) { return { ok: false, error: e.message }; }
+    }
+
+    function effectivePath() {
+        var p = parseBody();
+        if (!p.ok) return '/calculate';
+        return inferPathFromBody(p.body);
+    }
+
+    function generateCode(lang) {
+        var key = 'YOUR_RAPIDAPI_KEY';
+        var parsed = parseBody();
+        if (!parsed.ok) return '// Fix JSON in playground: ' + parsed.error;
+        var path = inferPathFromBody(parsed.body);
+        var bodyStr = JSON.stringify(parsed.body);
+        if (lang === 'curl') {
+            return 'curl --request POST \\\n  --url \'https://' + host + path + '\' \\\n  --header \'Content-Type: application/json\' \\\n  --header \'x-rapidapi-key: ' + key + '\' \\\n  --header \'x-rapidapi-host: ' + host + '\' \\\n  --data \'' + bodyStr.replace(/\\/g, '\\\\').replace(/'/g, "'\\''") + '\'';
+        }
+        if (lang === 'javascript') {
+            return 'const res = await fetch(\'https://' + host + path + '\', {\n  method: \'POST\',\n  headers: {\n    \'Content-Type\': \'application/json\',\n    \'x-rapidapi-key\': \'' + key + '\',\n    \'x-rapidapi-host\': \'' + host + '\'\n  },\n  body: ' + JSON.stringify(bodyStr) + '\n});\nconst data = await res.json();\nconsole.log(data);';
+        }
+        if (lang === 'typescript') {
+            return 'const res = await fetch(\'https://' + host + path + '\', {\n  method: \'POST\',\n  headers: {\n    \'Content-Type\': \'application/json\',\n    \'x-rapidapi-key\': \'' + key + '\',\n    \'x-rapidapi-host\': \'' + host + '\'\n  },\n  body: ' + JSON.stringify(bodyStr) + '\n});\nconst data: unknown = await res.json();\nconsole.log(data);';
+        }
+        if (lang === 'python') {
+            var esc = bodyStr.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+            return 'import http.client\n\nconn = http.client.HTTPSConnection("' + host + '")\npayload = "' + esc + '"\nheaders = {\n    "Content-Type": "application/json",\n    "x-rapidapi-key": "' + key + '",\n    "x-rapidapi-host": "' + host + '"\n}\nconn.request("POST", "' + path + '", payload, headers)\nres = conn.getresponse()\nprint(res.read().decode())';
+        }
+        if (lang === 'java') {
+            var j = bodyStr.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n').replace(/\r/g, '\\r');
+            return 'HttpRequest request = HttpRequest.newBuilder()\n    .uri(URI.create("https://' + host + path + '"))\n    .header("Content-Type", "application/json")\n    .header("x-rapidapi-key", "' + key + '")\n    .header("x-rapidapi-host", "' + host + '")\n    .method("POST", HttpRequest.BodyPublishers.ofString("' + j + '"))\n    .build();\nHttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());\nSystem.out.println(response.body());';
+        }
+        return '';
+    }
+
+    function refreshCode() {
+        var el = document.getElementById('generated-code');
+        if (el) el.textContent = generateCode(document.getElementById('code-lang').value);
+        var p = effectivePath();
+        var ph = document.getElementById('path-hint');
+        if (ph) ph.textContent = 'Endpoint (from body): POST ' + p;
+    }
+    document.getElementById('code-lang').addEventListener('change', refreshCode);
+    document.getElementById('refresh-code-btn').addEventListener('click', refreshCode);
+    document.getElementById('copy-code-btn').addEventListener('click', function () {
+        var t = document.getElementById('generated-code').textContent;
+        var btn = document.getElementById('copy-code-btn');
+        navigator.clipboard.writeText(t).then(function () {
+            var o = btn.textContent; btn.textContent = 'Copied!'; setTimeout(function () { btn.textContent = o; }, 1500);
         });
     });
-    document.querySelectorAll('.copy-btn').forEach(function(btn){
-        btn.addEventListener('click',function(){
-            var id=this.getAttribute('data-copy'),block=document.getElementById(id),pre=block?block.querySelector('pre code'):null,btn=this;
-            if(pre) navigator.clipboard.writeText(pre.textContent).then(function(){ var t=btn.textContent; btn.textContent='Copied!'; setTimeout(function(){ btn.textContent=t; },1500); });
+
+    document.querySelectorAll('.faq-q').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            var expanded = this.getAttribute('aria-expanded') === 'true';
+            this.setAttribute('aria-expanded', !expanded);
+            var panel = document.getElementById(this.getAttribute('aria-controls'));
+            if (panel) panel.classList.toggle('show', !expanded);
         });
     });
-    
-    document.querySelectorAll('.faq-q').forEach(function(btn){
-        btn.addEventListener('click',function(){ var expanded=this.getAttribute('aria-expanded')==='true'; this.setAttribute('aria-expanded',!expanded); var panel=document.getElementById(this.getAttribute('aria-controls')); if(panel) panel.classList.toggle('show',!expanded); });
-    });
-    document.getElementById('postman-download').addEventListener('click',function(){
-        var coll = { info: { name: "Adaptive Rate Limit Response Calculator API", schema: 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json' }, item: [{ name: 'Request', request: { method: 'POST', header: [{ key: 'Content-Type', value: 'application/json' }, { key: 'x-rapidapi-key', value: 'YOUR_RAPIDAPI_KEY' }, { key: 'x-rapidapi-host', value: host }], url: 'https://'+host+path } } ] };
-        if(!fileUpload){ coll.item[0].request.body = { mode: 'raw', raw: typeof body==='string'?body:JSON.stringify(body) }; }
-        else { coll.item[0].request.header = [{ key: 'X-RapidAPI-Key', value: 'YOUR_RAPIDAPI_KEY' }, { key: 'X-RapidAPI-Host', value: host }]; coll.item[0].request.url = 'https://'+host+path+'?outputFormat=json'; coll.item[0].request.body = { mode: 'formdata', formdata: [{ key: 'file', type: 'file', src: '' }] }; }
-        var blob = new Blob([JSON.stringify(coll,null,2)], { type: 'application/json' });
+
+    document.getElementById('postman-download').addEventListener('click', function () {
+        var parsed = parseBody();
+        if (!parsed.ok) { alert('Fix JSON in the playground before downloading.'); return; }
+        var path = inferPathFromBody(parsed.body);
+        var coll = { info: { name: 'Adaptive Rate Limit Response Calculator API', schema: 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json' }, item: [{ name: 'POST ' + path, request: { method: 'POST', header: [{ key: 'Content-Type', value: 'application/json' }, { key: 'x-rapidapi-key', value: 'YOUR_RAPIDAPI_KEY' }, { key: 'x-rapidapi-host', value: host }], body: { mode: 'raw', raw: JSON.stringify(parsed.body) }, url: 'https://' + host + path } }] };
+        var blob = new Blob([JSON.stringify(coll, null, 2)], { type: 'application/json' });
         var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'adaptive-rate-limit-calculator-postman-collection.json'; a.click(); URL.revokeObjectURL(a.href);
     });
-    var runBtn=document.getElementById('run-btn'),keyInput=document.getElementById('api-key'),resultDiv=document.getElementById('play-result');
-    runBtn.addEventListener('click',function(){
-        var key=(keyInput.value||'').trim();
-        if(!key){ resultDiv.style.display='block'; resultDiv.className='result error'; resultDiv.textContent='Please enter your RapidAPI key.'; return; }
-        
-    var bodyStr=document.getElementById('body-json').value.trim(),body;
-    try{body=JSON.parse(bodyStr);}catch(e){resultDiv.style.display='block';resultDiv.className='result error';resultDiv.textContent='Invalid JSON: '+e.message;return;}
-    runBtn.disabled=true;resultDiv.style.display='block';resultDiv.className='result';resultDiv.textContent='Loading…';
-    fetch('https://'+host+path,{method:'POST',headers:{'Content-Type':'application/json','x-rapidapi-key':key,'x-rapidapi-host':host},body:JSON.stringify(body)})
-    .then(function(r){return r.text().then(function(t){return{status:r.status,body:t};});})
-    .then(function(o){resultDiv.className='result '+(o.status>=200&&o.status<300?'success':'error');try{resultDiv.textContent=JSON.stringify(JSON.parse(o.body),null,2);}catch(_){resultDiv.textContent=o.status+'\n'+o.body;}})
-    .catch(function(e){resultDiv.className='result error';resultDiv.textContent='Request failed: '+e.message;})
-    .finally(function(){runBtn.disabled=false;});
+
+    var runBtn = document.getElementById('run-btn'), keyInput = document.getElementById('api-key'), resultDiv = document.getElementById('play-result');
+    runBtn.addEventListener('click', function () {
+        var key = (keyInput.value || '').trim();
+        if (!key) { resultDiv.style.display = 'block'; resultDiv.className = 'result error'; resultDiv.textContent = 'Please enter your RapidAPI key.'; return; }
+        var parsed = parseBody();
+        if (!parsed.ok) { resultDiv.style.display = 'block'; resultDiv.className = 'result error'; resultDiv.textContent = 'Invalid JSON: ' + parsed.error; return; }
+        var path = inferPathFromBody(parsed.body);
+        var body = parsed.body;
+        if (path === '/calculate/batch') {
+            if (!body.requests || !Array.isArray(body.requests) || body.requests.length === 0) {
+                resultDiv.style.display = 'block'; resultDiv.className = 'result error';
+                resultDiv.textContent = 'Batch path requires non-empty "requests" array.';
+                return;
+            }
+        } else {
+            if (Array.isArray(body)) {
+                resultDiv.style.display = 'block'; resultDiv.className = 'result error';
+                resultDiv.textContent = 'POST /calculate expects a single JSON object, not an array. Use /calculate/batch with { "requests": [...] }.';
+                return;
+            }
+            if (body.requests && Array.isArray(body.requests)) {
+                resultDiv.style.display = 'block'; resultDiv.className = 'result error';
+                resultDiv.textContent = 'Body has "requests" — use POST /calculate/batch (or remove "requests" for a single /calculate call).';
+                return;
+            }
+        }
+        runBtn.disabled = true; resultDiv.style.display = 'block'; resultDiv.className = 'result'; resultDiv.textContent = 'Loading…';
+        fetch('https://' + host + path, { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-rapidapi-key': key, 'x-rapidapi-host': host }, body: JSON.stringify(body) })
+            .then(function (r) { return r.text().then(function (t) { return { status: r.status, body: t }; }); })
+            .then(function (o) {
+                resultDiv.className = 'result ' + (o.status >= 200 && o.status < 300 ? 'success' : 'error');
+                try { resultDiv.textContent = JSON.stringify(JSON.parse(o.body), null, 2); } catch (_) { resultDiv.textContent = o.status + '\n' + o.body; }
+            })
+            .catch(function (e) { resultDiv.className = 'result error'; resultDiv.textContent = 'Request failed: ' + e.message; })
+            .finally(function () { runBtn.disabled = false; });
     });
+
+    applySample();
 })();
     </script>
 </body>

@@ -5,27 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="../favicon.svg" type="image/svg+xml">
     <link rel="icon" href="../favicon.png" type="image/png" sizes="32x32">
-    <title>Job Posting Normalization API | RapidAPI</title>
-    <meta name="description" content="Job board and ATS normalizer API. Unify job postings from LinkedIn, Indeed, Greenhouse, Lever, ZipRecruiter, and 25+ platforms into one canonical job schema. One request → one unified jobs array. Stateless, 25MB max.">
-    <meta name="keywords" content="job-posting-normalization, API, RapidAPI, developer">
+    <title>Job Posting Normalization API (LinkedIn, Indeed, Greenhouse) | Canonical Job Schema</title>
+    <meta name="description" content="Normalize job payloads from LinkedIn, Indeed, Greenhouse, Lever, ZipRecruiter, and 25+ sources into one canonical job schema in a single API call—title, company, location, salary, apply URL, provenance, and confidence. Stateless, 25MB max. No job-board API calls.">
+    <meta name="keywords" content="job normalization API, LinkedIn Indeed Greenhouse, ATS job schema, job board unifier, canonical job posting, RapidAPI">
     <link rel="canonical" href="https://precisionsolutionstech-netizen.github.io/api-catalog/apis/job-posting-normalization.html">
     <meta property="og:url" content="https://precisionsolutionstech-netizen.github.io/api-catalog/apis/job-posting-normalization.html">
     <meta property="og:image" content="https://precisionsolutionstech-netizen.github.io/api-catalog/og-default.png">
     <meta property="og:type" content="article">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Job Posting Normalization API">
-    <meta name="twitter:description" content="Normalize job listings. Stateless.">
+    <meta name="twitter:title" content="Job Posting Normalization API (LinkedIn, Indeed, Greenhouse)">
+    <meta name="twitter:description" content="One API call unifies job payloads from 25+ sources into a canonical schema for search, ATS, and analytics.">
     <meta name="twitter:image" content="https://precisionsolutionstech-netizen.github.io/api-catalog/og-default.png">
-    <meta property="og:title" content="Job Posting Normalization API">
-    <meta property="og:description" content="Job board and ATS normalizer API. Unify job postings from LinkedIn, Indeed, Greenhouse, Lever, ZipRecruiter, and 25+ platforms into one canonical job schema. One request → one unified jobs array. Stateless, 25MB max.">
+    <meta property="og:title" content="Job Posting Normalization API (LinkedIn, Indeed, Greenhouse) | Canonical Job Schema">
+    <meta property="og:description" content="Normalize job listings from major boards and ATS into one deterministic schema—ready for aggregators, search, and pipelines.">
     <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"TechArticle","headline":"Job Posting Normalization API","name":"Job Posting Normalization API","description":"Job board and ATS normalizer API. Unify job postings from LinkedIn, Indeed, Greenhouse, Lever, ZipRecruiter, and 25+ platforms into one canonical job schema. One request → one unified jobs array. Stateless, 25MB max.","author":{"@type":"Organization","name":"Precision Solutions Tech"},"url":"https://precisionsolutionstech-netizen.github.io/api-catalog/apis/job-posting-normalization.html"}
+{"@context":"https://schema.org","@type":"TechArticle","headline":"Job Posting Normalization API (LinkedIn, Indeed, Greenhouse) — Canonical Job Schema","name":"Job Posting Normalization API","description":"Normalize job posting payloads into one deterministic canonical job schema. Stateless, 25MB max. Does not fetch from job boards.","author":{"@type":"Organization","name":"Precision Solutions Tech"},"url":"https://precisionsolutionstech-netizen.github.io/api-catalog/apis/job-posting-normalization.html"}
     </script>
     <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"API Catalog","item":"https://precisionsolutionstech-netizen.github.io/api-catalog/"},{"@type":"ListItem","position":2,"name":"Job Posting Normalization","item":"https://precisionsolutionstech-netizen.github.io/api-catalog/apis/job-posting-normalization.html"}]}
     </script>
     <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does it fetch jobs from job boards?","acceptedAnswer":{"@type":"Answer","text":"No. It normalizes user-provided payloads."}},{"@type":"Question","name":"Does it store data?","acceptedAnswer":{"@type":"Answer","text":"No. Fully stateless."}}]}
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does it fetch jobs from job boards?","acceptedAnswer":{"@type":"Answer","text":"No. It only normalizes JSON payloads you send. It does not call LinkedIn, Indeed, or ATS APIs."}},{"@type":"Question","name":"Do I need API keys for LinkedIn or Indeed?","acceptedAnswer":{"@type":"Answer","text":"No for this API. You obtain job JSON through your own integrations and pass it to /normalize."}},{"@type":"Question","name":"Can I mix platforms in one request?","acceptedAnswer":{"@type":"Answer","text":"Yes. Send an inputs array with platform buckets (platform plus data array) or inline blocks with platform and payload."}},{"@type":"Question","name":"What is the canonical job schema?","acceptedAnswer":{"@type":"Answer","text":"A unified structure with id, title, description, company, location, employmentType, experienceLevel, salary, postedDate, applyUrl, jobStatus, provenance, and interpretation (method and confidence)."}},{"@type":"Question","name":"What is the max request size?","acceptedAnswer":{"@type":"Answer","text":"25MB per request."}},{"@type":"Question","name":"Does it store data?","acceptedAnswer":{"@type":"Answer","text":"No. The service is fully stateless."}},{"@type":"Question","name":"Where are pricing and quotas defined?","acceptedAnswer":{"@type":"Answer","text":"On RapidAPI: Basic is free with 100 requests per month; Pro is $9.99/month with 10,000 requests; Ultra is $49.99/month (recommended) with 100,000 requests; Mega is $99.99/month with 250,000 requests. Overage pricing is shown on the live listing."}},{"@type":"Question","name":"Can I request a new platform adapter?","acceptedAnswer":{"@type":"Answer","text":"Yes. Open a thread on RapidAPI discussions for the Job Posting Normalization API with the vendor name and a redacted sample JSON payload."}}]}
     </script>
     <style>
         :root { --bg: #0f172a; --surface: #1e293b; --border: #334155; --text: #e2e8f0; --muted: #94a3b8; --accent: #38bdf8; --success: #34d399; --error: #f87171; }
@@ -42,7 +42,6 @@
         .playground label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 0.9rem; }
         .playground input[type="password"], .playground select { width: 100%; max-width: 320px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); margin-bottom: 12px; }
         .playground textarea { width: 100%; min-height: 120px; padding: 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); font-family: ui-monospace, monospace; font-size: 13px; resize: vertical; }
-        .playground input[type="file"] { margin-bottom: 12px; }
         .playground button { padding: 10px 20px; background: var(--accent); color: var(--bg); border: none; border-radius: 8px; font-weight: 600; cursor: pointer; margin-top: 8px; }
         .playground button:disabled { opacity: 0.6; cursor: not-allowed; }
         .playground .result { margin-top: 16px; padding: 12px; border-radius: 8px; background: var(--bg); border: 1px solid var(--border); white-space: pre-wrap; word-break: break-all; font-family: ui-monospace, monospace; font-size: 12px; max-height: 320px; overflow: auto; }
@@ -53,12 +52,6 @@
         .code-wrap pre { margin: 0; padding: 14px 16px; background: var(--surface); border-radius: 8px; border: 1px solid var(--border); overflow-x: auto; font-size: 13px; }
         .code-wrap .copy-btn { position: absolute; top: 10px; right: 10px; padding: 6px 12px; background: var(--border); color: var(--text); border: none; border-radius: 6px; font-size: 12px; cursor: pointer; }
         .code-wrap .copy-btn:hover { background: var(--accent); color: var(--bg); }
-        .lang-tabs { display: flex; gap: 4px; margin-bottom: 8px; flex-wrap: wrap; }
-        .lang-tabs button { padding: 8px 14px; background: var(--surface); border: 1px solid var(--border); color: var(--muted); border-radius: 6px; cursor: pointer; font-size: 0.9rem; }
-        .lang-tabs button.active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
-        .code-block { display: none; }
-        .code-block.active { display: block; }
-        .schema-section { margin: 16px 0; }
         .schema-toggle { color: var(--accent); cursor: pointer; text-decoration: none; font-weight: 600; }
         .schema-toggle:hover { text-decoration: underline; }
         .schema-content { display: none; margin-top: 12px; padding: 12px; background: var(--surface); border-radius: 8px; border: 1px solid var(--border); overflow-x: auto; }
@@ -72,9 +65,53 @@
         .long-desc li { margin: 0.35em 0; }
         .postman-btn { display: inline-block; margin-top: 12px; padding: 10px 18px; background: var(--surface); border: 1px solid var(--border); color: var(--accent); border-radius: 8px; cursor: pointer; font-weight: 600; text-decoration: none; }
         .postman-btn:hover { background: var(--border); }
-        
-        .cta-primary { display: inline-block; margin: 0 0 24px; padding: 12px 24px; background: var(--accent); color: var(--bg); border: none; border-radius: 8px; font-weight: 600; font-size: 1rem; text-decoration: none; cursor: pointer; }
+        .cta-primary { display: inline-block; margin: 0; padding: 12px 24px; background: var(--accent); color: var(--bg); border: none; border-radius: 8px; font-weight: 600; font-size: 1rem; text-decoration: none; cursor: pointer; }
         .cta-primary:hover { filter: brightness(1.1); }
+        .cta-primary.cta-hero { padding: 16px 32px; font-size: 1.125rem; font-weight: 700; border-radius: 10px; box-shadow: 0 4px 24px rgba(56, 189, 248, 0.25); }
+        .cta-sub { display: block; margin-top: 10px; font-size: 0.95rem; color: var(--muted); font-weight: 500; }
+        .use-case-list, .who-list { margin: 0.5em 0 0; padding-left: 1.25em; }
+        .use-case-list li, .who-list li { margin: 0.45em 0; }
+        .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
+        @media (max-width: 720px) { .compare-grid { grid-template-columns: 1fr; } }
+        .code-sample { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; overflow-x: auto; }
+        .code-sample h3 { margin: 0 0 10px; font-size: 0.85rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+        .code-sample pre { margin: 0; font-family: ui-monospace, monospace; font-size: 12px; line-height: 1.5; white-space: pre; }
+        .pricing-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 12px; }
+        @media (max-width: 960px) { .pricing-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 520px) { .pricing-grid { grid-template-columns: 1fr; } }
+        .pricing-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 18px; }
+        .pricing-card-featured { border-color: var(--accent); box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.2); }
+        .pricing-badge { display: inline-block; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--success); margin-bottom: 8px; }
+        .pricing-card h3 { margin: 0 0 8px; font-size: 1.05rem; color: var(--text); }
+        .pricing-price { font-size: 1.15rem; font-weight: 700; color: var(--text); margin: 0 0 10px; }
+        .pricing-period { font-weight: 500; font-size: 0.9rem; color: var(--muted); }
+        .pricing-card p { margin: 0; font-size: 0.9rem; color: var(--muted); line-height: 1.5; }
+        .pricing-quotas { line-height: 1.55; }
+        .pricing-note { font-size: 0.88rem; color: var(--muted); margin-top: 14px; }
+        .social-proof { margin: 28px 0; padding: 20px 22px; background: var(--surface); border-radius: 0 10px 10px 0; border: 1px solid var(--border); border-left: 4px solid var(--accent); }
+        .social-proof p { margin: 0; color: var(--muted); font-size: 1rem; }
+        .social-proof p + p { margin-top: 0.5em; }
+        .playground-follow-cta { margin-top: 20px; font-size: 0.95rem; color: var(--muted); }
+        .playground button.secondary { background: var(--surface); color: var(--accent); border: 1px solid var(--border); }
+        .playground .pg-row { display: flex; flex-wrap: wrap; gap: 16px 24px; align-items: flex-end; margin-bottom: 14px; }
+        .playground .pg-field { min-width: 200px; flex: 1; }
+        .playground .pg-field label { margin-bottom: 6px; }
+        .playground .pg-field select { max-width: none; width: 100%; }
+        .lang-select { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-bottom: 14px; }
+        .lang-select select { padding: 8px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-weight: 600; }
+        .suggestions-box { margin: 24px 0; padding: 20px 22px; background: var(--surface); border-radius: 12px; border: 1px solid var(--accent); }
+        .suggestions-box p { margin: 0; font-size: 1rem; }
+        .platform-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 12px; }
+        @media (max-width: 720px) { .platform-grid { grid-template-columns: 1fr; } }
+        .platform-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; }
+        .platform-card h3 { margin: 0 0 10px; font-size: 1.05rem; }
+        .platform-card p { margin: 0 0 10px; font-size: 0.92rem; color: var(--muted); }
+        .platform-card ul { margin: 0; padding-left: 1.2em; font-size: 0.9rem; color: var(--text); }
+        .platform-card li { margin: 0.35em 0; }
+        .platform-keys { font-size: 0.82rem; color: var(--muted); line-height: 1.5; word-break: break-word; }
+        .example-block { margin: 18px 0; padding: 16px; background: var(--surface); border-radius: 10px; border: 1px solid var(--border); }
+        .example-block h3 { margin: 0 0 8px; font-size: 1.05rem; }
+        .example-block p { margin: 0 0 12px; color: var(--muted); font-size: 0.95rem; }
         .global-nav { margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
         .global-nav a { margin-right: 16px; }
         .faq-list { list-style: none; padding: 0; margin: 0; }
@@ -82,7 +119,7 @@
         .faq-q { width: 100%; padding: 14px 12px; cursor: pointer; font-weight: 600; display: flex; justify-content: space-between; align-items: center; text-align: left; background: transparent; color: var(--text); border: none; font-family: inherit; font-size: inherit; }
         .faq-q:hover { background: var(--surface); }
         .faq-q::after { content: '+'; flex-shrink: 0; margin-left: 8px; width: 1.5rem; height: 1.5rem; display: inline-flex; align-items: center; justify-content: center; border-radius: 4px; background: var(--surface); color: var(--accent); font-size: 1.1rem; line-height: 1; }
-        .faq-q[aria-expanded="true"]::after { content: '2'; }
+        .faq-q[aria-expanded="true"]::after { content: '\2212'; }
         .faq-a { padding: 12px 12px 16px; color: var(--muted); display: none; background: var(--surface); margin: 0 12px 8px; border-radius: 6px; font-weight: normal; }
         .faq-a.show { display: block; }
         .related-apis { list-style: none; padding: 0; margin: 0; }
@@ -91,6 +128,13 @@
         .browse-all { margin: 28px 0; padding: 16px; background: var(--surface); border-radius: 8px; border: 1px solid var(--border); text-align: center; }
         .browse-all a { font-weight: 600; font-size: 1.05rem; }
         footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.9rem; text-align: center; }
+        .roi-strip { margin: 0 0 28px; padding: 18px 20px; background: var(--surface); border-radius: 12px; border: 1px solid var(--border); border-left: 4px solid var(--accent); }
+        .roi-strip p { margin: 0; font-size: 1.05rem; line-height: 1.55; color: var(--text); }
+        .why-build ul { margin: 0.5em 0 0; padding-left: 1.25em; }
+        .why-build li { margin: 0.4em 0; }
+        .enterprise-line { font-size: 0.98rem; color: var(--muted); margin: 0 0 20px; line-height: 1.55; padding-bottom: 4px; }
+        .integration-note { margin-top: 18px; font-size: 0.95rem; color: var(--muted); }
+        .positioning-callout { font-size: 0.95rem; color: var(--muted); margin: 12px 0 0; line-height: 1.55; }
     </style>
 </head>
 <body>
@@ -98,119 +142,268 @@
         <nav class="global-nav" aria-label="Main"><a href="../index.html">Home</a><a href="../faq.html">FAQ</a><a href="../index.html#normalization">Normalization APIs</a><a href="../index.html#validation">Validation APIs</a><a href="../index.html#comparison">Comparison APIs</a><a href="../blog/what-is-data-normalization.html">Blog</a></nav>
         <nav aria-label="Breadcrumb"><a href="../index.html">API Catalog</a> → Job Posting Normalization</nav>
         <article>
-            <header>
-                <h1>Job Posting Normalization API</h1>
-                <p class="lead">Job board and ATS normalizer API. Unify job postings from LinkedIn, Indeed, Greenhouse, Lever, ZipRecruiter, and 25+ platforms into one canonical job schema. One request → one unified jobs array. Stateless, 25MB max.</p>
+            <header class="hero">
+                <h1>Normalize Job Listings From Any Board Into One Schema</h1>
+                <p class="lead">One API call unifies job payloads from LinkedIn, Indeed, Greenhouse, Lever, ZipRecruiter, and 25+ sources into a consistent canonical format — title, company, location, salary, apply URL, provenance, and confidence for search, ATS workflows, and analytics.</p>
+                <p class="cta-row">
+                    <a href="https://rapidapi.com/precisionsolutionstech/api/job-posting-normalization" target="_blank" rel="noopener" class="cta-primary cta-hero">Try Job Posting Normalization API</a>
+                    <span class="cta-sub">Basic on RapidAPI: <strong>100 requests/month</strong> free</span>
+                </p>
             </header>
-            <section><h2 id="why">Why use this API?</h2><p>Job data from LinkedIn, Indeed, or ATS systems varies. Normalize into one schema for search, comparison, and analytics.</p></section>
-            <section><h2 id="what">What the API does</h2><p>POST /normalize with job payload(s). Returns normalized job(s).</p></section>
+            <section class="roi-strip" aria-label="What this saves you">
+                <p><strong>Stop maintaining dozens of job-board parsers.</strong> Replace brittle per-vendor field mapping with one deterministic schema. Ship aggregators and matching pipelines faster—your team spends time on product, not re-parsing every ATS changelog.</p>
+            </section>
+            <section id="use-cases" aria-labelledby="use-cases-heading">
+                <h2 id="use-cases-heading">Real-world use cases</h2>
+                <ul class="use-case-list">
+                    <li><strong>Normalize</strong> webhook or export payloads from boards and ATS before workers or search indexes consume them.</li>
+                    <li><strong>Power</strong> job aggregators and talent marketplaces with one JSON shape for filters, cards, and detail views.</li>
+                    <li><strong>Feed</strong> warehouses and BI with canonical titles, locations, and salary fields across vendors.</li>
+                    <li><strong>Unify</strong> multi-source job search—one schema for ranking, deduplication, and alerts.</li>
+                    <li><strong>Batch</strong> mixed platforms in a single POST for nightly ETL from multiple feeds.</li>
+                    <li><strong>Flag</strong> low-confidence parses using <code>interpretation.confidence</code> and <code>interpretation.method</code>.</li>
+                </ul>
+            </section>
+            <section id="why-not-diy" class="why-build" aria-labelledby="why-not-diy-heading">
+                <h2 id="why-not-diy-heading">Why not build your own normalizer?</h2>
+                <ul>
+                    <li>Boards and ATS products change JSON shapes without notice</li>
+                    <li>Salary and location representations differ wildly</li>
+                    <li>Each new source multiplies edge cases</li>
+                </ul>
+                <p>Cross-vendor job normalization is ongoing work. This API centralizes mappings so you benefit when payloads drift.</p>
+            </section>
+            <section id="who-helps" aria-labelledby="who-heading">
+                <h2 id="who-heading">Who this API helps</h2>
+                <ul class="who-list">
+                    <li>HR tech, job aggregators, and ATS integrations</li>
+                    <li>Recruitment marketplaces and matching products</li>
+                    <li>Data teams building unified job datasets</li>
+                    <li>Developers who want repeatable, testable normalization (not scraping or LLM guessing)</li>
+                </ul>
+            </section>
+            <section id="before-after" aria-labelledby="before-after-heading">
+                <h2 id="before-after-heading">Before and after normalization</h2>
+                <p>Vendors use different field names and nesting. The API maps them into one predictable structure (illustrative).</p>
+                <div class="compare-grid">
+                    <div class="code-sample">
+                        <h3>Before (vendor-style payload)</h3>
+                        <pre><code>{
+  "content": "Join our team…",
+  "absolute_url": "https://…"
+}</code></pre>
+                    </div>
+                    <div class="code-sample">
+                        <h3>After (canonical shape)</h3>
+                        <pre><code>{
+  "title": "Senior Engineer",
+  "description": "Join our team…",
+  "applyUrl": "https://…",
+  "company": { … },
+  "location": { … },
+  "interpretation": { … }
+}</code></pre>
+                    </div>
+                </div>
+            </section>
+            <section id="what"><h2>What the API does</h2><p>Send <code>POST /normalize</code> with top-level <code>payload</code> (one job or array) and optional <code>platform</code>, <strong>or</strong> an <code>inputs</code> array for mixed vendors. The response is JSON with <code>jobs</code>, <code>errors</code>, optional <code>warnings</code>, and <code>metadata</code>. Per-item failures do not fail the whole request.</p><p class="positioning-callout">Unlike scrapers or AI extractors, this API operates on <strong>structured JSON you already have</strong> and returns a <strong>consistent canonical schema</strong> every time—deterministic mapping, not probabilistic parsing.</p></section>
+            <section id="deterministic" aria-labelledby="deterministic-heading">
+                <h2 id="deterministic-heading">Deterministic by design</h2>
+                <p>The same input payload always produces the same normalized output. No hidden randomness—ideal for tests, CI, and production pipelines that need repeatable results.</p>
+            </section>
+            <section id="platforms" aria-labelledby="platforms-heading">
+                <h2 id="platforms-heading">Platforms: dedicated parsers vs generic</h2>
+                <p>The <code>platform</code> string selects a normalizer. Some sources have <strong>dedicated parsers</strong>; others use a <strong>shared custom</strong> path with heuristics (often lower confidence). Unknown labels route to the same generic path.</p>
+                <div class="platform-grid">
+                    <div class="platform-card">
+                        <h3>Dedicated adapters</h3>
+                        <p>Best for known vendor payloads; typically higher confidence.</p>
+                        <ul>
+                            <li>LinkedIn — <code>linkedin</code></li>
+                            <li>Indeed — <code>indeed</code></li>
+                            <li>Glassdoor — <code>glassdoor</code></li>
+                            <li>ZipRecruiter — <code>ziprecruiter</code></li>
+                            <li>Monster — <code>monster</code></li>
+                            <li>CareerBuilder — <code>careerbuilder</code></li>
+                            <li>Dice — <code>dice</code></li>
+                            <li>Wellfound / AngelList — <code>wellfound</code>, <code>angellist</code></li>
+                            <li>Greenhouse — <code>greenhouse</code></li>
+                            <li>Lever — <code>lever</code></li>
+                            <li>SmartRecruiters — <code>smartrecruiters</code></li>
+                            <li>Google Jobs — <code>google_jobs</code></li>
+                            <li>Ashby — <code>ashby</code></li>
+                        </ul>
+                    </div>
+                    <div class="platform-card">
+                        <h3>Reserved keys (custom inference)</h3>
+                        <p>These <code>platform</code> values are recognized but use the <strong>custom</strong> normalizer—useful for consistent routing with heuristic extraction:</p>
+                        <p class="platform-keys"><code>simplyhired</code>, <code>jooble</code>, <code>workday</code>, <code>bamboohr</code>, <code>icims</code>, <code>taleo</code>, <code>adp</code>, <code>ukg</code>, <code>jazzhr</code>, <code>bullhorn</code>, <code>recruitee</code>, <code>pinpoint</code>, <code>jobvite</code>, plus <code>custom</code>, <code>generic</code>, <code>unknown</code></p>
+                        <p class="platform-keys" style="margin-top:10px">Any other string still normalizes via the custom path.</p>
+                    </div>
+                </div>
+            </section>
+            <div class="suggestions-box">
+                <p><strong>Want a first-class adapter for a platform?</strong> Request it on <a href="https://rapidapi.com/precisionsolutionstech/api/job-posting-normalization/discussions" target="_blank" rel="noopener">RapidAPI discussions</a> — include a redacted sample payload and the vendor name.</p>
+            </div>
             <section>
                 <h2 id="schemas">Request &amp; response schema</h2>
-                <p><a href="#request-schema" class="schema-toggle" id="toggle-req" aria-expanded="false">View request schema</a> &middot; <a href="#response-schema" class="schema-toggle" id="toggle-res" aria-expanded="false">View response schema</a> &middot; <a href="#error-codes" class="schema-toggle" id="toggle-errors" aria-expanded="false">View error &amp; warning codes</a></p>
-                <div id="error-codes" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Code</th><th>HTTP</th><th>Description</th></tr></thead><tbody><tr><td><code>INVALID_REQUEST</code></td><td><code>Body is missing or has neither `payload` nor `inputs`.</code></td><td>Request body must include &quot;payload&quot; or &quot;inputs&quot; array</td></tr><tr><td><code>INVALID_JSON</code></td><td><code>Request body parse failure.</code></td><td>Request body is not valid JSON</td></tr><tr><td><code>PAYLOAD_TOO_LARGE</code></td><td><code>Serialized payload size exceeds 25 MB.</code></td><td>Payload exceeds maximum size</td></tr><tr><td><code>INVALID_PAYLOAD</code></td><td><code>Single item was empty or not a recognizable job object. **index** is the position.</code></td><td>Item could not be normalized</td></tr><tr><td><code>INTERNAL_ERROR</code></td><td><code>Unhandled server-side exception.</code></td><td>(server message)</td></tr></tbody></table></div>
-                <div id="request-schema" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>payload</code></td><td><code>any</code></td><td>Raw payload: single job object or array of jobs (use with platform for single-vendor)</td></tr><tr><td><code>inputs</code></td><td><code>array</code></td><td>For mixed platforms: array of { platform, platformVersion?, data: job[] } or { platform?, payload }</td></tr><tr><td><code>platform</code></td><td><code>string</code></td><td>Platform hint for single-vendor, e.g. linkedin, greenhouse, indeed, custom</td></tr><tr><td><code>platformVersion</code></td><td><code>string</code></td><td>Optional platform/API version</td></tr></tbody></table></div>
-                <div id="response-schema" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>errors</code></td><td><code>array</code></td><td>Array of objects; see response example for item shape.</td></tr><tr><td><code>warnings</code></td><td><code>array|null</code></td><td></td></tr><tr><td><code>metadata</code></td><td><code>object|null</code></td><td></td></tr><tr><td><code>jobs[].id</code></td><td><code>string</code></td><td>Per-item: id</td></tr><tr><td><code>jobs[].title</code></td><td><code>string</code></td><td>Per-item: title</td></tr><tr><td><code>jobs[].description</code></td><td><code>string</code></td><td>Per-item: description</td></tr><tr><td><code>jobs[].company</code></td><td><code>null</code></td><td>Per-item: company</td></tr><tr><td><code>jobs[].location</code></td><td><code>object</code></td><td>Per-item: location</td></tr><tr><td><code>jobs[].employmentType</code></td><td><code>null</code></td><td>Per-item: employmentType</td></tr><tr><td><code>jobs[].experienceLevel</code></td><td><code>null</code></td><td>Per-item: experienceLevel</td></tr><tr><td><code>jobs[].salary</code></td><td><code>null</code></td><td>Per-item: salary</td></tr><tr><td><code>jobs[].postedDate</code></td><td><code>null</code></td><td>Per-item: postedDate</td></tr><tr><td><code>jobs[].jobStatus</code></td><td><code>string</code></td><td>Per-item: jobStatus</td></tr><tr><td><code>jobs[].applyUrl</code></td><td><code>string</code></td><td>Per-item: applyUrl</td></tr><tr><td><code>jobs[].provenance</code></td><td><code>object</code></td><td>Per-item: provenance</td></tr><tr><td><code>jobs[].interpretation</code></td><td><code>object</code></td><td>Per-item: interpretation</td></tr></tbody></table></div>
+                <p><strong>Endpoint:</strong> <code>POST https://job-posting-normalization-api.p.rapidapi.com/normalize</code> with <code>Content-Type: application/json</code>, plus <code>x-rapidapi-key</code> and <code>x-rapidapi-host</code>.</p>
+                <p>You must send <strong>either</strong> top-level <code>payload</code> <strong>or</strong> an <code>inputs</code> array (not neither).</p>
+                <p><a href="#request-schema" class="schema-toggle" id="toggle-req" aria-expanded="false">View request body fields</a> &middot; <a href="#inputs-shapes" class="schema-toggle" id="toggle-inputs" aria-expanded="false">View <code>inputs</code> shapes</a> &middot; <a href="#response-schema" class="schema-toggle" id="toggle-res" aria-expanded="false">View success response</a> &middot; <a href="#api-errors" class="schema-toggle" id="toggle-api-err" aria-expanded="false">View HTTP error body</a> &middot; <a href="#error-codes" class="schema-toggle" id="toggle-errors" aria-expanded="false">View per-item error codes</a></p>
+                <div id="request-schema" class="schema-content" aria-hidden="true">
+                    <table class="schema-table"><thead><tr><th>Field</th><th>Required</th><th>Type</th><th>Description</th></tr></thead><tbody>
+                        <tr><td><code>payload</code></td><td>One of payload / inputs</td><td>object | array</td><td>Single job object or array of jobs. Pair with <code>platform</code> (and optional <code>platformVersion</code>) for single-vendor batches. If <code>platform</code> is omitted, <code>custom</code> inference is used.</td></tr>
+                        <tr><td><code>platform</code></td><td>No</td><td>string</td><td>Vendor hint for top-level <code>payload</code>. Normalized: lowercase; spaces/hyphens stripped. See <a href="#platforms">Platforms</a>.</td></tr>
+                        <tr><td><code>platformVersion</code></td><td>No</td><td>string</td><td>Optional API/version hint for parsers that branch on version.</td></tr>
+                        <tr><td><code>inputs</code></td><td>One of payload / inputs</td><td>array</td><td>Mixed-vendor batch: each element is a <strong>bucket</strong> <code>{ "platform": "linkedin", "data": [ …jobs ] }</code> or an <strong>inline block</strong> <code>{ "platform": "greenhouse", "payload": … }</code> where <code>payload</code> is one job or an array of jobs.</td></tr>
+                    </tbody></table>
+                </div>
+                <div id="inputs-shapes" class="schema-content" aria-hidden="true">
+                    <p><strong>Bucket form</strong> — many jobs, one platform:</p>
+                    <pre style="margin:10px 0;padding:12px;background:var(--bg);border-radius:8px;font-size:12px;overflow:auto;">{ "platform": "linkedin", "data": [ { "title": "Engineer", "listedAt": 1704067200000 } ] }</pre>
+                    <p><strong>Inline form</strong> — flexible per block:</p>
+                    <pre style="margin:10px 0;padding:12px;background:var(--bg);border-radius:8px;font-size:12px;overflow:auto;">{ "inputs": [
+  { "platform": "linkedin", "data": [ { "title": "Role A" } ] },
+  { "platform": "greenhouse", "payload": { "id": 1, "title": "Role B", "content": "…" } }
+]}</pre>
+                </div>
+                <div id="response-schema" class="schema-content" aria-hidden="true">
+                    <p>On success the handler returns <strong>HTTP 200</strong> with this JSON shape (partial success allowed):</p>
+                    <pre style="margin:10px 0;padding:12px;background:var(--bg);border-radius:8px;font-size:12px;overflow:auto;">{ "jobs": [ /* CanonicalJob */ ], "errors": [ /* per-item */ ], "warnings": null | string[], "metadata": { "totalInputItems", "normalizedCount", "errorCount" } }</pre>
+                    <p><strong>Canonical job (summary):</strong> <code>id</code>, <code>title</code>, <code>description</code>, <code>company</code>, <code>location</code>, <code>employmentType</code>, <code>experienceLevel</code>, <code>salary</code>, <code>postedDate</code>, <code>jobStatus</code>, <code>applyUrl</code>, <code>provenance</code>, <code>interpretation</code> (<code>method</code>: <code>platform_exact</code> | <code>platform_fuzzy</code> | <code>generic_inferred</code>, <code>confidence</code> 0–1, optional warnings).</p>
+                    <p><code>errors</code> — each entry has <code>code</code>, <code>message</code>, optional <code>index</code> (position in flattened stream), optional <code>detail</code>.</p>
+                </div>
+                <div id="api-errors" class="schema-content" aria-hidden="true">
+                    <p>When the <strong>request</strong> is invalid, the API returns a non-200 status and <code>{"error":"...","message":"..."}</code> (not the success envelope):</p>
+                    <table class="schema-table"><thead><tr><th>HTTP</th><th><code>error</code></th><th>Meaning</th></tr></thead><tbody>
+                        <tr><td>400</td><td><code>INVALID_REQUEST</code></td><td>Body missing both <code>payload</code> and valid <code>inputs</code></td></tr>
+                        <tr><td>400</td><td><code>INVALID_JSON</code></td><td>Body is not valid JSON</td></tr>
+                        <tr><td>413</td><td><code>PAYLOAD_TOO_LARGE</code></td><td>Serialized body over 25MB</td></tr>
+                        <tr><td>500</td><td><code>INTERNAL_ERROR</code></td><td>Unexpected server failure</td></tr>
+                    </tbody></table>
+                    <p>Example: <code>{"error":"INVALID_REQUEST","message":"Request body must include \"payload\" or \"inputs\" array"}</code></p>
+                </div>
+                <div id="error-codes" class="schema-content" aria-hidden="true"><table class="schema-table"><thead><tr><th>Code</th><th>HTTP</th><th>Description</th></tr></thead><tbody>
+                    <tr><td><code>INVALID_REQUEST</code></td><td><code>400</code></td><td>Top-level body missing <code>payload</code> and valid <code>inputs</code>.</td></tr>
+                    <tr><td><code>INVALID_JSON</code></td><td><code>400</code></td><td>Request body is not valid JSON.</td></tr>
+                    <tr><td><code>INVALID_PAYLOAD</code></td><td><code>200</code></td><td>Per-item: not a recognizable job object (e.g. wrong shape, empty).</td></tr>
+                    <tr><td><code>PARSE_ERROR</code></td><td><code>200</code></td><td>Per-item: unexpected failure while normalizing that item.</td></tr>
+                    <tr><td><code>PAYLOAD_TOO_LARGE</code></td><td><code>413</code></td><td>Request size exceeds 25MB.</td></tr>
+                    <tr><td><code>INTERNAL_ERROR</code></td><td><code>500</code></td><td>Unhandled server exception.</td></tr>
+                </tbody></table>
+                <p class="file-upload-note" style="margin-top:12px">Per-item problems still return <strong>HTTP 200</strong> with entries in <code>errors</code>; other jobs in the batch still normalize.</p>
+                </div>
             </section>
             <section>
                 <h2 id="playground">Try it in the playground</h2>
-                <p>Add your <a href="https://rapidapi.com/precisionsolutionstech/api/job-posting-normalization" target="_blank" rel="noopener">RapidAPI key</a> and run. Key is sent only to RapidAPI.</p>
+                <p>Pick a sample request (or edit JSON), add your <a href="https://rapidapi.com/precisionsolutionstech/api/job-posting-normalization" target="_blank" rel="noopener">RapidAPI key</a>, run, then copy code in the language you use below. The key is sent only to RapidAPI.</p>
                 <div class="playground">
                     <label for="api-key">RapidAPI Key (required)</label>
                     <input type="password" id="api-key" placeholder="Your RapidAPI key" autocomplete="off">
-                    
+                    <div class="pg-row">
+                        <div class="pg-field">
+                            <label for="pg-sample">Sample request</label>
+                            <select id="pg-sample" aria-describedby="pg-sample-hint"></select>
+                        </div>
+                    </div>
+                    <p id="pg-sample-hint" class="file-upload-note">Loads a template into the JSON editor; you can change anything before running.</p>
                     <label for="body-json">Request body (JSON)</label>
-                    <textarea id="body-json" placeholder='{}'>{
-  &quot;platform&quot;: &quot;greenhouse&quot;,
-  &quot;payload&quot;: {
-    &quot;id&quot;: 12345,
-    &quot;title&quot;: &quot;Senior Engineer&quot;,
-    &quot;content&quot;: &quot;We are looking for a senior engineer.&quot;,
-    &quot;location&quot;: { &quot;name&quot;: &quot;New York, NY&quot; },
-    &quot;absolute_url&quot;: &quot;https://boards.greenhouse.io/company/jobs/12345&quot;
-  }
-}</textarea>
+                    <textarea id="body-json" placeholder='{}'></textarea>
                     <button type="button" id="run-btn">Run request</button>
                     <div id="play-result" class="result" style="display:none;" aria-live="polite"></div>
                 </div>
+                <p class="playground-follow-cta"><a href="https://rapidapi.com/precisionsolutionstech/api/job-posting-normalization" target="_blank" rel="noopener">Subscribe on RapidAPI</a> for production keys and plan details.</p>
             </section>
             <section>
-                <h2 id="code">Copy code</h2>
-                <p>Host: <code>job-posting-normalization.p.rapidapi.com</code>, endpoint: <code>POST /normalize</code>. Choose language:</p>
-                <div class="lang-tabs" role="tablist">
-                    <button type="button" role="tab" aria-selected="true" data-lang="curl" class="active">cURL</button>
-                    <button type="button" role="tab" aria-selected="false" data-lang="javascript">JavaScript</button>
-                    <button type="button" role="tab" aria-selected="false" data-lang="python">Python</button>
-                    <button type="button" role="tab" aria-selected="false" data-lang="java">Java</button>
+                <h2 id="code">Get code</h2>
+                <p>Generates a snippet for the JSON currently in the playground. Choose language, refresh if you edited the body, then copy.</p>
+                <div class="lang-select">
+                    <label for="code-lang">Language:</label>
+                    <select id="code-lang">
+                        <option value="curl">cURL</option>
+                        <option value="javascript">JavaScript</option>
+                        <option value="typescript">TypeScript</option>
+                        <option value="python">Python</option>
+                        <option value="java">Java</option>
+                    </select>
+                    <button type="button" id="refresh-code-btn" class="secondary">Refresh code</button>
                 </div>
-                <div id="snippet-curl" class="code-block active"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-curl">Copy</button><pre><code>curl --request POST \
-  --url 'https://job-posting-normalization.p.rapidapi.com/normalize' \
-  --header 'Content-Type: application/json' \
-  --header 'x-rapidapi-host: job-posting-normalization.p.rapidapi.com' \
-  --header 'x-rapidapi-key: YOUR_RAPIDAPI_KEY' \
-  --data '{
-  &quot;platform&quot;: &quot;greenhouse&quot;,
-  &quot;payload&quot;: {
-    &quot;id&quot;: 12345,
-    &quot;title&quot;: &quot;Senior Engineer&quot;,
-    &quot;content&quot;: &quot;We are looking for a senior engineer.&quot;,
-    &quot;location&quot;: { &quot;name&quot;: &quot;New York, NY&quot; },
-    &quot;absolute_url&quot;: &quot;https://boards.greenhouse.io/company/jobs/12345&quot;
-  }
-}'</code></pre></div></div>
-                <div id="snippet-javascript" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-javascript">Copy</button><pre><code>const res = await fetch('https://job-posting-normalization.p.rapidapi.com/normalize', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
-    'x-rapidapi-host': 'job-posting-normalization.p.rapidapi.com'
-  },
-  body: '{   &quot;platform&quot;: &quot;greenhouse&quot;,   &quot;payload&quot;: {     &quot;id&quot;: 12345,     &quot;title&quot;: &quot;Senior Engineer&quot;,     &quot;content&quot;: &quot;We are looking for a senior engineer.&quot;,     &quot;location&quot;: { &quot;name&quot;: &quot;New York, NY&quot; },     &quot;absolute_url&quot;: &quot;https://boards.greenhouse.io/company/jobs/12345&quot;   } }'
-});
-const data = await res.json();
-console.log(data);</code></pre></div></div>
-                <div id="snippet-python" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-python">Copy</button><pre><code>import http.client
-import json
-
-conn = http.client.HTTPSConnection(&quot;job-posting-normalization.p.rapidapi.com&quot;)
-payload = '{
-  &quot;platform&quot;: &quot;greenhouse&quot;,
-  &quot;payload&quot;: {
-    &quot;id&quot;: 12345,
-    &quot;title&quot;: &quot;Senior Engineer&quot;,
-    &quot;content&quot;: &quot;We are looking for a senior engineer.&quot;,
-    &quot;location&quot;: { &quot;name&quot;: &quot;New York, NY&quot; },
-    &quot;absolute_url&quot;: &quot;https://boards.greenhouse.io/company/jobs/12345&quot;
-  }
-}'
-headers = {
-    'Content-Type': 'application/json',
-    'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
-    'x-rapidapi-host': 'job-posting-normalization.p.rapidapi.com'
-}
-conn.request(&quot;POST&quot;, &quot;/normalize&quot;, payload, headers)
-res = conn.getresponse()
-print(res.read().decode())</code></pre></div></div>
-                <div id="snippet-java" class="code-block"><div class="code-wrap"><button type="button" class="copy-btn" data-copy="snippet-java">Copy</button><pre><code>HttpRequest request = HttpRequest.newBuilder()
-    .uri(URI.create(&quot;https://job-posting-normalization.p.rapidapi.com/normalize&quot;))
-    .header(&quot;Content-Type&quot;, &quot;application/json&quot;)
-    .header(&quot;x-rapidapi-key&quot;, &quot;YOUR_RAPIDAPI_KEY&quot;)
-    .header(&quot;x-rapidapi-host&quot;, &quot;job-posting-normalization.p.rapidapi.com&quot;)
-    .method(&quot;POST&quot;, HttpRequest.BodyPublishers.ofString(&quot;{
-  \&quot;platform\&quot;: \&quot;greenhouse\&quot;,
-  \&quot;payload\&quot;: {
-    \&quot;id\&quot;: 12345,
-    \&quot;title\&quot;: \&quot;Senior Engineer\&quot;,
-    \&quot;content\&quot;: \&quot;We are looking for a senior engineer.\&quot;,
-    \&quot;location\&quot;: { \&quot;name\&quot;: \&quot;New York, NY\&quot; },
-    \&quot;absolute_url\&quot;: \&quot;https://boards.greenhouse.io/company/jobs/12345\&quot;
-  }
-}&quot;))
-    .build();
-HttpResponse&lt;String&gt; response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-System.out.println(response.body());</code></pre></div></div>
+                <div id="generated-code-wrap" class="code-wrap"><button type="button" class="copy-btn" id="copy-code-btn">Copy</button><pre><code id="generated-code"></code></pre></div>
                 <p><button type="button" class="postman-btn" id="postman-download">Download Postman collection</button></p>
+                <p class="integration-note"><strong>Integration time:</strong> Under 5 minutes with any stack that can send HTTP POST and JSON headers.</p>
             </section>
-            <section><h2 id="expect">What to expect</h2><p>Response format depends on the endpoint. Use your RapidAPI key in headers. Stateless; no data stored. See <a href="https://rapidapi.com/precisionsolutionstech/api/job-posting-normalization" target="_blank" rel="noopener">RapidAPI docs</a> for full response schema.</p></section>
+            <section id="examples" aria-labelledby="examples-heading">
+                <h2 id="examples-heading">Real-world examples</h2>
+                <div class="example-block">
+                    <h3>1. Greenhouse board export (single job)</h3>
+                    <p>Your worker receives a job object from Greenhouse. Send it with <code>platform: "greenhouse"</code> so title, description, location, and apply URL map with the dedicated adapter.</p>
+                    <div class="code-sample"><pre><code>{
+  "platform": "greenhouse",
+  "payload": {
+    "id": 12345,
+    "title": "Senior Engineer",
+    "content": "We are looking for a senior engineer.",
+    "location": { "name": "New York, NY" },
+    "absolute_url": "https://boards.greenhouse.io/company/jobs/12345"
+  }
+}</code></pre></div>
+                </div>
+                <div class="example-block">
+                    <h3>2. Nightly batch from LinkedIn + Greenhouse</h3>
+                    <p>Aggregation pulls buckets per vendor. One POST merges them into a single <code>jobs</code> array for your index or warehouse.</p>
+                    <div class="code-sample"><pre><code>{
+  "inputs": [
+    {
+      "platform": "linkedin",
+      "data": [
+        { "externalJobPostingId": "123", "title": "Engineer", "listedAt": 1704067200000 }
+      ]
+    },
+    {
+      "platform": "greenhouse",
+      "data": [
+        { "id": 456, "title": "Designer", "content": "Join us.", "location": { "name": "Remote" } }
+      ]
+    }
+  ]
+}</code></pre></div>
+                </div>
+            </section>
+            <section id="pricing" aria-labelledby="pricing-heading">
+                <h2 id="pricing-heading">Pricing &amp; tiers (RapidAPI)</h2>
+                <p class="enterprise-line">Built for production job data pipelines that need <strong>deterministic, canonical outputs</strong> across heterogeneous boards and ATS—search indexes, matching engines, and analytics.</p>
+                <p>Current plans on <a href="https://rapidapi.com/precisionsolutionstech/api/job-posting-normalization" target="_blank" rel="noopener">RapidAPI</a>:</p>
+                <div class="pricing-grid">
+                    <div class="pricing-card">
+                        <h3>Basic</h3>
+                        <p class="pricing-price">$0<span class="pricing-period">/mo</span></p>
+                        <p class="pricing-quotas"><strong>Primary:</strong> 100/month</p>
+                    </div>
+                    <div class="pricing-card">
+                        <h3>Pro</h3>
+                        <p class="pricing-price">$9.99<span class="pricing-period">/mo</span></p>
+                        <p class="pricing-quotas"><strong>Primary:</strong> 10,000/month</p>
+                    </div>
+                    <div class="pricing-card pricing-card-featured">
+                        <span class="pricing-badge">Recommended</span>
+                        <h3>Ultra</h3>
+                        <p class="pricing-price">$49.99<span class="pricing-period">/mo</span></p>
+                        <p class="pricing-quotas"><strong>Primary:</strong> 100,000/month, then $0.003 each</p>
+                    </div>
+                    <div class="pricing-card">
+                        <h3>Mega</h3>
+                        <p class="pricing-price">$99.99<span class="pricing-period">/mo</span></p>
+                        <p class="pricing-quotas"><strong>Primary:</strong> 250,000/month, then $0.002 each</p>
+                    </div>
+                </div>
+                <p class="pricing-note">If RapidAPI pricing or quotas change, the live listing is authoritative.</p>
+            </section>
+            <div class="social-proof">
+                <p><strong>Growing adoption:</strong> Teams building job search and HR data products use this API to avoid maintaining parallel parsers per board.</p>
+                <p><strong>Trusted for consolidation</strong> — one canonical job model instead of dozens of vendor-specific shapes.</p>
+                <p>Subscribe on RapidAPI to run production normalization alongside our other data APIs.</p>
+            </div>
+            <section><h2 id="expect">What to expect</h2><p>Successful calls return <strong>HTTP 200</strong> and <code>Content-Type: application/json</code> with <code>jobs</code>, <code>errors</code>, <code>warnings</code>, and <code>metadata</code>. Invalid top-level requests return <code>400</code>, <code>413</code>, or <code>500</code> with <code>{"error":"...","message":"..."}</code>. Use your RapidAPI key on every request. Stateless — no payload storage.</p></section>
             <section><h2 id="about">About this API</h2>
 
                 <h3 id="who-should-use">Who Should Use This API</h3>
@@ -246,15 +439,48 @@ System.out.println(response.body());</code></pre></div></div>
 </ul>
 
 </div></section>
-            <section><h2 id="faq">Frequently Asked Questions</h2>
+            <section><h2 id="faq">Frequently asked questions</h2>
                 <ul class="faq-list">
                     <li>
                         <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a1" id="faq-q1">Does it fetch jobs from job boards?</button>
-                        <div id="faq-a1" class="faq-a" role="region" aria-labelledby="faq-q1">No. It normalizes user-provided payloads.</div>
-                    </li><li>
-                        <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a2" id="faq-q2">Does it store data?</button>
-                        <div id="faq-a2" class="faq-a" role="region" aria-labelledby="faq-q2">No. Fully stateless.</div>
+                        <div id="faq-a1" class="faq-a" role="region" aria-labelledby="faq-q1">No. It only normalizes JSON payloads you send. It does not call LinkedIn, Indeed, Greenhouse, or other vendor APIs on your behalf.</div>
                     </li>
+                    <li>
+                        <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a2" id="faq-q2">Do I need API keys for LinkedIn or Indeed?</button>
+                        <div id="faq-a2" class="faq-a" role="region" aria-labelledby="faq-q2">No for this endpoint. You use your RapidAPI key here only. You obtain job JSON through your own integrations and POST it to <code>/normalize</code>.</div>
+                    </li>
+                    <li>
+                        <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a3" id="faq-q3">Can I mix platforms in one request?</button>
+                        <div id="faq-a3" class="faq-a" role="region" aria-labelledby="faq-q3">Yes. Use an <code>inputs</code> array: each item can be a bucket <code>{ platform, data: job[] }</code> or <code>{ platform?, payload }</code> with one job or an array. You get one combined <code>jobs</code> array.</div>
+                    </li>
+                    <li>
+                        <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a4" id="faq-q4">What is the canonical schema?</button>
+                        <div id="faq-a4" class="faq-a" role="region" aria-labelledby="faq-q4">A unified structure with <code>id</code>, <code>title</code>, <code>description</code>, <code>company</code>, <code>location</code>, <code>employmentType</code>, <code>experienceLevel</code>, <code>salary</code>, <code>postedDate</code>, <code>applyUrl</code>, <code>jobStatus</code>, <code>provenance</code>, and <code>interpretation</code> (method and confidence).</div>
+                    </li>
+                    <li>
+                        <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a5" id="faq-q5">What is the max request size?</button>
+                        <div id="faq-a5" class="faq-a" role="region" aria-labelledby="faq-q5">25MB per request.</div>
+                    </li>
+                    <li>
+                        <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a6" id="faq-q6">Does it store data?</button>
+                        <div id="faq-a6" class="faq-a" role="region" aria-labelledby="faq-q6">No. The service is fully stateless.</div>
+                    </li>
+                    <li>
+                        <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a7" id="faq-q7">Where are pricing and quotas defined?</button>
+                        <div id="faq-a7" class="faq-a" role="region" aria-labelledby="faq-q7">On RapidAPI: Basic is free with 100 requests/month; Pro ($9.99/mo) includes 10,000/month; Ultra ($49.99/mo, recommended) includes 100,000/month; Mega ($99.99/mo) includes 250,000/month—with overage rules as shown on the listing.</div>
+                    </li>
+                    <li>
+                        <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a8" id="faq-q8">Can I request a new platform adapter?</button>
+                        <div id="faq-a8" class="faq-a" role="region" aria-labelledby="faq-q8">Yes. Open a thread on <a href="https://rapidapi.com/precisionsolutionstech/api/job-posting-normalization/discussions" target="_blank" rel="noopener">RapidAPI discussions</a> with the vendor name and a redacted sample JSON payload.</div>
+                    </li>
+                </ul>
+            </section>
+            <section id="related-apis" aria-labelledby="related-heading">
+                <h2 id="related-heading">Related APIs</h2>
+                <ul class="related-apis">
+                    <li><a href="retail-data-normalization.html">Retail Data Normalization</a> — product and catalog payloads into a consistent format</li>
+                    <li><a href="event-listing-normalization.html">Event Listing Normalization</a> — event listings from many sources</li>
+                    <li><a href="api-error-status-normalization.html">API Error &amp; Status Normalization</a> — unify error shapes across services</li>
                 </ul>
             </section>
             <div class="browse-all"><a href="../index.html">Browse all APIs in the catalog →</a></div>
@@ -266,49 +492,160 @@ System.out.println(response.body());</code></pre></div></div>
     </div>
     <script>
 (function(){
-    var host='job-posting-normalization.p.rapidapi.com',path='/normalize',body="{\n  \"platform\": \"greenhouse\",\n  \"payload\": {\n    \"id\": 12345,\n    \"title\": \"Senior Engineer\",\n    \"content\": \"We are looking for a senior engineer.\",\n    \"location\": { \"name\": \"New York, NY\" },\n    \"absolute_url\": \"https://boards.greenhouse.io/company/jobs/12345\"\n  }\n}",fileUpload=false,rapidUrl="https://rapidapi.com/precisionsolutionstech/api/job-posting-normalization";
-    document.querySelectorAll('[data-rapid-docs]').forEach(function(a){ a.href = rapidUrl; });
-    document.getElementById('toggle-req').addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('request-schema'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); });
-    document.getElementById('toggle-res').addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('response-schema'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); });
-    var toggleErrors=document.getElementById('toggle-errors');if(toggleErrors){ toggleErrors.addEventListener('click',function(e){ e.preventDefault(); var d=document.getElementById('error-codes'); d.classList.toggle('show'); this.setAttribute('aria-expanded',d.classList.contains('show')); }); }
-    document.querySelectorAll('.lang-tabs button').forEach(function(btn){
-        btn.addEventListener('click',function(){
-            document.querySelectorAll('.lang-tabs button').forEach(function(b){ b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
-            document.querySelectorAll('.code-block').forEach(function(b){ b.classList.remove('active'); });
-            this.classList.add('active'); this.setAttribute('aria-selected','true');
-            var el=document.getElementById('snippet-'+this.getAttribute('data-lang')); if(el) el.classList.add('active');
+    var host='job-posting-normalization-api.p.rapidapi.com',path='/normalize';
+
+    var SAMPLES = {
+        greenhouse: {
+            platform: 'greenhouse',
+            payload: {
+                id: 12345,
+                title: 'Senior Engineer',
+                content: 'We are looking for a senior engineer.',
+                location: { name: 'New York, NY' },
+                absolute_url: 'https://boards.greenhouse.io/company/jobs/12345'
+            }
+        },
+        linkedin: {
+            platform: 'linkedin',
+            payload: {
+                externalJobPostingId: '123',
+                title: 'Software Engineer',
+                listedAt: 1704067200000
+            }
+        },
+        mixed: {
+            inputs: [
+                { platform: 'linkedin', data: [{ externalJobPostingId: '123', title: 'Engineer', listedAt: 1704067200000 }] },
+                { platform: 'greenhouse', data: [{ id: 456, title: 'Designer', content: 'Join us.', location: { name: 'Remote' } }] }
+            ]
+        },
+        partial: {
+            platform: 'greenhouse',
+            payload: [
+                { id: 1, title: 'Valid job', content: 'Description.', location: { name: 'Austin' }, absolute_url: 'https://example.com/1' },
+                12345
+            ]
+        }
+    };
+    var SAMPLE_LABELS = [
+        ['greenhouse', 'Greenhouse — single job'],
+        ['linkedin', 'LinkedIn — sample job object'],
+        ['mixed', 'Mixed vendors — LinkedIn + Greenhouse buckets'],
+        ['partial', 'Partial success — valid job + invalid primitive item']
+    ];
+
+    var sampleSelect = document.getElementById('pg-sample');
+    var bodyTextarea = document.getElementById('body-json');
+    SAMPLE_LABELS.forEach(function(pair){
+        var o = document.createElement('option');
+        o.value = pair[0];
+        o.textContent = pair[1];
+        sampleSelect.appendChild(o);
+    });
+    function applySample(){
+        var key = sampleSelect.value;
+        var obj = SAMPLES[key];
+        bodyTextarea.value = obj ? JSON.stringify(obj, null, 2) : '{}';
+        refreshCode();
+    }
+    sampleSelect.addEventListener('change', applySample);
+    applySample();
+    bodyTextarea.addEventListener('input', function(){ setTimeout(refreshCode, 150); });
+
+    function bindSchemaToggle(btnId, panelId){
+        var btn = document.getElementById(btnId);
+        if(!btn) return;
+        btn.addEventListener('click', function(e){
+            e.preventDefault();
+            var d = document.getElementById(panelId);
+            if(!d) return;
+            d.classList.toggle('show');
+            btn.setAttribute('aria-expanded', d.classList.contains('show'));
+        });
+    }
+    bindSchemaToggle('toggle-req', 'request-schema');
+    bindSchemaToggle('toggle-inputs', 'inputs-shapes');
+    bindSchemaToggle('toggle-res', 'response-schema');
+    bindSchemaToggle('toggle-api-err', 'api-errors');
+    bindSchemaToggle('toggle-errors', 'error-codes');
+
+    function parseBody(){
+        var bodyStr = bodyTextarea.value.trim();
+        try { return { ok: true, body: JSON.parse(bodyStr) }; }
+        catch (e) { return { ok: false, error: e.message }; }
+    }
+
+    function generateCode(lang){
+        var key = 'YOUR_RAPIDAPI_KEY';
+        var parsed = parseBody();
+        if(!parsed.ok) return '// Fix JSON in playground: ' + parsed.error;
+        var bodyStr = JSON.stringify(parsed.body);
+        if(lang === 'curl'){
+            return 'curl --request POST \\\n  --url \'https://' + host + path + '\' \\\n  --header \'Content-Type: application/json\' \\\n  --header \'x-rapidapi-key: ' + key + '\' \\\n  --header \'x-rapidapi-host: ' + host + '\' \\\n  --data \'' + bodyStr.replace(/\\/g, '\\\\').replace(/'/g, "'\\''") + '\'';
+        }
+        if(lang === 'javascript'){
+            return 'const res = await fetch(\'https://' + host + path + '\', {\n  method: \'POST\',\n  headers: {\n    \'Content-Type\': \'application/json\',\n    \'x-rapidapi-key\': \'' + key + '\',\n    \'x-rapidapi-host\': \'' + host + '\'\n  },\n  body: ' + JSON.stringify(bodyStr) + '\n});\nconst data = await res.json();\nconsole.log(data);';
+        }
+        if(lang === 'typescript'){
+            return 'const res = await fetch(\'https://' + host + path + '\', {\n  method: \'POST\',\n  headers: {\n    \'Content-Type\': \'application/json\',\n    \'x-rapidapi-key\': \'' + key + '\',\n    \'x-rapidapi-host\': \'' + host + '\'\n  },\n  body: ' + JSON.stringify(bodyStr) + '\n});\nconst data: unknown = await res.json();\nconsole.log(data);';
+        }
+        if(lang === 'python'){
+            var esc = bodyStr.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+            return 'import http.client\n\nconn = http.client.HTTPSConnection("' + host + '")\npayload = "' + esc + '"\nheaders = {\n    "Content-Type": "application/json",\n    "x-rapidapi-key": "' + key + '",\n    "x-rapidapi-host": "' + host + '"\n}\nconn.request("POST", "' + path + '", payload, headers)\nres = conn.getresponse()\nprint(res.read().decode())';
+        }
+        if(lang === 'java'){
+            var j = bodyStr.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n').replace(/\r/g, '\\r');
+            return 'HttpRequest request = HttpRequest.newBuilder()\n    .uri(URI.create("https://' + host + path + '"))\n    .header("Content-Type", "application/json")\n    .header("x-rapidapi-key", "' + key + '")\n    .header("x-rapidapi-host", "' + host + '")\n    .method("POST", HttpRequest.BodyPublishers.ofString("' + j + '"))\n    .build();\nHttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());\nSystem.out.println(response.body());';
+        }
+        return '';
+    }
+
+    function refreshCode(){
+        var el = document.getElementById('generated-code');
+        if(el) el.textContent = generateCode(document.getElementById('code-lang').value);
+    }
+    document.getElementById('code-lang').addEventListener('change', refreshCode);
+    document.getElementById('refresh-code-btn').addEventListener('click', refreshCode);
+    document.getElementById('copy-code-btn').addEventListener('click', function(){
+        var t = document.getElementById('generated-code').textContent;
+        var btn = document.getElementById('copy-code-btn');
+        navigator.clipboard.writeText(t).then(function(){
+            var o = btn.textContent; btn.textContent = 'Copied!'; setTimeout(function(){ btn.textContent = o; }, 1500);
         });
     });
-    document.querySelectorAll('.copy-btn').forEach(function(btn){
-        btn.addEventListener('click',function(){
-            var id=this.getAttribute('data-copy'),block=document.getElementById(id),pre=block?block.querySelector('pre code'):null,btn=this;
-            if(pre) navigator.clipboard.writeText(pre.textContent).then(function(){ var t=btn.textContent; btn.textContent='Copied!'; setTimeout(function(){ btn.textContent=t; },1500); });
-        });
-    });
-    
+
     document.querySelectorAll('.faq-q').forEach(function(btn){
-        btn.addEventListener('click',function(){ var expanded=this.getAttribute('aria-expanded')==='true'; this.setAttribute('aria-expanded',!expanded); var panel=document.getElementById(this.getAttribute('aria-controls')); if(panel) panel.classList.toggle('show',!expanded); });
+        btn.addEventListener('click', function(){
+            var expanded = this.getAttribute('aria-expanded') === 'true';
+            this.setAttribute('aria-expanded', !expanded);
+            var panel = document.getElementById(this.getAttribute('aria-controls'));
+            if(panel) panel.classList.toggle('show', !expanded);
+        });
     });
-    document.getElementById('postman-download').addEventListener('click',function(){
-        var coll = { info: { name: "Job Posting Normalization API", schema: 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json' }, item: [{ name: 'Request', request: { method: 'POST', header: [{ key: 'Content-Type', value: 'application/json' }, { key: 'x-rapidapi-key', value: 'YOUR_RAPIDAPI_KEY' }, { key: 'x-rapidapi-host', value: host }], url: 'https://'+host+path } } ] };
-        if(!fileUpload){ coll.item[0].request.body = { mode: 'raw', raw: typeof body==='string'?body:JSON.stringify(body) }; }
-        else { coll.item[0].request.header = [{ key: 'X-RapidAPI-Key', value: 'YOUR_RAPIDAPI_KEY' }, { key: 'X-RapidAPI-Host', value: host }]; coll.item[0].request.url = 'https://'+host+path+'?outputFormat=json'; coll.item[0].request.body = { mode: 'formdata', formdata: [{ key: 'file', type: 'file', src: '' }] }; }
-        var blob = new Blob([JSON.stringify(coll,null,2)], { type: 'application/json' });
+
+    document.getElementById('postman-download').addEventListener('click', function(){
+        var parsed = parseBody();
+        if(!parsed.ok){ alert('Fix JSON in the playground before downloading.'); return; }
+        var coll = { info: { name: 'Job Posting Normalization API', schema: 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json' }, item: [{ name: 'POST /normalize', request: { method: 'POST', header: [{ key: 'Content-Type', value: 'application/json' }, { key: 'x-rapidapi-key', value: 'YOUR_RAPIDAPI_KEY' }, { key: 'x-rapidapi-host', value: host }], body: { mode: 'raw', raw: JSON.stringify(parsed.body) }, url: 'https://' + host + path } }] };
+        var blob = new Blob([JSON.stringify(coll, null, 2)], { type: 'application/json' });
         var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'job-posting-normalization-postman-collection.json'; a.click(); URL.revokeObjectURL(a.href);
     });
-    var runBtn=document.getElementById('run-btn'),keyInput=document.getElementById('api-key'),resultDiv=document.getElementById('play-result');
-    runBtn.addEventListener('click',function(){
-        var key=(keyInput.value||'').trim();
-        if(!key){ resultDiv.style.display='block'; resultDiv.className='result error'; resultDiv.textContent='Please enter your RapidAPI key.'; return; }
-        
-    var bodyStr=document.getElementById('body-json').value.trim(),body;
-    try{body=JSON.parse(bodyStr);}catch(e){resultDiv.style.display='block';resultDiv.className='result error';resultDiv.textContent='Invalid JSON: '+e.message;return;}
-    runBtn.disabled=true;resultDiv.style.display='block';resultDiv.className='result';resultDiv.textContent='Loading…';
-    fetch('https://'+host+path,{method:'POST',headers:{'Content-Type':'application/json','x-rapidapi-key':key,'x-rapidapi-host':host},body:JSON.stringify(body)})
-    .then(function(r){return r.text().then(function(t){return{status:r.status,body:t};});})
-    .then(function(o){resultDiv.className='result '+(o.status>=200&&o.status<300?'success':'error');try{resultDiv.textContent=JSON.stringify(JSON.parse(o.body),null,2);}catch(_){resultDiv.textContent=o.status+'\n'+o.body;}})
-    .catch(function(e){resultDiv.className='result error';resultDiv.textContent='Request failed: '+e.message;})
-    .finally(function(){runBtn.disabled=false;});
+
+    var runBtn = document.getElementById('run-btn'), keyInput = document.getElementById('api-key'), resultDiv = document.getElementById('play-result');
+    runBtn.addEventListener('click', function(){
+        var key = (keyInput.value || '').trim();
+        if(!key){ resultDiv.style.display = 'block'; resultDiv.className = 'result error'; resultDiv.textContent = 'Please enter your RapidAPI key.'; return; }
+        var parsed = parseBody();
+        if(!parsed.ok){ resultDiv.style.display = 'block'; resultDiv.className = 'result error'; resultDiv.textContent = 'Invalid JSON: ' + parsed.error; return; }
+        runBtn.disabled = true; resultDiv.style.display = 'block'; resultDiv.className = 'result'; resultDiv.textContent = 'Loading…';
+        fetch('https://' + host + path, { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-rapidapi-key': key, 'x-rapidapi-host': host }, body: JSON.stringify(parsed.body) })
+        .then(function(r){ return r.text().then(function(t){ return { status: r.status, body: t }; }); })
+        .then(function(o){
+            resultDiv.className = 'result ' + (o.status >= 200 && o.status < 300 ? 'success' : 'error');
+            try { resultDiv.textContent = JSON.stringify(JSON.parse(o.body), null, 2); } catch (_) { resultDiv.textContent = o.status + '\n' + o.body; }
+        })
+        .catch(function(e){ resultDiv.className = 'result error'; resultDiv.textContent = 'Request failed: ' + e.message; })
+        .finally(function(){ runBtn.disabled = false; });
     });
 })();
     </script>
