@@ -129,7 +129,7 @@
         <article>
             <header class="hero">
                 <h1>Universal Data Format Converter API</h1>
-                <p class="lead">Convert <strong>JSON to CSV</strong>, <strong>CSV to JSON</strong>, <strong>XML to JSON</strong>, <strong>JSON to XML</strong>, <strong>Excel to JSON</strong>, <strong>YAML to JSON</strong>, and more. One API for JSON, XML, CSV, TSV, Excel, YAML, NDJSON, SQL INSERT, HTML table, ENV, query string, Base64, and PDF. Stateless, 20MB max. Deterministic output.</p>
+                <p class="lead">Convert <strong>JSON to CSV</strong>, <strong>CSV to JSON</strong>, <strong>XML to JSON</strong>, and more — plus <strong>Markdown → HTML</strong>, <strong>Markdown → PDF</strong>, and <strong>HTML → Markdown</strong>. One API for structured data (JSON, XML, CSV, Excel, YAML, …) and documents (Markdown, HTML, PDF). Stateless, 20MB max. Deterministic output.</p>
                 <p class="cta-row">
                     <a href="https://rapidapi.com/precisionsolutionstech/api/universal-data-format-converter" target="_blank" rel="noopener" class="cta-primary cta-hero">Subscribe on RapidAPI</a>
                     <span class="cta-sub">Plans and quotas: confirm on the <a href="https://rapidapi.com/precisionsolutionstech/api/universal-data-format-converter" target="_blank" rel="noopener">live RapidAPI listing</a> (indicative tiers below).</span>
@@ -139,31 +139,35 @@
                 <p><strong>One URL:</strong> <code>POST /convert</code> on <code>universal-data-format-converter.p.rapidapi.com</code> — JSON body, raw Content-Type/Accept, or <strong>multipart file upload</strong> (no base64 required).</p>
             </section>
             <section class="whats-new" aria-label="What's new">
-                <h2 id="whats-new">What’s new</h2>
-                <p><strong>File conversion.</strong> You can now send a <strong>file</strong> (Excel, CSV, JSON, XML, YAML, etc.) via multipart upload and get back any supported format—JSON, CSV, PDF, Excel, and more. No need to paste or base64-encode: just pick a file, choose an output format, and run. Try <strong>Upload file</strong> in the playground below.</p>
-                <p><strong>Want another format?</strong> If you need to convert from or to a file type or data format we don’t support yet, <a href="https://rapidapi.com/precisionsolutionstech/api/universal-data-format-converter/discussions" target="_blank" rel="noopener">add it to the discussions on RapidAPI</a>. We use your feedback to prioritize new conversions.</p>
+                <h2 id="whats-new">🎉 What’s new — Document conversion (v2.1)</h2>
+                <p><strong>Markdown ↔ HTML ↔ PDF is here!</strong> Upload a <code>.md</code> file and get a beautiful, self-contained <strong>HTML page</strong> (CSS embedded — one file, ready to open or share) or a polished <strong>PDF document</strong>. Convert full <strong>HTML pages back to Markdown</strong> with three modes: <code>strict</code>, <code>readable</code>, and <code>llm-friendly</code> — the same capabilities as a dedicated HTML-to-Markdown API, now on this endpoint.</p>
+                <p><strong>GFM support:</strong> tables, task lists, fenced code with syntax highlighting, strikethrough, footnotes, blockquotes, and more. HTML output uses GitHub-style themes (<code>github-light</code> / <code>github-dark</code>). PDF uses fast server-side rendering — no Chromium required.</p>
+                <p><strong>Try it:</strong> In the playground below, choose <code>markdown</code> → <code>html</code> or upload a <code>.md</code> file. Or paste HTML and convert to markdown with your preferred mode.</p>
+                <p><strong>Also:</strong> Multipart <strong>file upload</strong> for Excel, CSV, JSON, Markdown, and more — pick a file, choose output format, run. Set form field <code>from=html</code> when uploading a full HTML page for markdown output (default <code>.html</code> is table extraction).</p>
             </section>
             <section><h2 id="why">Why use this API?</h2>
                 <p>Need to <strong>convert JSON to CSV</strong> for Excel? <strong>CSV to JSON</strong> for APIs? <strong>XML to JSON</strong> or <strong>JSON to XML</strong> for legacy systems? <strong>Excel to JSON</strong> or <strong>YAML to JSON</strong> for pipelines? Legacy systems use XML. APIs return JSON. Spreadsheets use CSV and Excel. Data pipelines use YAML, NDJSON, and more. Instead of building custom converters for every integration path, use one endpoint for all supported conversions.</p>
             </section>
             <section><h2 id="what">Supported formats</h2>
-                <p><strong>Input:</strong> json, xml, csv, tsv, excel, yaml, ndjson, sql-insert, html-table, env, query-string, base64</p>
-                <p><strong>Output:</strong> same as input plus pdf (tabular data only). All formats convert bidirectionally.</p>
+                <p><strong>Structured data input:</strong> json, xml, csv, tsv, excel, yaml, ndjson, sql-insert, html-table, env, query-string, base64</p>
+                <p><strong>Document input (NEW):</strong> markdown, html (full HTML page → markdown)</p>
+                <p><strong>Output:</strong> all structured formats + pdf (tabular or document) + html (full page from markdown) + markdown (from html)</p>
                 <div class="formats-grid">
                     <span>JSON</span><span>XML</span><span>CSV</span><span>TSV</span><span>Excel</span><span>YAML</span><span>NDJSON</span>
-                    <span>SQL INSERT</span><span>HTML Table</span><span>ENV</span><span>Query String</span><span>Base64</span><span>PDF</span>
+                    <span>SQL INSERT</span><span>HTML Table</span><span style="border:1px solid var(--success)">Markdown ✨</span><span style="border:1px solid var(--success)">HTML ✨</span><span>ENV</span><span>Query String</span><span>Base64</span><span>PDF</span>
                 </div>
             </section>
             <section><h2 id="popular-conversions">Popular conversions</h2>
                 <p>Use the API to convert between any of these formats. All conversions are bidirectional except PDF (output-only).</p>
                 <ul style="list-style:none;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;margin:16px 0">
+                    <li><strong>Markdown → HTML ✨</strong></li>
+                    <li><strong>Markdown → PDF ✨</strong></li>
+                    <li><strong>HTML → Markdown ✨</strong></li>
                     <li>JSON → CSV, XML, Excel, YAML</li>
                     <li>CSV → JSON, XML, Excel, YAML</li>
                     <li>XML → JSON, CSV, Excel, YAML</li>
                     <li>Excel → JSON, CSV, XML, YAML</li>
-                    <li>YAML → JSON, CSV, XML, Excel</li>
-                    <li>NDJSON → JSON, CSV, XML</li>
-                    <li>Any format → PDF (tabular)</li>
+                    <li>Any tabular format → PDF</li>
                 </ul>
                 <p>Examples: <strong>convert JSON to CSV</strong> for spreadsheets, <strong>CSV to JSON</strong> for APIs, <strong>XML to JSON</strong> for modern apps, <strong>Excel to JSON</strong> for data pipelines. Try the playground below.</p>
             </section>
@@ -173,8 +177,8 @@
                 <div id="request-schema" class="schema-content" aria-hidden="true">
                     <table class="schema-table"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
                     <tbody>
-                        <tr><td><code>from</code></td><td>string</td><td>Input format: json, xml, csv, tsv, excel, yaml, ndjson, sql-insert, html-table, env, query-string, base64</td></tr>
-                        <tr><td><code>to</code></td><td>string</td><td>Output format: same + pdf</td></tr>
+                        <tr><td><code>from</code></td><td>string</td><td>Input format: json, xml, csv, …, markdown, html, html-table, base64</td></tr>
+                        <tr><td><code>to</code></td><td>string</td><td>Output format: structured formats + pdf + html (from markdown) + markdown (from html)</td></tr>
                         <tr><td><code>data</code></td><td>object|string</td><td>Input payload (object/array for JSON, string for text formats, base64 for excel)</td></tr>
                         <tr><td><code>options</code></td><td>object</td><td><code>input</code> and <code>output</code> options per format. See options below.</td></tr>
                     </tbody></table>
@@ -183,8 +187,9 @@
                     <p>Send <code>multipart/form-data</code> with a <strong>file</strong> part. Input format is inferred from the file extension or Content-Type (.xlsx → excel, .json → json, .csv → csv, etc.).</p>
                     <table class="schema-table"><thead><tr><th>Field</th><th>Required</th><th>Description</th></tr></thead>
                     <tbody>
-                        <tr><td><code>file</code></td><td>Yes</td><td>The file to convert (e.g. Excel, CSV, JSON)</td></tr>
-                        <tr><td><code>to</code></td><td>No</td><td>Output format (json, csv, pdf, excel, xml, …). Default: json, or use Accept header.</td></tr>
+                        <tr><td><code>file</code></td><td>Yes</td><td>The file to convert (.md, Excel, CSV, JSON, …)</td></tr>
+                        <tr><td><code>from</code></td><td>No</td><td>Override input format (e.g. <code>html</code> for full HTML page → markdown)</td></tr>
+                        <tr><td><code>to</code></td><td>No</td><td>Output format (json, csv, pdf, html, markdown, excel, …). Default: json.</td></tr>
                         <tr><td><code>options</code></td><td>No</td><td>JSON string with <code>input</code> / <code>output</code> options (same shape as JSON body).</td></tr>
                         <tr><td><code>download</code></td><td>No</td><td>Set to <code>1</code> or <code>true</code> for <code>Content-Disposition: attachment</code> and a suggested filename.</td></tr>
                     </tbody></table>
@@ -237,7 +242,7 @@
                     </div>
                     <div id="file-mode-fields" style="display:none">
                         <label for="play-file">File (required)</label>
-                        <input type="file" id="play-file" accept=".xlsx,.xls,.csv,.tsv,.json,.xml,.yaml,.yml,.ndjson,.html,.env" style="display:block;margin-bottom:12px">
+                        <input type="file" id="play-file" accept=".xlsx,.xls,.csv,.tsv,.json,.xml,.yaml,.yml,.ndjson,.html,.htm,.md,.markdown,.env" style="display:block;margin-bottom:12px">
                         <div style="margin-bottom:12px">
                             <label for="to-format-file">To format</label>
                             <select id="to-format-file"></select>
@@ -373,8 +378,8 @@ const csv = await convertRes.text();</pre></div></li>
 (function(){
     var host = 'universal-data-format-converter.p.rapidapi.com';
     var path = '/convert';
-    var INPUT_FORMATS = ['json','xml','csv','tsv','excel','yaml','ndjson','sql-insert','html-table','env','query-string','base64'];
-    var OUTPUT_FORMATS = INPUT_FORMATS.concat(['pdf']);
+    var INPUT_FORMATS = ['json','xml','csv','tsv','excel','yaml','ndjson','sql-insert','html-table','html','markdown','env','query-string','base64'];
+    var OUTPUT_FORMATS = ['json','xml','csv','tsv','excel','yaml','ndjson','sql-insert','html-table','html','markdown','env','query-string','base64','pdf'];
     var DATA_LABELS = {
         'json':'Paste JSON object or array',
         'xml':'Paste XML',
@@ -385,6 +390,8 @@ const csv = await convertRes.text();</pre></div></li>
         'ndjson':'Paste NDJSON (one JSON object per line)',
         'sql-insert':'Paste SQL INSERT statement(s)',
         'html-table':'Paste HTML with <table>',
+        'html':'Paste full HTML document (page → markdown)',
+        'markdown':'Paste Markdown (.md content → html or pdf)',
         'env':'Paste ENV (KEY=value)',
         'query-string':'Paste query string (e.g. a=1&b=2)',
         'base64':'Paste base64-encoded data'
@@ -467,13 +474,18 @@ const csv = await convertRes.text();</pre></div></li>
         return out;
     }
 
+    function outputFormatOptionKey(from, to){
+        if(to === 'pdf' && from === 'markdown') return 'documentPdf';
+        return to;
+    }
+
     function updatePlayground(){
         var from = fromSelect.value, to = toSelect.value;
         playDataLabel.textContent = 'Request data';
         playData.placeholder = DATA_LABELS[from] || 'Paste data';
         playData.value = (window.UDCF_SAMPLES && window.UDCF_SAMPLES[from]) ? (typeof window.UDCF_SAMPLES[from] === 'string' ? window.UDCF_SAMPLES[from] : JSON.stringify(window.UDCF_SAMPLES[from], null, 2)) : '';
         buildOptRows('input', from, inputOptBody);
-        buildOptRows('output', to, outputOptBody);
+        buildOptRows('output', outputFormatOptionKey(from, to), outputOptBody);
     }
 
     fromSelect.addEventListener('change', updatePlayground);
@@ -494,10 +506,10 @@ const csv = await convertRes.text();</pre></div></li>
             try{ data = dataRaw ? JSON.parse(dataRaw) : { name: 'John', age: 30 }; } catch(e){ return { error: 'Invalid JSON: ' + e.message }; }
         } else data = dataRaw || ((window.UDCF_SAMPLES && window.UDCF_SAMPLES[from]) ? (typeof window.UDCF_SAMPLES[from] === 'string' ? window.UDCF_SAMPLES[from] : JSON.stringify(window.UDCF_SAMPLES[from])) : '');
         var inputOpts = collectOptions('input', from);
-        var outputOpts = collectOptions('output', to);
+        var outputOpts = collectOptions('output', outputFormatOptionKey(from, to));
         var options = {};
         if(Object.keys(inputOpts).length){ options.input = {}; options.input[formatToOptionKey(from)] = inputOpts; }
-        if(Object.keys(outputOpts).length){ options.output = {}; options.output[formatToOptionKey(to)] = outputOpts; }
+        if(Object.keys(outputOpts).length){ options.output = {}; options.output[formatToOptionKey(outputFormatOptionKey(from, to))] = outputOpts; }
         if(!options.input || !Object.keys(options.input).length) delete options.input;
         if(!options.output || !Object.keys(options.output).length) delete options.output;
         return { from: from, to: to, data: data, options: Object.keys(options).length ? options : undefined };
