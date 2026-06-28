@@ -5,8 +5,9 @@
 (function(global){
     var FORMAT_TO_OPTION_KEY = {
         'json':'json','xml':'xml','csv':'csv','tsv':'tsv','excel':'excel','yaml':'yaml',
-        'ndjson':'ndjson','sql-insert':'sqlInsert','html-table':'htmlTable','env':'env',
-        'query-string':'queryString','base64':'base64','pdf':'pdf'
+        'ndjson':'ndjson','sql-insert':'sqlInsert','html-table':'htmlTable','html':'html',
+        'markdown':'markdown','env':'env','query-string':'queryString','base64':'base64',
+        'pdf':'pdf','documentPdf':'documentPdf'
     };
 
     var OPTIONS_SCHEMA = {
@@ -81,7 +82,12 @@
             ],
             'base64': [
                 { key: 'decode', type: 'boolean', default: true }
-            ]
+            ],
+            'html': [
+                { key: 'mode', enum: ['strict','readable','llm-friendly'], default: 'readable', desc: 'HTML → Markdown conversion style' },
+                { key: 'includeMetadata', type: 'boolean', default: false, desc: 'Return JSON with markdown + metadata' }
+            ],
+            'markdown': []
         },
         output: {
             'json': [
@@ -147,7 +153,7 @@
                 { key: 'encode', type: 'boolean', default: true }
             ],
             'pdf': [
-                { key: 'pageSize', enum: ['A4','Letter'], default: 'A4' },
+                { key: 'pageSize', enum: ['A4','Letter'], default: 'A4', desc: 'Tabular PDF (CSV/Excel → PDF)' },
                 { key: 'orientation', enum: ['portrait','landscape'], default: 'portrait' },
                 { key: 'repeatHeader', type: 'boolean', default: true },
                 { key: 'fontFamily', type: 'string', default: 'Helvetica' },
@@ -155,6 +161,18 @@
                 { key: 'wrapText', type: 'boolean', default: true },
                 { key: 'title', type: 'string', default: '' },
                 { key: 'includeGeneratedAt', type: 'boolean', default: false }
+            ],
+            'html': [
+                { key: 'title', type: 'string', default: '', desc: 'HTML document title (Markdown → HTML)' },
+                { key: 'theme', enum: ['github-light','github-dark'], default: 'github-light' },
+                { key: 'syntaxHighlight', type: 'boolean', default: true }
+            ],
+            'documentPdf': [
+                { key: 'pageSize', enum: ['A4','Letter'], default: 'A4', desc: 'Document PDF (Markdown → PDF)' },
+                { key: 'orientation', enum: ['portrait','landscape'], default: 'portrait' },
+                { key: 'fontSize', type: 'number', default: 11 },
+                { key: 'title', type: 'string', default: '' },
+                { key: 'margin', type: 'string', default: '{"top":40,"right":40,"bottom":40,"left":40}', desc: 'JSON object with top/right/bottom/left' }
             ]
         }
     };
@@ -169,6 +187,8 @@
         ndjson: '{"name":"John","age":30}\n{"name":"Jane","age":25}',
         'sql-insert': "INSERT INTO users (name, age) VALUES ('John', 30), ('Jane', 25);",
         'html-table': '<table><tr><th>name</th><th>age</th></tr><tr><td>John</td><td>30</td></tr></table>',
+        'html': '<!DOCTYPE html><html><body><h1>Title</h1><p>Hello <strong>world</strong>.</p></body></html>',
+        'markdown': '# Hello World\n\nThis is **bold** and a list:\n\n- One\n- Two\n\n```js\nconsole.log(1);\n```',
         env: 'FOO=bar\nBAZ=qux',
         'query-string': 'name=John&age=30',
         base64: (function(){ try { return btoa(unescape(encodeURIComponent(JSON.stringify({ name: 'John', age: 30 })))); } catch(e){ return 'eyJuYW1lIjoiSm9obiIsImFnZSI6MzB9'; } })()
@@ -177,8 +197,9 @@
     // Map format id (kebab) to option key (camel) for API
     var formatToOptionKey = function(f) {
         return { 'json':'json','xml':'xml','csv':'csv','tsv':'tsv','excel':'excel','yaml':'yaml',
-            'ndjson':'ndjson','sql-insert':'sqlInsert','html-table':'htmlTable','env':'env',
-            'query-string':'queryString','base64':'base64','pdf':'pdf' }[f] || f;
+            'ndjson':'ndjson','sql-insert':'sqlInsert','html-table':'htmlTable','html':'html',
+            'markdown':'markdown','env':'env','query-string':'queryString','base64':'base64',
+            'pdf':'pdf','documentPdf':'documentPdf' }[f] || f;
     };
 
     global.UDCF_OPTIONS_SCHEMA = OPTIONS_SCHEMA;
