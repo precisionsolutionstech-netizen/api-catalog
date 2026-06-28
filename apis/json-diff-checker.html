@@ -8,6 +8,8 @@
     <title>JSON Diff Checker | Breaking vs Non-Breaking API Changes</title>
     <meta name="description" content="Compare two JSON values with POST /diff: breaking changes (removed fields, type changes, array structure, root type) vs non-breaking (new fields). Dot-paths, metadata, summary counts. Rule-based, deterministic, stateless. ~10MB JSON body limit.">
     <meta name="keywords" content="JSON diff API, breaking changes, API contract testing, CI/CD JSON compare, RapidAPI">
+        <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta property="article:modified_time" content="2026-06-28">
     <link rel="canonical" href="https://precisionsolutionstech-netizen.github.io/api-catalog/apis/json-diff-checker.html">
     <meta property="og:url" content="https://precisionsolutionstech-netizen.github.io/api-catalog/apis/json-diff-checker.html">
     <meta property="og:image" content="https://precisionsolutionstech-netizen.github.io/api-catalog/og-default.png">
@@ -19,7 +21,7 @@
     <meta property="og:title" content="JSON Diff Checker API">
     <meta property="og:description" content="Detect unsafe API response evolution: types, nullability, arrays, nested objects—deterministic output.">
     <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"TechArticle","headline":"JSON Diff Checker API","name":"JSON Diff Checker API","description":"Structural JSON diff with breaking vs non-breaking classification for API versioning and CI. POST /diff with before and after. Deterministic, stateless, ~10MB request body limit.","author":{"@type":"Organization","name":"Precision Solutions Tech"},"url":"https://precisionsolutionstech-netizen.github.io/api-catalog/apis/json-diff-checker.html"}
+{"@context":"https://schema.org","@type":"TechArticle","headline":"JSON Diff Checker API","name":"JSON Diff Checker API","description":"Structural JSON diff with breaking vs non-breaking classification for API versioning and CI. POST /diff with before and after. Deterministic, stateless, ~10MB request body limit.","author":{"@type":"Organization","name":"Precision Solutions Tech"},"url":"https://precisionsolutionstech-netizen.github.io/api-catalog/apis/json-diff-checker.html","dateModified":"2026-06-28","datePublished":"2026-02-16"}
     </script>
     <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"API Catalog","item":"https://precisionsolutionstech-netizen.github.io/api-catalog/"},{"@type":"ListItem","position":2,"name":"JSON Diff Checker","item":"https://precisionsolutionstech-netizen.github.io/api-catalog/apis/json-diff-checker.html"}]}
@@ -34,6 +36,7 @@
         .wrap { max-width: 900px; margin: 0 auto; padding: 24px 20px; }
         a { color: var(--accent); }
         h1 { font-size: 1.9rem; margin: 0 0 12px; }
+        .page-updated { font-size: 0.85rem; color: var(--muted); margin: -8px 0 16px; }
         .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; }
         h2 { font-size: 1.35rem; margin: 32px 0 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
         section { margin-bottom: 28px; }
@@ -130,6 +133,7 @@
             <header class="hero">
                 <h1>Know If Your API Change Breaks Clients—Before You Ship</h1>
                 <p class="lead">POST <strong><code>/diff</code></strong> with <code>before</code> and <code>after</code> JSON values. The API returns <code>breakingChanges</code> and <code>nonBreakingChanges</code> with types (e.g. <code>FIELD_REMOVED</code>, <code>TYPE_CHANGED</code>, <code>FIELD_ADDED</code>), field paths, values, <code>metadata</code> where useful, plus <code>summary.breakingCount</code> / <code>nonBreakingCount</code>. <strong>Deterministic</strong> rules—no ML. Stateless; request body up to <strong>~10MB</strong> (entire payload).</p>
+                <p class="page-updated"><time datetime="2026-06-28">Last updated: June 28, 2026</time></p>
                 <p class="cta-row">
                     <a href="https://rapidapi.com/precisionsolutionstech/api/json-diff-checker-api" target="_blank" rel="noopener" class="cta-primary cta-hero">Try JSON Diff Checker</a>
                     <span class="cta-sub">Basic on RapidAPI: <strong>100 requests/month</strong> free</span>
@@ -345,7 +349,7 @@ nonBreakingChanges: [
                     <li><a href="retail-data-normalization.html">Retail Data Normalization</a> — normalize then compare outputs</li>
                 </ul>
             </section>
-            <div class="browse-all"><a href="../index.html">Browse all APIs in the catalog →</a></div>
+            <div class="browse-all"><a href="../index.html">Browse all APIs in the catalog →</a> · <a href="../pages.html">Site map</a></div>
         </article>
         <footer>
             <p><a href="https://rapidapi.com/precisionsolutionstech/api/json-diff-checker-api" target="_blank" rel="noopener">Subscribe on RapidAPI</a> · <a href="../index.html">API Catalog</a> · <a href="../faq.html">FAQ</a></p>
