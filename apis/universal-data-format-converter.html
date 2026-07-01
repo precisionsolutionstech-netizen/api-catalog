@@ -420,6 +420,47 @@ const csv = await convertRes.text();</pre></div></li>
     });
 
     function isFileMode(){ return document.getElementById('input-mode-file').checked; }
+
+    var FORMAT_EXT = { pdf: 'pdf', excel: 'xlsx', html: 'html', 'html-table': 'html', csv: 'csv', tsv: 'tsv', xml: 'xml', yaml: 'yaml', json: 'json', ndjson: 'ndjson', markdown: 'md', env: 'env' };
+    var BINARY_FORMATS = { pdf: true, excel: true };
+
+    function formatAccept(to){
+        if(to === 'json') return 'application/json';
+        if(to === 'pdf' || to === 'excel') return 'application/octet-stream';
+        if(to === 'html' || to === 'html-table') return 'text/html';
+        return 'text/plain';
+    }
+    function shouldDownloadResponse(r, to, wantDownload){
+        if(BINARY_FORMATS[to]) return true;
+        if(wantDownload) return true;
+        var cd = r.headers.get('content-disposition') || '';
+        return cd.indexOf('attachment') >= 0;
+    }
+    function parseFilenameFromDisposition(cd){
+        if(!cd) return null;
+        var m = cd.match(/filename\*?=(?:UTF-8''|")?([^";]+)/i);
+        return m ? m[1].replace(/"/g, '') : null;
+    }
+    function getDownloadExt(to){ return FORMAT_EXT[to] || 'bin'; }
+    function handleConvertResponse(r, to, wantDownload){
+        var ct = r.headers.get('content-type') || '';
+        if(shouldDownloadResponse(r, to, wantDownload)){
+            return r.arrayBuffer().then(function(buf){
+                if(!r.ok){
+                    try{ var txt = new TextDecoder().decode(buf); var j = JSON.parse(txt); return { ok: false, data: JSON.stringify(j, null, 2) }; }catch(_){ return { ok: false, data: r.status + ' ' + r.statusText }; }
+                }
+                var blobType = ct.split(';')[0].trim() || (to === 'pdf' ? 'application/pdf' : to === 'excel' ? 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' : 'application/octet-stream');
+                var blob = new Blob([buf], { type: blobType });
+                var url = URL.createObjectURL(blob);
+                var filename = parseFilenameFromDisposition(r.headers.get('content-disposition') || '') || ('output.' + getDownloadExt(to));
+                var a = document.createElement('a'); a.href = url; a.download = filename; a.click();
+                URL.revokeObjectURL(url);
+                return { ok: true, data: 'File downloaded: ' + filename };
+            });
+        }
+        if(ct.includes('application/json')) return r.json().then(function(j){ return { ok: r.ok, data: JSON.stringify(j, null, 2) }; });
+        return r.text().then(function(t){ return { ok: r.ok, data: r.status + '\n' + (t.length > 2000 ? t.slice(0,2000) + '...[truncated]' : t) }; });
+    }
     document.getElementById('input-mode-paste').addEventListener('change', function(){
         document.getElementById('paste-mode-fields').style.display = '';
         document.getElementById('file-mode-fields').style.display = 'none';
@@ -535,28 +576,14 @@ const csv = await convertRes.text();</pre></div></li>
             form.append('to', toF);
             var optStr = (document.getElementById('play-options-json').value || '').trim();
             if(optStr){ try{ JSON.parse(optStr); form.append('options', optStr); } catch(e){ document.getElementById('play-result').className = 'result error'; document.getElementById('play-result').textContent = 'Invalid options JSON: ' + e.message; document.getElementById('run-btn').disabled = false; return; } }
-            if(document.getElementById('play-download').checked) form.append('download', '1');
-            var accept = toF === 'json' ? 'application/json' : toF === 'pdf' || toF === 'excel' ? 'application/octet-stream' : 'text/plain';
+            var wantDownload = document.getElementById('play-download').checked;
+            if(wantDownload) form.append('download', '1');
             fetch('https://'+host+path, {
                 method: 'POST',
-                headers: { 'Accept': accept, 'x-rapidapi-key': key, 'x-rapidapi-host': host },
+                headers: { 'Accept': formatAccept(toF), 'x-rapidapi-key': key, 'x-rapidapi-host': host },
                 body: form
             }).then(function(r){
-                var ct = r.headers.get('content-type') || '';
-                if(toF === 'excel' || toF === 'pdf'){
-                    return r.arrayBuffer().then(function(buf){
-                        if(!r.ok){
-                            try{ var txt = new TextDecoder().decode(buf); var j = JSON.parse(txt); return { ok: false, data: JSON.stringify(j, null, 2) }; }catch(_){ return { ok: false, data: r.status + ' ' + r.statusText }; }
-                        }
-                        var blob = new Blob([buf], { type: ct || (toF === 'pdf' ? 'application/pdf' : 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') });
-                        var url = URL.createObjectURL(blob);
-                        var a = document.createElement('a'); a.href = url; a.download = 'output.' + (toF === 'pdf' ? 'pdf' : 'xlsx'); a.click();
-                        URL.revokeObjectURL(url);
-                        return { ok: true, data: 'File downloaded: output.' + (toF === 'pdf' ? 'pdf' : 'xlsx') };
-                    });
-                }
-                if(ct.includes('application/json')) return r.json().then(function(j){ return { ok: r.ok, data: JSON.stringify(j, null, 2) }; });
-                return r.text().then(function(t){ return { ok: r.ok, data: r.status + '\n' + (t.length > 2000 ? t.slice(0,2000) + '...[truncated]' : t) }; });
+                return handleConvertResponse(r, toF, wantDownload);
             }).then(function(o){
                 document.getElementById('play-result').className = 'result ' + (o.ok ? 'success' : 'error');
                 document.getElementById('play-result').textContent = o.data;
@@ -570,27 +597,12 @@ const csv = await convertRes.text();</pre></div></li>
         var req = getPlaygroundRequest();
         if(req.error){ document.getElementById('play-result').style.display='block'; document.getElementById('play-result').className='result error'; document.getElementById('play-result').textContent=req.error; document.getElementById('run-btn').disabled = false; return; }
         var body = JSON.stringify({ from: req.from, to: req.to, data: req.data, options: req.options || {} });
-        var accept = req.to === 'json' ? 'application/json' : req.to === 'pdf' || req.to === 'excel' ? 'application/octet-stream' : 'text/plain';
         fetch('https://'+host+path, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Accept': accept, 'x-rapidapi-key': key, 'x-rapidapi-host': host },
+            headers: { 'Content-Type': 'application/json', 'Accept': formatAccept(req.to), 'x-rapidapi-key': key, 'x-rapidapi-host': host },
             body: body
         }).then(function(r){
-            var ct = r.headers.get('content-type') || '';
-            if(req.to === 'excel' || req.to === 'pdf'){
-                return r.arrayBuffer().then(function(buf){
-                    if(!r.ok){
-                        try{ var txt = new TextDecoder().decode(buf); var j = JSON.parse(txt); return { ok: false, data: JSON.stringify(j, null, 2) }; }catch(_){ return { ok: false, data: r.status + ' ' + r.statusText }; }
-                    }
-                    var blob = new Blob([buf], { type: ct || (req.to === 'pdf' ? 'application/pdf' : 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') });
-                    var url = URL.createObjectURL(blob);
-                    var a = document.createElement('a'); a.href = url; a.download = 'output.' + (req.to === 'pdf' ? 'pdf' : 'xlsx'); a.click();
-                    URL.revokeObjectURL(url);
-                    return { ok: true, data: 'File downloaded: output.' + (req.to === 'pdf' ? 'pdf' : 'xlsx') };
-                });
-            }
-            if(ct.includes('application/json')) return r.json().then(function(j){ return { ok: r.ok, data: JSON.stringify(j, null, 2) }; });
-            return r.text().then(function(t){ return { ok: r.ok, data: r.status + '\n' + (t.length > 2000 ? t.slice(0,2000) + '...[truncated]' : t) }; });
+            return handleConvertResponse(r, req.to, false);
         }).then(function(o){
             document.getElementById('play-result').className = 'result ' + (o.ok ? 'success' : 'error');
             document.getElementById('play-result').textContent = o.data;
@@ -604,7 +616,7 @@ const csv = await convertRes.text();</pre></div></li>
         var key = 'YOUR_RAPIDAPI_KEY';
         if(isFileMode()){
             var toF = document.getElementById('to-format-file').value;
-            var accept = toF === 'json' ? 'application/json' : toF === 'pdf' || toF === 'excel' ? 'application/octet-stream' : 'text/plain';
+            var accept = formatAccept(toF);
             var optStr = (document.getElementById('play-options-json').value || '').trim();
             var download = document.getElementById('play-download').checked;
             if(lang === 'curl'){
@@ -667,7 +679,7 @@ const csv = await convertRes.text();</pre></div></li>
         var req = getPlaygroundRequest();
         if(req.error) return '// ' + req.error;
         var bodyStr = JSON.stringify({ from: req.from, to: req.to, data: req.data, options: req.options || {} });
-        var accept = req.to === 'json' ? 'application/json' : req.to === 'pdf' || req.to === 'excel' ? 'application/octet-stream' : 'text/plain';
+        var accept = formatAccept(req.to);
         var bodyEscaped = bodyStr.replace(/\\/g,'\\\\').replace(/"/g,'\\"').replace(/\n/g,'\\n');
         var handlers = { json: 'await res.json()', text: 'await res.text()', binary: 'await res.arrayBuffer()' };
         var handler = req.to === 'json' ? 'json' : (req.to === 'pdf' || req.to === 'excel') ? 'binary' : 'text';
